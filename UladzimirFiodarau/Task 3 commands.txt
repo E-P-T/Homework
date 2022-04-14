@@ -1,0 +1,49 @@
+1. 	mkdir TestFolder
+	cd TestFolder
+	git init
+	
+2.	type nul> text.txt
+	git add text.txt
+	git commit -m "Created an empty text file"
+	
+3.	git remote add my_repo https://github.com/Delacrua/TestRepo
+
+4. 	git push my_repo master
+
+5.	git branch develop
+	git checkout develop
+	
+6.	git branch develop2
+	git checkout develop2
+	
+7. 	text.txt
+	added first line to file
+	git add text.txt
+	git commit -m "Added first line to the file"
+	git push my_repo develop
+	git push my_repo develop2
+	
+8. 	cd..
+	git clone https://github.com/Delacrua/TestRepo TestFolderN2
+	
+9.	cd TestFolderN2
+	git checkout develop
+	
+10.	git branch develop3
+	git checkout develop3
+	text.txt
+	git add text.txt
+	git commit -m "Added another first line of text"
+	git remote
+	git push origin develop3
+	
+11.	git checkout develop
+
+12. git merge develop2
+	git push origin develop
+	
+13. git merge develop3
+	
+14.	git mergetool
+	git commit -m "Problem solved"
+	git push origin develop
