@@ -18,8 +18,5 @@ def get_dict_values(l:list):
     result = {value for dicts in l for value in dicts.values()}
     return result
 
-# print(get_dict_values([1]))
-# print(get_dict_values([{}]))
-print(get_dict_values([{"V":"S001"}, {"V": "S002"}, {"VI": "S001", "VIIIII":"S010"}, {"VI": "S005"}, {"VII":"S005"}, {"V":"S009"},{"VIII":"S007"}]))
 
 

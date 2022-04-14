@@ -6,16 +6,16 @@ def calculate_string_length(x:str):
     this function takes a string as an argument and calculates its length in symbols
     :param x: x is the inputed string
     :return: an integer, that shows length of string x in symbols
-    >>> calculate_string_length('asdf')
-    4
-    >>> calculate_string_length('')
-    0
-    >>> calculate_string_length('aaaaa')
-    5
-    >>> calculate_string_length(5)
-    Traceback (most recent call last):
-    ...
-    AssertionError: Incorrect input, must be a string type
+    # >>> calculate_string_length('asdf')
+    # 4
+    # >>> calculate_string_length('')
+    # 0
+    # >>> calculate_string_length('aaaaa')
+    # 5
+    # >>> calculate_string_length(5)
+    # Traceback (most recent call last):
+    # ...
+    # AssertionError: Incorrect input, must be a string type
 
 
     """
@@ -25,10 +25,7 @@ def calculate_string_length(x:str):
         count += 1
     return count
 
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
+# if __name__ == '__main__':
+#     import doctest
+#     doctest.testmod()
 
-# print(calculate_string_length('tttwer'))
-# print(calculate_string_length(''))
-# print(calculate_string_length(5))

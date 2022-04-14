@@ -17,4 +17,3 @@ def convert_tuple_to_integer(tup:tuple):
     # result = ''.join([str(i) for i in tup])
     return int(''.join([str(i) for i in tup]))
 
-print(convert_tuple_to_integer((1, 2, 3, 4)))

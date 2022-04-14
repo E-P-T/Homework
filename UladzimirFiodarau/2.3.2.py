@@ -25,4 +25,3 @@ def calculate_divisors():
     except:
         return 'Неверный ввод, необходимо ввести целое положительное число'
 
-print(calculate_divisors())

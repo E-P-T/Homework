@@ -17,7 +17,3 @@ def sorting_same_dictionary(x:dict, reverse=False):
 
 
 dictionary = {'o': 2, 'h': 2, 'i': 2, 't': 2, 's': 1, 'p': 1, 'y': 1, 'n': 1}
-# dictionary = [1, 3, 2]
-# sorting_same_dictionary(dictionary, reverse=True)
-sorting_same_dictionary(dictionary)
-print(dictionary)

@@ -67,5 +67,4 @@ def pretty_print(matrix: list, ljust=4, rjust=0):
         print()
 
 
-pretty_print(compute_multiplication_table(2, 4, 3, 7))
 

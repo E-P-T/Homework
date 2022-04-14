@@ -9,16 +9,16 @@ def sorting_new_dictionary(x:dict, reverse=False):
     :param reverse: if reverse is set as False, the sorting is made from lower to higher values,
     if reverse is set to True the sorting will be made reversed, from higher to lower values
     :return: a sorted dictionary
-    >>> sorting_new_dictionary({'o': 2, 'h': 2, 'i': 2, 't': 2, 's': 1, 'p': 1, 'y': 1, 'n': 1})
-    {'h': 2, 'i': 2, 'n': 1, 'o': 2, 'p': 1, 's': 1, 't': 2, 'y': 1}
-    >>> sorting_new_dictionary({'o': 2, 'h': 2, 'i': 2, 't': 2, 's': 1, 'p': 1, 'y': 1, 'n': 1}, reverse=True)
-    {'y': 1, 't': 2, 's': 1, 'p': 1, 'o': 2, 'n': 1, 'i': 2, 'h': 2}
-    >>> sorting_new_dictionary({})
-    {}
-    >>> sorting_new_dictionary(5)
-    Traceback (most recent call last):
-    ...
-    AssertionError: Incorrect input. Must input a dictionary type
+    # >>> sorting_new_dictionary({'o': 2, 'h': 2, 'i': 2, 't': 2, 's': 1, 'p': 1, 'y': 1, 'n': 1})
+    # {'h': 2, 'i': 2, 'n': 1, 'o': 2, 'p': 1, 's': 1, 't': 2, 'y': 1}
+    # >>> sorting_new_dictionary({'o': 2, 'h': 2, 'i': 2, 't': 2, 's': 1, 'p': 1, 'y': 1, 'n': 1}, reverse=True)
+    # {'y': 1, 't': 2, 's': 1, 'p': 1, 'o': 2, 'n': 1, 'i': 2, 'h': 2}
+    # >>> sorting_new_dictionary({})
+    # {}
+    # >>> sorting_new_dictionary(5)
+    # Traceback (most recent call last):
+    # ...
+    # AssertionError: Incorrect input. Must input a dictionary type
 
 
     """
@@ -30,9 +30,8 @@ def sorting_new_dictionary(x:dict, reverse=False):
     return result
 
 
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
+# if __name__ == '__main__':
+#     import doctest
+#     doctest.testmod()
     
 
-# print(sorting_new_dictionary({'o': 2, 'h': 2, 'i': 2, 't': 2, 's': 1, 'p': 1, 'y': 1, 'n': 1}))
