@@ -1,0 +1,59 @@
+1.  
+git init "task3_git"
+cd task3_git
+
+2. 
+touch "task2.txt"
+git add "task2.txt"
+git commit -m "Initial commit"
+
+3.
+
+4.
+git remote add origin git@github.com:a-khorosheva/task3_git.git
+git push -u origin master
+
+5.
+git checkout -b develop
+git push -u origin develop
+
+6.
+git checkout -b d2
+
+7.
+echo "Hello" > "task2.txt"
+git add "task2.txt"
+git commit -m "Add new line"
+git push -u origin d2
+
+8.
+git clone git@github.com:a-khorosheva/task3_git.git
+
+9.
+git checkout develop
+git checkout -b d3
+
+10.
+echo "World" > "task2.txt"
+git commit -a -m "Add new line"
+git push -u origin d3
+
+11.
+git checkout develop
+
+12.
+git merge d2
+git push
+
+13-14.
+git merge d3
+nano task2.txt
+git add task2.txt
+git commit
+git push
+
+15.
+git add all_commands.txt
+git commit -m "List of all commands used"
+git push
+
