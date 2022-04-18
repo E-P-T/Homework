@@ -1,0 +1,86 @@
+# Python Practice - Session 3
+
+1. Create a local folder and initialize it for git;
+	$ cd d:
+	$ cd repositories
+	$ mkdir MyLocalFolder
+	$ cd MyLocalFolder
+	$ git init
+
+2. Create a text file in the folder and commit it;
+	$ touch myfile.txt
+	$ git status
+	$ git add myfile.txt
+	$ git commit -m 'Made myfile.txt'
+
+3. Create a remote repository on GitHub;
+	Some GitHub magic
+
+4. Push the local repository to GitHub;
+	$ git remote add origin git@github.com:fcumay/VoyMSession3.git
+	$ git remote -v #sometimes its better to check twice))
+	$ git push -u origin master
+
+
+5. Create a new branch (develop) and switch to it;
+	$ git checkout -b develop
+
+6. Create a new branch from 'develop' and switch to it;
+	$ git checkout -b new-develop develop
+
+7. Add the first line in the text file, commit, and push to remote;
+	$ echo "firstline" > myfile.txt
+	$ git add myfile.txt
+	$ git commit -m 'Added new line in myfile.txt'
+	$ git push origin new-develop
+
+8. Clone your repository from GitHub into a separate folder;
+	$ git clone git@github.com:fcumay/VoyMSession3.git project
+	$ cd project
+
+9. Create another branch from 'develop' and switch to it using cloned project;
+	$ git branch -a
+	$ git fetch origin develop:develop
+	$ git checkout develop
+	$ git checkout -b new-new-develop develop
+
+10. Add the first line of the text file (different from the first branch), 
+    commit, and push on remote;
+	$ cat myfile.txt #just checked it
+	$ echo "different line" > myfile.txt
+	$ git add myfile.txt
+	$ git commit -m 'Added diferent line in myfile.txt'
+	$ git push origin new-new-develop
+
+11. Switch to develop;
+	$ git checkout develop
+	
+	#some steps for next big step
+	$ git branch -a
+	$ git fetch origin new-develop:new-develop
+
+12  Merge the first branch and push changes;
+	$ git checkout develop
+	$ git merge new-develop
+	$ git push origin develop
+
+13. Merge the second branch and push changes;
+	$ git merge new-new-develop
+	$ git status
+	#i know there are many ways to solve conflict, but ive chosen that one.
+
+14. Resolve conflict;
+	#handly change file, delete conflict strings,save
+	$ git add myfile.txt
+	$ git commit -m "Merged fixed conflict"
+	#checking  $ cat myfile.txt
+	$ git push origin develop
+
+
+16. Commit and push a separate text file with a list of all the commands, which were used to solve the problem;
+	$ cd repositories
+	$ git clone git@github.com:fcumay/Homework.git HomeTask
+	$ git fetch origin session_3:session_3
+	$ git checkout session_3
+	$ mkdir MayaVoyshnis
+	$ touch Tasks.txt
