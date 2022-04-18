@@ -1,0 +1,3 @@
+$ git merge --continue
+$ git add .
+$ git commit -m 'Resolved conflict'
