@@ -1,0 +1,82 @@
+Session 3, Git 
+
+1. Create a local folder and initialize it for git
+
+    git init git_training
+    cd git_training
+
+2. Create a text file in the folder and commit it
+
+    copy con example.txt
+    first line in the file
+    
+    F6+Enter to save file
+
+    git add
+    git commit -m "my commit"
+
+3. Create a remote repository on GitHub
+
+    Repository Git_example_session_3 was created using GitHub interface
+
+4. Push the local repository to GitHub
+
+    git remote add origin git@github.com:ElenaNKn/Git_example_session_3.git
+
+5. Create a new branch (develop) and switch to it
+
+    git checkout -b develop
+
+6. Create a new branch from 'develop' and switch to it
+
+    git checkout -b develop_new
+
+7. Add the first line in the text file, commit, and push to remote
+
+    git add
+    git commit -m "first commit"
+    git push origin develop_new
+    git push origin develop
+
+8. Clone your repository from GitHub into a separate folder
+
+    git clone git@github.com:ElenaNKn/Git_example_session_3.git
+    git fetch
+
+9. Create another branch from 'develop' and switch to it using cloned project
+
+    git checkout -b develop_new2
+
+10. Add the first line of the text file (different from the first branch), 
+    commit, and push on remote
+
+    git add example.txt
+    git commit -m "second commit"
+    git push origin develop_new2
+   
+11. Switch to develop
+
+    git checkout develop
+
+12  Merge the first branch and push changes
+
+    git merge develop_new
+    #there is no any conflicts
+
+13. Merge the second branch and push changes
+
+    git merge develop_new2
+    # there is a conflict and it can not be automaticaly resolved
+
+14. Resolve conflict
+
+    #open file example.txt and choose the appropriate first line from the next
+<<<<<<< HEAD
+first line in the file.
+=======
+first line in the file was changed
+>>>>>>> develop_new2
+
+    git add example.txt
+    git commit -m "total commit"
+    git push origin develop
