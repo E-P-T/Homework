@@ -1,0 +1,389 @@
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2
+$ git clone https://github.com/hovo0987/test.git
+Cloning into 'test'...
+remote: Enumerating objects: 6, done.
+remote: Counting objects: 100% (6/6), done.
+remote: Compressing objects: 100% (2/2), done.
+remote: Total 6 (delta 0), reused 6 (delta 0), pack-reused 0
+Receiving objects: 100% (6/6), done.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2
+$ cd test
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git fetch
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git branch
+* master
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/develop
+  remotes/origin/master
+  remotes/origin/second_branch
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git remote
+origin
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git swich develop
+git: 'swich' is not a git command. See 'git --help'.
+
+The most similar command is
+        switch
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git switch develop
+Switched to a new branch 'develop'
+Branch 'develop' set up to track remote branch 'develop' from 'origin'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (develop)
+$ git branch
+* develop
+  master
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (develop)
+$ git branch -a
+* develop
+  master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/develop
+  remotes/origin/master
+  remotes/origin/second_branch
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (develop)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git branch -d develop
+Deleted branch develop (was 56bf9c5).
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git branch
+* master
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git checkout --track origin/develop
+Switched to a new branch 'develop'
+Branch 'develop' set up to track remote branch 'develop' from 'origin'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (develop)
+$ git branch -a
+* develop
+  master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/develop
+  remotes/origin/master
+  remotes/origin/second_branch
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (develop)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git branch -d develop
+Deleted branch develop (was 56bf9c5).
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git fetch origin
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git branch
+* master
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/develop
+  remotes/origin/master
+  remotes/origin/second_branch
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git checkout -t origin/develop
+Switched to a new branch 'develop'
+Branch 'develop' set up to track remote branch 'develop' from 'origin'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (develop)
+$ git checkout -t remotes/origin/develop
+fatal: A branch named 'develop' already exists.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (develop)
+$ git branch
+* develop
+  master
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (develop)
+$ git checkout -b third_branch
+Switched to a new branch 'third_branch'
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (third_branch)
+$ vim testik.txt
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (third_branch)
+$ git add testik.txt
+warning: LF will be replaced by CRLF in testik.txt.
+The file will have its original line endings in your working directory
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (third_branch)
+$ git commit -m "the new line"
+[third_branch f943452] the new line
+ Committer: Hovhannes Poghosyan <HoPoghosyan@beeline.am>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 1 insertion(+)
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (third_branch)
+$ git push
+fatal: The current branch third_branch has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin third_branch
+
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (third_branch)
+$ git push --set-upstream origin third_branch
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Writing objects: 100% (3/3), 276 bytes | 46.00 KiB/s, done.
+Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+remote:
+remote: Create a pull request for 'third_branch' on GitHub by visiting:
+remote:      https://github.com/hovo0987/test/pull/new/third_branch
+remote:
+To https://github.com/hovo0987/test.git
+ * [new branch]      third_branch -> third_branch
+Branch 'third_branch' set up to track remote branch 'third_branch' from 'origin'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (third_branch)
+$ vim testik.txt
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (third_branch)
+$ git branch
+  develop
+  master
+* third_branch
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (third_branch)
+$ git checkout develop
+Switched to branch 'develop'
+Your branch is up to date with 'origin/develop'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (develop)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git branch -a
+  develop
+* master
+  third_branch
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/develop
+  remotes/origin/master
+  remotes/origin/second_branch
+  remotes/origin/third_branch
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git push --set-upstream origin second_branch
+error: src refspec second_branch does not match any
+error: failed to push some refs to 'https://github.com/hovo0987/test.git'
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git merger origin/second branch
+git: 'merger' is not a git command. See 'git --help'.
+
+The most similar command is
+        merge
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git merge origin/second branch
+merge: origin/second - not something we can merge
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git merge second branch
+merge: second - not something we can merge
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git merge develop
+Already up to date.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git push
+Everything up-to-date
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git merge third_branch
+Updating 56bf9c5..f943452
+Fast-forward
+ testik.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git push
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/hovo0987/test.git
+   56bf9c5..f943452  master -> master
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ ^C
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git checkout -t origin/second_branch
+Switched to a new branch 'second_branch'
+Branch 'second_branch' set up to track remote branch 'second_branch' from 'origin'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (second_branch)
+$ git branch
+  develop
+  master
+* second_branch
+  third_branch
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (second_branch)
+$ git checkout master
+Switched to branch 'master'
+Your branch is up to date with 'origin/master'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git merge second_branch
+Auto-merging testik.txt
+CONFLICT (content): Merge conflict in testik.txt
+Automatic merge failed; fix conflicts and then commit the result.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master|MERGING)
+$ vim testik.txt
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master|MERGING)
+$ vim testik.txt
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master|MERGING)
+$ git add testik.txt
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master|MERGING)
+$ git commit -m "the final result"
+[master bde428b] the final result
+ Committer: Hovhannes Poghosyan <HoPoghosyan@beeline.am>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly:
+
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git commit
+On branch master
+Your branch is ahead of 'origin/master' by 2 commits.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 2 commits.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git log
+commit bde428b23c398a6d4f4246fb25848b45dda91a18 (HEAD -> master)
+Merge: f943452 92a579d
+Author: Hovhannes Poghosyan <HoPoghosyan@beeline.am>
+Date:   Mon Apr 18 17:11:35 2022 +0400
+
+    the final result
+
+commit f9434521adf9a2e02a6e9a121ae40e93212b0c4d (origin/third_branch, origin/master, origin/HEAD, third_branch)
+Author: Hovhannes Poghosyan <HoPoghosyan@beeline.am>
+Date:   Mon Apr 18 16:18:28 2022 +0400
+
+    the new line
+
+commit 92a579dd1995e1a89cd9dc15f93956d6d0027b7e (origin/second_branch, second_branch)
+Author: Hovhannes Poghosyan <HoPoghosyan@beeline.am>
+Date:   Mon Apr 18 15:54:34 2022 +0400
+
+    added the first line
+
+commit 56bf9c5e9c065ee7bc1642b116de2b53c6f965c7 (origin/develop, develop)
+Author: Hovhannes Poghosyan <HoPoghosyan@beeline.am>
+Date:   Mon Apr 18 15:48:46 2022 +0400
+
+    new txt file
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ vim testik.txt
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git log --merge
+fatal: --merge without MERGE_HEAD?
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git merge second_branch
+Already up to date.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git push
+Enumerating objects: 1, done.
+Counting objects: 100% (1/1), done.
+Writing objects: 100% (1/1), 223 bytes | 74.00 KiB/s, done.
+Total 1 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://github.com/hovo0987/test.git
+   f943452..bde428b  master -> master
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git merge third_branch
+Already up to date.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git push
+Everything up-to-date
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git push origin master
+Everything up-to-date
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git branch -a
+  develop
+* master
+  second_branch
+  third_branch
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/develop
+  remotes/origin/master
+  remotes/origin/second_branch
+  remotes/origin/third_branch
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+$ git push -u origin master
+Everything up-to-date
+Branch 'master' set up to track remote branch 'master' from 'origin'.
+
+HoPoghosyan@HoPoghosyan-01 MINGW64 /c/Users/hopoghosyan/Desktop/folder2/test (master)
+
