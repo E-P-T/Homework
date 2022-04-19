@@ -46,7 +46,7 @@ git add text.txt
 git commit -m "Resolve conflict"
 git log
 git push origin develop
-
+...
 
 
 
