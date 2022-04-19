@@ -1,0 +1,33 @@
+git init hw3
+cd hw3
+vim f.txt
+git add .
+git commit -m "file was created"
+git remote add repo git@github.com:DVikhtiuk/repo.git
+git push git@github.com:DVikhtiuk/repo.git
+git co -b develop
+git co -b first 
+vim f.txt
+git status 
+git add .
+git commit -m "first line was added"
+git push git@github.com:DVikhtiuk/repo.git
+git clone git@github.com:DVikhtiuk/repo.git
+git co develop
+git branch
+git co -b second 
+vim f.txt
+git add .
+git commit -m 'repo and first line(second time)'
+git push git@github.com:DVikhtiuk/repo.git
+git co develop
+git merge first
+git merge second
+vim f.txt
+git add .
+git commit -m "resolved conflict"
+git status
+git push git@github.com:DVikhtiuk/repo.git
+git log
+cd repo
+vim final.txt
