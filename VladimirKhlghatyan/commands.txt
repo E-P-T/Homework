@@ -1,0 +1,64 @@
+cd ~/Desktop/
+mkdir test_repo_for_session3
+cd test_repo_for_session3/
+git init
+touch text.txt
+git status
+git add text.txt
+git commit -m "adding text.txt"
+git remote add origin git@github.com:Vladimir-Khlghatyan/test_repo_for_session3.git
+git branch -M main
+git push -u origin main
+git branch -a
+git branch develop
+git checkout develop
+git branch branch_from_develop develop
+git checkout branch_from_develop
+git remote -v
+vim text.txt
+git status
+git add text.txt
+git commit -m "adding new text line in the .txt file"
+git log
+git push --set-upstream origin branch_from_develop
+git checkout develop
+git push origin develop
+cd ../
+mkdir new_folder
+cd new_folder/
+git clone git@github.com:Vladimir-Khlghatyan/test_repo_for_session3.git
+cd test_repo_for_session3/
+ls -la
+git branch -a
+git checkout develop
+git branch branch_from_develop_2
+git checkout branch_from_develop_2
+vim text.txt
+git add text.txt
+git commit -m "adding another first line in the .txt file"
+git push --set-upstream origin branch_from_develop_2
+git checkout develop
+git merge origin/branch_from_develop
+git merge origin/branch_from_develop_2
+vim text.txt
+git merge --continue
+git add text.txt
+git commit -m "Resolve conflict"
+git log
+git push origin develop
+...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
