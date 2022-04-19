@@ -1,0 +1,30 @@
+created folder s3
+cd s3
+git init
+touch file.txt
+edited file.txt in pycharm editor
+git add file.txt
+git commit -m "first commit"
+added remote origin with pycharm VCS
+pushed commit with pycharm VCS
+git checkout -b develop
+git push origin develop
+git checkout -b branch_1
+edited file.txt in pycharm editor
+git add file.txt
+git commit -m "branch_1"
+pushed commit with pycharm VCS
+git clone git@github.com:NMac99/firstRepo.git
+git checkout develop
+git checkout -b branch_2
+edited file.txt in pycharm editor
+git add file.txt
+git commit -m "branch_2"
+pushed commit with pycharm VCS
+git checkout develop
+git pull origin branch_1
+git pull origin branch_2
+resolved conflicts with pycharm VCS
+git add file.txt
+git commit -m "command list"
+pushed commit with pycharm VCS
