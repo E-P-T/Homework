@@ -1,0 +1,56 @@
+1. Create a local folder and initialize it for git;
+mkdir session3
+cd session3
+git init
+
+2. Create a text file in the folder and commit it;
+vim text_file.txt
+git add text_file.txt
+git commit -m "Add text_file.txt"
+
+3. Create a remote repository on GitHub;
+4. Push the local repository to GitHub;
+git remote add origin git@github.com:denzel-commits/EpamSession3Repo.git 
+git push -u origin master
+
+5. Create a new branch (develop) and switch to it;
+git checkout -b develop
+
+6. Create a new branch from 'develop' and switch to it;
+git checkout -b develop-feature
+
+7. Add the first line in the text file, commit, and push to remote;
+vim text_file.txt
+git add text_file.txt
+git commit -m "Update text_file.txt from feature1"
+git push -u origin develop-feature
+
+8. Clone your repository from GitHub into a separate folder;
+git clone git@github.com:denzel-commits/EpamSession3Repo.git session3_repo2
+
+9. Create another branch from 'develop' and switch to it using cloned project;
+git checkout develop
+git checkout -b develop-feature2
+
+10. Add the first line of the text file (different from the first branch), 
+    commit, and push on remote;
+vim text_file.txt
+git add text_file.txt
+git commit -m "Update text_file.txt from feature2"
+git push -u origin develop-feature2
+	
+11. Switch to develop;
+git checkout develop
+
+12.  Merge the first branch and push changes;
+git merge develop-feature
+git push -u origin develop
+
+13. Merge the second branch and push changes;
+git merge develop-feature2
+
+14. Resolve conflict;
+vim text_file.txt
+git add text_file.txt
+git commit -m "Update after conflict"
+git push
