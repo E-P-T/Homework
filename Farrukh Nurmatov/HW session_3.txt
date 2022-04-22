@@ -1,0 +1,88 @@
+# Python Practice - Session 3
+
+1. Create a local folder and initialize it for git;
+
+$ git init "git repo"
+
+2. Create a text file in the folder and commit it;
+
+$ cd "git repo"
+$ git add new_file.txt
+$ git commit -m 'add new_file.txt'
+
+3. Create a remote repository on GitHub;
+
+Enter github.com +\New repository\Create new repository
+
+4. Push the local repository to GitHub;
+
+$ git push git@github.com:unrealmw/git_training.git
+
+5. Create a new branch (develop) and switch to it;
+
+$ git checkout -b develop
+
+6. Create a new branch from 'develop' and switch to it;
+
+$ git checkout -b feature
+
+7. Add the first line in the text file, commit, and push to remote;
+
+modify out new_file.txt with new line on top
+$ git add new_file.txt
+$ git commit -m "added first line"
+$ git push git@github.com:unrealmw/git_training.git
+
+8. Clone your repository from GitHub into a separate folder;
+
+$ cd ..
+$ mkdir git2
+$ git clone git@github.com:unrealmw/git_training.git
+
+
+9. Create another branch from 'develop' and switch to it using cloned project;
+
+$ cd git_training
+$ git checkout -b develop
+
+10. Add the first line of the text file (different from the first branch), 
+    commit, and push on remote;
+
+$ git checkout -b ffeature
+add first line in new_file.txt
+$ git add new_file.txt
+$ git commit -m 'add hi, Farrukh frase'
+$ git push git@github.com:unrealmw/git_training.git
+
+11. Switch to develop;
+
+$ git checkout develop
+
+12  Merge the first branch and push changes;
+
+$ git merge ffeature
+$ git push git@github.com:unrealmw/git_training.git
+
+13. Merge the second branch and push changes;
+
+$ git checkout feature
+$ git checkout master
+$ git merge feature
+$ cat new_file.txt
+<<<<<<< HEAD
+Hi, Farrukh!
+=======
+hello, world!
+>>>>>>> feature
+
+14. Resolve conflict;
+
+$ git add .
+$ git commit -m "solve conflict"
+$ git push git@github.com:unrealmw/git_training.git
+
+16. Commit and push a separate text file with a list of all the commands, which were used to solve the problem;
+
+$ git add .
+$ git commit -m "added HW file"
+$ git push git@github.com:unrealmw/git_training.git
