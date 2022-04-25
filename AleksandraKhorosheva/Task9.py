@@ -22,3 +22,31 @@ print(test_1_3(*strings))
 print(test_1_4(*strings))
 {'a', 'b', 'c', 'f', 'g', 'i', 'j', 'k', 'm', 'q', 's', 'u', 'v', 'x', 'z'}
 '''
+import string
+from collections import Counter
+
+def test_1_1(strings):
+    result = set.intersection(*map(set, strings))
+    return result
+
+print(test_1_1(["hello", "world", "python"]))
+
+
+def test_1_2(strings):
+    result = set.union(*map(set, strings))
+    return result
+
+print(test_1_2(["hello", "world", "python"]))
+
+def test_1_3(strings):
+    letters = {k for k, v in Counter([l for x in strings for l in set(x)]).items() if v > 1}
+    return letters
+
+print(test_1_3(["hello", "world", "python"]))
+
+def test_1_4(strings):
+    all_letters = set(string.ascii_lowercase)
+    result = all_letters.difference(test_1_2(strings))
+    return result
+
+print(test_1_4(["hello", "world", "python"]))
