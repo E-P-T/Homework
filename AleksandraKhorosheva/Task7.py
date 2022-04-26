@@ -12,27 +12,11 @@ foo([3, 2, 1])
 '''
 import math
 
+
 def foo(lis):
     s = math.prod(lis)
-    # new_lis = []
-    # for i in lis:
-        # res = s // i
-        # new_lis.append(res)
     new_lis = list(map(lambda i: s // i, lis))
     return new_lis
 
 
 print(foo([1, 2, 3, 4, 5]))
-
-
-# def multiply(lst):
-#     answer = 1
-#     for i in lst:
-#         answer *= i
-#     return answer
-#
-#
-# print(multiply([1, 2, 3, 4, 5]))
-
-#
-#

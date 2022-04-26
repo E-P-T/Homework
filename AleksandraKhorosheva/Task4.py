@@ -27,4 +27,4 @@ def split_by_index(s, lis):
     return output
 
 
-print(split_by_index("no luck", [4,2,1]))
+print(split_by_index("pythoniscool,isn'tit?", [6, 8, 12, 13, 18]))
