@@ -1,0 +1,67 @@
+1. Create a local folder and initialize it for git;
+mkdir ShakhbozIsmailov
+cd ShakhbozIsmailov
+git init
+
+2. Create a text file in the folder and commit it;
+touch test_file.txt
+git add test_file.txt
+git commit -m "Initial commit"
+
+3. Create a remote repository on GitHub;
+git remote add origin https://github.com/schakhboz/myRepo.git
+
+4. Push the local repository to GitHub;
+git push origin master
+
+5. Create a new branch (develop) and switch to it;
+git branch develop
+git checkout develop
+
+6. Create a new branch from 'develop' and switch to it;
+git checkout -b subbranch_develop develop
+
+7. Add the first line in the text file, commit, and push to remote;
+//added first line to text file
+git commit -m "Commit 1"
+git push origin subbranch_develop
+
+8. Clone your repository from GitHub into a separate folder;
+mkdir new_folder
+cd new_folder
+git clone https://github.com/schakhboz/myRepo.git
+
+9. Create another branch from 'develop' and switch to it using cloned project;
+git checkout -b new_folder_develop develop
+
+10. Add the first line of the text file (different from the first branch),
+    commit, and push on remote;
+
+touch text.txt
+//add first line
+git add ./
+git commit -m "add: new line to text.txt file"
+git push origin new_folder_develop
+
+11. Switch to develop;
+git checkout develop
+
+12. Merge the first branch and push changes;
+git merge subbranch_develop
+git push origin develop
+
+13. Merge the second branch and push changes;
+git merge new_folder_develop
+git merge develop
+
+14. Resolve conflict;
+git mergetool
+git commit -m "Solved"
+git push origin develop
+
+16. Commit and push a separate text file with a list of all the commands, which were used to solve the problem;
+touch separate_text_file.txt
+//add all commands
+git commit -m "Commit 3"
+git push origin develop
+
