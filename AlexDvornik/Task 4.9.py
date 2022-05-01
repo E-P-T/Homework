@@ -18,6 +18,7 @@ print(test_1_3(*strings))
 print(test_1_4(*strings))
 {'a', 'b', 'c', 'f', 'g', 'i', 'j', 'k', 'm', 'q', 's', 'u', 'v', 'x', 'z'}
 '''
+import string
 from collections import Counter
 from itertools import chain
 
@@ -41,7 +42,7 @@ def test_1_3(*strings):
 
 
 def test_1_4(*strings):
-    alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    alphabet = string.ascii_lowercase
     set_of_chars = set(''.join(*strings))
     return set(alphabet).difference(set_of_chars)
 
@@ -55,4 +56,3 @@ bunch_of_functions = [test_1_1,
 for func in bunch_of_functions:
     test_strings = ["hello", "world", "python", ]
     print(func(test_strings))
-    
