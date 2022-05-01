@@ -14,4 +14,18 @@ from typing import List
 
 
 def split_by_index(s: str, indexes: List[int]) -> List[str]:
-    pass
+    start = 0
+    list_of_words = []
+    for end in sorted(indexes):
+        try:
+            if s[end]:
+                list_of_words.append(s[start:end])
+                start = end
+        except:
+            print("Index not found")
+            return [s]
+    list_of_words.append(s[end:])
+    return list_of_words
+
+
+print(split_by_index("pythoniscool,isn'tit?", [6, 8, 12, 13, 18]))

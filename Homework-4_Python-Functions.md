@@ -114,7 +114,7 @@ print(generate_squares(5))
 
 ### Task 4.11
 Implement a function, that receives changeable number of dictionaries (keys - letters, values - numbers) and combines them into one dictionary.
-Dict values ​​should be summarized in case of identical keys
+Dict values should be summarized in case of identical keys
 
 ```python
 def combine_dicts(*args):
