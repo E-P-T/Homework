@@ -9,5 +9,20 @@ foo([1, 2, 3, 4, 5])
 foo([3, 2, 1])
 [2, 3, 6]
 """
+import copy
+from typing import List
+import numpy as np
+
+
+def foo(lst: List[int]) -> List[int]:
+    result = []
+    for i in range(len(lst)):
+        lst_ = copy.copy(lst)
+        lst_.pop(i)
+        result.append(np.prod(lst_))
+    return result
+
+
+print(foo([3, 2, 1]))
 
 
