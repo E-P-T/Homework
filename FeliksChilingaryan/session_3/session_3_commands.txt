@@ -1,0 +1,47 @@
+cd ~/Desktop/
+mkdir session_3
+cd session_3/
+git init
+touch file.txt
+git status
+git add text.txt
+git commit -m "add file.txt"
+git remote add origin git@github.com:bzbzzz/session_3.git
+git branch -M main
+git push -u origin main
+git branch -a
+git branch develop
+git checkout develop
+git branch branch_from_develop2
+git checkout develop2
+git remote -v
+vim text.txt
+git status
+git add text.txt
+git commit -m "add text in the .txt file"
+git log
+git push --set-upstream origin develop2
+git checkout develop
+git push origin develop
+cd ../
+mkdir Sep_Folder
+cd Sep_Folder/
+git clone git@github.com:bzbzzz/session_3.git
+cd session_3
+git branch -a
+git checkout develop
+git branch develop_2.1
+git checkout develop_2.1
+vim text.txt
+git add text.txt
+git commit -m "adding another line in the .txt file"
+git push --set-upstream develop_2.1
+git checkout develop
+git merge origin/develop2
+git merge origin/develop_2.1
+vim text.txt
+git merge --continue
+git add text.txt
+git commit -m "Conflict Solved"
+git log
+git push origin develop
