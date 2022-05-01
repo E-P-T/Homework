@@ -85,6 +85,7 @@ class SuperBird(NonFlyingBird, FlyingBird, Bird):
 
     def __init__(self, name, ration='fish'):
         super().__init__(name)
+        self._ration = ration
 
     def __str__(self):
         return f'{self._name} bird can walk, swim and fly'
