@@ -1,0 +1,28 @@
+git checkout session_3
+git checkout -b Branch_01
+
+vim Text_File.txt (Adding changes)
+
+git add Text_File.txt
+git commit -m "Changed a string"
+
+git checkout session_3
+
+git checkout -b Branch_02
+
+vim Text_File.txt (Adding other changes)
+
+git add Text_File.txt
+git commit -m "Changed a string"
+
+git checkout session_3
+git merge Branch_01 Branch_02
+
+(Creating conflict)
+
+vim Text_File.txt (Choose changes)
+
+git add Text_File.txt
+git commit -m "Message"
+git push
+
