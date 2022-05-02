@@ -1,4 +1,4 @@
-def change_quotas(str_in):
+def change_quotes(str_in):
     str_out=''
     if ('"' or '\'') in str_in:
         for i in range(len(str_in)):
@@ -11,4 +11,4 @@ def change_quotas(str_in):
     else: str_out=str_in
     return(str_out)
 
-print(change_quotas(input('Enetr a string with a any quotas ')))
+print(change_quotes(input('Enetr a string with a any quotes ')))
