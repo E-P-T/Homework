@@ -1,0 +1,91 @@
+# 1. Create a local folder and initialize it for git;
+
+ 	mkdir local
+ 	git init local
+
+# 2. Create a text file in the folder and commit it
+
+	cd local
+ 	touch text.txt
+ 	git add text.txt
+ 	git commit -m "task 2: add text.txt"
+
+# 3. Create a remote repository on GitHub
+
+ 	git remote add origin https://github.com/Leo-tumo/Epam_homework.git
+
+ 4. Push the local repository to GitHub
+
+ 	git push origin master
+
+ 5. Create a new branch (develop) and switch to it
+
+ 	git checkout -b develop
+
+ 6. Create a new branch from 'develop' and switch to it
+
+ 	git checkout -b another
+
+ 7. Add the first line in the text file, commit, and push to remote
+
+ 	 echo "The first line" > text.txt
+ 	git add text.txt
+ 	git commit -m "task 7: change text.txt"
+ 	git push origin another
+	git push --set-upstream origin develop
+
+ 8. Clone your repository from GitHub into a separate folder
+
+ 	cd ~
+ 	git clone https://github.com/Leo-tumo/Epam_homework.git separate
+
+ 9. Create another branch from 'develop' and switch to it using cloned project
+
+ 	cd separate
+	git checkout develop
+ 	git checkout -b another2
+
+ 10. Add the first line of the text file (different from the first branch), commit, and push on remote
+
+ 	echo "Second First line" > text.txt
+ 	git add text.txt
+ 	git commit -m "Edit: first line of text.txt"
+ 	git push --set-upstream origin another2
+
+ 11. Switch to develop
+
+ 	git checkout develop
+
+ 12  Merge the first branch and push changes
+
+ 	git merge another
+ 	git push origin develop
+
+ 13. Merge the second branch and push changes
+
+ 	git merge another2
+
+ 14. Resolve conflict
+
+ 	vim text.txt
+
+ 	#<<<<<<< HEAD
+ 	#The first line
+ 	#=======
+ 	#Second first line
+ 	#>>>>>>> anothe2
+
+ 	change to:
+
+ 	#The first line
+ 	#Second first line
+
+ 	git add text.txt
+ 	git merge --continue
+
+ 15. Commit and push a separate text file with a list of all the commands, which were used to solve the problem
+ 	
+	 vim commands.txt
+	 git add commands.txt
+	 git commit -m "task 15: added commands.txt"
+	 git push origin develop
