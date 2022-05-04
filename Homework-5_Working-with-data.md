@@ -1,7 +1,7 @@
 # Python Practice - Session 4
 
 
-### Task 4.1
+### Task 5.1
 Open file `data/unsorted_names.txt` in data folder. Sort the names and write them to a new file called `sorted_names.txt`. Each name should start with a new line as in the following example:
 
 ```
@@ -12,7 +12,7 @@ Willodean
 Xavier
 ```
 
-### Task 4.2
+### Task 5.2
 Implement a function which search for most common words in the file.
 Use `data/lorem_ipsum.txt` file as a example.
 
@@ -26,7 +26,7 @@ print(most_common_words('lorem_ipsum.txt'))
 
 > NOTE: Remember about dots, commas, capital letters etc.
 
-### Task 4.3
+### Task 5.3
 File `data/students.csv` stores information about students in [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) format.
 This file contains the student’s names, age and average mark. 
 1) Implement a function which receives file path and returns names of top performer students
@@ -49,7 +49,7 @@ Lindsey Cummings,18,6.88
 Raymond Soileau,18,7.27
 ```
 
-### Task 4.4
+### Task 5.4
 Look through file `modules/legb.py`.
 
 1) Find a way to call `inner_function` without moving it from inside of `enclosed_function`.
@@ -58,7 +58,7 @@ Look through file `modules/legb.py`.
 
 2.2) Modify ONE LINE in `inner_function` to make it print variable 'a' form enclosing function.
 
-### Task 4.5
+### Task 5.5
 Implement a decorator `remember_result` which remembers last result of function it decorates and prints it before next call.
 
 ```python
@@ -81,7 +81,7 @@ sum_list(3, 4, 5)
 >>> "Current result = '12'"
 ```
 
-### Task 4.6
+### Task 5.6
 Implement a decorator `call_once` which runs a function or method once and caches the result.
 All consecutive calls to this function should return cached result no matter the arguments.
 
@@ -101,7 +101,7 @@ print(sum_of_numbers(856, 232))
 ```
 
 
-### Task 4.7*
+### Task 5.7*
 Run the module `modules/mod_a.py`. Check its result. Explain why does this happen.
 Try to change x to a list `[1,2,3]`. Explain the result.
 Try to change import to `from x import *` where x - module names. Explain the result. 
