@@ -4,7 +4,7 @@ from itertools import count
 from pstats import SortKey
 from re import L
 
-'''
+
 S1 = "Python is a program language"
 count = 0 
 for i in S1:
@@ -57,7 +57,7 @@ print(unique_values)
 
 Tup6 = (1, 2, 3, 4)
 print (int(''.join(map(str, Tup6))))
-'''
+
 # Task 2.7 Write a program which makes a pretty print of a part of the multiplication table.
 
 L7 = [1,2,3,4]
