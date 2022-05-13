@@ -13,14 +13,20 @@ True
 
 
 class Sun(object):
-    def __new__(cls):
-        if not hasattr(cls, 'instance'):
-            cls.instance = super(Sun, cls).__new__(cls)
-        return cls.instance
+    __instance = None
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def inst(cls):
+        if cls.__instance is None:
+            cls.__instance = super(Sun, cls).__new__(cls)
+        return cls.__instance
 
 
-p = Sun()
+p = Sun.inst()
 print(p)
-f = Sun()
+f = Sun.inst()
 print(f)
 print(f is p)
