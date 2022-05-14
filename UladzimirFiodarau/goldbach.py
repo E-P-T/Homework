@@ -1,8 +1,12 @@
-# Task 7.6
+# Task 8.1
+# Using mock write unit test for task 7.6.
 # Create console program for proving Goldbach's conjecture. Program accepts number for input and print result.
 # For pressing 'q' program succesfully close. Use function from Task 5.5 for validating input,
 # handle all exceptions and print user friendly output.
 # The conjecture states that every even number starting with 4 can be expressed as the sum of two prime numbers.
+
+
+
 class CustomException(BaseException):
 
     def __init__(self, error_message=''):
@@ -31,10 +35,6 @@ class StringException(CustomException):
 def is_even(num: int = None) -> bool:
     if num is None:
         raise EmptyException("Function requires directly one integer argument")
-    elif isinstance(num, str):
-        raise StringException("Got a string as argument, argument must be an integer")
-    elif isinstance(num, bool):
-        raise BoolException("Got a Boolean as argument, argument must be an integer")
     elif not isinstance(num, int):
         raise TypeException("Wrong argument type, must be an integer")
 
@@ -75,8 +75,11 @@ def find_goldbach(num: int) -> tuple:
     else:
         raise ValueException("Input integer doesn't satisfy conjecture assumings")
 
+def get_input():
+    return input("Input a positive even integer, or 'q' to exit script: ")
+
 def main():
-    command = input("Input a positive even integer, or 'q' to exit script: ")
+    command = get_input()
     if command in ('q', 'Q'):
         print('Thanks for using script and have a good day')
     else:
@@ -91,13 +94,10 @@ def main():
             print(f'Incorrect input: {message}')
         except EmptyException as message:
             print(f'Error ocured during function runtime: {message}')
-        except StringException as message:
-            print(f'Error ocured during function runtime: {message}')
         except TypeException as message:
             print(f'Error ocured during function runtime: {message}')
-
-        except Exception:
-            print('Something got wrong')
+        except Exception as message:
+            print(f'Something got wrong: {message}')
         finally:
             main()
 
