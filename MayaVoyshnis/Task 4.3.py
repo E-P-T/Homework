@@ -12,4 +12,4 @@ def split(my_string, char_del):
 
 
 if __name__ == '__main__':
-    print(split(input('Input your string: '), input('Input your char: ')))
+    print(split(input('Input your string:  '), input('Input your char:  ')))
