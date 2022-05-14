@@ -1,0 +1,14 @@
+Run the module `modules/mod_a.py`. Check its result. Explain why does this happen.
+	After running mod_a.py we see 1000. This explains really easy. We have mod_c.py module were "x" variable was definded as 6.
+Than we import all from mod_c.py in mod_b.py, this operation extends mod_b.py name space with mod_c.py. And than in mod_b.py we change x to 1000, 
+by adressing to in through it name. In mod_a.py we first import mod_b.py than mod_c.py. Reading line by line our programm see that "x" variable changed in mod_b.py
+and defined in mod_c.py. If we try to get "x" without importing mod_c.py we will get an error, because in mod_b.py "x" is adressing to mod_c.py, 
+but without importing mod_b.py we get "x" equal 6, because changes from mod_b.py don't exported in mod_a.py.
+
+Try to change x to a list `[1,2,3]`. Explain the result.
+	Just write x = [1, 2, 3]. We redefine our 'x' variable, so now it adress to another place in RAM were we store [1, 2, 3] list.
+
+Try to change import to `from x import *` where x - module names. Explain the result. 
+	We will get an error: ModuleNotFoundError: No module named 'x'. 
+Because our programm didn't find this module in current directory/PYTHON PATH/built-in modules/installed modules. 
+
