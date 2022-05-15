@@ -1,0 +1,30 @@
+def split_by_index(string: str, indices: list[int]) -> list[str]:
+    """ Function that gets a string and an integer list of indices that tell the function
+        from which position(s) to split it.
+        Returns a list of strings after splitting.  
+    """
+    ### Make sure that the given `indices` list is sorted ###
+    indices.sort()
+
+    ### Local Variable Initializations ##
+    string_list = []
+    current_pos = 0
+
+    for i in indices:
+        if i > len(string):
+            substring = string[current_pos:]
+            string_list.append(substring)
+            break
+        
+        string_list.append(string[current_pos:i])
+        current_pos = i
+    string_list.append(string[current_pos:])
+    
+    return string_list
+
+
+if __name__ == "__main__":
+    string = "pythoniscool,isn'tit?"
+    indices = [6, 8, 12, 13, 18]
+
+    print(split_by_index(string, indices))
