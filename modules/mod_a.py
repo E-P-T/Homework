@@ -1,6 +1,5 @@
 
-from mod_b import *
-from mod_c import *
+import mod_b
 
 print(x)
 
