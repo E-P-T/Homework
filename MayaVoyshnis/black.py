@@ -5,7 +5,7 @@ def timer(f):
         t0=time.time()
         res=f(sec)
         t1=time.time()
-        print(f'Function execution time: {t1-t0:.2f}')
+        print(f'Function execution  time: {t1-t0:.2f}')
         return res
     return wrapper
 
