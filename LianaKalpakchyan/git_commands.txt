@@ -1,0 +1,66 @@
+Session 3
+
+1. Create a local folder and initialize it for git;
+cd Desktop
+mkdir happy
+cd happy
+git init
+
+2. Create a text file in the folder and commit it; 
+touch happy.txt
+git add .
+git commit -m 'First file is created'
+
+3. Create a remote repository on GitHub; 
+git remote add origin git@github.com:LianaSmile/happy11.git
+
+4. Push the local repository to GitHub; 
+git push origin master
+
+5. Create a new branch (develop) and switch to it; 
+git checkout -b develop
+
+6. Create a new branch from 'develop' and switch to it; 
+git checkout -b new_branch
+
+7. Add the first line in the text file, commit, and push to remote;
+vim happy.txt (typed first line)
+git add happy.txt
+git commit -m 'Typed the first line'
+git push origin develop
+git push origin new_branch
+
+8. Clone your repository from GitHub into a separate folder; 
+cd ..
+git clone git@github.com:LianaSmile/happy11.git happy2
+cd happy2
+
+9. Create another branch from 'develop' and switch to it using cloned project; 
+git checkout develop
+git checkout -b new_branch_2
+
+10. Add the first line of the text file (different from the first branch), 
+    commit, and push on remote; 
+vim happy.txt (typed new first line)
+git add happy.txt
+git commit -m 'Typed another first line'
+git push origin new_branch_2
+
+11. Switch to develop; 
+git checkout develop
+
+12. Merge the first branch and push changes;
+git merge origin/new_branch
+git push origin origin/new_branch
+
+13. Merge the second branch and push changes;
+git merge origin/new_branch_2
+
+14. Resolve conflict;
+vim happy.txt (Chose the needed line)
+git add happy.txt
+git commit -m 'Conflict Resolved'
+git push origin develop
+
+15. Commit :used to solve the problem;
+done
