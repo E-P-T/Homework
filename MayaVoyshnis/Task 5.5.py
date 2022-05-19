@@ -5,7 +5,6 @@ def remember_result(f):
         nonlocal prev
         print(prev)
         prev = f'Previous result {f(*args)}'
-
     return wrapper
 
 
@@ -21,3 +20,4 @@ def sum_list(*args):
 if __name__ == '__main__':
     sum_list('a', 'b')
     sum_list('c', 'd')
+    sum_list('e', 'f')
