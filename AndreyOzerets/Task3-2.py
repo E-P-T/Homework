@@ -18,3 +18,10 @@ def get_divisors(number: int) -> List[int]:
     '''Get the divisors of a number.'''
     divisors = [i for i in range(1, number+1) if number % i == 0]
     return divisors
+
+
+if __name__ == '__main__':
+    print()
+    print('{:*^30}'.format('The task 2.3-2'), end='\n\n')
+    print(
+        f'Result: {get_divisors(get_number("Enter the number: "))}')
