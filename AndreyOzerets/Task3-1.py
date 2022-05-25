@@ -27,3 +27,13 @@ def strip_chars(words: List[str], chars: str = ' ') -> List[str]:
 def sort_seq(data: List[str], **kwargs) -> List[str]:
     '''Return a new sorted list.'''
     return sorted(set(data), **kwargs)
+
+
+if __name__ == '__main__':
+    print()
+    print('{:*^30}'.format('The task 2.3-1'), end='\n\n')
+    raw_data = get_words('Enter words separated by commas: ')
+    words = break_into_words(raw_data)
+    clean_words = strip_chars(words)
+    output = sort_seq(clean_words)
+    print(output)
