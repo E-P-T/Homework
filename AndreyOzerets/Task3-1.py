@@ -22,3 +22,8 @@ def strip_chars(words: List[str], chars: str = ' ') -> List[str]:
     for i in words:
         clean_words_append(i.strip(chars))
     return clean_words
+
+
+def sort_seq(data: List[str], **kwargs) -> List[str]:
+    '''Return a new sorted list.'''
+    return sorted(set(data), **kwargs)
