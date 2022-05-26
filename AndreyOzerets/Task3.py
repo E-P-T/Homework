@@ -21,3 +21,14 @@ def new_split(str_: str, sep: str = ' ', maxsplit: int = -1) -> List[str]:
             start = stop + 1
             maxsplit -= 1
     return out
+
+
+if __name__ == '__main__':
+
+    s = "Implement a function which works the same as `str.split` method"
+
+    print()
+    print('{:*^30}'.format('Task 4.3'), end='\n\n')
+
+    print(new_split(s, maxsplit=4))
+    print()
