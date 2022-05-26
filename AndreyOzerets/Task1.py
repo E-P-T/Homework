@@ -14,3 +14,8 @@ def get_char(str_: str, ch1: str, ch2: str) -> Iterable[str]:
         elif i == ch2:
             i = ch1
         yield i
+
+
+def replaces_symbols(gen):
+    '''Return a new string from the given characters'''
+    return ''.join(i for i in gen)
