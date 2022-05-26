@@ -35,6 +35,21 @@ def get_top_performers(file: str,
         return [i['student name'] for i in dic_out]
 
 
+def list_sorted_chunks(f_csv,
+                       gen_funk,
+                       sort_funk) -> List[List[OrderedDict]]:
+    '''List of sorted elements'''
+
+    sorted_tmp_files: List[List[OrderedDict]] = []
+    sorted_tmp_files_append = sorted_tmp_files.append
+
+    for chunk in gen_funk(f_csv):
+        sorted_chunk = sort_funk(chunk)
+        sorted_tmp_files_append(sorted_chunk)
+
+    return sorted_tmp_files
+
+
 if __name__ == '__main__':
     in_file = 'data/students.csv'
     out_file = 'data/sorted_by_names.csv'
