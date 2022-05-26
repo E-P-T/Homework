@@ -1,6 +1,6 @@
 # Task 2.5
 
-from typing import Dict, List, Set
+from typing import Dict, Iterable, List, Set
 
 
 def func_comprs(data_list: List[Dict[str, str]]) -> Set[str]:
@@ -24,3 +24,9 @@ def func_for(data_list: List[Dict[str, str]]) -> Set[str]:
             un_set_add(value)
 
     return un_set
+
+
+def func_gen(data_list: List[Dict[str, str]]) -> Iterable[Dict[str, str]]:
+    '''Return list element.'''
+    for i in data_list:
+        yield i
