@@ -35,3 +35,19 @@ def split_by_index(s: str, indexes: List[int]) -> List[str]:
         list_out_append(s[k:])
 
     return list_out
+
+
+if __name__ == '__main__':
+    s = "pythoniscool,isn'tit?"
+    inds = [6, 8, 12, 13, 18]
+    # inds = []
+    # inds = [1, -555]
+
+    # s = "no luck"
+    # inds = [444]
+
+    print()
+    print('{:*^30}'.format('Task 4.4'), end='\n\n')
+    res = split_by_index(s, inds)
+    print(res)
+    print()
