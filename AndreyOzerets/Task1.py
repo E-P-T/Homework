@@ -35,3 +35,10 @@ def write_to_tmp_file(tmp_file: _TemporaryFileWrapper,
     tmp_file.seek(0)
 
     return tmp_file
+
+
+def close_tmp_files(tmp_files: List[_TemporaryFileWrapper]) -> None:
+    '''Close list of temporary files'''
+
+    for f in tmp_files:
+        f.close()
