@@ -19,3 +19,13 @@ def sort_dict(source_dict, **kwargs):
         s = sorted(source_dict[i].items(), **kwargs)
         out_dict[i] = dict(s)
     return out_dict
+
+
+def data_unpacking(source_dict):
+    '''Unpack the data into a dictionary.'''
+    out_dict = {}
+    out_dict_update = out_dict.update
+    for i in source_dict:
+        m = {**source_dict[i]}
+        out_dict_update(m)
+    return out_dict
