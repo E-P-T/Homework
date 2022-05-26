@@ -1,7 +1,7 @@
 # Task 5.2
 
 from collections import Counter
-from typing import Callable, List, Optional
+from typing import Callable, List, Optional, Tuple
 
 
 def words(string_: str,
@@ -16,6 +16,13 @@ def words(string_: str,
         return words
     else:
         return None
+
+
+def result(list_result: List[Tuple[str, int]]) -> List[str]:
+    '''Create a word list'''
+
+    result = [i[0] for i in list_result]
+    return result
 
 
 def most_common_words(filepath: str,
