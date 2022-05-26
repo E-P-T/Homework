@@ -33,3 +33,13 @@ def get_top_performers(file: str,
             dic_out.clear()
             dic_out.extend(q)
         return [i['student name'] for i in dic_out]
+
+
+if __name__ == '__main__':
+    in_file = 'data/students.csv'
+    out_file = 'data/sorted_by_names.csv'
+
+    print()
+    print('{:*^30}'.format('Task 5.3.1'))
+    names = get_top_performers(in_file)
+    print(f'Names of top performer students: {names}', end='\n\n')
