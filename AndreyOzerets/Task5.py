@@ -30,3 +30,17 @@ def func_gen(data_list: List[Dict[str, str]]) -> Iterable[Dict[str, str]]:
     '''Return list element.'''
     for i in data_list:
         yield i
+
+
+def func_iter(gen: Iterable[Dict[str, str]]) -> Set[str]:
+    '''Return unique dictionary values
+
+    Implemented via iterator.
+    '''
+    un_set: Set[str] = set()
+    un_set_add = un_set.add
+
+    for i in gen:
+        un_set_add(*i.values())
+
+    return un_set
