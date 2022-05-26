@@ -44,3 +44,18 @@ def func_iter(gen: Iterable[Dict[str, str]]) -> Set[str]:
         un_set_add(*i.values())
 
     return un_set
+
+
+if __name__ == '__main__':
+
+    print()
+    print('{:*^30}'.format('Task 2.5'), end='\n\n')
+
+    i = [{"V": "S001"}, {"V": "S002"}, {"VI": "S001"}, {"VI": "S005"},
+         {"VII": "S005"}, {"V": "S009"}, {"VIII": "S007"}]
+
+    it = func_gen(i)
+
+    print(f'Function result "func_comprs": {func_comprs(i)}', end='\n\n')
+    print(f'Function result "func_for": {func_for(i)}', end='\n\n')
+    print(f'Function result "func_iter": {func_iter(it)}', end='\n\n')
