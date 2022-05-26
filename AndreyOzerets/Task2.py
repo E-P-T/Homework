@@ -1,6 +1,9 @@
 # Task 5.2
 
 from collections import Counter
+from functools import partial
+from os import path
+from string import punctuation
 from typing import Callable, List, Optional, Tuple
 
 
@@ -40,3 +43,17 @@ def most_common_words(filepath: str,
                 out += c
 
     return result(out.most_common(number_of_words))
+
+
+if __name__ == '__main__':
+
+    filepath = 'data/lorem_ipsum.txt'
+
+    if path.exists(filepath):
+        get_words = partial(words, punct=punctuation)
+        words_list = most_common_words(filepath, get_words)
+        print()
+        print('{:*^30}'.format('Task 5.2'), end='\n\n')
+        print(f'The most used words in the file: {words_list}', end='\n\n')
+    else:
+        print(f'File "{filepath}" does not exist', end='\n\n')
