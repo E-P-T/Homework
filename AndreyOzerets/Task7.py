@@ -21,3 +21,15 @@ def foo(data: List[int]) -> List[int]:
         result.append(accumulation)
 
     return result
+
+
+if __name__ == '__main__':
+    print()
+    print('{:*^30}'.format('Task 4.7'), end='\n\n')
+
+    res = foo([1, 2, 3, 4, 5])
+    print(res)
+    res = foo([3, 2, 1])
+    print(res)
+
+    print()
