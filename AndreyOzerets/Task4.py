@@ -10,3 +10,12 @@ def data_dict(source_dict):
         out_dict[key_type].update({i: source_dict[i]})
     print(out_dict)
     return out_dict
+
+
+def sort_dict(source_dict, **kwargs):
+    '''Sort dictionary.'''
+    out_dict = {}
+    for i in ordered_dict:
+        s = sorted(source_dict[i].items(), **kwargs)
+        out_dict[i] = dict(s)
+    return out_dict
