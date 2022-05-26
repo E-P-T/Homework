@@ -19,3 +19,18 @@ def ispalindrome(raw_data: str) -> bool:
             return False
 
     return True
+
+
+if __name__ == '__main__':
+    # s = 'otto'
+    # s = 'eve'
+    s = 'Was it a car or a cat I saw?'
+    # s='l'
+    # s='1221'
+    # s='saippuakivikauppias'
+
+    y = ispalindrome(s)
+    print()
+    print('{:*^30}'.format('Task 4.2'), end='\n\n')
+    print(f'Is the string "{s}" a palindrome?: {y}')
+    print()
