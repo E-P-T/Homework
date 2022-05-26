@@ -31,3 +31,15 @@ def test_1_3(*args):
 def test_1_4(*args):
     '''Return characters that are not used in any string'''
     return set(ascii_lowercase)-test_1_2(*args)
+
+
+if __name__ == '__main__':
+
+    test_strings = ["hello", "world", "python", ]
+    print()
+    print('{:*^30}'.format('Task 4.9'), end='\n\n')
+
+    print(f'Task 4.9-1: {test_1_1(*test_strings)}', end='\n\n')
+    print(f'Task 4.9-2: {test_1_2(*test_strings)}', end='\n\n')
+    print(f'Task 4.9-3: {test_1_3(*test_strings)}', end='\n\n')
+    print(f'Task 4.9-4: {test_1_4(*test_strings)}', end='\n\n')
