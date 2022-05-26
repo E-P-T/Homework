@@ -17,3 +17,15 @@ def get_pairs(lst: List) -> Optional[List[Tuple]]:
         result = None
 
     return result
+
+
+if __name__ == '__main__':
+
+    s = [1, 2, 3, 8, 9]
+    # s=[1]
+    # s = ['need', 'to', 'sleep', 'more']
+    # s = ['need']
+
+    print()
+    print('{:*^30}'.format('Task 4.8'), end='\n\n')
+    print(f'Function result: {get_pairs(s)}', end='\n\n')
