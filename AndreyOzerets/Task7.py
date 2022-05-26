@@ -39,3 +39,21 @@ def print_tab(a: int,
         for _ in range(c, d+1):
             print('{:<{y1}}'.format(next(data), y1=indent), end=" ")
         print()
+
+
+if __name__ == '__main__':
+
+    print()
+    print('{:*^30}'.format('The task 2.7'), end='\n\n')
+
+    a = int(input("Enter initial vertical value: "))
+    b = int(input("Enter vertical end value: "))
+    c = int(input("Enter initial horizontal value: "))
+    d = int(input("Enter horizontal end value: "))
+
+    indent = indent_length(a, b, c, d)
+
+    print()
+    print(f'Output:')
+
+    print_tab(a, b, c, d, indent, data_gen)
