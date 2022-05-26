@@ -3,8 +3,20 @@
 
 import csv
 from heapq import nlargest
-from itertools import chain
-from typing import List, OrderedDict
+from itertools import chain, islice
+from typing import Iterable, List, OrderedDict
+
+
+def get_chunk(data: Iterable,
+              amount_of_elmnts: int = 100) -> Iterable[List[OrderedDict[str,
+                                                                        str]]]:
+    '''Return a chunk of strings'''
+
+    while True:
+        chunk = list(islice(data, amount_of_elmnts))
+        if not chunk:
+            break
+        yield chunk
 
 
 def get_top_performers(file: str,
