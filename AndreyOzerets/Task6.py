@@ -31,3 +31,22 @@ def with_map(numbers: Tuple[int]) -> int:
     Implemented via join and map.
     '''
     return int(''.join(map(str, numbers)))
+
+
+if __name__ == '__main__':
+    print()
+    print('{:*^30}'.format('The task 2.6'), end='\n\n')
+
+    original_tuple = (1, 2, 3, 4, 2, 223, 13, 3, 4, 556, 7, 78)
+
+    print(f'Original tuple: {original_tuple}', end='\n\n')
+
+    print(
+        f'Function result "with_join": {with_join(original_tuple)}',
+        end='\n\n')
+    print(
+        f'Function result "with_concat": {with_concat(original_tuple)}',
+        end='\n\n')
+    print(
+        f'Function result "with_map": {with_map(original_tuple)}',
+        end='\n\n')
