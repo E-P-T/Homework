@@ -1,6 +1,7 @@
 # Task 5.2
 
-from typing import List, Optional
+from collections import Counter
+from typing import Callable, List, Optional
 
 
 def words(string_: str,
@@ -15,3 +16,20 @@ def words(string_: str,
         return words
     else:
         return None
+
+
+def most_common_words(filepath: str,
+                      get_words: Callable[..., Optional[List[str]]],
+                      number_of_words: int = 3,
+                      **kwargs) -> List[str]:
+    '''Get a list of the most popular words'''
+
+    out: Counter = Counter()
+    with open(filepath, **kwargs) as file:
+        for i in file:
+            words_list = get_words(i)
+            if words_list:
+                c = Counter(words_list)
+                out += c
+
+    return result(out.most_common(number_of_words))
