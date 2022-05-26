@@ -23,3 +23,11 @@ def with_concat(numbers: Tuple[int]) -> int:
         str_out = str_out + str(i)
     out_int = int(str_out)
     return out_int
+
+
+def with_map(numbers: Tuple[int]) -> int:
+    '''Convert a tuple of positive integers to a number
+
+    Implemented via join and map.
+    '''
+    return int(''.join(map(str, numbers)))
