@@ -28,3 +28,17 @@ def data_unpacking(source_dict):
         m = {**source_dict[i]}
         out_dict_update(m)
     return out_dict
+
+
+if __name__ == '__main__':
+    d = {'a': 1, 'c': 3, 'b': 2, 1: 2, 2: 3, 8: 0, 4: 5,
+         (1, 2): 3, (2, 1, 4): 1, 'aa': {}, 's': {'x': 1, }}
+    print()
+    print('{:*^30}'.format('Task 2.4'), end='\n\n')
+    print(f'Source dictionary: {d}', end='\n\n')
+
+    ordered_dict = data_dict(d)
+    sorted_dict = sort_dict(ordered_dict)
+    unpacked_dict = data_unpacking(sorted_dict)
+
+    print(f'Sorted dictionary: {unpacked_dict}', end='\n\n')
