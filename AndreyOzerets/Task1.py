@@ -18,7 +18,7 @@ def line_from_file(file: str, end: str = '\n', **kwargs) -> Iterable[str]:
 def get_chunk(data: Iterable[str],
               amount_of_elements: int = 10,
               **kwargs) -> Iterable[List[str]]:
-    '''Return a chunk of string'''
+    '''Return a chunk of strings'''
 
     while True:
         chunk = list(islice(data, amount_of_elements, **kwargs))
