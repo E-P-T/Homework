@@ -40,3 +40,16 @@ def sum_list(*args):
         result += item
     print(f"Current result = '{result}'")
     return result
+
+
+if __name__ == '__main__':
+    print()
+    print('{:*^30}'.format('Task 5.5'), end='\n\n')
+
+    sum_list("a")
+    sum_list("a", "b")
+    sum_list("abc", "cde")
+    sum_list(3, 4, 5.5)
+    sum_list(3, 4, 15)
+    sum_list("abc", 3, "cde")
+    print()
