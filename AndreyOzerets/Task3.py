@@ -4,7 +4,7 @@
 import csv
 from heapq import nlargest
 from itertools import chain, islice
-from typing import Iterable, List, OrderedDict
+from typing import Callable, Iterable, List, Optional, OrderedDict, Sequence
 
 
 def get_chunk(data: Iterable,
@@ -48,6 +48,31 @@ def list_sorted_chunks(f_csv,
         sorted_tmp_files_append(sorted_chunk)
 
     return sorted_tmp_files
+
+
+def sort_csv(in_file: str,
+             out_file: str,
+             sort_func: Callable[[Iterable],
+                                 List[List[OrderedDict]]],
+             merge_func) -> None:
+    '''Write sorted csv file'''
+
+    fields: Optional[Sequence[str]] = []
+
+    try:
+        with open(in_file) as f:
+            f_csv = csv.DictReader(f)
+            fields = f_csv.fieldnames
+            sorted_files = sort_func(f_csv)
+
+    except FileNotFoundError as er:
+        print(er)
+        raise er
+    else:
+        with open(out_file, 'w', newline='') as output_file:
+            out_csv = csv.DictWriter(output_file, fields)
+            out_csv.writeheader()
+            out_csv.writerows(merge_func(*sorted_files))
 
 
 if __name__ == '__main__':
