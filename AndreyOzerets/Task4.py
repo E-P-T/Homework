@@ -12,3 +12,7 @@ def enclosing_funcion():
         print(a)
 
     return inner_function
+
+
+if __name__ == '__main__':
+    enclosing_funcion()()
