@@ -22,3 +22,15 @@ def sum_of_numbers(a, b):
     '''Return the sum of two numbers'''
 
     return a + b
+
+
+if __name__ == '__main__':
+    print()
+    print('{:*^30}'.format('Task 5.6'), end='\n\n')
+
+    print(sum_of_numbers(13, 42))
+    print(sum_of_numbers(999, 100))
+    print(sum_of_numbers(134, 412))
+    print(sum_of_numbers(856, 232))
+
+    print()
