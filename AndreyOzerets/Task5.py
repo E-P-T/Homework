@@ -26,3 +26,17 @@ def remember_result(func):
             args = [str(i) for i in args]
         last_result = func(*args)
     return wrap
+
+
+@ remember_result
+def sum_list(*args):
+    '''Concatenate received elements
+
+    Strings are concatenated, numbers are added together.
+    '''
+
+    result = ""
+    for item in args:
+        result += item
+    print(f"Current result = '{result}'")
+    return result
