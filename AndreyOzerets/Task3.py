@@ -2,7 +2,8 @@
 
 
 import csv
-from heapq import nlargest
+from functools import partial
+from heapq import merge, nlargest
 from itertools import chain, islice
 from typing import Callable, Iterable, List, Optional, OrderedDict, Sequence
 
@@ -83,3 +84,13 @@ if __name__ == '__main__':
     print('{:*^30}'.format('Task 5.3.1'))
     names = get_top_performers(in_file)
     print(f'Names of top performer students: {names}', end='\n\n')
+
+    print('{:*^30}'.format('Task 5.3.2'))
+    sort_funk = partial(
+        sorted, key=lambda student: student['age'], reverse=True)
+    sort_chunks = partial(list_sorted_chunks,
+                          gen_funk=get_chunk, sort_funk=sort_funk)
+    merge_func = partial(
+        merge, key=lambda student: student['age'], reverse=True)
+    sort_csv(in_file, out_file, sort_chunks, merge_func)
+    print(f'The sorted "{out_file}" file is written.', end='\n\n')
