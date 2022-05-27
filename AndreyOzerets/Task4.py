@@ -10,3 +10,5 @@ def enclosing_funcion():
 
         a = "I am local variable!"
         print(a)
+
+    return inner_function
