@@ -11,6 +11,9 @@ def enclosing_funcion():
         a = "I am local variable!"
         print(a)
 
+        # Task 2.1
+        print(globals()['a'])
+
     return inner_function
 
 
