@@ -15,3 +15,10 @@ def call_once(func):
             cached_result = func(*args, **kwargs)
         return cached_result
     return wrap
+
+
+@call_once
+def sum_of_numbers(a, b):
+    '''Return the sum of two numbers'''
+
+    return a + b
