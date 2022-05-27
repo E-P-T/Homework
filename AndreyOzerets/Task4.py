@@ -8,7 +8,8 @@ def enclosing_funcion():
 
     def inner_function():
 
-        a = "I am local variable!"
+        # Task 2.2
+        # a = "I am local variable!"
         print(a)
 
         # Task 2.1
