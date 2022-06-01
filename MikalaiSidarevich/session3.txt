@@ -1,0 +1,71 @@
+# Python Practice - Session 3
+
+# 1. Create a local folder and initialize it for git;
+
+git init session3-repo
+cd session3-repo
+
+# 2. Create a text file in the folder and commit it;
+
+touch file.txt
+git add file.txt
+git commit -m "Initial commit"
+
+# 3. Create a remote repository on GitHub;
+# 4. Push the local repository to GitHub;
+
+git remote add origin git@github.com:NickoNickolai/session3-repo.git
+git push --all
+
+# 5. Create a new branch (develop) and switch to it;
+
+git checkout -b develop
+
+# 6. Create a new branch from 'develop' and switch to it;
+
+git checkout -b first
+
+# 7. Add the first line in the text file, commit, and push to remote;
+
+vi file.txt
+git commit -am "First line added"
+git push --all
+
+# 8. Clone your repository from GitHub into a separate folder;
+
+cd ..
+git clone git@github.com:NickoNickolai/session3-repo.git session3-repo-cloned
+cd session3-repo-cloned
+
+# 9. Create another branch from 'develop' and switch to it using cloned project;
+
+git checkout first
+git checkout develop
+git checkout -b second
+
+# 10. Add the first line of the text file (different from the first branch), commit, and push on remote;
+
+vi file.txt
+git commit -am "Another first line added"
+git push --all
+
+# 11. Switch to develop;
+
+git checkout develop
+
+# 12. Merge the first branch and push changes;
+
+git merge first
+
+# 13. Merge the second branch and push changes;
+
+git merge second
+
+# 14. Resolve conflict;
+
+vi file.txt
+
+# 16. Commit and push a separate text file with a list of all the commands, which were used to solve the problem;
+
+git add .
+git commit -m "Final commit"
