@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"
+        	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+    xmlns:s="https://www.cbsnews.com/"
+
+    xmlns:media="http://search.yahoo.com/mrss/"
+>
+    <channel>
+        
+        
+               
+
+            <title>World - CBSNews.com</title>
+    <link>https://www.cbsnews.com/</link>
+    <description>World From CBSNews.com</description>
+    <pubDate>Fri, 03 Jun 2022 09:08:13 -0400</pubDate>
+    <ttl>5</ttl>
+            
+                    <item>
+                
+    <title>Suspected serial killer accused of luring women on Facebook</title>
+    <link>https://www.cbsnews.com/news/suspected-serial-killer-lured-victims-facebook-fake-job-offers-mexico-authorities/</link>
+    <description>&quot;There are at least seven cases of women&#039;s killings where this person could be involved,&quot; authorities said.</description>
+
+            <pubDate>Fri, 03 Jun 2022 08:44:00 -0400</pubDate>
+    
+                    
+
+	    	        <image>https://cbsnews3.cbsistatic.com/hub/i/r/2022/06/02/35a31c0d-5795-4e68-8dea-522305627d1f/thumbnail/60x60/b917197bb164397584e287910a94a0db/kavwyfjumpqdnvn-800x450-nopad.jpg</image>
+	        
+    <guid isPermaLink="false">4ce4184b-10b7-4d97-b81b-6e8ffff20128</guid>
+        </item>
+        </channel>
+</rss>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:webfeeds="http://webfeeds.org/rss/1.0"
+     xmlns:media="http://search.yahoo.com/mrss/">
+    <channel>
+        <title>MMORPG - GoHa.Ru</title>
+        <link>https://www.goha.ru/mmorpg</link>
+        <description></description>
+        <copyright>Copyright 2022 GoHa.Ru</copyright>
+        <atom:link href="http://www.goha.ru/rss/mmorpg" rel="self"></atom:link>
+        <webfeeds:icon>https://www.goha.ru/icon.png</webfeeds:icon>
+        <webfeeds:analytics id="UA-1733792-30" engine="GoogleAnalytics"></webfeeds:analytics>
+        <language>ru</language>
+        <lastBuildDate>Fri, 03 Jun 22 12:37:02 +0000</lastBuildDate>
+        <ttl>60</ttl>
+        <image>
+            <url>https://www.goha.ru/icon.png</url>
+            <title>MMORPG - GoHa.Ru</title>
+            <link>https://www.goha.ru/mmorpg</link>
+        </image>
+                    <item>
+                <title>В World of Warcraft появился &quot;Общественный договор&quot;</title>
+                <category>MMORPG</category>
+                <link>https://www.goha.ru/v-world-of-warcraft-poyavilsya-obshhestvennyj-dogovor-dNARm7</link>
+                <pubDate>Fri, 03 Jun 22 12:30:00 +0000</pubDate>
+                <guid isPermaLink="true">https://www.goha.ru/v-world-of-warcraft-poyavilsya-obshhestvennyj-dogovor-dNARm7</guid>
+                <description><![CDATA[<img align="left" src="https://www.goha.ru/s/f/Bv/cv/epMPJ5Yiyn.jpg" alt="В World of Warcraft появился "Общественный договор""/><br /><br />Одновременно с установкой обновления 9.2.5 для World of Warcraft: Shadowlands, компания Blizzard заставила игроков принять “Общественный договор”, согласно которому игроки обязуются вести себя дружелюбно и не призывать к ненависти по расовому, гендерному или любому иному признаку. <br /><br /><a href="https://www.goha.ru/v-world-of-warcraft-poyavilsya-obshhestvennyj-dogovor-dNARm7">Читать дальше →</a>]]></description>
+                                    <content:encoded><![CDATA[<img align="left" src="https://www.goha.ru/s/f/Bv/cv/epMPJ5Yiyn.jpg" alt="В World of Warcraft появился "Общественный договор""/><br /><br />Одновременно с установкой обновления 9.2.5 для World of Warcraft: Shadowlands, компания Blizzard заставила игроков принять “Общественный договор”, согласно которому игроки обязуются вести себя дружелюбно и не призывать к ненависти по расовому, гендерному или любому иному признаку. <br /><br /><a href="https://www.goha.ru/v-world-of-warcraft-poyavilsya-obshhestvennyj-dogovor-dNARm7">Читать дальше →</a>]]></content:encoded>
+                                <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Zan</dc:creator>
+                <author>Zan</author>
+            </item>
+                    <item>
+                <title>EVE Online скоро получит обновленный визуал, звук и перейдет на DirectX 12</title>
+                <category>MMORPG</category>
+                <link>https://www.goha.ru/eve-online-skoro-poluchit-obnovlennyj-vizual-zvuk-i-perejdet-na-directx-12-40m86N</link>
+                <pubDate>Fri, 03 Jun 22 11:45:00 +0000</pubDate>
+                <guid isPermaLink="true">https://www.goha.ru/eve-online-skoro-poluchit-obnovlennyj-vizual-zvuk-i-perejdet-na-directx-12-40m86N</guid>
+                <description><![CDATA[<img align="left" src="https://www.goha.ru/s/f/Bs/rV/DcedQ2gbOh.jpg" alt="EVE Online скоро получит обновленный визуал, звук и перейдет на DirectX 12"/><br /><br />В новом сообщении в блоге CCP Games подробно рассказала о фундаменте, который она строит для своей научно-фантастической MMO EVE Online. <br /><br /><a href="https://www.goha.ru/eve-online-skoro-poluchit-obnovlennyj-vizual-zvuk-i-perejdet-na-directx-12-40m86N">Читать дальше →</a>]]></description>
+                                    <content:encoded><![CDATA[<img align="left" src="https://www.goha.ru/s/f/Bs/rV/DcedQ2gbOh.jpg" alt="EVE Online скоро получит обновленный визуал, звук и перейдет на DirectX 12"/><br /><br />В новом сообщении в блоге CCP Games подробно рассказала о фундаменте, который она строит для своей научно-фантастической MMO EVE Online. <br /><br /><a href="https://www.goha.ru/eve-online-skoro-poluchit-obnovlennyj-vizual-zvuk-i-perejdet-na-directx-12-40m86N">Читать дальше →</a>]]></content:encoded>
+                                <dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Zan</dc:creator>
+                <author>Zan</author>
+            </item>
+            </channel>
+</rss>

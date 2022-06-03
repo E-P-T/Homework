@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:media="http://search.yahoo.com/mrss/"
+	>
+
+<channel>
+	<title>Авто Onlíner</title>
+	<link>https://auto.onliner.by/</link>
+	<description>Авто Onlíner</description>
+	<pubDate>Fri, 03 Jun 2022 14:25:10 +0300</pubDate>
+
+	<generator>Onliner</generator>
+	<language>ru</language>
+
+	<image>
+		<url>https://content.onliner.by/pic/logo.png</url>
+		<width>181</width>
+		<height>53</height>
+		<title>Авто Onlíner</title>
+		<link>https://auto.onliner.by/</link>
+	</image>
+
+	<item>
+		<title><![CDATA[«Такого не видели нигде и никогда». Атака насекомых на трассе М6&nbsp;(видео)]]></title>
+		<link>https://auto.onliner.by/2022/06/03/takogo-ne-videli-nigde-i-nikogda-ataka-nasekomyx-na-trasse-m6</link>
+        		<pubDate>Fri, 03 Jun 2022 14:25:10 +0300</pubDate>
+		<dc:creator>Onliner</dc:creator>
+        <category><![CDATA[Дорожная обстановка]]></category>
+        
+		<guid isPermaLink="false">https://auto.onliner.by/2022/06/03/takogo-ne-videli-nigde-i-nikogda-ataka-nasekomyx-na-trasse-m6</guid>
+		<description><![CDATA[<p><a href="https://auto.onliner.by/2022/06/03/takogo-ne-videli-nigde-i-nikogda-ataka-nasekomyx-na-trasse-m6"><img src="https://content.onliner.by/news/thumbnail/e3991963d13c00b0644d044fe288323a.jpeg" alt="" /></a></p><p><em>«Таких еще нигде не видел за всю жизнь, сколько езжу, а езжу уже 20 лет. Но в этом сезоне — просто жесть», </em>— так описал водитель МАЗа ситуацию на трассе М6. Говорит, что проехал через настоящее облако насекомых. И он был не единственным. Гродненские водители показали последствия встречи с полчищами членистоногих.</p><p><a href="https://auto.onliner.by/2022/06/03/takogo-ne-videli-nigde-i-nikogda-ataka-nasekomyx-na-trasse-m6">Читать далее…</a></p>]]></description>
+
+		<media:thumbnail url="https://content.onliner.by/news/thumbnail/e3991963d13c00b0644d044fe288323a.jpeg" />
+	</item>
+	<item>
+		<title><![CDATA[Европейская зеленая карта больше не действительна в Беларуси и России. Что нужно знать водителям?]]></title>
+		<link>https://auto.onliner.by/2022/06/03/zelenaya-karta-bolshe-ne-dejstvitelna-v-belarusi</link>
+        		<pubDate>Fri, 03 Jun 2022 13:08:16 +0300</pubDate>
+		<dc:creator>Onliner</dc:creator>
+        <category><![CDATA[Законы]]></category>
+        
+		<guid isPermaLink="false">https://auto.onliner.by/2022/06/03/zelenaya-karta-bolshe-ne-dejstvitelna-v-belarusi</guid>
+		<description><![CDATA[<p><a href="https://auto.onliner.by/2022/06/03/zelenaya-karta-bolshe-ne-dejstvitelna-v-belarusi"><img src="https://content.onliner.by/news/thumbnail/67fd4d90ff272c87ca93197808c4979b.jpeg" alt="" /></a></p><p>Польское бюро автостраховщиков расторгло двусторонние соглашения, связывающие их с белорусскими и российскими страховщиками. Как сообщает портал <a href="https://www.prawo.pl/biznes/zielona-karta-nie-bedzie-wazna-w-rosji-i-na-bialorusi,515478.html" target="_blank">prawo.pl</a>, аналогичные соглашения расторгли все национальные офисы Европейской экономической зоны, а также швейцарское бюро. Решение вступило в силу 1 июня, все обязательства по взаимному принятию сертификатов зеленых карт истекают 31 мая 2023 года.</p><p><a href="https://auto.onliner.by/2022/06/03/zelenaya-karta-bolshe-ne-dejstvitelna-v-belarusi">Читать далее…</a></p>]]></description>
+
+		<media:thumbnail url="https://content.onliner.by/news/thumbnail/67fd4d90ff272c87ca93197808c4979b.jpeg" />
+	</item>
+</channel>
+</rss>
+

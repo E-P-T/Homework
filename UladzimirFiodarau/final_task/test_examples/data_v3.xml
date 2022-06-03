@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <atom:link href="https://vse.sale/" rel="self" type="application/rss+xml"/>
+    <generator>RSS Generator 2.1.1</generator>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <title>Газета ВСЁ</title>
+    <link>https://vse.sale/</link>
+    <description>Лента новостей Газеты ВСЁ.Онлайн</description>
+    <language>ru-RU</language>
+    <image>
+      <url>https://vse.sale/images/logo.png</url>
+      <title>Газета ВСЁ</title>
+      <link>https://vse.sale/</link>
+      <width>88</width>
+      <height>31</height>
+      <description>Газета ВСЁ</description>
+    </image>
+    <item>
+      <title>Опасное место на Кукковке огородили, а ограждение оказалось непрочным (ВИДЕО)</title>
+      <description>«Что б они ни делали, не идут дела» … Именно так всё и происходит на островке невезения на Комсомольском проспекте. В третий раз это «заколдованное» место становится объектом нашей съёмки. Сериал уже получается! Надеемся, что четвёртая серия будет с хеппи-эндом - яму заделают.</description>
+      <link>https://vse.sale/news/view/37487</link>
+      <guid>https://vse.sale/news/view/37487</guid>
+      <pubDate>Fri, 03 Jun 2022 10:33:00 +0300</pubDate>
+      <enclosure url="http://vse.sale/files/news/2022/06/102375_1654241748.jpg" length="56636" type="image/jpeg"/>
+    </item>
+    <item>
+      <title>Музыкальный театр Карелии готовит мировую премьеру! </title>
+      <description>6 и 7 июля жители и гости Петрозаводска увидят балет «Алиса». Автор идеи и постановщик – Кирилл Симонов.</description>
+      <link>https://vse.sale/news/view/37486</link>
+      <guid>https://vse.sale/news/view/37486</guid>
+      <pubDate>Fri, 03 Jun 2022 09:22:00 +0300</pubDate>
+      <enclosure url="http://vse.sale/files/news/2022/06/102375_1654237409.jpg" length="40787" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>
+
