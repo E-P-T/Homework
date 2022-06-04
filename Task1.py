@@ -49,3 +49,8 @@ class Counter():
             self.start += 1
         else:
             raise Exception("Maximal value is reached.")
+
+    def get(self):
+        """Returns the current value of the monitored number."""
+
+        return self.start
