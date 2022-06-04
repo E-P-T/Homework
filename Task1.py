@@ -12,3 +12,10 @@ def type_validator(type_=int):
                 raise TypeError('{} must be a {}'.format(value, type_))
         return wrapper
     return decorator
+
+
+class Counter():
+
+    def __init__(self, start=0, stop=None) -> None:
+        self.start = start
+        self.stop = stop
