@@ -41,3 +41,11 @@ class Counter():
         else:
             raise TypeError(
                 f'{value} must be greater than {self.start}')
+
+    def increment(self):
+        """The function of incrementing one to a number."""
+
+        if self.start != self.stop:
+            self.start += 1
+        else:
+            raise Exception("Maximal value is reached.")
