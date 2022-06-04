@@ -77,3 +77,37 @@ class Counter():
         """Returns the current value of the monitored number."""
 
         return self.start
+
+
+def main():
+    """Main function."""
+
+    print('\n{:*^30}'.format('Task 6.1'), end='\n\n')
+
+    try:
+        c = Counter(start='s', stop='42')
+    except TypeError as e:
+        print(e, end='\n\n')
+
+    c = Counter(42)
+    c.increment()
+    print(c.get())
+
+    print('-'*25)
+    c = Counter()
+    c.increment()
+    print(c.get())
+    c.increment()
+    print(c.get())
+
+    print('-'*25)
+    c = Counter(start=42, stop=43)
+    c.increment()
+    print(c.get())
+
+    try:
+        c.increment()
+    except Exception as ex:
+        print(ex)
+
+    print(c.get())
