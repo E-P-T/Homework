@@ -29,6 +29,17 @@ class Counter():
     """
 
     def __init__(self, start=0, stop=None) -> None:
+        """initializer for class Counter.
+
+        Attributes
+        ----------
+        start : int
+            initial value
+        stop : int
+            finite value
+
+        """
+
         self.start = start
         self.stop = stop
 
