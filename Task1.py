@@ -15,6 +15,18 @@ def type_validator(type_=int):
 
 
 class Counter():
+    """Counter class.
+
+    Count from start to finish. If stop is not specified, counts to infinity.
+
+    Attributes
+    ----------
+    start : int
+        initial value
+    stop : int
+        finite value
+
+    """
 
     def __init__(self, start=0, stop=None) -> None:
         self.start = start
