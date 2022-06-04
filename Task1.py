@@ -111,3 +111,8 @@ def main():
         print(ex)
 
     print(c.get())
+
+
+if __name__ == '__main__':
+
+    main()
