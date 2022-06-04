@@ -28,3 +28,16 @@ class Counter():
     @type_validator()
     def start(self, value):
         self._start = value
+
+    @property
+    def stop(self):
+        return self._stop
+
+    @stop.setter
+    @type_validator()
+    def stop(self, value):
+        if value is None or value > self.start:
+            self._stop = value
+        else:
+            raise TypeError(
+                f'{value} must be greater than {self.start}')
