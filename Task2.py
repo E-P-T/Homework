@@ -19,6 +19,11 @@ def typed_property(name, expected_type):
 
 class LimitedQueue:
     def __init__(self, max_elms=10):
+        """Initializer for class LimitedQueue.
+
+        Args:
+            max_elms (int, optional): maximum number of elements. Defaults to 10.
+        """
         self._items = []
         self.max_elms = max_elms
 
