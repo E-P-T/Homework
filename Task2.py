@@ -15,3 +15,9 @@ def typed_property(name, expected_type):
             raise TypeError('{} must be a {}'.format(name, expected_type))
         setattr(self, storage_name, value)
     return prop
+
+
+class LimitedQueue:
+    def __init__(self, max_elms=10):
+        self._items = []
+        self.max_elms = max_elms
