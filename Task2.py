@@ -98,3 +98,7 @@ class HistoryDict():
         """
         self.data_dict = data_dict
         self._lim_queue = lim_queue
+
+    @property
+    def data_dict(self):
+        return self._data_dict
