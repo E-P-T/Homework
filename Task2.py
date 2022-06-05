@@ -18,6 +18,19 @@ def typed_property(name, expected_type):
 
 
 class LimitedQueue:
+
+    """A queue with a limited number of elements.
+
+    When the maximum number of elements is reached,
+    removes the last element and inserts a new one.
+
+    Attributes
+    ----------
+    max_elms : int
+        maximum number of elements. Defaults to 10.
+
+    """
+
     def __init__(self, max_elms=10):
         """Initializer for class LimitedQueue.
 
