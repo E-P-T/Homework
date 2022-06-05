@@ -29,3 +29,11 @@ class LimitedQueue:
             bool: the list is empty?
         """
         return not bool(self._items)
+
+    def dequeue(self):
+        """Remove the last element from the list.
+
+        Returns:
+            int or None: last element from the list or None.
+        """
+        return self._items.pop(0) if self._items else None
