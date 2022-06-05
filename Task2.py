@@ -120,3 +120,13 @@ class HistoryDict():
             List[int]: a list of elements.
         """
         return self._lim_queue.get_items
+
+    def set_value(self, key, value):
+        """Set new element to dictionary.
+
+        Args:
+            key (str): key dictionary element.
+            value (int): value dictionary element.
+        """
+        self.data_dict[key] = value
+        self._lim_queue.enqueue(key)
