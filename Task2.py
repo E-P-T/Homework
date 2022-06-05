@@ -144,3 +144,28 @@ class HistoryDict():
         """
         self.data_dict[key] = value
         self._lim_queue.enqueue(key)
+
+
+def main():
+    """Main function."""
+
+    print('\n{:*^30}'.format('The task 6.2'))
+
+    source_dict = {'a': 1}
+
+    d = HistoryDict(LimitedQueue(2), source_dict)
+    print(f'Last added keys: {d.get_history()}')
+
+    d.set_value("bar", 43)
+    print(f'Last added keys: {d.get_history()}')
+    d.set_value("bs", 3)
+    print(f'Last added keys: {d.get_history()}')
+    d.set_value("x", 31)
+    print(f'Last added keys: {d.get_history()}')
+    d.set_value("g", 333)
+    print(f'Last added keys: {d.get_history()}')
+    d.set_value("k", 35677)
+    print(f'Last added keys: {d.get_history()}')
+
+    print(f'Data Dictionary: {d.data_dict}')
+    print(f'Source dictionary: {source_dict}')
