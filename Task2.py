@@ -21,3 +21,11 @@ class LimitedQueue:
     def __init__(self, max_elms=10):
         self._items = []
         self.max_elms = max_elms
+
+    def is_empty(self):
+        """Return a boolean whether the list is empty.
+
+        Returns:
+            bool: the list is empty?
+        """
+        return not bool(self._items)
