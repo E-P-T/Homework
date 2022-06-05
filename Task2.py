@@ -89,6 +89,20 @@ class LimitedQueue:
 
 class HistoryDict():
 
+    """Remember last modified dictionary keys.
+
+    When saving a new element, controls the dictionary
+    in which to store N last changed keys. N is set by the user.
+
+    Attributes
+    ----------
+    lim_queue (LimitedQueue):
+                A queue with a limited number of elements.
+    data_dict (Dict[str, int], optional):
+                source dict. Defaults to None.
+
+    """
+
     def __init__(self, lim_queue, data_dict=None) -> None:
         """Initializer for class HistoryDict.
 
