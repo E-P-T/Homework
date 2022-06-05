@@ -1,5 +1,8 @@
 # Task 6.2
 
+from copy import deepcopy
+
+
 def typed_property(name, expected_type):
     """Function to check the type of an argument."""
 
@@ -102,3 +105,10 @@ class HistoryDict():
     @property
     def data_dict(self):
         return self._data_dict
+
+    @data_dict.setter
+    def data_dict(self, value):
+        if value is None:
+            self._data_dict = {}
+        else:
+            self._data_dict = deepcopy(value)
