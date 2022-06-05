@@ -112,3 +112,11 @@ class HistoryDict():
             self._data_dict = {}
         else:
             self._data_dict = deepcopy(value)
+
+    def get_history(self):
+        """Return a list of elements.
+
+        Returns:
+            List[int]: a list of elements.
+        """
+        return self._lim_queue.get_items
