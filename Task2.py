@@ -82,3 +82,19 @@ class LimitedQueue:
             List[int]: a list of elements.
         """
         return self._items
+
+
+class HistoryDict():
+
+    def __init__(self, lim_queue, data_dict=None) -> None:
+        """Initializer for class HistoryDict.
+
+        Args:
+            lim_queue (LimitedQueue):
+                A queue with a limited number of elements.
+            data_dict (Dict[str, int], optional):
+                source dict. Defaults to None.
+
+        """
+        self.data_dict = data_dict
+        self._lim_queue = lim_queue
