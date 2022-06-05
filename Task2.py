@@ -55,3 +55,12 @@ class LimitedQueue:
             int: the number of elements in the list.
         """
         return len(self._items)
+
+    @property
+    def get_items(self):
+        """Return a list of elements.
+
+        Returns:
+            List[int]: a list of elements.
+        """
+        return self._items
