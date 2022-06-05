@@ -47,3 +47,11 @@ class LimitedQueue:
         if self.size() >= self.max_elms:
             self.dequeue()
         self._items.append(item)
+
+    def size(self):
+        """Return the number of elements in the list.
+
+        Returns:
+            int: the number of elements in the list.
+        """
+        return len(self._items)
