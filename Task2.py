@@ -37,3 +37,13 @@ class LimitedQueue:
             int or None: last element from the list or None.
         """
         return self._items.pop(0) if self._items else None
+
+    def enqueue(self, item):
+        """Add a new element to the list.
+
+        Args:
+            item (int): new element
+        """
+        if self.size() >= self.max_elms:
+            self.dequeue()
+        self._items.append(item)
