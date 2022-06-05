@@ -169,3 +169,7 @@ def main():
 
     print(f'Data Dictionary: {d.data_dict}')
     print(f'Source dictionary: {source_dict}')
+
+
+if __name__ == '__main__':
+    main()
