@@ -9,6 +9,10 @@ class Cipher():
         self._keyword = keyword
         self._cipher = self._create_basic_cipher() if not cipher else cipher
 
+    def _get_dict_seq(self, seq_1, seq_2):
+        """Create a dictionary from two sequences."""
+        return dict(zip(seq_1, seq_2))
+
     def _create_basic_cipher(self):
         """create a master cipher."""
 
