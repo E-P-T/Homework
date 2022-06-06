@@ -68,3 +68,20 @@ class Bird(BaseBird, FlyMixin):
 
     def __str__(self) -> str:
         return f'{super().__str__()} can walk and fly'
+
+
+class FlyingBird(BaseBird, FlyMixin, EatMixin):
+    """Flying bird class."""
+
+    def __init__(self, name, ration='worm'):
+        """Initializer for class FlyingBird.
+
+        Args:
+            name (str): bird name
+            ration (str, optional): what does it eat?. Defaults to 'worm'.
+        """
+        super().__init__(name)
+        self._ration = ration
+
+    def __str__(self) -> str:
+        return f'{super().__str__()} can walk and fly'
