@@ -135,3 +135,44 @@ class SuperBird(BaseBird, FlyMixin, EatMixin, SwimMixin):
 
     def __str__(self):
         return f'{super().__str__()} can walk, swim and fly'
+
+
+def main():
+    print()
+    print('{:*^30}'.format('The task 6.4'), end='\n\n')
+
+    b = Bird('Any')
+    print(f'walk() method: {b.walk()}')
+    print(f'fly() method: {b.fly()}')
+    print(f'str() method: {b}')
+    print('-'*15)
+
+    fb = FlyingBird('Canary')
+    print(f'eat() method: {fb.eat()}')
+    print(f'walk() method: {fb.walk()}')
+    print(f'fly() method: {fb.fly()}')
+    print(f'str() method: {fb}')
+
+    print('-'*15)
+
+    nfb = NonFlyingBird('Penguin', 'fish')
+    print(f'eat() method: {nfb.eat()}')
+    print(f'swim() method: {nfb.swim()}')
+    print(f'walk() method: {nfb.walk()}')
+    print(f'str() method: {nfb}')
+
+    try:
+        nfb.fly()
+    except AttributeError as e:
+        print(f'fly() method: {e}')
+
+    print('-'*15)
+
+    super_bird = SuperBird('Pelican', ration='shellfish')
+    print(f'eat() method: {super_bird.eat()}')
+    print(f'swim() method: {super_bird.swim()}')
+    print(f'walk() method: {super_bird.walk()}')
+    print(f'fly() method: {super_bird.fly()}')
+    print(f'str() method: {super_bird}')
+
+    print(SuperBird.mro())
