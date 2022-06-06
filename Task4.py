@@ -61,3 +61,10 @@ class BaseBird():
     def __getattr__(self, name):
         raise AttributeError(
             f'"{self._name}" object has no attribute "{name}"')
+
+
+class Bird(BaseBird, FlyMixin):
+    """Class for birds that can walk and fly."""
+
+    def __str__(self) -> str:
+        return f'{super().__str__()} can walk and fly'
