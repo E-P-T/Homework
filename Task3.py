@@ -7,6 +7,7 @@ class Cipher():
 
     def __init__(self, keyword, cipher=None):
         self._keyword = keyword
+        self._cipher = self._create_basic_cipher() if not cipher else cipher
 
     def _create_basic_cipher(self):
         """create a master cipher."""
