@@ -27,4 +27,10 @@ class EatMixin():
 class SwimMixin():
     """Mixin class for birds that can swim."""
 
-    pass
+    def swim(self):
+        """The bird can swim
+
+        Returns:
+            str: a swiming bird can do something
+        """
+        return f'{self._name} bird can swim'
