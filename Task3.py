@@ -57,3 +57,15 @@ class Cipher():
                 upper_reverse_seq,
                 self._get_dict_seq(whitespace, whitespace))
         }
+
+    def encode(self, str_):
+        """Encodes a string.
+
+        Args:
+            str_ (str): string to be encoded
+
+        Returns:
+            str: encoded string
+        """
+        return ''.join(self._cipher['encode'][i] for i in str_ if i in
+                       self._cipher['encode'])
