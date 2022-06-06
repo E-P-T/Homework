@@ -22,3 +22,9 @@ class EatMixin():
             str: a eating bird can do something
         """
         return f'It eats mostly {self._ration}'
+
+
+class SwimMixin():
+    """Mixin class for birds that can swim."""
+
+    pass
