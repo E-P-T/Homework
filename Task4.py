@@ -2,4 +2,11 @@
 
 class FlyMixin():
     """Flying bird mixin class."""
-    pass
+
+    def fly(self):
+        """The bird can fly
+
+        Returns:
+            str: a flying bird can do something
+        """
+        return f'{self._name} can fly'
