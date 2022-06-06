@@ -13,6 +13,10 @@ class Cipher():
         """Create a dictionary from two sequences."""
         return dict(zip(seq_1, seq_2))
 
+    def _get_upper_seq(self, seq):
+        """Convert characters to upper case in sequence."""
+        return list(map(str.upper, seq))
+
     def _create_basic_cipher(self):
         """create a master cipher."""
 
