@@ -176,3 +176,7 @@ def main():
     print(f'str() method: {super_bird}')
 
     print(SuperBird.mro())
+
+
+if __name__ == '__main__':
+    main()
