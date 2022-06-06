@@ -85,3 +85,28 @@ class FlyingBird(BaseBird, FlyMixin, EatMixin):
 
     def __str__(self) -> str:
         return f'{super().__str__()} can walk and fly'
+
+
+class NonFlyingBird(BaseBird, EatMixin, SwimMixin):
+    """Class for birds that can't fly."""
+
+    def __init__(self, name, ration):
+        """Initializer for class NonFlyingBird.
+
+        Args:
+            name (str): bird name
+            ration (str): what does it eat?
+        """
+        super().__init__(name)
+        self._ration = ration
+
+    def eat(self):
+        """Bird food.
+
+        Returns:
+            str: describes the bird's taste preferences
+        """
+        return f'{super().eat()}. This is delicious'
+
+    def __str__(self) -> str:
+        return f'{super().__str__()} can walk and swim'
