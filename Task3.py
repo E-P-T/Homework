@@ -17,6 +17,13 @@ class Cipher():
         """Convert characters to upper case in sequence."""
         return list(map(str.upper, seq))
 
+    def _merge_dict(self, *args):
+        """Concatenate multiple sequences into a dictionary."""
+        d = {}
+        for i in args:
+            d.update(i)
+        return d
+
     def _create_basic_cipher(self):
         """create a master cipher."""
 
