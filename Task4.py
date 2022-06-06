@@ -57,3 +57,7 @@ class BaseBird():
 
     def __str__(self) -> str:
         return self._name
+
+    def __getattr__(self, name):
+        raise AttributeError(
+            f'"{self._name}" object has no attribute "{name}"')
