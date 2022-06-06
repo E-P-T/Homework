@@ -69,3 +69,15 @@ class Cipher():
         """
         return ''.join(self._cipher['encode'][i] for i in str_ if i in
                        self._cipher['encode'])
+
+    def decode(self, str_):
+        """Decode string
+
+        Args:
+            str_ (str): string to be decoded
+
+        Returns:
+            str: decoded string
+        """
+        return ''.join(self._cipher['decode'][i] for i in str_ if i in
+                       self._cipher['decode'])
