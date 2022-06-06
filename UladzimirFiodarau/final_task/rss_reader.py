@@ -17,32 +17,6 @@ from urllib.request import Request, urlopen
 from urllib.parse import urlparse
 import rss_exceptions
 
-rss_feed403 = 'http://www.ixbt.com/export/utf8/news.rss'
-rss_feed404 = 'http://www.onliner.by/rss/news.rss'
-rss_feederr = 'https://www.google.com/'
-rss_feed_unex_err = 'http://www.itogi.ru/WebExport.nsf/Anons/itogi.xml'
-
-rss_feed1 = 'https://www.latimes.com/local/rss2.0.xml'
-rss_feed2 = 'https://www.usda.gov/rss/latest-releases.xml'
-rss_feed3 = 'https://www.yahoo.com/news/rss'
-rss_feed4 = 'https://cdn.feedcontrol.net/8/1114-wioSIX3uu8MEj.xml'
-rss_feed5 = 'https://moxie.foxnews.com/feedburner/latest.xml'
-rss_feed6 = 'https://feeds.simplecast.com/54nAGcIl'
-rss_feed7 = 'http://news.rambler.ru/rss/politics/'
-rss_feed8 = 'https://www.goha.ru/rss/mmorpg'
-rss_feed9 = 'https://money.onliner.by/feed'
-rss_feed10 = 'http://www.gazeta.ru/export/gazeta_rss.xml'
-
-rss_feed31 = 'https://vse.sale/news/rss'
-rss_feed32 = 'https://news.google.com/rss/'
-rss_feed33 = 'https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml'
-rss_feed34 = 'https://www.cnbc.com/id/100727362/device/rss/rss.html'
-rss_feed35 = 'https://www.cbsnews.com/latest/rss/world'
-rss_feed36 = 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'
-rss_feed37 = 'https://auto.onliner.by/feed'
-rss_feed38 = 'http://feeds.bbci.co.uk/news/world/rss.xml'
-rss_feed39 = 'https://www.buzzfeed.com/world.xml'
-
 news_limit = None
 to_json = False
 verbose = False
@@ -57,8 +31,9 @@ class RssReader:
     def __init__(self, url: str):
         self.url = url
         self.news_cache = RssReader.prepare_dict(url)
-        self.news_dict = RssReader.limit_news_dict(self.news_cache, news_limit)
-        if to_json:
+        if self.news_cache:
+            self.news_dict = RssReader.limit_news_dict(self.news_cache, news_limit)
+        if to_json and self.news_cache:
             self.news_dict_json = RssReader.convert_dict_to_json(self.news_dict)
 
     def __str__(self):
@@ -237,7 +212,7 @@ class RssReader:
             else:
                 feed_items[temporary_item_dict['title']] = temporary_item_dict
             news_cache['feed_items'] = feed_items
-        RssReader.print_verbose('Conversion successful, news are ready for output\n')
+        RssReader.print_verbose('Conversion successful, news are ready for output')
         return news_cache
 
     @staticmethod
@@ -296,6 +271,7 @@ class RssReader:
         if limit is None:
             news_dict = news_cache
         else:
+            RssReader.print_verbose(f'Preparing news quantity according to set limit: {limit}')
             news_dict = {key: value for key, value in news_cache.items() if key != 'feed_items'}
             news_dict['feed_items'] = {}
             news_number = 0
@@ -326,7 +302,8 @@ class RssReader:
         to prevent KeyErrors
         :return: None
         """
-        if self.news_dict:
+        if 'news_dict' in self.__dict__ and self.news_dict:
+            RssReader.print_verbose('Printing news for the user\n')
             print(f'Feed title: {self.news_dict.get("feed_title", "No title provided")}')
             print(f'Feed description: {self.news_dict.get("feed_description", "No additional description provided")}')
             print(f'Feed URL: {self.news_dict.get("feed_link", "No link provided")}')
@@ -355,6 +332,7 @@ class RssReader:
         Method makes a pretty print of JSON data to stdout, sort_dicts is set as False to prevent sorting
         :return: None
         """
+        RssReader.print_verbose('Printing news in JSON format for the user\n')
         pprint(json.loads(self.news_dict_json), sort_dicts=False)
 
 
@@ -370,15 +348,16 @@ def parse_command_line():
     parser.add_argument("--verbose", help="Outputs verbose status messages", action="store_true")
     parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
     parser.add_argument("--limit", type=int, help="Limit news topics if this parameter provided")
-    # parser.add_argument("source", type=str, help="RSS-feed URL")
+    parser.add_argument("source", type=str, help="RSS-feed URL")
     return parser.parse_args()
 
 
 def main():
     """
-    The function combines the rss-reader with argparse module functionality while preventing Errors during unittest
-    testing
-    :return:
+    The function combines the rss-reader with argparse module functionality while preventing Errors caused by unittest
+    module also parsing the CLI during execution by calling argparse.ArgumentParser from a separate function instead of
+    global namespace
+    :return:None
     """
     args = parse_command_line()
     if args.json:
@@ -391,7 +370,7 @@ def main():
     if args.limit:
         global news_limit
         news_limit = args.limit
-    news = RssReader(rss_feed39)
+    news = RssReader(args.source)
     if args.json:
         news.return_news_json()
     else:
