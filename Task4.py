@@ -15,4 +15,10 @@ class FlyMixin():
 class EatMixin():
     """Mixin class for birds that can eat."""
 
-    pass
+    def eat(self):
+        """The bird can eat
+
+        Returns:
+            str: a eating bird can do something
+        """
+        return f'It eats mostly {self._ration}'
