@@ -81,3 +81,11 @@ class Cipher():
         """
         return ''.join(self._cipher['decode'][i] for i in str_ if i in
                        self._cipher['decode'])
+
+    def get_cipher(self):
+        """Used to check if the character encoding is correct.
+
+        Returns:
+            dict: dictionary for character encoding and decoding
+        """
+        return self._cipher
