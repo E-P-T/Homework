@@ -54,3 +54,6 @@ class BaseBird():
             str: the bird can walk
         """
         return f'{self._name} can walk'
+
+    def __str__(self) -> str:
+        return self._name
