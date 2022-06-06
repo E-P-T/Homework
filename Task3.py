@@ -102,3 +102,7 @@ def main():
     print(f'Decoded word: {c.decode(mes)}', end='\n\n')
 
     print(f'For check: {c.get_cipher()}', end='\n\n')
+
+
+if __name__ == '__main__':
+    main()
