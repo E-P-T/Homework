@@ -89,3 +89,16 @@ class Cipher():
             dict: dictionary for character encoding and decoding
         """
         return self._cipher
+
+
+def main():
+    """Main function."""
+
+    print('\n{:*^30}'.format('Task 6.3'), end='\n\n')
+
+    c = Cipher('crypto')
+    mes = c.encode('Hello world')
+    print(f'Encoded word: {mes}')
+    print(f'Decoded word: {c.decode(mes)}', end='\n\n')
+
+    print(f'For check: {c.get_cipher()}', end='\n\n')
