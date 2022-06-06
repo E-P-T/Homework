@@ -34,3 +34,15 @@ class SwimMixin():
             str: a swiming bird can do something
         """
         return f'{self._name} bird can swim'
+
+
+class BaseBird():
+    """The base class for the bird object."""
+
+    def __init__(self, name):
+        """Initializer for class BaseBird.
+
+        Args:
+            name (str): bird name
+        """
+        self._name = name
