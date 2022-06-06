@@ -10,3 +10,9 @@ class FlyMixin():
             str: a flying bird can do something
         """
         return f'{self._name} can fly'
+
+
+class EatMixin():
+    """Mixin class for birds that can eat."""
+
+    pass
