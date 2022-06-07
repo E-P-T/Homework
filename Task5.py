@@ -17,3 +17,7 @@ def main():
     w = Sun.inst()
     q = Sun.inst()
     print(w is q)
+
+
+if __name__ == '__main__':
+    main()
