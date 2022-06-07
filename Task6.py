@@ -44,3 +44,8 @@ class Money:
     def __lt__(self, other):
         return self._amount < self.currency_exchange(
             other._amount, other._currency, self._currency)
+
+    def __add__(self, other):
+        v = self.currency_exchange(
+            other._amount, other._currency, self._currency)
+        return Money(self._amount+v, self._currency)
