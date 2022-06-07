@@ -9,5 +9,12 @@ class Money:
     }
 
     def __init__(self, amount, currency='USD'):
+        """Initializer for class Money.
+
+        Args:
+            amount (float): amount of money to be exchanged.
+            currency (str, optional): currency name. Defaults to 'USD'.
+        """
+
         self._amount = amount
         self._currency = currency
