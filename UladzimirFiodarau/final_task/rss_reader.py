@@ -262,7 +262,7 @@ class RssReader:
                 except ValueError as exc:
                     print(f'Incorrect argument value while forming a news dictionary: {exc}')
                 except KeyError as exc:
-                    print(f'An unexpected error occurred while forming a news dictionary: {exc}')
+                    print(f'Incorrect key while forming a news dictionary: {exc}')
                 except Exception as exc:
                     print(f'An unexpected error occurred while forming a news dictionary: {exc}')
                 else:

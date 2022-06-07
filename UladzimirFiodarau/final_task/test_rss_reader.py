@@ -216,8 +216,8 @@ class TestRssReader(unittest.TestCase):
                                                          'Wrong type'),
                                ValueError('Wrong value'): ('Incorrect argument value while forming a news dictionary: '
                                                            'Wrong value'),
-                               KeyError('No such key'): ("An unexpected error occurred while forming a news "
-                                                         "dictionary: 'No such key'"),
+                               KeyError('No such key'): ("Incorrect key while forming a news dictionary: "
+                                                         "'No such key'"),
                                Exception('I dunno why'): ('An unexpected error occurred while forming a news '
                                                           'dictionary: I dunno why'),
                                }
@@ -238,8 +238,8 @@ class TestRssReader(unittest.TestCase):
         uses example file form ./test_examples folder
         :return: None
         """
-        with open('./test_examples/data_v6.xml', encoding='utf-8') as inp:
-            mock_get_rss.return_value = inp.read()
+        with open('./test_examples/data_v6.xml', encoding='utf-8') as file:
+            mock_get_rss.return_value = file.read()
             self.assertTrue(isinstance(RssReader.prepare_dict('https://valid_url'), dict))
 
     def test_limit_news_dict(self):
@@ -278,9 +278,7 @@ class TestRssReader(unittest.TestCase):
                               call('Feed description: World From CBSNews.com'),
                               call('Feed URL: https://www.cbsnews.com/'),
                               call('Last update: Fri, 03 Jun 2022 09:08:13 -0400'),
-                              call(
-                                  '==========================================================================='
-                                  '============================================='),
+                              call('=' * 120),
                               call('Title: Suspected serial killer accused of luring women on Facebook'),
                               call('Link: https://www.cbsnews.com/news/suspected-serial-killer'),
                               call('Publication date: Fri, 03 Jun 2022 08:44:00 -0400'),
@@ -288,9 +286,7 @@ class TestRssReader(unittest.TestCase):
                               call('"There are at least seven cases of women\'s killings'),
                               call(),
                               call('Media (image/jpeg) link:\n https://cbsnews3.cbsistatic.com/dnvn-800x450-nopad.jpg'),
-                              call(
-                                  '----------------------------------------------------------------------------'
-                                  '--------------------------------------------')
+                              call('-' * 120)
                               ])
 
     def test_parse_command_line(self):
