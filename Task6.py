@@ -40,3 +40,7 @@ class Money:
     def __eq__(self, other):
         return self._amount == self.currency_exchange(
             other._amount, other._currency, self._currency)
+
+    def __lt__(self, other):
+        return self._amount < self.currency_exchange(
+            other._amount, other._currency, self._currency)
