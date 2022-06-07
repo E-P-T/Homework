@@ -49,3 +49,8 @@ class Money:
         v = self.currency_exchange(
             other._amount, other._currency, self._currency)
         return Money(self._amount+v, self._currency)
+
+    def __sub__(self, other):
+        v = self.currency_exchange(
+            other._amount, other._currency, self._currency)
+        return Money(self._amount-v, self._currency)
