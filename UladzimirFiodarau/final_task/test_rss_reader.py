@@ -1,3 +1,6 @@
+"""
+File contains tests for rss_reader.py script
+"""
 import unittest
 import contextlib
 import io
@@ -12,7 +15,7 @@ from rss_reader import ET, RssReader
 @contextlib.contextmanager
 def captured_output():
     """
-    The function provides a context manager to redirect sys.stdout to prevent unnecessary information prints
+    The function provides a context manager to redirect 'sys.stdout' to prevent unnecessary information prints
     during testing if needed
     :return:
     """

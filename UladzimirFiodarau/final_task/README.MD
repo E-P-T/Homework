@@ -8,7 +8,10 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
+## CREATION GOAL
+The rss-reader has been created as a final task for graduating EPAM march 2022 Python Foundation course.
+My personal goal was to create a rss-reader using OOP and without third-party libraries to lessen external dependencies.
+Processing of rss URLs and various ways of output are split into corpuscular functions to allow easy changes of inner logic through inheritance. 
 ## REQUIREMENTS
 
 The current version of the product requires only Python 3.9 or higher to run. The product hasn't been tested on earlier versions of Python interpreter
@@ -54,7 +57,7 @@ source is a mandatory argument and can only be skipped when using rss_reader.py 
 --help (-h)  argument is used to print script's help information (listed above) and exit script
 --version  argument is used to print script's version and exit script
 --json argument is used to convert news data to JSON format. The structure of JSON is described later in this file
---verbose argument is used for verbose logging with printing messages while running the script
+--verbose argument is used for verbose logging while running the script
 --limit LIMIT argument is used to set the quantity of news, that are shown to the user:
 		LIMIT must be a positive integer, which shows how mane news are going to be shown from the feed.)
 		If LIMIT is a negative integer, no news will be displayed (feed information will still be printed to the user)
@@ -87,7 +90,8 @@ The rss-reader collects news from a given feed and forms a cache dictionary of t
                                         'pubDate': 'publication date of news item',
                                         'title': 'news item title'},
 				'%Y:%m:%d %H:%M:%S':  {...},						
-										}}				
+                }
+}						
 ```
 Note:
 'feed_media' and 'media' keys are not mandatory and are not formed in dictionary in no media data found by the script. Others keys are however mandatory and if not presented in feed are paired with corespondent text notifications in feed_ section and None value in items section.
@@ -107,7 +111,8 @@ The structure of JSON is the same as that of cache dictionary, but the number of
                                         "pubDate": "publication date of news item",
                                         "title": "news item title"},
 				"%Y:%m:%d %H:%M:%S":  {...},						
-										}}	
+                }
+}	
 ```
 ### DEFAULT OUTPUT STRUCTURE										
 If --json is not provided, the script by default makes a user-friendly print of news of the following structure:
@@ -132,10 +137,47 @@ Title: news item title
 ------------------------------------------------------------------------------------------------------------------------
 ```
 
+## Logging
+By default logging is not enabled. Providing --verbose argument on script call results in logging enabling.
+Default logging settings are listed in in root folder of the script in file rss_logger.py
+```
+logger_info = logging
+log_format = "%(levelname)s %(asctime)s - %(message)s"
+logger_info.basicConfig(level=logging.INFO,
+                        stream=sys.stdout,
+                        format=log_format,
+                        datefmt='%Y:%m:%d %H:%M:%S',
+                        )
+```
+
 ## TESTING
 Unittests for the script are located in root folder of the script in file test_rss_reader.py.
 Unittests require test files to operate correctly, those files are located in subfolder 'test_examples' of root script folder.
 To run unittests for the script user can use following command:
 ```
 Path to script root folder>python -m unittest test_rss_reader.py
+```
+
+### Script tested on following feeds:
+```
+https://www.latimes.com/local/rss2.0.xml
+https://www.usda.gov/rss/latest-releases.xml
+https://www.yahoo.com/news/rss
+https://cdn.feedcontrol.net/8/1114-wioSIX3uu8MEj.xml
+https://moxie.foxnews.com/feedburner/latest.xml
+https://feeds.simplecast.com/54nAGcIl
+http://news.rambler.ru/rss/politics/
+https://www.goha.ru/rss/mmorpg
+https://money.onliner.by/feed
+http://www.gazeta.ru/export/gazeta_rss.xml
+https://vse.sale/news/rss
+https://news.google.com/rss/
+https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml
+https://www.cnbc.com/id/100727362/device/rss/rss.html
+https://www.cbsnews.com/latest/rss/world
+https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+https://auto.onliner.by/feed
+http://feeds.bbci.co.uk/news/world/rss.xml
+https://www.buzzfeed.com/world.xml
+https://www.kommersant.ru/RSS/news.xml
 ```

@@ -4,7 +4,6 @@ Goal was to create a rss-reader using OOP and without third-party libraries to l
 To make it easier to change the reader inner processing (if later needed) processing the rss-feed into a dictionary of
 necessary data is split into several staticmethods.
 """
-import sys
 import argparse
 import datetime
 import html
@@ -17,6 +16,7 @@ from urllib import error
 from urllib.request import Request, urlopen
 from urllib.parse import urlparse
 import rss_exceptions
+from rss_logger import logger_info
 
 news_limit = None
 to_json = False
@@ -44,7 +44,7 @@ class RssReader:
         return f'RssReader({self.url})'
 
     @staticmethod
-    def print_verbose(text: str):
+    def log_runtime(text: str):
         """
         If --verbose is specified while running script user-friendly status messages are sent to stdout
         The method is used for logging in verbose mode and can be modified for other kinds of logging if needed.
@@ -52,7 +52,7 @@ class RssReader:
         :return: None
         """
         if verbose:
-            print(text)
+            logger_info.info(text)
 
     @staticmethod
     def process_string(string: str) -> str:
@@ -102,7 +102,7 @@ class RssReader:
         :raise rss_exceptions.EmptyUrlException if passed an empty argument
         :raise rss_exceptions.InvalidUrlError if passed an incorrect URL
         """
-        RssReader.print_verbose(f'Validating URL: {url}')
+        RssReader.log_runtime(f'Validating URL: {url}')
         url = url.strip()
         if not url:
             raise rss_exceptions.EmptyUrlError('Empty argument passed, please pass an URL to proceed')
@@ -111,7 +111,7 @@ class RssReader:
                                                  f"(given length={len(url)})")
         result = urlparse(url)
         if all([result.netloc, result.scheme]):
-            RssReader.print_verbose('URL validated successfully')
+            RssReader.log_runtime('URL validated successfully')
             return True
         else:
             raise rss_exceptions.InvalidUrlError('Invalid URL: URL must contain scheme and network location')
@@ -122,8 +122,8 @@ class RssReader:
         The method takes a URL as an argument and returns request response in form of a string.
         To prevent some of http error 403: forbidden, headers parameter of urllib.request.urlopen is specified
         to mimic a web-browser and timeout is set to 10.
-        \nMethod decodes response data from byte string to a string to handle encoding issues with non-utf-8 encoded
-        symbols (e.g. converting "\xe2\x80\x93" to "–"(en-dash)).
+        \nMethod decodes response data from byte string to a string to handle encoding issues with non-cp1251 and
+        non-utf-8 encoded symbols (e.g. converting "\xe2\x80\x93" to "–"(en-dash)).
 
         :param url: URL of rss-feed
         :return: string, containing rss data
@@ -134,11 +134,15 @@ class RssReader:
                                   'q=0.9,image/avif,image/webp,image/apng,*/*;'
                                   'q=0.8,application/signed-exchange;v=b3;q=0.9',
                         }
-        RssReader.print_verbose('Making a URL request')
+        RssReader.log_runtime('Making a URL request')
         with urlopen(Request(url, headers=headers_dict), timeout=10) as response:
-            RssReader.print_verbose('URL request successful. Reading and decoding response data')
-            rss_data = response.read().decode('utf-8')
-            RssReader.print_verbose('Rss data successfully decoded')
+            RssReader.log_runtime('URL request successful. Reading and decoding response data')
+            rss_data = response.read()
+            if b'encoding="windows-1251"' in rss_data:
+                rss_data = rss_data.decode('cp1251')
+            else:
+                rss_data = rss_data.decode('utf-8')
+            RssReader.log_runtime('Rss data successfully decoded')
         return rss_data
 
     @staticmethod
@@ -150,9 +154,9 @@ class RssReader:
         :param rss_data: string, containing rss data
         :return: ElementTree.Element object
         """
-        RssReader.print_verbose('Converting rss data to ElementTree.Element object')
+        RssReader.log_runtime('Converting rss data to ElementTree.Element object')
         root = ET.fromstring(rss_data)
-        RssReader.print_verbose('Successfully converted rss data to ElementTree.Element object')
+        RssReader.log_runtime('Successfully converted rss data to ElementTree.Element object')
         return root
 
     @staticmethod
@@ -179,10 +183,10 @@ class RssReader:
         required_data = ('title', 'description', 'link', 'pubDate')
         media_data = ('image', 'enclosure')
 
-        RssReader.print_verbose(f'Converting ElementTree.Element object to a dictionary. '
-                                f'Searching for tags: {required_data + media_data}')
+        RssReader.log_runtime(f'Converting ElementTree.Element object to a dictionary. '
+                              f'Searching for tags: {required_data + media_data}')
 
-        RssReader.print_verbose('Creating separate key-value pairs for feed tags')
+        RssReader.log_runtime('Creating separate key-value pairs for feed tags')
         for element in root.iter():
             if element.tag == 'item':
                 break
@@ -193,7 +197,7 @@ class RssReader:
             elif element.tag in required_data:
                 news_cache['feed_' + element.tag] = RssReader.process_string(element.text) if element.text else None
 
-        RssReader.print_verbose('Creating separate key-value pairs for item tags')
+        RssReader.log_runtime('Creating separate key-value pairs for item tags')
         for item in root.iter('item'):
             temporary_item_dict = {}
             for element in item:
@@ -216,7 +220,7 @@ class RssReader:
             else:
                 feed_items[temporary_item_dict['title']] = temporary_item_dict
             news_cache['feed_items'] = feed_items
-        RssReader.print_verbose('Conversion to dictionary successful')
+        RssReader.log_runtime('Conversion to dictionary successful')
         return news_cache
 
     @staticmethod
@@ -275,7 +279,7 @@ class RssReader:
         if limit is None:
             news_dict = news_cache
         else:
-            RssReader.print_verbose(f'Preparing news quantity according to set limit: {limit}')
+            RssReader.log_runtime(f'Preparing news quantity according to set limit: {limit}')
             news_dict = {key: value for key, value in news_cache.items() if key != 'feed_items'}
             news_dict['feed_items'] = {}
             news_number = 0
@@ -295,9 +299,9 @@ class RssReader:
         :param news_dict: a dictionary with news
         :return: JSON string
         """
-        RssReader.print_verbose('Converting news to JSON format')
+        RssReader.log_runtime('Converting news to JSON format')
         json_string = json.dumps(news_dict)
-        RssReader.print_verbose('Successfully converted news to JSON format')
+        RssReader.log_runtime('Successfully converted news to JSON format')
         return json_string
 
     def return_news_default(self):
@@ -307,7 +311,7 @@ class RssReader:
         :return: None
         """
         if 'news_dict' in self.__dict__ and self.news_dict:
-            RssReader.print_verbose('Printing news for the user\n')
+            RssReader.log_runtime('Printing news for the user\n')
             print(f'Feed title: {self.news_dict.get("feed_title", "No title provided")}')
             print(f'Feed description: {self.news_dict.get("feed_description", "No additional description provided")}')
             print(f'Feed URL: {self.news_dict.get("feed_link", "No link provided")}')
@@ -336,7 +340,7 @@ class RssReader:
         Method makes a pretty print of JSON data to stdout, sort_dicts is set as False to prevent sorting
         :return: None
         """
-        RssReader.print_verbose('Printing news in JSON format for the user\n')
+        RssReader.log_runtime('Printing news in JSON format for the user\n')
         pprint(json.loads(self.news_dict_json), sort_dicts=False)
 
 
@@ -367,22 +371,21 @@ def main():
     """
     try:
         args = parse_command_line()
-        print(sys.argv[1:])
     except argparse.ArgumentError as exc:
         print(f'Incorrect argument value passed in command line: {exc}')
     else:
         if args.verbose:
             global verbose
             verbose = True
-            RssReader.print_verbose("Verbose mode turned on")
+            RssReader.log_runtime("Verbose mode turned on")
         if args.json:
             global to_json
             to_json = True
-            RssReader.print_verbose('Output format is set to JSON')
+            RssReader.log_runtime('Output format is set to JSON')
         if args.limit:
             global news_limit
             news_limit = args.limit if args.limit > 0 else None
-            RssReader.print_verbose(f'News output limit is set to {news_limit}')
+            RssReader.log_runtime(f'News output limit is set to {news_limit}')
         news = RssReader(args.source)
         if args.json:
             try:
