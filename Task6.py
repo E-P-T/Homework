@@ -1,5 +1,6 @@
 # Task 6.6
 class Money:
+    """The class is able to exchange one currency for another."""
 
     currency_rate = {
         "USD": 1.0,
