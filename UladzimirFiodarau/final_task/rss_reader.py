@@ -4,6 +4,7 @@ Goal was to create a rss-reader using OOP and without third-party libraries to l
 To make it easier to change the reader inner processing (if later needed) processing the rss-feed into a dictionary of
 necessary data is split into several staticmethods.
 """
+import sys
 import argparse
 import datetime
 import html
@@ -26,29 +27,32 @@ class RssReader:
     """
     Base class of rss-reader, gathers required information from rss-feeds and forms a dictionary with valuable data
     provides methods for printing data in stdout with option of converting to JSON format.
-    dictionary and JSON structure are described in README.md СДЕЛАТЬ
+    dictionary and JSON structure are described in README.md
     """
     def __init__(self, url: str):
         self.url = url
         self.news_cache = RssReader.prepare_dict(url)
         if self.news_cache:
             self.news_dict = RssReader.limit_news_dict(self.news_cache, news_limit)
-        if to_json and self.news_cache:
-            self.news_dict_json = RssReader.convert_dict_to_json(self.news_dict)
+            if to_json:
+                self.news_dict_json = RssReader.convert_dict_to_json(self.news_dict)
 
     def __str__(self):
         return f'News from rss-feed {self.url}'
 
+    def __repr__(self):
+        return f'RssReader({self.url})'
+
     @staticmethod
     def print_verbose(text: str):
         """
-        The method is used for logging in silent and verbose modes. It saves log messages in ./reader_log.txt
-        if --verbose is specified while running script status messages are sent both to log file and stdout
+        If --verbose is specified while running script user-friendly status messages are sent to stdout
+        The method is used for logging in verbose mode and can be modified for other kinds of logging if needed.
         :param text: text for status logging
         :return: None
         """
         if verbose:
-            print(f'{datetime.datetime.now():%Y:%m:%d %H:%M:%S}', text)
+            print(text)
 
     @staticmethod
     def process_string(string: str) -> str:
@@ -212,7 +216,7 @@ class RssReader:
             else:
                 feed_items[temporary_item_dict['title']] = temporary_item_dict
             news_cache['feed_items'] = feed_items
-        RssReader.print_verbose('Conversion successful, news are ready for output')
+        RssReader.print_verbose('Conversion to dictionary successful')
         return news_cache
 
     @staticmethod
@@ -241,7 +245,7 @@ class RssReader:
             try:
                 root = RssReader.convert_rss_data_to_root(rss_data)
             except ET.ParseError as exc:
-                print(f'Error while parsing rss data, possibly not an rss URL passed: ParseError code:{exc.code} {exc}')
+                print(f'Error while parsing rss data, possibly not an rss URL passed: ParseError {exc}')
             except Exception as exc:
                 print(f'An unexpected error occurred while parsing rss data: {exc}')
             else:
@@ -288,8 +292,8 @@ class RssReader:
     def convert_dict_to_json(news_dict: dict) -> str:
         """
         Method converts a news dictionary into JSON string
-        :param news_dict:
-        :return:
+        :param news_dict: a dictionary with news
+        :return: JSON string
         """
         RssReader.print_verbose('Converting news to JSON format')
         json_string = json.dumps(news_dict)
@@ -336,45 +340,62 @@ class RssReader:
         pprint(json.loads(self.news_dict_json), sort_dicts=False)
 
 
-def parse_command_line():
+def parse_command_line(args=None):
     """
     The function parses command line arguments to provide Command Line Interface to user and returns the arguments
     passed on python script call
+    Exit_on_error is set as False to allow handling exceptions where possible during function runtime.
+    :param args: if None - is taken from sys.argv
     :return: arguments passed on command line script call
     """
-    parser = argparse.ArgumentParser(description="Python command-line RSS reader.")
+    parser = argparse.ArgumentParser(description="Python command-line RSS reader.", exit_on_error=False)
     parser.add_argument("--version", help="Print version info and exit", action="version",
                         version="You are using %(prog)s Version 1.0")
     parser.add_argument("--verbose", help="Outputs verbose status messages", action="store_true")
     parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
     parser.add_argument("--limit", type=int, help="Limit news topics if this parameter provided")
     parser.add_argument("source", type=str, help="RSS-feed URL")
-    return parser.parse_args()
+    return parser.parse_args(args)
 
 
 def main():
     """
-    The function combines the rss-reader with argparse module functionality while preventing Errors caused by unittest
-    module also parsing the CLI during execution by calling argparse.ArgumentParser from a separate function instead of
-    global namespace
+    The function combines the rss-reader with argparse module functionality.
+    It also is used to prevent errors while testing (caused by unittest module also parsing the CLI during execution)
+    by calling argparse.ArgumentParser from a separate function instead of global namespace
     :return:None
     """
-    args = parse_command_line()
-    if args.json:
-        global to_json
-        to_json = True
-    if args.verbose:
-        print("Verbose mode turned on")
-        global verbose
-        verbose = True
-    if args.limit:
-        global news_limit
-        news_limit = args.limit
-    news = RssReader(args.source)
-    if args.json:
-        news.return_news_json()
+    try:
+        args = parse_command_line()
+        print(sys.argv[1:])
+    except argparse.ArgumentError as exc:
+        print(f'Incorrect argument value passed in command line: {exc}')
     else:
-        news.return_news_default()
+        if args.verbose:
+            global verbose
+            verbose = True
+            RssReader.print_verbose("Verbose mode turned on")
+        if args.json:
+            global to_json
+            to_json = True
+            RssReader.print_verbose('Output format is set to JSON')
+        if args.limit:
+            global news_limit
+            news_limit = args.limit if args.limit > 0 else None
+            RssReader.print_verbose(f'News output limit is set to {news_limit}')
+        news = RssReader(args.source)
+        if args.json:
+            try:
+                news.return_news_json()
+            except json.JSONDecodeError as exc:
+                print(f'Error while reading JSON object: {exc}')
+        else:
+            try:
+                news.return_news_default()
+            except KeyError as exc:
+                print(f'Error while printing news: {exc}')
+            except Exception as exc:
+                print(f'Unexpected error while printing news: {exc}')
 
 
 if __name__ == '__main__':
