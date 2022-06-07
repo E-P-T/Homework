@@ -1,4 +1,9 @@
 # Task 6.6
+
+from functools import total_ordering
+
+
+@total_ordering
 class Money:
     """The class is able to exchange one currency for another."""
 
