@@ -6,7 +6,14 @@ class Sun:
 
     @classmethod
     def inst(cls):
-        print(cls)
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
+
+
+def main():
+    """Main function."""
+
+    w = Sun.inst()
+    q = Sun.inst()
+    print(w is q)
