@@ -67,3 +67,6 @@ class Money:
 
     def __str__(self):
         return f'{round(self._amount, 2)} {self._currency}'
+
+    def __radd__(self, other):
+        return Money(self._amount+other, self._currency)
