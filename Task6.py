@@ -36,3 +36,7 @@ class Money:
         b = Money.currency_rate[currency]
         c = Money.currency_rate[exc_currency]
         return a/b*c
+
+    def __eq__(self, other):
+        return self._amount == self.currency_exchange(
+            other._amount, other._currency, self._currency)
