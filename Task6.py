@@ -18,3 +18,21 @@ class Money:
 
         self._amount = amount
         self._currency = currency
+
+    @staticmethod
+    def currency_exchange(amount, currency, exc_currency):
+        """Converts a certain amount of one currency into another.
+
+        Args:
+            amount (float): amount of money to be exchanged.
+            currency (str): original currency.
+            exc_currency (str): currency to which we change.
+
+        Returns:
+            float: amount of money exchanged.
+        """
+
+        a = amount
+        b = Money.currency_rate[currency]
+        c = Money.currency_rate[exc_currency]
+        return a/b*c
