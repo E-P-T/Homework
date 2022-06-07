@@ -64,3 +64,6 @@ class Money:
         v = self.currency_exchange(
             other._amount, other._currency, self._currency)
         return Money(self._amount/v, self._currency)
+
+    def __str__(self):
+        return f'{round(self._amount, 2)} {self._currency}'
