@@ -1,6 +1,6 @@
 # Task 6.6
 
-from functools import total_ordering
+from functools import reduce, total_ordering
 
 
 @total_ordering
@@ -76,3 +76,50 @@ class Money:
 
     def __radd__(self, other):
         return Money(self._amount+other, self._currency)
+
+
+def main():
+    """Main function."""
+
+    print()
+    print('{:*^30}'.format('The task 6.7'), end='\n\n')
+
+    x = Money(10, "BYN")
+    y = Money(12.34, "EUR")
+    z = Money(11)
+
+    print('{:=^30}'.format('+'*5))
+    print(x + y + z)
+    lst = [x, y, z]
+    s = sum(lst)
+    print(s)
+    print('='*30, end='\n\n')
+
+    print('{:=^30}'.format('-'*5))
+    print(x - y - z)
+    lst = [x, y, z]
+    result = reduce((lambda x, y: x-y), lst)
+    print(result)
+    print('='*30, end='\n\n')
+
+    print('{:=^30}'.format('*'*5))
+    print(x * y * z)
+    lst = [x, y, z]
+    result = reduce((lambda x, y: x*y), lst)
+    print(result)
+    print('='*30, end='\n\n')
+
+    print('{:=^30}'.format('/'*5))
+    print(x / y / z)
+    lst = [x, y, z]
+    result = reduce((lambda x, y: x/y), lst)
+    print(result)
+    print('*'*30, end='\n\n')
+
+    print('{:=^30}'.format(' <, <=, ==, !=, >=, > '))
+    print(f'x < y: {x < y}')
+    print(f'x <= y: {x <= y}')
+    print(f'x == y: {x == y}')
+    print(f'x != y: {x != y}')
+    print(f'x >= y: {x >= y}')
+    print(f'x > y: {x > y}')
