@@ -23,17 +23,18 @@ The current version of the product doesn't require installation. All that is nee
 
 1. Installation as script:
 ```
-1.1. copy root folder of script with all files and subfolders to required folder
+1.1. copy root directory of script with all files and subdirectories to required directory
 
-1.2. Install and activate virtual environment:
+1.2. Install and activate virtual environment, to do it use following command 
+while being in root directory of the script:
 
 1.2.1. $ python -m venv venv (for UNIX-based systems) 
        or 	
-       Path to script root folder>python -m venv venv (for Windows)
+       python -m venv venv (for Windows)
 
 1.2.2. $ source venv/bin/activate  (for UNIX-based systems) 
        or
-       Path to script root folder>venv\bin\activate.ps1 (for Windows)
+       venv\bin\activate.ps1 (for Windows)
 ```
 
 ## USING RSS-READER
@@ -41,7 +42,7 @@ The current version of the product doesn't require installation. All that is nee
 Rss-reader is a Command Line Interface application.
 To use it, one must put a command in command line using the following interface, that can be shown by calling the script in command line with --help argument:
 
-Path to script root folder>python rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] *source*
+python rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] *source*
 ```
 positional arguments:
   source        RSS-feed URL
@@ -67,12 +68,12 @@ source is a mandatory argument and can only be skipped when using rss_reader.py 
 
 Arguments can be used in combinations, e.g.:
 
-Path to script root folder>python rss_reader.py --version
-Path to script root folder>python rss_reader.py --version --verbose --limit 1000 https://www.buzzfeed.com/world.xml (only --version is run)
-Path to script root folder>python rss_reader.py --verbose --limit 3 https://www.buzzfeed.com/world.xml 
-Path to script root folder>python rss_reader.py --verbose --limit 1000 https://www.buzzfeed.com/world.xml
-Path to script root folder>python rss_reader.py --json --limit 0 https://www.buzzfeed.com/world.xml
-Path to script root folder>python rss_reader.py --json --verbose --limit 5 https://www.buzzfeed.com/world.xml
+python rss_reader.py --version
+python rss_reader.py --version --verbose --limit 1000 https://www.buzzfeed.com/world.xml (only --version is run)
+python rss_reader.py --verbose --limit 3 https://www.buzzfeed.com/world.xml 
+python rss_reader.py --verbose --limit 1000 https://www.buzzfeed.com/world.xml
+python rss_reader.py --json --limit 0 https://www.buzzfeed.com/world.xml
+python rss_reader.py --json --verbose --limit 5 https://www.buzzfeed.com/world.xml
 ```
 
 ## BASIC FUNCTIONALITY
@@ -84,12 +85,12 @@ The rss-reader collects news from a given feed and forms a cache dictionary of t
  'feed_media': {'url': 'URL of feed media attachment'},
  'feed_title': 'title of RSS-feed',
  'feed_items': {'%Y:%m:%d %H:%M:%S': {'description': 'news item description',
-                                        'link': 'news item link',
-                                        'media': {'type': 'type (or type/format)',
-                                                  'url': 'URL of news item media attachment'},
-                                        'pubDate': 'publication date of news item',
-                                        'title': 'news item title'},
-				'%Y:%m:%d %H:%M:%S':  {...},						
+                                      'link': 'news item link',
+                                      'media': {'type': 'type (or type/format)',
+                                                'url': 'URL of news item media attachment'},
+                                      'pubDate': 'publication date of news item',
+                                      'title': 'news item title'},
+                '%Y:%m:%d %H:%M:%S':  {...},						
                 }
 }						
 ```
@@ -105,12 +106,12 @@ The structure of JSON is the same as that of cache dictionary, but the number of
  "feed_media": {"url": "URL of feed media attachment"},
  "feed_title": "title of RSS-feed",
  "feed_items": {"%Y:%m:%d %H:%M:%S": {"description": "news item description",
-                                        "link": "news item link",
-                                        "media": {"type": "type (or type/format)",
-                                                  "url": "URL of news item media attachment"},
-                                        "pubDate": "publication date of news item",
-                                        "title": "news item title"},
-				"%Y:%m:%d %H:%M:%S":  {...},						
+                                      "link": "news item link",
+                                      "media": {"type": "type (or type/format)",
+                                                "url": "URL of news item media attachment"},
+                                      "pubDate": "publication date of news item",
+                                      "title": "news item title"},
+                "%Y:%m:%d %H:%M:%S":  {...},						
                 }
 }	
 ```
@@ -132,14 +133,15 @@ Media (type/format) link:
 URL of news item media attachment
 ------------------------------------------------------------------------------------------------------------------------
 Title: news item title
+Link: news item link
 ...
 ...
 ------------------------------------------------------------------------------------------------------------------------
 ```
 
 ## Logging
-By default logging is not enabled. Providing --verbose argument on script call results in logging enabling.
-Default logging settings are listed in in root folder of the script in file rss_logger.py
+By default, logging is not enabled. Providing --verbose argument on script call results in logging enabling.
+Default logging settings are listed in root directory of the script in file rss_logger.py and contain the following:
 ```
 logger_info = logging
 log_format = "%(levelname)s %(asctime)s - %(message)s"
@@ -151,14 +153,16 @@ logger_info.basicConfig(level=logging.INFO,
 ```
 
 ## TESTING
-Unittests for the script are located in root folder of the script in file test_rss_reader.py.
-Unittests require test files to operate correctly, those files are located in subfolder 'test_examples' of root script folder.
-To run unittests for the script user can use following command:
+Unittests for the script are located in root directory of the script in file test_rss_reader.py.
+Unittests require test files to operate correctly, those files are located in sub-directory 'test_examples' of root script directory.
+To run unittests for the script user can use following command while being in root directory of the script:
 ```
-Path to script root folder>python -m unittest test_rss_reader.py
+$ python -m unittest test_rss_reader.py (for UNIX-based systems) 
+or
+python -m unittest test_rss_reader.py (for Windows)
 ```
 
-### Script tested on following feeds:
+### Script has been tested on following feeds:
 ```
 https://www.latimes.com/local/rss2.0.xml
 https://www.usda.gov/rss/latest-releases.xml
