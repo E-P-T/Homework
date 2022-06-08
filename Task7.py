@@ -98,3 +98,39 @@ class Pagination:
                 return len(self.text) % self.amount
             return self.amount
         raise Exception(f'Invalid index. Page is missing.')
+
+    def find_page(self, word: str):
+        """Finds the page numbers on which the given word is mentioned.
+
+        Args:
+            word (str): search word
+
+        Raises:
+            Exception: when a word is missing from the text
+
+        Returns:
+            List[int]: numbers of pages on which the word is mentioned.
+        """
+
+        len_word = len(word)
+        pages = []
+        start = 0
+
+        while True:
+            stop = self.text.find(word, start)
+            if stop == -1:
+                break
+            else:
+                min_page = stop // self.amount
+                max_page = (stop + len_word - 1) // self.amount
+                if stop == max_page:
+                    pages.append(min_page)
+                else:
+                    while min_page <= max_page:
+                        pages.append(min_page)
+                        min_page += 1
+
+                start = stop + len_word
+        if pages:
+            return pages
+        raise Exception(f"'{word}' is missing on the pages")
