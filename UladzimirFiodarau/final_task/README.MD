@@ -174,7 +174,7 @@ logger_info.basicConfig(level=logging.INFO,
 ```
 
 ## TESTING
-Unittests for the script are located in root directory of the script in file test_rss_reader.py.
+Unittests for the script are located in script directory, which is by default the 'rss_reader' directory in the root directory of the script in file test_rss_reader.py.
 Unittests require test files to operate correctly, those files are located in subdirectory 'test_examples' of root script directory.
 To run unittests for the script user can use following command while being in root directory of the script:
 ```
