@@ -27,3 +27,20 @@ def type_prop(name, expected_type):
             raise TypeError('{} must be a {}'.format(name, expected_type))
         setattr(self, storage_name, value)
     return prop
+
+
+class lazyproperty:
+    """Lazily evaluated property.
+
+    """
+
+    def __init__(self, func):
+        self.func = func
+
+    def __get__(self, instance, cls):
+        if instance is None:
+            return self
+        else:
+            value = self.func(instance)
+            setattr(instance, self.func.__name__, value)
+            return value
