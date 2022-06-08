@@ -95,9 +95,9 @@ class TestRssReader(unittest.TestCase):
         uses example files form ./test_examples folder
         :return:
         """
-        with open('./test_examples/rss_data_xml.xml', encoding='utf-8') as file:
+        with open('test_examples/rss_data_xml.xml', encoding='utf-8') as file:
             self.assertEqual(type(RssReader.convert_rss_data_to_root(file.read())), ET.Element)
-        with open('./test_examples/rss_data_not_xml.txt', encoding='utf-8') as file:
+        with open('test_examples/rss_data_not_xml.txt', encoding='utf-8') as file:
             with self.assertRaises(ET.ParseError):
                 RssReader.convert_rss_data_to_root(file.read())
 
@@ -107,23 +107,23 @@ class TestRssReader(unittest.TestCase):
         uses example files form ./test_examples folder
         :return: None
         """
-        with open('./test_examples/data_v1.xml', encoding='utf-8') as inp, open('./test_examples/dict_v1.txt',
-                                                                                encoding='utf-8') as out:
+        with open('test_examples/data_v1.xml', encoding='utf-8') as inp, open('test_examples/dict_v1.txt',
+                                                                              encoding='utf-8') as out:
             self.assertEqual(str(RssReader.convert_root_to_dict(ET.fromstring(inp.read()))), out.read().strip())
-        with open('./test_examples/data_v2.xml', encoding='utf-8') as inp, open('./test_examples/dict_v2.txt',
-                                                                                encoding='utf-8') as out:
+        with open('test_examples/data_v2.xml', encoding='utf-8') as inp, open('test_examples/dict_v2.txt',
+                                                                              encoding='utf-8') as out:
             self.assertEqual(str(RssReader.convert_root_to_dict(ET.fromstring(inp.read()))), out.read().strip())
-        with open('./test_examples/data_v3.xml', encoding='utf-8') as inp, open('./test_examples/dict_v3.txt',
-                                                                                encoding='utf-8') as out:
+        with open('test_examples/data_v3.xml', encoding='utf-8') as inp, open('test_examples/dict_v3.txt',
+                                                                              encoding='utf-8') as out:
             self.assertEqual(str(RssReader.convert_root_to_dict(ET.fromstring(inp.read()))), out.read().strip())
-        with open('./test_examples/data_v4.xml', encoding='utf-8') as inp, open('./test_examples/dict_v4.txt',
-                                                                                encoding='utf-8') as out:
+        with open('test_examples/data_v4.xml', encoding='utf-8') as inp, open('test_examples/dict_v4.txt',
+                                                                              encoding='utf-8') as out:
             self.assertEqual(str(RssReader.convert_root_to_dict(ET.fromstring(inp.read()))), out.read().strip())
-        with open('./test_examples/data_v5.xml', encoding='utf-8') as inp, open('./test_examples/dict_v5.txt',
-                                                                                encoding='utf-8') as out:
+        with open('test_examples/data_v5.xml', encoding='utf-8') as inp, open('test_examples/dict_v5.txt',
+                                                                              encoding='utf-8') as out:
             self.assertEqual(str(RssReader.convert_root_to_dict(ET.fromstring(inp.read()))), out.read().strip())
-        with open('./test_examples/data_v6.xml', encoding='utf-8') as inp, open('./test_examples/dict_v6.txt',
-                                                                                encoding='utf-8') as out:
+        with open('test_examples/data_v6.xml', encoding='utf-8') as inp, open('test_examples/dict_v6.txt',
+                                                                              encoding='utf-8') as out:
             self.assertEqual(str(RssReader.convert_root_to_dict(ET.fromstring(inp.read()))), out.read().strip())
 
     @patch('rss_reader.RssReader.validate_url')
@@ -238,7 +238,7 @@ class TestRssReader(unittest.TestCase):
         uses example file form ./test_examples folder
         :return: None
         """
-        with open('./test_examples/data_v6.xml', encoding='utf-8') as file:
+        with open('test_examples/data_v6.xml', encoding='utf-8') as file:
             mock_get_rss.return_value = file.read()
             self.assertTrue(isinstance(RssReader.prepare_dict('https://valid_url'), dict))
 
@@ -248,13 +248,13 @@ class TestRssReader(unittest.TestCase):
         uses example files form ./test_examples folder
         :return: None
         """
-        with open('./test_examples/dict_v1.txt', encoding='utf-8') as file:
+        with open('test_examples/dict_v1.txt', encoding='utf-8') as file:
             dictionary = eval(file.read().strip())
             self.assertEqual(RssReader.limit_news_dict(dictionary), dictionary)
-        with open('./test_examples/dict_v1.txt', encoding='utf-8') as file:
+        with open('test_examples/dict_v1.txt', encoding='utf-8') as file:
             dictionary = RssReader.limit_news_dict(eval(file.read().strip()), 1)
             self.assertTrue(len(dictionary['feed_items']) == 1)
-        with open('./test_examples/dict_v1.txt', encoding='utf-8') as file:
+        with open('test_examples/dict_v1.txt', encoding='utf-8') as file:
             dictionary = RssReader.limit_news_dict(eval(file.read().strip()), 5)
             self.assertTrue(len(dictionary['feed_items']) == 2)  # test file dict_v1.txt has 2 news items
 
@@ -268,7 +268,7 @@ class TestRssReader(unittest.TestCase):
         uses example file form ./test_examples folder
         :return: None
         """
-        with open('./test_examples/dict_v7.txt', encoding='utf-8') as file:
+        with open('test_examples/dict_v7.txt', encoding='utf-8') as file:
             dictionary = eval(file.read().strip())
             mock_dict.return_value = dictionary
             news = RssReader('http://valide_url')
