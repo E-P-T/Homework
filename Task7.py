@@ -1,5 +1,6 @@
 # Task 6.7
-# Task 6.8
+
+from math import ceil
 
 
 def type_prop(name, expected_type):
@@ -61,3 +62,12 @@ class Pagination:
         """
         self.text = text
         self.amount = amount
+
+    @lazyproperty
+    def page_count(self):
+        """Get number of pages.
+
+        Returns:
+            int: number of pages.
+        """
+        return ceil(len(self.text)/self.amount)
