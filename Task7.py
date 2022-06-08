@@ -44,3 +44,20 @@ class lazyproperty:
             value = self.func(instance)
             setattr(instance, self.func.__name__, value)
             return value
+
+
+class Pagination:
+    """Stores page pagination."""
+
+    amount = type_prop('amount', int)
+    text = type_prop('text', str)
+
+    def __init__(self, text, amount) -> None:
+        """Initializer for class Pagination.
+
+        Args:
+            text (str): text that is paginated.
+            amount (int): how many symbols will be allowed per each page.
+        """
+        self.text = text
+        self.amount = amount
