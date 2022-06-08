@@ -80,3 +80,21 @@ class Pagination:
             int: number of characters in the text.
         """
         return len(self.text)
+
+    def count_items_on_page(self, page):
+        """Get number of items per page.
+
+        Args:
+            page (int): page number.
+
+        Raises:
+            Exception: when the wrong page is given.
+
+        Returns:
+            int: number of characters on a particular page.
+        """
+        if 0 <= page <= self.page_count:
+            if self.page_count == page:
+                return len(self.text) % self.amount
+            return self.amount
+        raise Exception(f'Invalid index. Page is missing.')
