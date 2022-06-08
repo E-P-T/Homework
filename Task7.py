@@ -179,3 +179,7 @@ def main():
         print(e)
 
     print(p.display_page(0))
+
+
+if __name__ == '__main__':
+    main()
