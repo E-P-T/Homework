@@ -93,8 +93,9 @@ class Pagination:
         Returns:
             int: number of characters on a particular page.
         """
-        if 0 <= page <= self.page_count:
-            if self.page_count == page:
+        a = self.page_count - 1
+        if 0 <= page <= a:
+            if a == page:
                 return len(self.text) % self.amount
             return self.amount
         raise Exception(f'Invalid index. Page is missing.')
