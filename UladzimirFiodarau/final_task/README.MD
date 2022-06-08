@@ -1,32 +1,30 @@
-## LICENSE
-The product can be used under MIT LICENSE:
-Copyright 2022 Uladzimir Fiodarau
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 ## CREATION GOAL
-The rss-reader has been created as a final task for graduating EPAM march 2022 Python Foundation course.
+The rss-reader has been created as a final task for graduating EPAM March 2022 Python Foundation course.
 My personal goal was to create a rss-reader using OOP and without third-party libraries to lessen external dependencies.
 Processing of rss URLs and various ways of output are split into corpuscular functions to allow easy changes of inner logic through inheritance. 
+
+## PRODUCT VERSION
+Current rss-reader version is 1.2
+
 ## REQUIREMENTS
 
 The current version of the product requires only Python 3.9 or higher to run. The product hasn't been tested on earlier versions of Python interpreter
 
+## NOTABLE MOMENTS
+All commands listed in this README file may vary according to your system settings.
+The most common difference may be in Python calling with console commands, as it can be done with keyword 'python' or 'py' or 'py3' and so on.
+Script has been tested on a clean machine with python 3.9.13, so change commands accordingly to your system settings if needed.
 
 ## INSTALLATION
 
-The current version of the product doesn't require installation. All that is needed is a Python 3.9 or higher interpreter configured
+The current version of the product can be used with or without installation.
+By default, the root directory of the script is called final_task, if you change it while using script - adjust your commands appropriately.
 
 1. Installation as script:
 ```
-1.1. copy root directory of script with all files and subdirectories to required directory
+1.1. copy or extract root directory of script (final_task) with all files and subdirectories to a local directory
 
-1.2. Install and activate virtual environment, to do it use following command 
-while being in root directory of the script:
+1.2. Install and activate virtual environment, to do it use following command while being in root directory of the script:
 
 1.2.1. $ python -m venv venv (for UNIX-based systems) 
        or 	
@@ -34,17 +32,40 @@ while being in root directory of the script:
 
 1.2.2. $ source venv/bin/activate  (for UNIX-based systems) 
        or
-       venv\bin\activate.ps1 (for Windows)
+       venv\Script\activate.bat or venv\bin\activate.ps1 (for Windows)
+```
+
+2. Installation as a CLI utility:
+Installation as a CLI utility requires previous steps in part 1 of INSTALLATION section finished
+```
+2.1. In your command line terminal navigate to the root directory of the script
+
+1.2. While in root directory install the script by executing a command:
+       $ python setup.py install (for UNIX-based systems) 
+       or 	
+       python setup.py install (for Windows)  
 ```
 
 ## USING RSS-READER
 
-Rss-reader is a Command Line Interface application.
-To use it, one must put a command in command line using the following interface, that can be shown by calling the script in command line with --help argument:
+Rss-reader is a Command Line Interface application. Still it can be used in three different ways, differing only in a way to call the script:
+1. Using as a script 
+Rss-reader as a script can be called in two similar ways by putting a command in command line interface, that can be shown by calling the script in command line with --help argument.
 
-python rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] *source*
+1.1. While being in root directory of the script, if the name of the script directory, which is by default the 'rss_reader' directory hasn't been changed, it can be called using the following command:
+
+     python rss_reader [-h] [--version] [--json] [--verbose] [--limit LIMIT] *source*
+	 
+1.2 While being in script directory, which is by default the 'rss_reader' directory in the root directory of the script, it can be called using the following command:
+
+     python rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] *source*	
+	 
+1.3. While being in root directory of the script, if it was previously installed as a CLI utility, as described above, it can be called using the following command:
+
+     rss_reader [-h] [--version] [--json] [--verbose] [--limit LIMIT] *source*
+While calling the script in any of the before-mentioned ways, following positional arguments can be used:	 
 ```
-positional arguments:
+
   source        RSS-feed URL
 
 optional arguments:
@@ -154,7 +175,7 @@ logger_info.basicConfig(level=logging.INFO,
 
 ## TESTING
 Unittests for the script are located in root directory of the script in file test_rss_reader.py.
-Unittests require test files to operate correctly, those files are located in sub-directory 'test_examples' of root script directory.
+Unittests require test files to operate correctly, those files are located in subdirectory 'test_examples' of root script directory.
 To run unittests for the script user can use following command while being in root directory of the script:
 ```
 $ python -m unittest test_rss_reader.py (for UNIX-based systems) 
