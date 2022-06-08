@@ -11,3 +11,6 @@ logger_info.basicConfig(level=logging.INFO,
                         format=log_format,
                         datefmt='%Y:%m:%d %H:%M:%S',
                         )
+
+if __name__ == '__main__':
+    pass
