@@ -152,3 +152,30 @@ class Pagination:
         if s:
             return s
         raise Exception('No data')
+
+
+def main():
+    """Main function."""
+
+    print('\n{:*^30}'.format('Task 6.7'))
+
+    p = Pagination('Your beautiful text', 5)
+    print(f'page_count {p.page_count}')
+    print(p.item_count)
+
+    print(f'=== {p.count_items_on_page(0)}')
+    print(f'=== {p.count_items_on_page(3)}')
+    try:
+        print(f'=== {p.count_items_on_page(4)}')
+    except Exception as e:
+        print(e)
+
+    print(f'find page {p.find_page("You")}')
+    print(f'find page {p.find_page("e")}')
+    print(f'find page {p.find_page("beautiful")}')
+    try:
+        print(f'find page {p.find_page("great")}')
+    except Exception as e:
+        print(e)
+
+    print(p.display_page(0))
