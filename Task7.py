@@ -134,3 +134,20 @@ class Pagination:
         if pages:
             return pages
         raise Exception(f"'{word}' is missing on the pages")
+
+    def display_page(self, page):
+        """Displays text on a given page.
+
+        Args:
+            page (int): desired page.
+
+        Raises:
+            Exception: when there is no information.
+
+        Returns:
+            str: page text.
+        """
+        s = self.text[self.amount*page:self.amount*page+self.amount]
+        if s:
+            return s
+        raise Exception('No data')
