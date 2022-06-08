@@ -71,3 +71,12 @@ class Pagination:
             int: number of pages.
         """
         return ceil(len(self.text)/self.amount)
+
+    @lazyproperty
+    def item_count(self):
+        """Get number of characters in the text.
+
+        Returns:
+            int: number of characters in the text.
+        """
+        return len(self.text)
