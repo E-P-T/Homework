@@ -1,14 +1,15 @@
 """
 Main rss-reader module.
 Goal was to create a rss-reader using OOP and without third-party libraries to lessen external dependencies.
-To make it easier to change the reader inner processing (if later needed) processing the rss-feed into a dictionary of
-necessary data is split into several staticmethods.
+To make it easier to change the reader inner processing (if later needed) processing of the rss-feed into a
+dictionary of necessary data is split into several staticmethods.
 """
 import argparse
 import datetime
 import html
 import json
 import re
+import os
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from pprint import pprint
@@ -18,9 +19,11 @@ from urllib.parse import urlparse
 import rss_exceptions
 from rss_logger import logger_info
 
+script_root = os.path.dirname(__file__)
 news_limit = None
 to_json = False
 verbose = False
+date = None
 
 
 class RssReader:
@@ -32,6 +35,7 @@ class RssReader:
     def __init__(self, url: str):
         self.url = url
         self.news_cache = RssReader.prepare_dict(url)
+        RssReader.update_local_cache(self.url, self.news_cache)
         if self.news_cache:
             self.news_dict = RssReader.limit_news_dict(self.news_cache, news_limit)
             if to_json:
@@ -282,14 +286,8 @@ class RssReader:
             RssReader.log_runtime(f'Preparing news quantity according to set limit: {limit}')
             news_dict = {key: value for key, value in news_cache.items() if key != 'feed_items'}
             news_dict['feed_items'] = {}
-            news_number = 0
-            for item in sorted(news_cache['feed_items'], reverse=True):
-                news_number += 1
-                if news_number > limit:
-                    break
-                else:
-                    news_dict['feed_items'][item] = news_cache['feed_items'].get(item, None)
-
+            for item in sorted(news_cache['feed_items'], reverse=True)[:limit]:
+                news_dict['feed_items'][item] = news_cache['feed_items'].get(item, None)
         return news_dict
 
     @staticmethod
@@ -304,44 +302,87 @@ class RssReader:
         RssReader.log_runtime('Successfully converted news to JSON format')
         return json_string
 
+    @staticmethod
+    def load_from_local_cache() -> dict:
+        """
+        Method loads news cache from local cache in form of a nested dictionary if cache file exists.
+        :return: a nested dictionary with cached news
+        """
+        RssReader.log_runtime('Loading news from local cache')
+        if os.path.exists(script_root + '/cache/rss_cache.json'):
+            with open(script_root + '/cache/rss_cache.json', 'r') as rss_cache:
+                return json.load(rss_cache)
+        else:
+            RssReader.log_runtime('No local cache found')
+            return {}
+
+    @staticmethod
+    def save_to_local_cache(news_cache: dict):
+        """
+        Method saves a dictionary of news to local cache in form of JSON object.
+        Saving is done to a directory 'cache' in root directory of script, if such directory doesn't exist,
+        it is created.
+        :param news_cache:
+        :return: None
+        """
+        RssReader.log_runtime('Saving news to local cache')
+        if not os.path.exists(script_root+'/cache/'):
+            os.mkdir(script_root+'/cache/')
+        with open(script_root + '/cache/rss_cache.json', 'w') as rss_cache:
+            json.dump(news_cache, rss_cache, indent=4)
+        RssReader.log_runtime('Successfully saved news to local cache')
+
+    @staticmethod
+    def update_local_cache(url: str, url_news_cache: dict):
+        """
+        Method updates existing local cache with news dictionary from current processed URL.
+        :param url:
+        :param url_news_cache:
+        :return:
+        """
+        news_cache = RssReader.load_from_local_cache()
+        news_cache[url] = url_news_cache
+        RssReader.save_to_local_cache(news_cache)
+
     def return_news_default(self):
         """
         Method makes a pretty print of the dictionary formed from the news feed to stdout using dict.get() method
         to prevent KeyErrors
         :return: None
         """
-        if 'news_dict' in self.__dict__ and self.news_dict:
-            RssReader.log_runtime('Printing news for the user\n')
-            print(f'Feed title: {self.news_dict.get("feed_title", "No title provided")}')
-            print(f'Feed description: {self.news_dict.get("feed_description", "No additional description provided")}')
-            print(f'Feed URL: {self.news_dict.get("feed_link", "No link provided")}')
-            print(f'Last update: {self.news_dict.get("feed_pubDate", "Not specified")}')
-            print('=' * 120)
-            for item in sorted(self.news_dict['feed_items'], reverse=True):
-                print(f'Title: {self.news_dict["feed_items"][item].get("title", "No title provided")}')
-                print(f'Link: '
-                      f'{self.news_dict["feed_items"][item].get("link", "No link provided")}')
-                print(f'Publication date: '
-                      f'{self.news_dict["feed_items"][item].get("pubDate", "No publication date provided")}')
-                print()
-                print(f'{self.news_dict["feed_items"][item].get("description", "No description provided")}')
-                print()
-                if 'media' in self.news_dict["feed_items"][item]:
-                    if 'type' in self.news_dict["feed_items"][item]['media']:
-                        media_type = self.news_dict["feed_items"][item]['media']['type']
-                    else:
-                        media_type = "image"
-                    print(f'Media ({media_type}) link:\n '
-                          f'{self.news_dict["feed_items"][item]["media"].get("url", "No link provided")}')
-                    print('-' * 120)
+        print(f'Feed title: {self.news_dict.get("feed_title", "No title provided")}')
+        print(f'Feed description: {self.news_dict.get("feed_description", "No description provided")}')
+        print(f'Feed URL: {self.news_dict.get("feed_link", "No link provided")}')
+        print(f'Last update: {self.news_dict.get("feed_pubDate", "Not specified")}')
+        print('=' * 120)
+        for item in sorted(self.news_dict['feed_items'], reverse=True):
+            print(f'Title: {self.news_dict["feed_items"][item].get("title", "No title provided")}')
+            print(f'Link: '
+                  f'{self.news_dict["feed_items"][item].get("link", "No link provided")}')
+            print(f'Publication date: '
+                  f'{self.news_dict["feed_items"][item].get("pubDate", "No publication date provided")}')
+            print()
+            print(f'{self.news_dict["feed_items"][item].get("description", "No description provided")}')
+            print()
+            if 'media' in self.news_dict["feed_items"][item]:
+                if 'type' in self.news_dict["feed_items"][item]['media']:
+                    media_type = self.news_dict["feed_items"][item]['media']['type']
+                else:
+                    media_type = "image"
+                print(f'Media ({media_type}) link:\n '
+                      f'{self.news_dict["feed_items"][item]["media"].get("url", "No link provided")}')
+            print('-' * 120)
 
     def return_news_json(self):
         """
         Method makes a pretty print of JSON data to stdout, sort_dicts is set as False to prevent sorting
         :return: None
         """
-        RssReader.log_runtime('Printing news in JSON format for the user\n')
         pprint(json.loads(self.news_dict_json), sort_dicts=False)
+
+
+class RssReaderCached(RssReader):
+    pass
 
 
 def parse_command_line(args=None):
@@ -386,19 +427,25 @@ def main():
             global news_limit
             news_limit = args.limit if args.limit > 0 else None
             RssReader.log_runtime(f'News output limit is set to {news_limit}')
-        news = RssReader(args.source)
-        if args.json:
-            try:
-                news.return_news_json()
-            except json.JSONDecodeError as exc:
-                print(f'Error while reading JSON object: {exc}')
+        if not date:
+            news = RssReader(args.source)
         else:
-            try:
-                news.return_news_default()
-            except KeyError as exc:
-                print(f'Error while printing news: {exc}')
-            except Exception as exc:
-                print(f'Unexpected error while printing news: {exc}')
+            news = RssReader(args.source)
+        if 'news_dict' in news.__dict__ and len(news.news_dict) > 0:
+            if args.json:
+                try:
+                    RssReader.log_runtime('Printing news in JSON format for the user\n')
+                    news.return_news_json()
+                except json.JSONDecodeError as exc:
+                    print(f'Error while reading JSON object: {exc}')
+            else:
+                try:
+                    RssReader.log_runtime('Printing news for the user\n')
+                    news.return_news_default()
+                except KeyError as exc:
+                    print(f'Error while printing news: {exc}')
+                except Exception as exc:
+                    print(f'Unexpected error while printing news: {exc}')
 
 
 if __name__ == '__main__':
