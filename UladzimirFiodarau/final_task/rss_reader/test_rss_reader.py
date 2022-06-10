@@ -274,7 +274,8 @@ class TestRssReader(unittest.TestCase):
             news = RssReader('http://valide_url')
             news.return_news_default()
             self.assertEqual(mock_print.mock_calls,
-                             [call('Feed title: World - CBSNews.com'),
+                             [call('=' * 120),
+                              call('Feed title: World - CBSNews.com'),
                               call('Feed description: World From CBSNews.com'),
                               call('Feed URL: https://www.cbsnews.com/'),
                               call('Last update: Fri, 03 Jun 2022 09:08:13 -0400'),

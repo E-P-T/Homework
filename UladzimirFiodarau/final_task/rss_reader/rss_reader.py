@@ -35,8 +35,8 @@ class RssReader:
     def __init__(self, url: str):
         self.url = url
         self.news_cache = RssReader.prepare_dict(url)
-        RssReader.update_local_cache(self.url, self.news_cache)
-        if self.news_cache:
+        if self.news_cache:  # to prevent further funcs if prepare_dict failed
+            RssReader.update_local_cache(self.url, self.news_cache)
             self.news_dict = RssReader.limit_news_dict(self.news_cache, news_limit)
             if to_json:
                 self.news_dict_json = RssReader.convert_dict_to_json(self.news_dict)
@@ -350,6 +350,7 @@ class RssReader:
         to prevent KeyErrors
         :return: None
         """
+        print('=' * 120)
         print(f'Feed title: {self.news_dict.get("feed_title", "No title provided")}')
         print(f'Feed description: {self.news_dict.get("feed_description", "No description provided")}')
         print(f'Feed URL: {self.news_dict.get("feed_link", "No link provided")}')
@@ -382,7 +383,20 @@ class RssReader:
 
 
 class RssReaderCached(RssReader):
-    pass
+
+    def __init__(self, url: str):
+        self.url = url
+        self.news_cache = RssReaderCached.load_from_local_cache()
+        if self.news_cache:
+            self.news_dict = RssReaderCached.limit_news_dict(self.news_cache)
+            if to_json:
+                self.news_dict_json = RssReaderCached.convert_dict_to_json(self.news_dict)
+        else:
+            raise ValueError('No news found in cache')
+
+    @staticmethod
+    def limit_news_dict(news_cache: dict, limit=None) -> dict:
+        pass
 
 
 def parse_command_line(args=None):
@@ -399,7 +413,8 @@ def parse_command_line(args=None):
     parser.add_argument("--verbose", help="Outputs verbose status messages", action="store_true")
     parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
     parser.add_argument("--limit", type=int, help="Limit news topics if this parameter provided")
-    parser.add_argument("source", type=str, help="RSS-feed URL")
+    parser.add_argument("--date", type=str, help="Date for news selection from cache")
+    parser.add_argument("source", type=str, nargs='?', default='', help="RSS-feed URL")
     return parser.parse_args(args)
 
 
@@ -427,11 +442,28 @@ def main():
             global news_limit
             news_limit = args.limit if args.limit > 0 else None
             RssReader.log_runtime(f'News output limit is set to {news_limit}')
-        if not date:
-            news = RssReader(args.source)
+        if args.date:
+            try:
+                date_time = datetime.datetime.strptime(args.date, "%Y%m%d")
+            except ValueError as exc:
+                print(f'Wrong --date attribute format: {exc}')
+            except Exception as exc:
+                print(f'Unexpected error while processing input date: {exc}')
+            else:
+                global date
+                date = f'{date_time:%Y:%m:%d}'
+                try:
+                    news = RssReaderCached(args.source)
+                except ValueError as exc:
+                    print(f'Error while loading cached news: {exc}')
+                except Exception as exc:
+                    print(f'Unexpected error while loading and preparing cached news: {exc}')
         else:
-            news = RssReader(args.source)
-        if 'news_dict' in news.__dict__ and len(news.news_dict) > 0:
+            try:
+                news = RssReader(args.source)
+            except Exception as exc:
+                print(f'Unexpected error while preparing news: {exc}')
+        if 'news_dict' in news.__dict__ and len(news.news_dict) > 0:  # print only if news were generated w/o errors
             if args.json:
                 try:
                     RssReader.log_runtime('Printing news in JSON format for the user\n')
