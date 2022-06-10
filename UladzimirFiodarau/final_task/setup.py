@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as readme:
 
 setup(
     name='rss-reader',
-    version='1.2',
+    version='1.3',
     author='Uladzimir Fiodarau',
     author_email='ufiodarau@gmail.com',
     description='Python RSS parser',

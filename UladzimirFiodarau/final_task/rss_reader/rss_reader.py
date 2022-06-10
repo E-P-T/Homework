@@ -8,8 +8,8 @@ import argparse
 import datetime
 import html
 import json
-import re
 import os
+import re
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from pprint import pprint
@@ -28,11 +28,17 @@ news_date = None
 
 class RssReader:
     """
-    Base class of rss-reader, gathers required information from rss-feeds and forms a dictionary with valuable data
-    provides methods for printing data in stdout with option of converting to JSON format.
-    dictionary and JSON structure are described in README.md
+    Base class of rss-reader, gathers required information from rss-feeds and forms a dictionary with valuable data.
+    Caches gathered news for later use.
+    Provides methods for printing data in stdout with option of converting to JSON format.
+    News dictionary and JSON structure are described in README.md
     """
     def __init__(self, url: str):
+        """
+        Method serves for processing news from rss feeds
+        On object creation it gathers required news data, updates news cache and processes data for future output
+        :param url: URL of rss-feed
+        """
         self.url = url
         self.news_cache = RssReader.prepare_dict(url)
         if self.news_cache:  # to prevent further funcs if prepare_dict failed
@@ -40,12 +46,6 @@ class RssReader:
             self.news_dict = RssReader.limit_news_dict(self.news_cache, news_limit)
             if to_json:
                 self.news_dict_json = RssReader.convert_dict_to_json(self.news_dict)
-
-    def __str__(self):
-        return f'News from rss-feed {self.url}'
-
-    def __repr__(self):
-        return f'RssReader({self.url})'
 
     @staticmethod
     def log_runtime(text: str):
@@ -383,8 +383,16 @@ class RssReader:
 
 
 class RssReaderCached(RssReader):
-
+    """
+    Child class that is modified to gather information from previously formed cache, form a dictionary of news and
+    process them for output
+    """
     def __init__(self, url: str):
+        """
+        Method serves for processing news from previously saved cache
+        On object creation it loads news cache and processes data for future output
+        :param url: URL of rss-feed
+        """
         self.url = url
         self.news_cache = RssReaderCached.load_from_local_cache()
         if self.news_cache:
@@ -405,10 +413,12 @@ class RssReaderCached(RssReader):
         standard tags for later output in title
         Method uses the same named method of parent class to make a single processing standard for news after they have
         been chosen from cache
+
         :param news_cache: dictionary with required data cached
         :param limit: limit of news to output
         :param news_url: link to news feed of news to output
         :return: dictionary with a limited number of news
+        :raise rss_exceptions.NoDataInCache if method doesn't find news that meet the search conditions
         """
         if news_url and RssReaderCached.validate_url(news_url):
             RssReader.log_runtime(f'Choosing news according to set url: {news_url}')
@@ -448,7 +458,7 @@ def parse_command_line(args=None):
     """
     parser = argparse.ArgumentParser(description="Python command-line RSS reader.", exit_on_error=False)
     parser.add_argument("--version", help="Print version info and exit", action="version",
-                        version="You are using %(prog)s version 1.2")
+                        version="You are using %(prog)s version 1.3")
     parser.add_argument("--verbose", help="Outputs verbose status messages", action="store_true")
     parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
     parser.add_argument("--limit", type=int, help="Limit news topics if this parameter provided")
@@ -459,15 +469,16 @@ def parse_command_line(args=None):
 
 def main():
     """
-    The function combines the rss-reader with argparse module functionality.
-    It also is used to prevent errors while testing (caused by unittest module also parsing the CLI during execution)
-    by calling argparse.ArgumentParser from a separate function instead of global namespace
+    The function combines the rss-reader with argparse module functionality. It uses RssReader class for getting news
+    from rss feeds and RssReaderCached class to process previously cached news
+    It prevents errors while testing (caused by unittest module also parsing the CLI during execution) by calling
+    argparse.ArgumentParser from a separate function instead of global namespace
     :return:None
     """
     try:
         args = parse_command_line()
     except argparse.ArgumentError as exc:
-        print(f'Incorrect argument value passed in command line: {exc}')
+        print(f'Incorrect argument value in command: {exc}')
     else:
         if args.verbose:
             global verbose
@@ -495,8 +506,8 @@ def main():
             print(f'Error while loading cached news: {exc}')
         except Exception as exc:
             print(f'Unexpected error while preparing news: {exc}')
-        else:  # print only if news were generated w/o errors
-            if 'news_dict' in news.__dict__ and news.news_dict:
+        else:
+            if 'news_dict' in news.__dict__ and news.news_dict:  # print only if news were generated w/o errors
                 if args.json:
                     try:
                         RssReader.log_runtime('Printing news in JSON format for the user\n')
