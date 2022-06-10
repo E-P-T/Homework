@@ -397,8 +397,14 @@ class RssReaderCached(RssReader):
     @staticmethod
     def limit_news_dict(news_cache: dict, limit=None, news_url: str = '') -> dict:
         """
-        Method prepares news_dict according to set date and leaves a limited number of news from all URL-s in cache
-        for output if limit is set
+        Method prepares news_dict loaded from local cache for output. Only news from given in arguments date are chosen
+        for later processing.
+        If news_url is specified, method chooses news only from that particular URL and saves its feed information for
+        later output in title
+        If no news_url is specified, method chooses news from all sources available in cache and creates a set of
+        standard tags for later output in title
+        Method uses the same named method of parent class to make a single processing standard for news after they have
+        been chosen from cache
         :param news_cache: dictionary with required data cached
         :param limit: limit of news to output
         :param news_url: link to news feed of news to output
@@ -410,11 +416,16 @@ class RssReaderCached(RssReader):
             if len(news_cache) == 0:
                 raise rss_exceptions.NoDataInCache('No news from such URL in cache or not a valid rss URL')
         RssReader.log_runtime(f'Choosing news according to set date: {news_date}')
-        temp_news_dict = {'feed_title': f'Cached news of {news_date}',
-                          'feed_description': f'Best news gathered for you and cached by our service',
-                          'feed_link': f'News sources can be reached through links listed in news',
-                          'feed_items': {},
-                          }
+        if news_url:
+            temp_news_dict = {key: value for url in news_cache.values() for key, value in url.items()
+                              if key != 'feed_items'}
+            temp_news_dict['feed_items'] = {}
+        else:
+            temp_news_dict = {'feed_title': f'Cached news of {news_date}',
+                              'feed_description': f'Best news gathered for you and cached by our service',
+                              'feed_link': f'News sources can be reached through links listed in news',
+                              'feed_items': {},
+                              }
         for url, feed in news_cache.items():
             for key, value in feed.items():
                 if key == 'feed_items':
