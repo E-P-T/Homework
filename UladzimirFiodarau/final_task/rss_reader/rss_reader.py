@@ -23,7 +23,7 @@ script_root = os.path.dirname(__file__)
 news_limit = None
 to_json = False
 verbose = False
-date = None
+news_date = None
 
 
 class RssReader:
@@ -388,23 +388,29 @@ class RssReaderCached(RssReader):
         self.url = url
         self.news_cache = RssReaderCached.load_from_local_cache()
         if self.news_cache:
-            self.news_dict = RssReaderCached.limit_news_dict(self.news_cache, news_limit)
+            self.news_dict = RssReaderCached.limit_news_dict(self.news_cache, news_limit, self.url)
             if to_json:
                 self.news_dict_json = RssReaderCached.convert_dict_to_json(self.news_dict)
         else:
             raise rss_exceptions.NoDataInCache('No news found in cache')
 
     @staticmethod
-    def limit_news_dict(news_cache: dict, limit=None) -> dict:
+    def limit_news_dict(news_cache: dict, limit=None, news_url: str = '') -> dict:
         """
         Method prepares news_dict according to set date and leaves a limited number of news from all URL-s in cache
         for output if limit is set
         :param news_cache: dictionary with required data cached
         :param limit: limit of news to output
+        :param news_url: link to news feed of news to output
         :return: dictionary with a limited number of news
         """
-        RssReader.log_runtime(f'Choosing news according to set date: {date}')
-        temp_news_dict = {'feed_title': f'Cached news of {date}',
+        if news_url and RssReaderCached.validate_url(news_url):
+            RssReader.log_runtime(f'Choosing news according to set url: {news_url}')
+            news_cache = {url: feed for url, feed in news_cache.items() if url == news_url}
+            if len(news_cache) == 0:
+                raise rss_exceptions.NoDataInCache('No news from such URL in cache or not a valid rss URL')
+        RssReader.log_runtime(f'Choosing news according to set date: {news_date}')
+        temp_news_dict = {'feed_title': f'Cached news of {news_date}',
                           'feed_description': f'Best news gathered for you and cached by our service',
                           'feed_link': f'News sources can be reached through links listed in news',
                           'feed_items': {},
@@ -413,7 +419,7 @@ class RssReaderCached(RssReader):
             for key, value in feed.items():
                 if key == 'feed_items':
                     for news_tag, tag_text in value.items():
-                        if date in news_tag:
+                        if news_date in news_tag:
                             temp_news_dict['feed_items'][news_tag] = tag_text
         if len(temp_news_dict['feed_items']) == 0:
             raise rss_exceptions.NoDataInCache('No news of the set date found in cache')
@@ -464,42 +470,36 @@ def main():
             global news_limit
             news_limit = args.limit if args.limit > 0 else None
             RssReader.log_runtime(f'News output limit is set to {news_limit}')
-        if args.date:
-            try:
+        try:
+            if args.date:
                 date_time = datetime.datetime.strptime(args.date, "%Y%m%d")
-            except ValueError as exc:
-                print(f'Wrong --date attribute format: {exc}')
-            except Exception as exc:
-                print(f'Unexpected error while processing input date: {exc}')
+                global news_date
+                news_date = f'{date_time:%Y:%m:%d}'
+                news = RssReaderCached(args.source)
             else:
-                global date
-                date = f'{date_time:%Y:%m:%d}'
-                try:
-                    news = RssReaderCached(args.source)
-                except rss_exceptions.NoDataInCache as exc:
-                    print(f'Error while loading cached news: {exc}')
-                except Exception as exc:
-                    print(f'Unexpected error while loading and preparing cached news: {exc}')
-        else:
-            try:
                 news = RssReader(args.source)
-            except Exception as exc:
-                print(f'Unexpected error while preparing news: {exc}')
-        if 'news_dict' in news.__dict__ and len(news.news_dict) > 0:  # print only if news were generated w/o errors
-            if args.json:
-                try:
-                    RssReader.log_runtime('Printing news in JSON format for the user\n')
-                    news.return_news_json()
-                except json.JSONDecodeError as exc:
-                    print(f'Error while reading JSON object: {exc}')
-            else:
-                try:
-                    RssReader.log_runtime('Printing news for the user\n')
-                    news.return_news_default()
-                except KeyError as exc:
-                    print(f'Error while printing news: {exc}')
-                except Exception as exc:
-                    print(f'Unexpected error while printing news: {exc}')
+        except ValueError as exc:
+            print(f'Wrong --date attribute format: {exc}')
+        except rss_exceptions.NoDataInCache as exc:
+            print(f'Error while loading cached news: {exc}')
+        except Exception as exc:
+            print(f'Unexpected error while preparing news: {exc}')
+        else:  # print only if news were generated w/o errors
+            if 'news_dict' in news.__dict__ and news.news_dict:
+                if args.json:
+                    try:
+                        RssReader.log_runtime('Printing news in JSON format for the user\n')
+                        news.return_news_json()
+                    except json.JSONDecodeError as exc:
+                        print(f'Error while reading JSON object: {exc}')
+                else:
+                    try:
+                        RssReader.log_runtime('Printing news for the user\n')
+                        news.return_news_default()
+                    except KeyError as exc:
+                        print(f'Error while printing news: {exc}')
+                    except Exception as exc:
+                        print(f'Unexpected error while printing news: {exc}')
 
 
 if __name__ == '__main__':

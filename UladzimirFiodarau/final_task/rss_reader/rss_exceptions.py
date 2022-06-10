@@ -14,5 +14,9 @@ class InvalidUrlError(RssReaderException):
     pass
 
 
+class NoDataInCache(RssReaderException):
+    pass
+
+
 if __name__ == '__main__':
     pass
