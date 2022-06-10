@@ -64,13 +64,17 @@ class RssReader:
         The method is used to guarantee human readability for parsed text data.
         1. html.unescape() converts all named and numeric character references (e.g. &gt;, &#62;, &#x3e;) in string to
         corresponding Unicode characters.
-        2. re.sub() removes xml tags and replaces non-breakable space Unicode characters (\xa0) with whitespaces
+        2. re.sub() removes xml tags and replaces non-breakable space Unicode characters (\xa0) with whitespaces and
+        '\u203a' to single right-pointing angle quotation mark
 
         :param string: a string of text
         :return: a processed string
         """
+        sub_dict = {'\u203a': '>', '\xa0': ' '}
         processed_string = re.sub('<[^<]+>', '', html.unescape(string))
-        processed_string = re.sub('\xa0', ' ', processed_string).strip()
+        for key, value in sub_dict.items():
+            processed_string = re.sub(key, value, processed_string)
+        processed_string = processed_string.strip()
         return processed_string
 
     @staticmethod

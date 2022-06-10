@@ -46,6 +46,9 @@ class TestRssReader(unittest.TestCase):
         self.assertEqual(
             RssReader.process_string('<p><strong>May 25,\xa02022</strong> – In its ... shortage.</p>'),
             'May 25, 2022 – In its ... shortage.')
+        self.assertEqual(
+            RssReader.process_string('<p><strong>May 25,\xa02022</strong> – In its ... shortage.</p>'),
+            'May 25, 2022 – In its ... shortage.')
 
     def test_unify_pubdate(self):
         """

@@ -4,11 +4,11 @@ My personal goal was to create a rss-reader using OOP and without third-party li
 Processing of rss URLs and various ways of output are split into corpuscular functions to allow easy changes of inner logic through inheritance. 
 
 ## PRODUCT VERSION
-Current rss-reader version is 1.2
+Current rss-reader version is 1.3
 
 ## REQUIREMENTS
 
-The current version of the product requires only Python 3.9 or higher to run. The product hasn't been tested on earlier versions of Python interpreter
+The current version of the product requires only Python 3.9 or higher to run. The product hasn't been tested on earlier versions of Python interpreter.
 
 ## NOTABLE MOMENTS
 All commands listed in this README file may vary according to your system settings.
@@ -54,15 +54,15 @@ Rss-reader as a script can be called in two similar ways by putting a command in
 
 1.1. While being in root directory of the script, if the name of the script directory, which is by default the 'rss_reader' directory hasn't been changed, it can be called using the following command:
 
-     python rss_reader [-h] [--version] [--json] [--verbose] [--limit LIMIT] *source*
+     python rss_reader [-h] [--version] [--verbose] [--json] [--limit LIMIT] [--date DATE] *source*
 	 
 1.2 While being in script directory, which is by default the 'rss_reader' directory in the root directory of the script, it can be called using the following command:
 
-     python rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] *source*	
+     python rss_reader.py [-h] [--version] [--verbose] [--json] [--limit LIMIT] [--date DATE] *source*	
 	 
 1.3. While being in root directory of the script, if it was previously installed as a CLI utility, as described above, it can be called using the following command:
 
-     rss_reader [-h] [--version] [--json] [--verbose] [--limit LIMIT] *source*
+     rss_reader [-h] [--version] [--verbose] [--json] [--limit LIMIT] [--date DATE] *source*
 While calling the script in any of the before-mentioned ways, following positional arguments can be used:	 
 ```
 
@@ -74,8 +74,12 @@ optional arguments:
   --json         Print result as JSON in stdout
   --verbose      Outputs verbose status messages
   --limit LIMIT  Limit news topics if this parameter provided}
+  --date DATE    Date for news selection, must be in %Y%m%d format (YYYYMMDD)
 
-source is a mandatory argument and can only be skipped when using rss_reader.py with --help (-h) or --version arguments, as these two arguments stop the script after printing corresponding messages
+source is a mandatory argument but can only be skipped when using rss_reader with:
+1) --help (-h) or --version arguments, as these two arguments stop the script after printing corresponding messages
+2) --date DATE argument, and in such case will get all the available news published on the given date from all cached URLs
+
 --help (-h)  argument is used to print script's help information (listed above) and exit script
 --version  argument is used to print script's version and exit script
 --json argument is used to convert news data to JSON format. The structure of JSON is described later in this file
@@ -86,25 +90,36 @@ source is a mandatory argument and can only be skipped when using rss_reader.py 
 		No --limit set or LIMIT equal to 0 both mean that user will get all available news from the feed.
 		A LIMIT, which surpasses number of news in feed, will also result in user getting all available news from the feed.
 		While limiting news using --limit, the script chooses most recent news according to their publishing date in the feed.
+--date DATE argument is used to load previously cached news. If it is given, the rss-reader doesn't require Internet connection to work.
+		DATE argument must be a string of digits in %Y%m%d format (YYYYMMDD), e.g. 20220601 (which is 1 June 2022)
+		Combination of --date DATE and source arguments result in only news that were fetched from the source will be loaded from cache.
+		If --date DATE argument is given without source, news from all sources for the date from local cache will be loaded.
+		If there are no news in cache that match the given date, the script will raise and handle an exception.
+```
 
 Arguments can be used in combinations, e.g.:
-
+```
 python rss_reader.py --version
 python rss_reader.py --version --verbose --limit 1000 https://www.buzzfeed.com/world.xml (only --version is run)
 python rss_reader.py --verbose --limit 3 https://www.buzzfeed.com/world.xml 
 python rss_reader.py --verbose --limit 1000 https://www.buzzfeed.com/world.xml
 python rss_reader.py --json --limit 0 https://www.buzzfeed.com/world.xml
-python rss_reader.py --json --verbose --limit 5 https://www.buzzfeed.com/world.xml
+python rss_reader.py --json --verbose --limit 5 --date 20220601 https://www.buzzfeed.com/world.xml
+python rss_reader.py --json --verbose --limit 5 --date 20220601
 ```
 
 ## BASIC FUNCTIONALITY
 
-The rss-reader collects news from a given feed and forms a cache dictionary of the following structure:
+Class RssReader is the class for fetching news from rss-feeds, caching them and processing for later output
+Child class RssReaderCached is for loading news from cache and processing for later output if they match given conditions.
+
+The rss-reader collects news from a given feed and forms a dictionary of the following structure called news_cache:
 ```
 {'feed_description': 'The text of RSS-feed description tag',
  'feed_link': 'URL of RSS-feed',
  'feed_media': {'url': 'URL of feed media attachment'},
  'feed_title': 'title of RSS-feed',
+ 'feed_pubDate': 'publication date of RSS-feed',
  'feed_items': {'%Y:%m:%d %H:%M:%S': {'description': 'news item description',
                                       'link': 'news item link',
                                       'media': {'type': 'type (or type/format)',
@@ -116,16 +131,19 @@ The rss-reader collects news from a given feed and forms a cache dictionary of t
 }						
 ```
 Note:
-'feed_media' and 'media' keys are not mandatory and are not formed in dictionary in no media data found by the script. Others keys are however mandatory and if not presented in feed are paired with corespondent text notifications in feed_ section and None value in items section.
+Keys are not formed in dictionary in no corresponding data found by the script, e.g.:
+media-associated info is located in less than a half of rss-feeds checked while testing the script. 
+
 
 ### JSON STRUCTURE
 During runtime, the script converts gathered news data into JSON when script is used with --json argument. 
-The structure of JSON is the same as that of cache dictionary, but the number of news in JSON object is affected by --limit argument if it is provided.
+The structure of JSON is the same as that of news_cache dictionary, but the number of news in JSON object is affected by --limit argument if it is provided.
 ```
 {"feed_description": "The text of RSS-feed description tag",
  "feed_link": "URL of RSS-feed",
  "feed_media": {"url": "URL of feed media attachment"},
  "feed_title": "title of RSS-feed",
+ "feed_pubDate": "publication date of RSS-feed",
  "feed_items": {"%Y:%m:%d %H:%M:%S": {"description": "news item description",
                                       "link": "news item link",
                                       "media": {"type": "type (or type/format)",
@@ -136,9 +154,61 @@ The structure of JSON is the same as that of cache dictionary, but the number of
                 }
 }	
 ```
-### DEFAULT OUTPUT STRUCTURE										
-If --json is not provided, the script by default makes a user-friendly print of news of the following structure:
+
+### CACHING
+
+Cache is saved in subdirectory 'cache/' of the root directory of the script. 
+Its structure is similar to the before-mentioned news_cache structure with the news_cache dictionary as a value in a pair and 'URL of RSS-feed 'as its key 
+It is saved in form of JSON file, the structure of cache and JSON is shown on the following example:
 ```
+{
+ "URL of RSS-feed": {
+        "feed_title": "title of RSS-feed",
+        "feed_link": "URL of RSS-feed",
+        "feed_description": "The text of RSS-feed description tag",
+        "feed_pubDate": "publication date of RSS-feed",
+        "feed_items": {
+            "%Y:%m:%d %H:%M:%S": {
+                "title": "news item title",
+                "link": "news item link",
+                "description": "news item description",
+                "pubDate": "publication date of news item",
+                "media": {
+                    "url": "URL of news item media attachment"
+                }
+            }
+        }
+    },
+ "URL of RSS-feed": {
+        "feed_title": "title of RSS-feed",
+        "feed_link": "URL of RSS-feed",
+        "feed_description": "The text of RSS-feed description tag",
+        "feed_media": {
+            "url": "URL of feed media attachment"
+        },
+        "feed_items": {
+            "%Y:%m:%d %H:%M:%S": {
+                "title": "news item title",
+                "description": "The text of RSS-feed description tag",
+                "media": {
+                    "url": "URL of news item media attachment"
+                },
+                "link": "news item link",
+                "pubDate": "publication date of news item"
+                
+            }
+        }
+    }
+}
+```
+
+### DEFAULT OUTPUT STRUCTURE			
+- With source argument provided the Feed tags are formed from the feed information in news dictionary.
+- If script is used with --date DATE argument and no source argument the Feed tags are formed as a set of universal tags.
+- If --json argument is provided the print is done in a dictionary form, similar to before-mentioned JSON structure.
+- If --json is not provided, the script by default makes a user-friendly print of news of the following structure:
+```
+========================================================================================================================
 Feed title: title of RSS-feed
 Feed description: The text of RSS-feed description tag
 Feed URL: URL of RSS-feed
@@ -159,6 +229,9 @@ Link: news item link
 ...
 ------------------------------------------------------------------------------------------------------------------------
 ```
+Note:
+there are filler messages prepared for printing data, not which was not found in rss-feed, and thereby is not presented in the news dictionary.
+
 
 ## Logging
 By default, logging is not enabled. Providing --verbose argument on script call results in logging enabling.
