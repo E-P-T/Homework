@@ -1,31 +1,3 @@
-# Python Practice - Session 4
-
-
-### Task 5.1
-Open file `data/unsorted_names.txt` in data folder. Sort the names and write them to a new file called `sorted_names.txt`. Each name should start with a new line as in the following example:
-
-```
-Adele
-Adrienne
-...
-Willodean
-Xavier
-```
-
-### Task 5.2
-Implement a function which search for most common words in the file.
-Use `data/lorem_ipsum.txt` file as a example.
-
-```python
-def most_common_words(filepath, number_of_words=3):
-    pass
-
-print(most_common_words('lorem_ipsum.txt'))
->>> ['donec', 'etiam', 'aliquam']
-```
-
-> NOTE: Remember about dots, commas, capital letters etc.
-
 ### Task 5.3
 File `data/students.csv` stores information about students in [CSV](https://en.wikipedia.org/wiki/Comma-separated_values) format.
 This file contains the student’s names, age and average mark. 
