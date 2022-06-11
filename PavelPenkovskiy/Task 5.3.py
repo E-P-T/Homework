@@ -64,15 +64,14 @@ def get_top_aged_students():
                 result[i][j] = str(result[i][j])
 
     for i in range(len(result)):
-        result[i] = ', '.join(result[i])
+        result[i] = ','.join(result[i])
 
     result = '\n'.join(result)
-    result = 'student name, age, average mark\n' + result
+    result = 'student name,age,average mark\n' + result
 
     with open("data/students_sorted_by_age.csv", mode='w') as file:
         file.write(result)
 
     return result
 
-# test
-# get_top_aged_students()
+get_top_aged_students()
