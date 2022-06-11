@@ -32,3 +32,29 @@ class TestNews(TestCase):
         self.assertEqual(item.title, title)
         self.assertEqual(item.link, link)
         self.assertEqual(item.date, parse_date(date))
+
+    def test_parse_dict(self):
+        feed = 'RSS Title'
+        title = 'Title'
+        link = 'https://example.com'
+        date = 'Mon, 1 Jan 2000 12:00:00 GMT'
+
+        dict = {
+            'feed': feed,
+            'items': [
+                {
+                    'title': title,
+                    'link': link,
+                    'date': date
+                }
+            ]
+        }
+
+        news = News.parse_dict(dict)
+        self.assertEqual(news.feed, feed)
+        self.assertEqual(len(news.items), 1)
+
+        item = news.items[0]
+        self.assertEqual(item.title, title)
+        self.assertEqual(item.link, link)
+        self.assertEqual(item.date, parse_date(date))

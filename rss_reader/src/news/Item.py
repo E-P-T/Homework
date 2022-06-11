@@ -13,18 +13,39 @@ class Item:
     link: str
     images: list[str]
 
+    def __init__(self, title: str, date: datetime, link: str, images: list[str]):
+        self.title = title
+        self.date = date
+        self.link = link
+        self.images = images
+
     @staticmethod
     def parse(element: Element) -> 'Item':
         """
         Parse an XML element into a news item.
         """
-        item = Item()
-        item.title = element.find('title').text
-        item.date = parse_date(element.find('pubDate').text)
-        item.link = element.find('link').text
-        item.images = [
+        title = element.find('title').text
+        date = parse_date(element.find('pubDate').text)
+        link = element.find('link').text
+        images = [
             image.attrib['url'] for image in
             element.findall('*[@width][@height]')
         ]
 
-        return item
+        return Item(title, date, link, images)
+
+    @staticmethod
+    def parse_dict(item_dict: dict) -> 'Item':
+        """
+        Parse a dictionary into a news item.
+        """
+
+        title = item_dict.get('title')
+        date = parse_date(item_dict.get('date'))
+        link = item_dict.get('link')
+        images = item_dict.get('images')
+
+        return Item(title, date, link, images)
+
+    def __eq__(self, o: object) -> bool:
+        return self.__dict__ == o.__dict__
