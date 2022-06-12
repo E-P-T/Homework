@@ -49,3 +49,16 @@ class Item:
 
     def __eq__(self, o: object) -> bool:
         return self.__dict__ == o.__dict__
+
+    def to_html(self) -> str:
+        images = '\n'.join(list(map(lambda image: f'<img src="{image}" class="w-100">', self.images)))
+
+        return f'''
+        <div class="fs-4">
+            <hr>
+            <div><span class="fw-semibold">Title: </span>{self.title}</div>
+            <div><span class="fw-semibold">Date: </span>{self.date}</div>
+            <div><span class="fw-semibold">Link: </span>{self.link}</div>
+            {images}
+        </div>
+        '''

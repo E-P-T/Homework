@@ -1,7 +1,10 @@
+import contextlib
 import json
 import re
 from urllib.request import urlopen
 from xml.etree import ElementTree as ET
+
+from xhtml2pdf import pisa
 
 from .Color import Color
 
@@ -46,3 +49,12 @@ class Util:
         Returns a string with colorized text.
         """
         return f'{color.value}{message}{Color.END.value}'
+
+    @staticmethod
+    def html_to_pdf(html: str, path: str):
+        """
+        Converts an HTML file to a PDF file.
+        """
+        with open(path, 'w+b') as file:
+            with contextlib.redirect_stdout(None):
+                pisa.CreatePDF(html, file)

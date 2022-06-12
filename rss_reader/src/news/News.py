@@ -23,7 +23,7 @@ class News:
         feed = element.find('title').text
         items = [Item.parse(item) for item in element.findall('item')]
         if date is not None:
-            items = list(filter(lambda item: item.date.date() == date.date(), news.items))
+            items = list(filter(lambda item: item.date.date() == date.date(), items))
         items = items[:limit]
 
         return News(feed, items)
@@ -39,3 +39,26 @@ class News:
         items = [Item.parse_dict(item) for item in items]
 
         return News(feed, items)
+
+    def to_html(self) -> str:
+        items = '\n'.join(list(map(Item.to_html, self.items)))
+        html = f'''
+        <!doctype html>
+            <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>News</title>
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" 
+                integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+            </head>
+            <body>
+                <div class="container">
+                <h1 class="text-center">Feed: {self.feed}</h1>
+                {items}
+                </div>
+            </body>
+        </html>
+        '''
+
+        return html
