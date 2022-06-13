@@ -12,7 +12,6 @@ import os
 import re
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
-from pprint import pprint
 from urllib import error
 from urllib.request import Request, urlopen
 from urllib.parse import urlparse
@@ -44,8 +43,6 @@ class RssReader:
         if self.news_cache:  # to prevent further funcs if prepare_dict failed
             RssReader.update_local_cache(self.url, self.news_cache)
             self.news_dict = RssReader.limit_news_dict(self.news_cache, news_limit)
-            if to_json:
-                self.news_dict_json = RssReader.convert_dict_to_json(self.news_dict)
 
     @staticmethod
     def log_runtime(text: str):
@@ -64,13 +61,15 @@ class RssReader:
         The method is used to guarantee human readability for parsed text data.
         1. html.unescape() converts all named and numeric character references (e.g. &gt;, &#62;, &#x3e;) in string to
         corresponding Unicode characters.
-        2. re.sub() removes xml tags and replaces non-breakable space Unicode characters (\xa0) with whitespaces and
-        '\u203a' to single right-pointing angle quotation mark
+        2. re.sub() removes xml tags and replaces common Unicode characters (e.g. '\xa0', '\u201c') with
+        correspondent readable symbols
 
         :param string: a string of text
         :return: a processed string
         """
-        sub_dict = {'\u203a': '>', '\xa0': ' '}
+        sub_dict = {'\u203a': '>', '\xa0': ' ', '\u2019': "'", '\u2014': '-', '\u201c': '"', '\u201d': '"',
+                    '\u2026': '...',
+                    }
         processed_string = re.sub('<[^<]+>', '', html.unescape(string))
         for key, value in sub_dict.items():
             processed_string = re.sub(key, value, processed_string)
@@ -380,10 +379,10 @@ class RssReader:
 
     def return_news_json(self):
         """
-        Method makes a pretty print of JSON data to stdout, sort_dicts is set as False to prevent sorting
+        Method makes a pretty print of JSON data to stdout with indent set to 4 for better visibility
         :return: None
         """
-        pprint(json.loads(self.news_dict_json), sort_dicts=False)
+        print(json.dumps(self.news_dict, indent=4))
 
 
 class RssReaderCached(RssReader):
@@ -401,8 +400,6 @@ class RssReaderCached(RssReader):
         self.news_cache = RssReaderCached.load_from_local_cache()
         if self.news_cache:
             self.news_dict = RssReaderCached.limit_news_dict(self.news_cache, news_limit, self.url)
-            if to_json:
-                self.news_dict_json = RssReaderCached.convert_dict_to_json(self.news_dict)
         else:
             raise rss_exceptions.NoDataInCache('No news found in cache')
 
