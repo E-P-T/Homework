@@ -16,6 +16,7 @@ The most common difference may be in Python calling with console commands, as it
 Script has been tested on a clean machine with python 3.9.13, so change commands accordingly to your system settings if needed.
 
 ## INSTALLATION
+Rss-reader is crossplatform and has been tested on Windows an UNIX-based systems (Ubuntu). 
 
 The current version of the product can be used with or without installation.
 By default, the root directory of the script is called final_task, if you change it while using script - adjust your commands appropriately.
