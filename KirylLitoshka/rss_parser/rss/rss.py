@@ -37,7 +37,10 @@ class RssFeedItem(RSS):
             self.__parse_item(item)
 
     def __parse_item(self, item):
-        self.date = item.pubdate.string
+        try:
+            self.date = item.pubdate.string
+        except AttributeError:
+            self.date = None
         self.link = item.link.next_sibling.strip()
         self.urls = []
         self.images = []

@@ -3,7 +3,7 @@ import requests
 from requests.exceptions import ConnectionError, MissingSchema
 import logging
 from bs4 import BeautifulSoup
-from rss import RssFeed
+from rss_parser.rss import RssFeed
 
 
 class Parser:
@@ -47,7 +47,7 @@ class RssParser:
                                 datefmt="%d.%m.%Y %H:%M:%S")
         if self.version:
             logging.info("Current version")
-            return 1.0
+            return 1.2
         if not self.url:
             logging.info("Fail! URL cannot be empty")
             raise Exception("URL cannot be empty")

@@ -1,5 +1,5 @@
 import warnings
-from parsers import Parser
+from rss_parser.parsers import Parser
 
 warnings.filterwarnings("ignore", module="bs4")
 
