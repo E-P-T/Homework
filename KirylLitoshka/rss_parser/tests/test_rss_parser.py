@@ -3,8 +3,8 @@ import sys
 import unittest
 import argparse
 import warnings
-from parsers import Parser, RssParser
-from rss import RssFeed
+from rss_parser.parsers import Parser, RssParser
+from rss_parser.rss import RssFeed
 
 
 class ParserTest(unittest.TestCase):
