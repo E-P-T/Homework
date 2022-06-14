@@ -17,6 +17,7 @@ from urllib.request import Request, urlopen
 from urllib.parse import urlparse
 import rss_exceptions
 from rss_logger import logger_info
+from rss_output import PdfConverter
 
 script_root = os.path.dirname(__file__)
 news_limit = None
@@ -32,6 +33,8 @@ class RssReader:
     Provides methods for printing data in stdout with option of converting to JSON format.
     News dictionary and JSON structure are described in README.md
     """
+    converters = {'PDF': PdfConverter}
+
     def __init__(self, url: str):
         """
         Method serves for processing news from rss feeds
@@ -355,7 +358,10 @@ class RssReader:
             print(f'Publication date: '
                   f'{self.news_dict["feed_items"][item].get("pubDate", "No publication date provided")}')
             print()
-            print(f'{self.news_dict["feed_items"][item].get("description", "No description provided")}')
+            description = self.news_dict["feed_items"][item].get("description", None)
+            if description is None:
+                description = "No description provided"
+            print(description)
             print()
             if 'media' in self.news_dict["feed_items"][item]:
                 if 'type' in self.news_dict["feed_items"][item]['media']:
@@ -513,6 +519,8 @@ def main():
                         print(f'Error while printing news: {exc}')
                     except Exception as exc:
                         print(f'Unexpected error while printing news: {exc}')
+                pdf = PdfConverter(news.news_dict, news.url, news_date)
+                pdf.pdf_output()
 
 
 if __name__ == '__main__':
