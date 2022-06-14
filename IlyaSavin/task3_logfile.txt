@@ -1,0 +1,7 @@
+Time of performing: 5.9604644775390625e-06
+Time of performing: 5.4836273193359375e-06
+Time of performing: 6.198883056640625e-06
+Time of performing: 0.016982316970825195
+Time of performing: 0.015050649642944336
+Time of performing: 0.016401290893554688
+Time of performing: 0.015534162521362305
