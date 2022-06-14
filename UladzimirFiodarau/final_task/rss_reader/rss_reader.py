@@ -294,18 +294,6 @@ class RssReader:
         return news_dict
 
     @staticmethod
-    def convert_dict_to_json(news_dict: dict) -> str:
-        """
-        Method converts a news dictionary into JSON string
-        :param news_dict: a dictionary with news
-        :return: JSON string
-        """
-        RssReader.log_runtime('Converting news to JSON format')
-        json_string = json.dumps(news_dict)
-        RssReader.log_runtime('Successfully converted news to JSON format')
-        return json_string
-
-    @staticmethod
     def load_from_local_cache() -> dict:
         """
         Method loads news cache from local cache in form of a nested dictionary if cache file exists.
@@ -353,6 +341,7 @@ class RssReader:
         to prevent KeyErrors
         :return: None
         """
+        RssReader.log_runtime('Printing news for the user\n')
         print('=' * 120)
         print(f'Feed title: {self.news_dict.get("feed_title", "No title provided")}')
         print(f'Feed description: {self.news_dict.get("feed_description", "No description provided")}')
@@ -382,7 +371,10 @@ class RssReader:
         Method makes a pretty print of JSON data to stdout with indent set to 4 for better visibility
         :return: None
         """
-        print(json.dumps(self.news_dict, indent=4))
+        RssReader.log_runtime('Converting news to JSON format')
+        json_string = json.dumps(self.news_dict, ensure_ascii=False, indent=4)
+        RssReader.log_runtime('Printing news in JSON format for the user\n')
+        print(json_string)
 
 
 class RssReaderCached(RssReader):
@@ -511,13 +503,11 @@ def main():
             if 'news_dict' in news.__dict__ and news.news_dict:  # print only if news were generated w/o errors
                 if args.json:
                     try:
-                        RssReader.log_runtime('Printing news in JSON format for the user\n')
                         news.return_news_json()
                     except json.JSONDecodeError as exc:
                         print(f'Error while reading JSON object: {exc}')
                 else:
                     try:
-                        RssReader.log_runtime('Printing news for the user\n')
                         news.return_news_default()
                     except KeyError as exc:
                         print(f'Error while printing news: {exc}')
