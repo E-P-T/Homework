@@ -111,6 +111,8 @@ class PdfConverter(RssConverter):
                         pdf.image(news['feed_media']['url'], 12, 14, 33, 15)
                     except Exception:
                         pdf.image(feed_image, 12, 14, 33, 15)
+            else:
+                pdf.image(feed_image, 12, 14, 33, 15)
         # printing Feed header
         PdfConverter.print_cell(pdf, tab=36, text=news['feed_title'], length=53, line_length=164)
         pdf.cell(200, 2, ln=1, align='L')
