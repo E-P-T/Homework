@@ -35,11 +35,13 @@ def main():
             print(version)
         elif args.source == '':
             print("URL is are required")
+        elif args.json:
+            rss_reader.generate_json(args.source, args.limit)
         else:
-
             rss_reader.print_to_console(args.source, args.limit)
     except AttributeError:
         print("Error, failed to get an attribute. Check correctness URL")
+
 
 
 if __name__ == "__main__":
