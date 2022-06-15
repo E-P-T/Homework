@@ -19,7 +19,7 @@ import rss_exceptions
 from rss_logger import logger_info
 from rss_output import PdfConverter
 
-script_root = os.path.dirname(__file__)
+script_dir = os.path.dirname(__file__)
 news_limit = None
 to_json = False
 verbose = False
@@ -33,7 +33,6 @@ class RssReader:
     Provides methods for printing data in stdout with option of converting to JSON format.
     News dictionary and JSON structure are described in README.md
     """
-    converters = {'PDF': PdfConverter}
 
     def __init__(self, url: str):
         """
@@ -303,8 +302,8 @@ class RssReader:
         :return: a nested dictionary with cached news
         """
         RssReader.log_runtime('Loading news from local cache')
-        if os.path.exists(script_root + '/cache/rss_cache.json'):
-            with open(script_root + '/cache/rss_cache.json', 'r') as rss_cache:
+        if os.path.exists(script_dir + '/cache/rss_cache.json'):
+            with open(script_dir + '/cache/rss_cache.json', 'r') as rss_cache:
                 return json.load(rss_cache)
         else:
             RssReader.log_runtime('No local cache found')
@@ -320,9 +319,9 @@ class RssReader:
         :return: None
         """
         RssReader.log_runtime('Saving news to local cache')
-        if not os.path.exists(script_root+'/cache/'):
-            os.mkdir(script_root+'/cache/')
-        with open(script_root + '/cache/rss_cache.json', 'w') as rss_cache:
+        if not os.path.exists(script_dir+'/cache/'):
+            os.mkdir(script_dir+'/cache/')
+        with open(script_dir + '/cache/rss_cache.json', 'w') as rss_cache:
             json.dump(news_cache, rss_cache, indent=4)
         RssReader.log_runtime('Successfully saved news to local cache')
 
@@ -457,9 +456,10 @@ def parse_command_line(args=None):
     """
     parser = argparse.ArgumentParser(description="Python command-line RSS reader.", exit_on_error=False)
     parser.add_argument("--version", help="Print version info and exit", action="version",
-                        version="You are using %(prog)s version 1.3")
+                        version="You are using %(prog)s version 1.4")
     parser.add_argument("--verbose", help="Outputs verbose status messages", action="store_true")
     parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
+    parser.add_argument("--pdf", help="Save result as PDF file", action="store_true")
     parser.add_argument("--limit", type=int, help="Limit news topics if this parameter provided")
     parser.add_argument("--date", type=str, help="Date for news selection, must be in %%Y%%m%%d format (YYYYMMDD)")
     parser.add_argument("source", type=str, nargs='?', default='', help="RSS-feed URL")
@@ -519,8 +519,14 @@ def main():
                         print(f'Error while printing news: {exc}')
                     except Exception as exc:
                         print(f'Unexpected error while printing news: {exc}')
-                pdf = PdfConverter(news.news_dict, news.url, news_date)
-                pdf.pdf_output()
+                if args.pdf:
+                    try:
+                        RssReader.log_runtime('Converting news to PDF. This may take time, please wait. '
+                                              '\nConversion progress:')
+                        pdf_news = PdfConverter(news.news_dict, news.url, news_date)
+                        pdf_news.pdf_output()
+                    except Exception as exc:
+                        print(f'Unexpected error while converting to PDF: {exc}')
 
 
 if __name__ == '__main__':
