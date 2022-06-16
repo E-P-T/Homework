@@ -161,9 +161,7 @@ class PdfConverter(RssConverter):
                             if os.path.exists(temp_name):
                                 os.remove(temp_name)
             # Printing news description
-            news_desc = news["feed_items"][item].get("description", None)
-            if news_desc is None:
-                news_desc = "No description provided"
+            news_desc = news["feed_items"][item].get("description", "No description provided")
             PdfConverter.print_cell(pdf, text=news_desc, length=75)
             # changing font and colour for printing links (news_link formed previously in news_title section)
             pdf.set_font('DejaVuMono', 'I', 9)
@@ -222,7 +220,7 @@ class HtmlConverter(RssConverter):
         feed_desc = news.get('feed_description', 'No additional description')
         html_buffer.append(f'<h2 style = "margin-left: 130px">{feed_desc}</h2>')
         feed_link = news.get('feed_link', '')
-        html_buffer.append(f'<h3 style = "margin-left: 130px"><a href="url">{feed_link}</a></h3>')
+        html_buffer.append(f'<h3 style = "margin-left: 130px"><a href={feed_link}>{feed_link}</a></h3>')
         html_buffer.append(f'<h1 style="text-align:left">{"=" * 83}</h1>')
         # 'tdqm' package is used to show user a progress bar while converting news
         for item in tqdm(sorted(news['feed_items'], reverse=True)):
@@ -234,7 +232,7 @@ class HtmlConverter(RssConverter):
                 media = news["feed_items"][item]['media']
                 news_media = media['url']  # We will use a link to media later in script
                 if 'type' not in media or media['type'].startswith('image'):
-                    news_image = media['url']  # We will use a link to media later in script
+                    news_image = media['url']
             tab = 330 if news_image else 0
             # printing image if found and title
             if news_image:
@@ -251,11 +249,12 @@ class HtmlConverter(RssConverter):
             # printing news link and media link
             news_link = news["feed_items"][item].get("link", "No link provided")
             if news_link != "No link provided":
-                html_buffer.append(f'<p style = "margin-left: {tab}px"><a href="url">{news_link}</a><p>')
+                html_buffer.append(f'<p style = "margin-left: {tab}px"><a href={news_link}>{news_link}</a><p>')
             else:
                 html_buffer.append(f'<p style = "margin-left: {tab}px"><{news_link}<p>')
             if news_media:
-                html_buffer.append(f'<p style = "margin-left: {tab}px"><a href="url">Media link: {news_media}</a><p>')
+                html_buffer.append(f'<p style = "margin-left: {tab}px"><a href={news_media}>Media link: {news_media}'
+                                   f'</a><p>')
             # finishing news item block with printing a separator between news
             html_buffer.append(f'<p style="text-align:left">{"-" * 280}</p>')
         # closing previously opened tags
@@ -269,7 +268,8 @@ class HtmlConverter(RssConverter):
 
 
 if __name__ == '__main__':
-    with open(script_dir + '/test_examples/dict_v3.txt', encoding='utf-8') as file:
-        dictionary = eval(file.read())
-        html = HtmlConverter(dictionary)
-        html.convert_to_html()
+    pass
+    # with open(script_dir + '/test_examples/dict_v3.txt', encoding='utf-8') as file:
+    #     dictionary = eval(file.read())
+    #     html = HtmlConverter(dictionary)
+    #     html.convert_to_html()

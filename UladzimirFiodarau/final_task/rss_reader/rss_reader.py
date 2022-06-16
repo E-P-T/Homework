@@ -10,6 +10,7 @@ import html
 import json
 import os
 import re
+import sys
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from urllib import error
@@ -17,7 +18,7 @@ from urllib.request import Request, urlopen
 from urllib.parse import urlparse
 import rss_exceptions
 from rss_logger import logger_info
-from rss_output import PdfConverter
+from rss_output import PdfConverter, HtmlConverter
 
 script_dir = os.path.dirname(__file__)
 news_limit = None
@@ -32,7 +33,10 @@ class RssReader:
     Caches gathered news for later use.
     Provides methods for printing data in stdout with option of converting to JSON format.
     News dictionary and JSON structure are described in README.md
+    has
     """
+    pdf = PdfConverter
+    html = HtmlConverter
 
     def __init__(self, url: str):
         """
@@ -203,8 +207,8 @@ class RssReader:
                 media_dict = {subelement.tag: RssReader.process_string(subelement.text) for subelement in element
                               if subelement.tag in ('url', 'type') and subelement.text}
                 news_cache['feed_media'] = media_dict
-            elif element.tag in required_data:
-                news_cache['feed_' + element.tag] = RssReader.process_string(element.text) if element.text else None
+            elif element.tag in required_data and element.text:
+                news_cache['feed_' + element.tag] = RssReader.process_string(element.text)
 
         RssReader.log_runtime('Creating separate key-value pairs for item tags')
         for item in root.iter('item'):
@@ -220,8 +224,8 @@ class RssReader:
                     elif 'url' not in media_dict and element.text and re.search('http.?://', element.text):
                         media_dict['url'] = re.search('http.?://[^\\s<>]+', element.text)[0]
                     temporary_item_dict['media'] = media_dict
-                elif element.tag in required_data:
-                    temporary_item_dict[element.tag] = RssReader.process_string(element.text) if element.text else None
+                elif element.tag in required_data and element.text:
+                    temporary_item_dict[element.tag] = RssReader.process_string(element.text)
                     if element.text and re.search('img.*src=', element.text) and 'media' not in temporary_item_dict:
                         temporary_item_dict['media'] = {'url': re.search('src="[^"]+', element.text)[0][5:]}
             if temporary_item_dict.get('pubDate', None):
@@ -357,10 +361,7 @@ class RssReader:
             print(f'Publication date: '
                   f'{self.news_dict["feed_items"][item].get("pubDate", "No publication date provided")}')
             print()
-            description = self.news_dict["feed_items"][item].get("description", None)
-            if description is None:
-                description = "No description provided"
-            print(description)
+            print(self.news_dict["feed_items"][item].get("description", "No description provided"))
             print()
             if 'media' in self.news_dict["feed_items"][item]:
                 if 'type' in self.news_dict["feed_items"][item]['media']:
@@ -460,6 +461,7 @@ def parse_command_line(args=None):
     parser.add_argument("--verbose", help="Outputs verbose status messages", action="store_true")
     parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
     parser.add_argument("--pdf", help="Save result as PDF file", action="store_true")
+    parser.add_argument("--html", help="Save result as HTML file", action="store_true")
     parser.add_argument("--limit", type=int, help="Limit news topics if this parameter provided")
     parser.add_argument("--date", type=str, help="Date for news selection, must be in %%Y%%m%%d format (YYYYMMDD)")
     parser.add_argument("source", type=str, nargs='?', default='', help="RSS-feed URL")
@@ -519,15 +521,27 @@ def main():
                         print(f'Error while printing news: {exc}')
                     except Exception as exc:
                         print(f'Unexpected error while printing news: {exc}')
+                if args.html:
+                    try:
+                        RssReader.log_runtime('\nConverting news to HTML. This may take time, please wait. '
+                                              '\nConversion progress:')
+                        news.html(news.news_dict, news.url, news_date).convert_to_html()
+                    except Exception as exc:
+                        print(f'Unexpected error while converting to HTML: {exc}')
                 if args.pdf:
                     try:
-                        RssReader.log_runtime('Converting news to PDF. This may take time, please wait. '
+                        RssReader.log_runtime('\nConverting news to PDF. This may take time, please wait. '
                                               '\nConversion progress:')
-                        pdf_news = PdfConverter(news.news_dict, news.url, news_date)
-                        pdf_news.pdf_output()
+                        news.pdf(news.news_dict, news.url, news_date).convert_to_pdf()
+                    except PermissionError as exc:
+                        print(f"Couldn't access destination file, probably file is already in use: {exc}")
                     except Exception as exc:
                         print(f'Unexpected error while converting to PDF: {exc}')
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except Exception as message:
+        print(f'Unexpected error during rss-reader runtime: {message}')
+        sys.exit(1)
