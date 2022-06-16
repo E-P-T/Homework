@@ -15,7 +15,7 @@ setup(
     description='Python RSS parser',
     long_description=description,
     packages=find_packages(),
-    package_data={'': ['*.txt', '*.xml']
+    package_data={'': ['*.txt', '*.xml', '*.ttf', '*.html', '*.png']
                   },
     install_requires=[requirements],
     classifiers=[

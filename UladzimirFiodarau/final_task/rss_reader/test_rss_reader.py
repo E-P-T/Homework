@@ -3,6 +3,7 @@ File contains tests for rss_reader.py script
 """
 import unittest
 import contextlib
+import datetime
 import io
 import os
 import sys
@@ -10,9 +11,10 @@ from unittest.mock import patch, call
 
 import rss_exceptions
 import rss_reader
+import rss_output
 from rss_reader import ET, RssReader
+
 tests_dir = os.path.dirname(__file__) + '/test_examples/'
-print(tests_dir)
 
 
 @contextlib.contextmanager
@@ -32,6 +34,9 @@ def captured_output():
 
 
 class TestRssReader(unittest.TestCase):
+    """
+    Class for testing rss_reader.py
+    """
 
     def test_process_string(self):
         """
@@ -303,12 +308,14 @@ class TestRssReader(unittest.TestCase):
         :return:
         """
         parser = rss_reader.parse_command_line(['--limit', '3', '--verbose', '--json', 'https://vse.sale/news/rss',
-                                                '--date', '20220601'])
+                                                '--date', '20220601', '--pdf', '--html'])
         self.assertTrue(parser.limit)
         self.assertTrue(parser.verbose)
         self.assertTrue(parser.json)
         self.assertTrue(parser.source)
         self.assertTrue(parser.date)
+        self.assertTrue(parser.pdf)
+        self.assertTrue(parser.html)
         with captured_output():
             with self.assertRaises(SystemExit):
                 rss_reader.parse_command_line(['--help'])
@@ -316,6 +323,55 @@ class TestRssReader(unittest.TestCase):
                 rss_reader.parse_command_line(['-h'])
             with self.assertRaises(SystemExit):
                 rss_reader.parse_command_line(['--version'])
+
+
+class TestRssOutput(unittest.TestCase):
+    """
+    Class for testing rss_output.py
+    """
+
+    def test_create_file_name(self):
+        """
+        Test for create_file_name method of RssConverter class
+        :return: None
+        """
+        self.assertEqual(rss_output.RssConverter.create_file_name(), f'{datetime.datetime.now():%Y_%m_%d}')
+        self.assertEqual(rss_output.RssConverter.create_file_name(date='2022:01:01'), 'cached_news_2022_01_01')
+        self.assertEqual(rss_output.RssConverter.create_file_name(url='https://valid_url.com'),
+                         'valid_url_' + f'{datetime.datetime.now():%Y_%m_%d}')
+        self.assertEqual(rss_output.RssConverter.create_file_name(url='https://valid_url.com', date='2022:01:01'),
+                         'valid_url_cached_news_2022_01_01')
+
+    def test_html_convert(self):
+        """
+        Test for convert method of HtmlConverter class
+        uses example files form ./test_examples folder
+        :return: None
+        """
+        with open(tests_dir + 'dict_v4.txt', encoding='utf-8') as test, \
+                open(tests_dir + 'dict_v4_html.html', encoding='utf-8') as comp:
+            dictionary = eval(test.read().strip())
+            comparison = comp.readlines()
+            rss_output.HtmlConverter(dictionary, date='20220101').convert()
+            try:
+                with open(os.path.dirname(__file__) + '/output/cached_news_20220101.html', encoding='utf-8') as res:
+                    html = res.readlines()
+                    self.assertEqual(html, comparison)
+            finally:
+                if os.path.exists(os.path.dirname(__file__) + '/output/cached_news_20220101.html'):
+                    os.remove(os.path.dirname(__file__) + '/output/cached_news_20220101.html')
+        with open(tests_dir + 'dict_v8.txt', encoding='utf-8') as test, \
+                open(tests_dir + 'dict_v8_html.html', encoding='utf-8') as comp:
+            dictionary = eval(test.read().strip())
+            comparison = comp.readlines()
+            rss_output.HtmlConverter(dictionary, date='20220101').convert()
+            try:
+                with open(os.path.dirname(__file__) + '/output/cached_news_20220101.html', encoding='utf-8') as res:
+                    html = res.readlines()
+                    self.assertEqual(html, comparison)
+            finally:
+                if os.path.exists(os.path.dirname(__file__) + '/output/cached_news_20220101.html'):
+                    os.remove(os.path.dirname(__file__) + '/output/cached_news_20220101.html')
 
 
 if __name__ == '__main__':

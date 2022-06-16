@@ -33,7 +33,7 @@ class RssReader:
     Caches gathered news for later use.
     Provides methods for printing data in stdout with option of converting to JSON format.
     News dictionary and JSON structure are described in README.md
-    has
+    has *Converter class objects as attributes to provide access to converters functionality
     """
     pdf = PdfConverter
     html = HtmlConverter
@@ -512,8 +512,8 @@ def main():
                 if args.json:
                     try:
                         news.return_news_json()
-                    except json.JSONDecodeError as exc:
-                        print(f'Error while reading JSON object: {exc}')
+                    except Exception as exc:
+                        print(f'Unexpected error while printing JSON object: {exc}')
                 else:
                     try:
                         news.return_news_default()
@@ -525,14 +525,16 @@ def main():
                     try:
                         RssReader.log_runtime('\nConverting news to HTML. This may take time, please wait. '
                                               '\nConversion progress:')
-                        news.html(news.news_dict, news.url, news_date).convert_to_html()
+                        news.html(news.news_dict, news.url, news_date).convert()
+                    except PermissionError as exc:
+                        print(f"Couldn't access destination file, probably file is already in use: {exc}")
                     except Exception as exc:
                         print(f'Unexpected error while converting to HTML: {exc}')
                 if args.pdf:
                     try:
                         RssReader.log_runtime('\nConverting news to PDF. This may take time, please wait. '
                                               '\nConversion progress:')
-                        news.pdf(news.news_dict, news.url, news_date).convert_to_pdf()
+                        news.pdf(news.news_dict, news.url, news_date).convert()
                     except PermissionError as exc:
                         print(f"Couldn't access destination file, probably file is already in use: {exc}")
                     except Exception as exc:

@@ -91,7 +91,7 @@ class PdfConverter(RssConverter):
             obj.cell(tab)
             obj.cell(w=line_length, h=line_height, txt=line, ln=1, align=line_align, link=link)
 
-    def convert_to_pdf(self):
+    def convert(self):
         """
         method converts a dictionary of news into a pdf file saved in 'output' directory which is formed in script
         directory (by default script directory is the 'rss_reader' directory in root directory 'final_task')
@@ -180,6 +180,7 @@ class PdfConverter(RssConverter):
         RssConverter.check_directory('/output/')
         file_name = script_dir + '/output/' + self.file_name
         pdf.output(file_name)
+        print(f'\nConversion successful.\nFile saved at {file_name}')
 
 
 class HtmlConverter(RssConverter):
@@ -197,7 +198,7 @@ class HtmlConverter(RssConverter):
         RssConverter.__init__(self, news_dict, url, date)
         self.file_name = self.file_name + '.html'
 
-    def convert_to_html(self):
+    def convert(self):
         """
         method converts a dictionary of news into a html file saved in 'output' directory which is formed in script
         directory (by default script directory is the 'rss_reader' directory in root directory 'final_task')
@@ -207,10 +208,13 @@ class HtmlConverter(RssConverter):
         """
         news = self.news_dict
         # We will form HTML document structure in a list, starting with head
-        html_buffer = ['<!DOCTYPE html>', '<html>', '<head><title>News gathered by rss_reader</title></head><body>']
+        html_buffer = ['<!DOCTYPE html>',
+                       '<html>',
+                       '<head><meta charset="utf-8"><title>News gathered by rss_reader</title></head>',
+                       ]
         # forming Feed info block
         html_buffer.append(f'<h1 style="text-align:left">{"=" * 83}</h1>')
-        feed_image = script_dir + '/rss-header.png'
+        feed_image = 'https://www.ict4dconference.org/wp-content/uploads/2020/10/rss-feed-logo.png'
         if 'feed_media' in news:
             if 'type' not in news['feed_media'] or news['feed_media']['type'].startswith('image'):
                 feed_image = news['feed_media']['url']
@@ -258,13 +262,14 @@ class HtmlConverter(RssConverter):
             # finishing news item block with printing a separator between news
             html_buffer.append(f'<p style="text-align:left">{"-" * 280}</p>')
         # closing previously opened tags
-        html_buffer.append('</body></html>')
+        html_buffer.append('</html>')
         # checking for output directory and saving html to file
         RssConverter.check_directory('/output/')
         file_name = script_dir + '/output/' + self.file_name
         with open(file_name, 'w', encoding='utf-8') as out:
             for line in html_buffer:
                 print(line, file=out)
+        print(f'\nConversion successful.\nFile saved at {file_name}')
 
 
 if __name__ == '__main__':

@@ -1,14 +1,18 @@
 ## CREATION GOAL
 The rss-reader has been created as a final task for graduating EPAM March 2022 Python Foundation course.
-My personal goal was to create a rss-reader using OOP and without third-party libraries to lessen external dependencies.
+My personal goal was to create a rss-reader using OOP and with minimum third-party libraries to lessen external dependencies.
 Processing of rss URLs and various ways of output are split into corpuscular functions to allow easy changes of inner logic through inheritance. 
 
 ## PRODUCT VERSION
-Current rss-reader version is 1.3
+Current rss-reader version is 1.4
 
 ## REQUIREMENTS
 
 The current version of the product requires only Python 3.9 or higher to run. The product hasn't been tested on earlier versions of Python interpreter.
+
+Please be aware that many Operating Systems come with Python pre-installed but those Python installations may be out of date or even lack some of builtin packages.
+If errors caused by such things happen please update your Python interpreter. A quick guide for updating in on Ubuntu, for example, can be found here:
+https://linuxize.com/post/how-to-install-python-3-9-on-ubuntu-20-04/
 
 ## NOTABLE MOMENTS
 All commands listed in this README file may vary according to your system settings.
@@ -19,7 +23,8 @@ Script has been tested on a clean machine with python 3.9.13, so change commands
 Rss-reader is crossplatform and has been tested on Windows an UNIX-based systems (Ubuntu). 
 
 The current version of the product can be used with or without installation.
-By default, the root directory of the script is called final_task, if you change it while using script - adjust your commands appropriately.
+By default, the root directory of the script is called 'final_task', and the script directory is 'rss_reader'.
+If you change them while using script - adjust your commands appropriately.
 
 1. Installation as script:
 ```
@@ -53,28 +58,33 @@ Rss-reader is a Command Line Interface application. Still it can be used in thre
 1. Using as a script 
 Rss-reader as a script can be called in two similar ways by putting a command in command line interface, that can be shown by calling the script in command line with --help argument.
 
-1.1. While being in root directory of the script, if the name of the script directory, which is by default the 'rss_reader' directory hasn't been changed, it can be called using the following command:
+1.1. While being in root directory of the script (if the name of the script directory hasn't been changed) it can be called using the following command:
 
-     python rss_reader [-h] [--version] [--verbose] [--json] [--limit LIMIT] [--date DATE] *source*
+     python rss_reader [-h] [--version] [--verbose] [--json] [--pdf] [--html] [--limit LIMIT] [--date DATE] *source*
 	 
-1.2 While being in script directory, which is by default the 'rss_reader' directory in the root directory of the script, it can be called using the following command:
+1.2 While being in script directory it can be called using the following command:
 
-     python rss_reader.py [-h] [--version] [--verbose] [--json] [--limit LIMIT] [--date DATE] *source*	
+     python rss_reader.py [-h] [--version] [--verbose] [--json] [--pdf] [--html] [--limit LIMIT] [--date DATE] *source*	
+
+2. Using as a CLI utility
 	 
-1.3. While being in root directory of the script, if it was previously installed as a CLI utility, as described above, it can be called using the following command:
+2.1. While being in root directory of the script, if it was previously installed as a CLI utility, as described above, it can be called using the following command:
 
-     rss_reader [-h] [--version] [--verbose] [--json] [--limit LIMIT] [--date DATE] *source*
-While calling the script in any of the before-mentioned ways, following positional arguments can be used:	 
+     rss_reader [-h] [--version] [--verbose] [--json] [--pdf] [--html] [--limit LIMIT] [--date DATE] *source*
+While calling the script in any of the before-mentioned ways, following arguments can be used:	 
 ```
 
-  source        RSS-feed URL
+positional arguments:
+  source         RSS-feed URL
 
 optional arguments:
   -h, --help     show this help message and exit
-  --version      Print version info
-  --json         Print result as JSON in stdout
+  --version      Print version info and exit
   --verbose      Outputs verbose status messages
-  --limit LIMIT  Limit news topics if this parameter provided}
+  --json         Print result as JSON in stdout
+  --pdf          Save result as PDF file
+  --html         Save result as HTML file
+  --limit LIMIT  Limit news topics if this parameter provided
   --date DATE    Date for news selection, must be in %Y%m%d format (YYYYMMDD)
 
 source is a mandatory argument but can only be skipped when using rss_reader with:
@@ -83,13 +93,16 @@ source is a mandatory argument but can only be skipped when using rss_reader wit
 
 --help (-h)  argument is used to print script's help information (listed above) and exit script
 --version  argument is used to print script's version and exit script
---json argument is used to convert news data to JSON format. The structure of JSON is described later in this file
 --verbose argument is used for verbose logging while running the script
+--json argument is used to convert news data to JSON format and print JSON to user. The structure of JSON is described later in this file
+--pdf argument is used to convert news data to PDF format and save as file
+--html argument is used to convert news data to HTML format and save as file
+		Both --pdf and --html arguments result in saving news file in chosen format in directory 'output' in script directory
 --limit LIMIT argument is used to set the quantity of news, that are shown to the user:
-		LIMIT must be a positive integer, which shows how mane news are going to be shown from the feed.)
-		If LIMIT is a negative integer, no news will be displayed (feed information will still be printed to the user)
-		No --limit set or LIMIT equal to 0 both mean that user will get all available news from the feed.
+		LIMIT must be a positive integer, which shows how many news are going to be shown from the feed.
+		No --limit set or LIMIT equal to 0, or LIMIT set as a negative integer, all mean that user will get all available news from the feed.
 		A LIMIT, which surpasses number of news in feed, will also result in user getting all available news from the feed.
+		Passing a non-integer LIMIT will raise an Exception and stop the Script run.
 		While limiting news using --limit, the script chooses most recent news according to their publishing date in the feed.
 --date DATE argument is used to load previously cached news. If it is given, the rss-reader doesn't require Internet connection to work.
 		DATE argument must be a string of digits in %Y%m%d format (YYYYMMDD), e.g. 20220601 (which is 1 June 2022)
@@ -102,16 +115,18 @@ Arguments can be used in combinations, e.g.:
 ```
 python rss_reader.py --version
 python rss_reader.py --version --verbose --limit 1000 https://www.buzzfeed.com/world.xml (only --version is run)
+python rss_reader.py --help --verbose --limit 1000 https://www.buzzfeed.com/world.xml (only --help is run)
 python rss_reader.py --verbose --limit 3 https://www.buzzfeed.com/world.xml 
 python rss_reader.py --verbose --limit 1000 https://www.buzzfeed.com/world.xml
 python rss_reader.py --json --limit 0 https://www.buzzfeed.com/world.xml
 python rss_reader.py --json --verbose --limit 5 --date 20220601 https://www.buzzfeed.com/world.xml
 python rss_reader.py --json --verbose --limit 5 --date 20220601
+python rss_reader.py --json --verbose --pdf --html --limit 5 --date 20220601
 ```
 
 ## BASIC FUNCTIONALITY
 
-Class RssReader is the class for fetching news from rss-feeds, caching them and processing for later output
+Class RssReader is the class for fetching news from rss-feeds, caching them and processing for later output. 
 Child class RssReaderCached is for loading news from cache and processing for later output if they match given conditions.
 
 The rss-reader collects news from a given feed and forms a dictionary of the following structure called news_cache:
@@ -132,8 +147,7 @@ The rss-reader collects news from a given feed and forms a dictionary of the fol
 }						
 ```
 Note:
-Keys are not formed in dictionary in no corresponding data found by the script, e.g.:
-media-associated info is located in less than a half of rss-feeds checked while testing the script. 
+Keys are not formed in dictionary if no corresponding data is found by the script.
 
 
 ### JSON STRUCTURE
@@ -154,6 +168,14 @@ The structure of JSON is the same as that of news_cache dictionary, but the numb
                 "%Y:%m:%d %H:%M:%S":  {...},						
                 }
 }	
+```
+JSON output has been tested for being a valid JSON using online service JSON Online Validator and Formatter - JSON Lint (https://jsonlint.com)
+on english and russian feeds, e.g.:
+```
+https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+https://feeds.simplecast.com
+https://vse.sale/news/rss
+https://money.onliner.by
 ```
 
 ### CACHING
@@ -231,8 +253,28 @@ Link: news item link
 ------------------------------------------------------------------------------------------------------------------------
 ```
 Note:
-there are filler messages prepared for printing data, not which was not found in rss-feed, and thereby is not presented in the news dictionary.
+there are filler messages prepared for printing data, which was not found in rss-feed, and thereby is not presented in the news dictionary.
 
+
+
+### CONVERSION TO FILE
+If --pdf or --html argument is provided the script converts news to a file of corresponding format. File contains pictures and links, if they existed in the original article and if rss-reader managed to find them and process while conversion.
+
+Default destination of output directory differs depending on the way rss-reader is used:
+1. Using as a script 
+When using rss-reader as script the output directory is the 'output' directory in script directory. If there is no such directory in script directory it will be created upon first conversion done.
+2. Using as a CLI utility
+When using rss-reader as CLI utility the output directory is also the 'output' directory, but it's location depends on virtual environment settings. 
+
+For example if virtual environment is set to a directory:
+```
+ 'some_path/venv/'
+```
+ output directory will be located in directory 
+```
+'some_path/venv/lib/site-packages/rss_reader-?-py?.egg/rss_reader/output/'
+```
+For easier finding, rss-reader will print path to converted files after conversion.
 
 ## Logging
 By default, logging is not enabled. Providing --verbose argument on script call results in logging enabling.
