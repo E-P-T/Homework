@@ -10,7 +10,7 @@ import logging
 from logging import StreamHandler, Formatter
 from bs4 import BeautifulSoup
 
-version = '1.1'
+version = '2.1'
 
 def parse_input():
     """Parse a command line input"""
@@ -91,13 +91,17 @@ class MyFeedParser:
             link = txt.find('link').text
             pubdate = txt.find('pubDate').text
             
-            a = connect(link)
-            s = BeautifulSoup(a, "html.parser")
-            meta_tag = s.find('meta', attrs={'property': 'og:description'})
-            if meta_tag: 
-                descr = meta_tag['content']
+            d = txt.find('description')
+            if d:
+                descr = d.text
             else:
-                descr = "No description provided"
+                a = connect(link)
+                s = BeautifulSoup(a, "html.parser")
+                meta_tag = s.find('meta', attrs={'property': 'og:description'})
+                if meta_tag: 
+                    descr = meta_tag['content']
+                else:
+                    descr = "No description provided"
         
             # create an Article object for each item
             article = {'title': title, 'pubdate': pubdate, 'link': link, 'description': descr}
@@ -133,7 +137,7 @@ def main():
             else:
                 print(my_feed)    
             if args.verbose: my_feed.logger.info('News are printed')
-    if args.verbose: my_feed.logger.info('RSS-reader finished. Logging stopped')
-        
+    if args.verbose: my_feed.logger.info('RSS-reader finished. Logging stopped')      
+
 if __name__ == '__main__':
     main()
