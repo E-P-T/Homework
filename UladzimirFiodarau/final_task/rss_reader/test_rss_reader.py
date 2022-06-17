@@ -348,30 +348,31 @@ class TestRssOutput(unittest.TestCase):
         uses example files form ./test_examples folder
         :return: None
         """
-        with open(tests_dir + 'dict_v4.txt', encoding='utf-8') as test, \
-                open(tests_dir + 'dict_v4_html.html', encoding='utf-8') as comp:
-            dictionary = eval(test.read().strip())
-            comparison = comp.readlines()
-            rss_output.HtmlConverter(dictionary, date='20220101').convert()
-            try:
-                with open(os.path.dirname(__file__) + '/output/cached_news_20220101.html', encoding='utf-8') as res:
-                    html = res.readlines()
-                    self.assertEqual(html, comparison)
-            finally:
-                if os.path.exists(os.path.dirname(__file__) + '/output/cached_news_20220101.html'):
-                    os.remove(os.path.dirname(__file__) + '/output/cached_news_20220101.html')
-        with open(tests_dir + 'dict_v8.txt', encoding='utf-8') as test, \
-                open(tests_dir + 'dict_v8_html.html', encoding='utf-8') as comp:
-            dictionary = eval(test.read().strip())
-            comparison = comp.readlines()
-            rss_output.HtmlConverter(dictionary, date='20220101').convert()
-            try:
-                with open(os.path.dirname(__file__) + '/output/cached_news_20220101.html', encoding='utf-8') as res:
-                    html = res.readlines()
-                    self.assertEqual(html, comparison)
-            finally:
-                if os.path.exists(os.path.dirname(__file__) + '/output/cached_news_20220101.html'):
-                    os.remove(os.path.dirname(__file__) + '/output/cached_news_20220101.html')
+        with captured_output():
+            with open(tests_dir + 'dict_v4.txt', encoding='utf-8') as test, \
+                    open(tests_dir + 'dict_v4_html.html', encoding='utf-8') as comp:
+                dictionary = eval(test.read().strip())
+                comparison = comp.readlines()
+                rss_output.HtmlConverter(dictionary, date='20220101').convert()
+                try:
+                    with open(os.path.dirname(__file__) + '/output/cached_news_20220101.html', encoding='utf-8') as res:
+                        html = res.readlines()
+                        self.assertEqual(html, comparison)
+                finally:
+                    if os.path.exists(os.path.dirname(__file__) + '/output/cached_news_20220101.html'):
+                        os.remove(os.path.dirname(__file__) + '/output/cached_news_20220101.html')
+            with open(tests_dir + 'dict_v8.txt', encoding='utf-8') as test, \
+                    open(tests_dir + 'dict_v8_html.html', encoding='utf-8') as comp:
+                dictionary = eval(test.read().strip())
+                comparison = comp.readlines()
+                rss_output.HtmlConverter(dictionary, date='20220101').convert()
+                try:
+                    with open(os.path.dirname(__file__) + '/output/cached_news_20220101.html', encoding='utf-8') as res:
+                        html = res.readlines()
+                        self.assertEqual(html, comparison)
+                finally:
+                    if os.path.exists(os.path.dirname(__file__) + '/output/cached_news_20220101.html'):
+                        os.remove(os.path.dirname(__file__) + '/output/cached_news_20220101.html')
 
 
 if __name__ == '__main__':

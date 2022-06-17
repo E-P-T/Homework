@@ -523,8 +523,7 @@ def main():
                         print(f'Unexpected error while printing news: {exc}')
                 if args.html:
                     try:
-                        RssReader.log_runtime('\nConverting news to HTML. This may take time, please wait. '
-                                              '\nConversion progress:')
+                        RssReader.log_runtime('\nConverting news to HTML. This may take time, please wait.')
                         news.html(news.news_dict, news.url, news_date).convert()
                     except PermissionError as exc:
                         print(f"Couldn't access destination file, probably file is already in use: {exc}")
@@ -532,8 +531,7 @@ def main():
                         print(f'Unexpected error while converting to HTML: {exc}')
                 if args.pdf:
                     try:
-                        RssReader.log_runtime('\nConverting news to PDF. This may take time, please wait. '
-                                              '\nConversion progress:')
+                        RssReader.log_runtime('\nConverting news to PDF. This may take time, please wait.')
                         news.pdf(news.news_dict, news.url, news_date).convert()
                     except PermissionError as exc:
                         print(f"Couldn't access destination file, probably file is already in use: {exc}")

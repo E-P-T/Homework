@@ -132,7 +132,7 @@ class PdfConverter(RssConverter):
         PdfConverter.print_cell(pdf, tab=36, text=feed_link, link=feed_link, length=53, line_length=164)
         pdf.cell(200, 5, txt="=" * 65, ln=1, align='L')
         # 'tdqm' package is used to show user a progress bar while converting news (especially requesting images)
-        for num, item in enumerate(tqdm(sorted(news['feed_items'], reverse=True))):
+        for num, item in enumerate(tqdm(sorted(news['feed_items'], reverse=True), leave=False)):
             pdf.set_font('DejaVuMono', 'B', 14)
             news_title = news["feed_items"][item].get("title", "No title provided")
             news_link = news["feed_items"][item].get("link", "No link provided")  # will also be used later
@@ -228,7 +228,7 @@ class HtmlConverter(RssConverter):
         html_buffer.append(f'<h3 style = "margin-left: 130px"><a href={feed_link}>{feed_link}</a></h3>')
         html_buffer.append(f'<h1 style="text-align:left">{"=" * 83}</h1>')
         # 'tdqm' package is used to show user a progress bar while converting news
-        for item in tqdm(sorted(news['feed_items'], reverse=True)):
+        for item in tqdm(sorted(news['feed_items'], reverse=True), leave=False):
             news_title = news["feed_items"][item].get("title", "No title provided")
             # checking for media and its type for forming the document
             news_media = None

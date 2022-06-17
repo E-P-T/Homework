@@ -11,7 +11,7 @@ Current rss-reader version is 1.4
 The current version of the product requires only Python 3.9 or higher to run. The product hasn't been tested on earlier versions of Python interpreter.
 
 Please be aware that many Operating Systems come with Python pre-installed but those Python installations may be out of date or even lack some of builtin packages.
-If errors caused by such things happen please update your Python interpreter. A quick guide for updating in on Ubuntu, for example, can be found here:
+If errors caused by such things happen please update your Python interpreter. A quick guide for updating it on Ubuntu, for example, can be found here:
 https://linuxize.com/post/how-to-install-python-3-9-on-ubuntu-20-04/
 
 ## NOTABLE MOMENTS
@@ -20,7 +20,7 @@ The most common difference may be in Python calling with console commands, as it
 Script has been tested on a clean machine with python 3.9.13, so change commands accordingly to your system settings if needed.
 
 ## INSTALLATION
-Rss-reader is crossplatform and has been tested on Windows an UNIX-based systems (Ubuntu). 
+Rss-reader is cross-platform and has been tested on Windows and UNIX-based systems (Ubuntu). 
 
 The current version of the product can be used with or without installation.
 By default, the root directory of the script is called 'final_task', and the script directory is 'rss_reader'.
@@ -48,7 +48,7 @@ If you change them while using script - adjust your commands appropriately.
 ```
 
 2. Installation as a CLI utility:
-Installation as a CLI utility requires previous steps in part 1 of INSTALLATION section finished
+Installation as a CLI utility requires previous steps 1.1 and 1.2 in part 1 of INSTALLATION section finished
 ```
 2.1. In your command line terminal navigate to the root directory of the script
 
@@ -234,7 +234,7 @@ It is saved in form of JSON file, the structure of cache and JSON is shown on th
 ### DEFAULT OUTPUT STRUCTURE			
 - With source argument provided the Feed tags are formed from the feed information in news dictionary.
 - If script is used with --date DATE argument and no source argument the Feed tags are formed as a set of universal tags.
-- If --json argument is provided the print is done in a dictionary form, similar to before-mentioned JSON structure.
+- If --json argument is provided the print is done in form of before-mentioned JSON object.
 - If --json is not provided, the script by default makes a user-friendly print of news of the following structure:
 ```
 ========================================================================================================================
@@ -268,10 +268,11 @@ If --pdf or --html argument is provided the script converts news to a file of co
 
 Default destination of output directory differs depending on the way rss-reader is used:
 1. Using as a script 
+
 When using rss-reader as script the output directory is the 'output' directory in script directory. If there is no such directory in script directory it will be created upon first conversion done.
 2. Using as a CLI utility
-When using rss-reader as CLI utility the output directory is also the 'output' directory, but it's location depends on virtual environment settings. 
 
+When using rss-reader as CLI utility the output directory is also the 'output' directory, but its location depends on virtual environment settings. 
 For example if virtual environment is set to a directory:
 ```
  'some_path/venv/'
