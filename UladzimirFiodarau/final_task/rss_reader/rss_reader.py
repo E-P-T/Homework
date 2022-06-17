@@ -20,7 +20,7 @@ import rss_exceptions
 from rss_logger import logger_info
 from rss_output import PdfConverter, HtmlConverter
 
-script_dir = os.path.dirname(__file__)
+sys.path.append(os.path.dirname(__file__))
 news_limit = None
 to_json = False
 verbose = False
@@ -306,8 +306,8 @@ class RssReader:
         :return: a nested dictionary with cached news
         """
         RssReader.log_runtime('Loading news from local cache')
-        if os.path.exists(script_dir + '/cache/rss_cache.json'):
-            with open(script_dir + '/cache/rss_cache.json', 'r') as rss_cache:
+        if os.path.exists(os.path.dirname(__file__) + '/cache/rss_cache.json'):
+            with open(os.path.dirname(__file__) + '/cache/rss_cache.json', 'r') as rss_cache:
                 return json.load(rss_cache)
         else:
             RssReader.log_runtime('No local cache found')
@@ -323,9 +323,9 @@ class RssReader:
         :return: None
         """
         RssReader.log_runtime('Saving news to local cache')
-        if not os.path.exists(script_dir+'/cache/'):
-            os.mkdir(script_dir+'/cache/')
-        with open(script_dir + '/cache/rss_cache.json', 'w') as rss_cache:
+        if not os.path.exists(os.path.dirname(__file__)+'/cache/'):
+            os.mkdir(os.path.dirname(__file__)+'/cache/')
+        with open(os.path.dirname(__file__) + '/cache/rss_cache.json', 'w') as rss_cache:
             json.dump(news_cache, rss_cache, indent=4)
         RssReader.log_runtime('Successfully saved news to local cache')
 

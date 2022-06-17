@@ -38,7 +38,13 @@ If you change them while using script - adjust your commands appropriately.
 
 1.2.2. $ source venv/bin/activate  (for UNIX-based systems) 
        or
-       venv\Script\activate.bat or venv\bin\activate.ps1 (for Windows)
+       venv\Scripts\activate.bat or venv\Scripts\activate.ps1 (for Windows)
+       
+1.3. Install required packages to your fresh virtual environment, to do it use following command while being in root directory of the script:
+
+1.3.1. $ pip install -r requirements.txt (for UNIX-based systems) 
+       or 	
+       pip install -r requirements.txt (for Windows)
 ```
 
 2. Installation as a CLI utility:

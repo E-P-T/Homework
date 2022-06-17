@@ -6,8 +6,6 @@ from urllib.request import Request, urlopen
 import fpdf
 from tqdm import tqdm
 
-script_dir = os.path.dirname(__file__)
-
 
 class RssConverter:
     """
@@ -47,8 +45,8 @@ class RssConverter:
         :param directory: directory name to check
         :return: None
         """
-        if not os.path.exists(script_dir + directory):
-            os.mkdir(script_dir + directory)
+        if not os.path.exists(os.path.dirname(__file__) + directory):
+            os.mkdir(os.path.dirname(__file__) + directory)
 
 
 class PdfConverter(RssConverter):
@@ -100,16 +98,19 @@ class PdfConverter(RssConverter):
         """
         news = self.news_dict
         pdf = fpdf.FPDF()
-        pdf.add_font("DejaVuMono", style="", fname=script_dir + "/fonts/" + "DejaVuSansMono.ttf", uni=True)
-        pdf.add_font("DejaVuMono", style="B", fname=script_dir + "/fonts/" + "DejaVuSansMono-Bold.ttf", uni=True)
-        pdf.add_font("DejaVuMono", style="I", fname=script_dir + "/fonts/" + "DejaVuSansMono-Oblique.ttf", uni=True)
+        pdf.add_font("DejaVuMono", style="",
+                     fname=os.path.dirname(__file__) + "/fonts/" + "DejaVuSansMono.ttf", uni=True)
+        pdf.add_font("DejaVuMono", style="B",
+                     fname=os.path.dirname(__file__) + "/fonts/" + "DejaVuSansMono-Bold.ttf", uni=True)
+        pdf.add_font("DejaVuMono", style="I",
+                     fname=os.path.dirname(__file__) + "/fonts/" + "DejaVuSansMono-Oblique.ttf", uni=True)
         pdf.add_page()
         pdf.set_auto_page_break(auto=True, margin=10)
         #  setting a separate font for header block
         pdf.set_font('DejaVuMono', 'B', 14)
         pdf.cell(200, 5, txt="=" * 65, ln=1, align='L')
         # trying to use feed logo if it is saved and can be accessed. If not - will use a standard rss logo
-        feed_image = script_dir + '/rss-header.png'
+        feed_image = os.path.dirname(__file__) + '/rss-header.png'
         if self.date:
             pdf.image(feed_image, 12, 14, 33, 15)
         else:
@@ -148,7 +149,7 @@ class PdfConverter(RssConverter):
                 news_media = media['url']  # We will use a link to media later in script
                 if 'type' not in media or media['type'].startswith('image'):
                     if not self.date:
-                        temp_name = script_dir + '/temp/' + str(num) + '_' + "temp.jpg"
+                        temp_name = os.path.dirname(__file__) + '/temp/' + str(num) + '_' + "temp.jpg"
                         try:
                             with urlopen(Request(news_media), timeout=3) as response:
                                 RssConverter.check_directory('/temp/')
@@ -178,7 +179,7 @@ class PdfConverter(RssConverter):
             pdf.cell(200, 5, txt="-" * 76, ln=1, align='L')
         # checking for output directory and saving pdf to file
         RssConverter.check_directory('/output/')
-        file_name = script_dir + '/output/' + self.file_name
+        file_name = os.path.dirname(__file__) + '/output/' + self.file_name
         pdf.output(file_name)
         print(f'\nConversion successful.\nFile saved at {file_name}')
 
@@ -265,7 +266,7 @@ class HtmlConverter(RssConverter):
         html_buffer.append('</html>')
         # checking for output directory and saving html to file
         RssConverter.check_directory('/output/')
-        file_name = script_dir + '/output/' + self.file_name
+        file_name = os.path.dirname(__file__) + '/output/' + self.file_name
         with open(file_name, 'w', encoding='utf-8') as out:
             for line in html_buffer:
                 print(line, file=out)
@@ -274,7 +275,7 @@ class HtmlConverter(RssConverter):
 
 if __name__ == '__main__':
     pass
-    # with open(script_dir + '/test_examples/dict_v3.txt', encoding='utf-8') as file:
+    # with open(os.path.dirname(__file__) + '/test_examples/dict_v3.txt', encoding='utf-8') as file:
     #     dictionary = eval(file.read())
     #     html = HtmlConverter(dictionary)
     #     html.convert_to_html()
