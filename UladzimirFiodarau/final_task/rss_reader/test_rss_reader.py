@@ -308,7 +308,7 @@ class TestRssReader(unittest.TestCase):
         :return:
         """
         parser = rss_reader.parse_command_line(['--limit', '3', '--verbose', '--json', 'https://vse.sale/news/rss',
-                                                '--date', '20220601', '--pdf', '--html'])
+                                                '--date', '20220601', '--pdf', '--html', 'D:/user/log/'])
         self.assertTrue(parser.limit)
         self.assertTrue(parser.verbose)
         self.assertTrue(parser.json)
@@ -323,6 +323,11 @@ class TestRssReader(unittest.TestCase):
                 rss_reader.parse_command_line(['-h'])
             with self.assertRaises(SystemExit):
                 rss_reader.parse_command_line(['--version'])
+
+        parser = rss_reader.parse_command_line([])
+        self.assertFalse(parser.pdf)
+        self.assertFalse(parser.html)
+        self.assertFalse(parser.source)
 
 
 class TestRssOutput(unittest.TestCase):
@@ -353,7 +358,8 @@ class TestRssOutput(unittest.TestCase):
                     open(tests_dir + 'dict_v4_html.html', encoding='utf-8') as comp:
                 dictionary = eval(test.read().strip())
                 comparison = comp.readlines()
-                rss_output.HtmlConverter(dictionary, date='20220101').convert()
+                rss_output.HtmlConverter(dictionary, date='20220101',
+                                         save_path=os.path.dirname(__file__) + '/output/').convert()
                 try:
                     with open(os.path.dirname(__file__) + '/output/cached_news_20220101.html', encoding='utf-8') as res:
                         html = res.readlines()
@@ -365,7 +371,8 @@ class TestRssOutput(unittest.TestCase):
                     open(tests_dir + 'dict_v8_html.html', encoding='utf-8') as comp:
                 dictionary = eval(test.read().strip())
                 comparison = comp.readlines()
-                rss_output.HtmlConverter(dictionary, date='20220101').convert()
+                rss_output.HtmlConverter(dictionary, date='20220101',
+                                         save_path=os.path.dirname(__file__) + '/output/').convert()
                 try:
                     with open(os.path.dirname(__file__) + '/output/cached_news_20220101.html', encoding='utf-8') as res:
                         html = res.readlines()

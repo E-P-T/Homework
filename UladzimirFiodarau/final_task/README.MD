@@ -6,18 +6,23 @@ Processing of rss URLs and various ways of output are split into corpuscular fun
 ## PRODUCT VERSION
 Current rss-reader version is 1.4
 
+## NOTABLE MOMENTS
+All commands listed in this README file may vary according to your system settings.
+The most common difference may be in Python calling with console commands, as it can be done with keyword 'python' or 'python3' or 'py' and so on.
+Script has been tested on a clean machine with python 3.9.13, so change commands accordingly to your system settings if needed.
+
 ## REQUIREMENTS
 
-The current version of the product requires only Python 3.9 or higher to run. The product hasn't been tested on earlier versions of Python interpreter.
+The current version of the product requires Python 3.9 or higher to run. The product hasn't been tested on earlier versions of Python interpreter.
 
 Please be aware that many Operating Systems come with Python pre-installed but those Python installations may be out of date or even lack some of builtin packages.
 If errors caused by such things happen please update your Python interpreter. A quick guide for updating it on Ubuntu, for example, can be found here:
 https://linuxize.com/post/how-to-install-python-3-9-on-ubuntu-20-04/
 
-## NOTABLE MOMENTS
-All commands listed in this README file may vary according to your system settings.
-The most common difference may be in Python calling with console commands, as it can be done with keyword 'python' or 'py' or 'py3' and so on.
-Script has been tested on a clean machine with python 3.9.13, so change commands accordingly to your system settings if needed.
+Required third-party packages (can be found in requirements.txt file):
+```
+
+```
 
 ## INSTALLATION
 Rss-reader is cross-platform and has been tested on Windows and UNIX-based systems (Ubuntu). 
@@ -60,23 +65,23 @@ Installation as a CLI utility requires previous steps 1.1 and 1.2 in part 1 of I
 
 ## USING RSS-READER
 
-Rss-reader is a Command Line Interface application. Still it can be used in three different ways, differing only in a way to call the script:
-1. Using as a script 
-Rss-reader as a script can be called in two similar ways by putting a command in command line interface, that can be shown by calling the script in command line with --help argument.
+Rss-reader is a Command Line Interface application, which possible options can be shown by calling the script in command line with -h (--help) argument. It can be used in three different ways, differing only in a way to call the script:
+
+1. Using as a script - can be called in two similar ways:
 
 1.1. While being in root directory of the script (if the name of the script directory hasn't been changed) it can be called using the following command:
 
-     python rss_reader [-h] [--version] [--verbose] [--json] [--pdf] [--html] [--limit LIMIT] [--date DATE] *source*
+     python rss_reader [-h] [--version] [--verbose] [--json] [--pdf [PDF]] [--html [HTML]] [--limit LIMIT] [--date DATE] *source*
 	 
 1.2 While being in script directory it can be called using the following command:
 
-     python rss_reader.py [-h] [--version] [--verbose] [--json] [--pdf] [--html] [--limit LIMIT] [--date DATE] *source*	
+     python rss_reader.py [-h] [--version] [--verbose] [--json] [--pdf [PDF]] [--html [HTML]] [--limit LIMIT] [--date DATE] *source*	
 
 2. Using as a CLI utility
 	 
 2.1. While being in root directory of the script, if it was previously installed as a CLI utility, as described above, it can be called using the following command:
 
-     rss_reader [-h] [--version] [--verbose] [--json] [--pdf] [--html] [--limit LIMIT] [--date DATE] *source*
+     rss_reader [-h] [--version] [--verbose] [--json] [--pdf [PDF]] [--html [HTML]] [--limit LIMIT] [--date DATE] *source*
 While calling the script in any of the before-mentioned ways, following arguments can be used:	 
 ```
 
@@ -88,8 +93,8 @@ optional arguments:
   --version      Print version info and exit
   --verbose      Outputs verbose status messages
   --json         Print result as JSON in stdout
-  --pdf          Save result as PDF file
-  --html         Save result as HTML file
+  --pdf [PDF]    Save result as PDF file, can take path to a directory as argument
+  --html [HTML]  Save result as HTML file, can take path to a directory as argument
   --limit LIMIT  Limit news topics if this parameter provided
   --date DATE    Date for news selection, must be in %Y%m%d format (YYYYMMDD)
 
@@ -101,20 +106,35 @@ source is a mandatory argument but can only be skipped when using rss_reader wit
 --version  argument is used to print script's version and exit script
 --verbose argument is used for verbose logging while running the script
 --json argument is used to convert news data to JSON format and print JSON to user. The structure of JSON is described later in this file
---pdf argument is used to convert news data to PDF format and save as file
---html argument is used to convert news data to HTML format and save as file
-		Both --pdf and --html arguments result in saving news file in chosen format in directory 'output' in script directory
+
+--pdf [PDF] argument is used to convert news data to PDF format and save as file
+--html [HTML]  argument is used to convert news data to HTML format and save as file
+		- Both --pdf [PDF] and --html [HTML] arguments result in saving news in correspondent file format
+		- [PDF] and [HTML] are optional arguments which take path to a directory where user wants to save converted files
+		- NOTE that [PDF] and [HTML] save paths in Command Line commands SHOULD NOT contain surrounding quotes, usual for strings in Python
+		- If [PDF] / [HTML] is not provided with corresponding argument or not a valid directory (incorrect path or path to a file instead 
+		of a directory, converted file will be saved in default directory 'output' in script directory 
+		- If [PDF] / [HTML] is a nonexisting directory, rss-reader will try to create full path to such directory for user and will use 
+		default directory 'output' in script directory if creation fails
+		- It is recomended to use absolute paths as [PDF] and [HTML] arguments, relative path are processed by script according to the 
+		directory script is called from, and can lead to unexpected paths, though to help handle such situations save path is printed 
+		after file successfully saved
+		- although --pdf and --html can be used without [PDF] / [HTML] optional arguments, in such case in command they both shouldn't 
+		be positioned before *source* argument, as any of them will in such case use *source* argument as its [PDF] / [HTML] argument, which
+		will result in rss-reader failure or incorrect result		
+		
 --limit LIMIT argument is used to set the quantity of news, that are shown to the user:
-		LIMIT must be a positive integer, which shows how many news are going to be shown from the feed.
-		No --limit set or LIMIT equal to 0, or LIMIT set as a negative integer, all mean that user will get all available news from the feed.
-		A LIMIT, which surpasses number of news in feed, will also result in user getting all available news from the feed.
-		Passing a non-integer LIMIT will raise an Exception and stop the Script run.
-		While limiting news using --limit, the script chooses most recent news according to their publishing date in the feed.
+		- LIMIT must be a positive integer, which shows how many news are going to be shown from the feed.
+		- No --limit set or LIMIT equal to 0, or LIMIT set as a negative integer, all mean that user will get all available news from the feed.
+		- A LIMIT, which surpasses number of news in feed, will also result in user getting all available news from the feed.
+		- Passing a non-integer LIMIT will raise an Exception and stop the Script run.
+		- While limiting news using --limit, the script chooses most recent news according to their publishing date in the feed.
+		
 --date DATE argument is used to load previously cached news. If it is given, the rss-reader doesn't require Internet connection to work.
-		DATE argument must be a string of digits in %Y%m%d format (YYYYMMDD), e.g. 20220601 (which is 1 June 2022)
-		Combination of --date DATE and source arguments result in only news that were fetched from the source will be loaded from cache.
-		If --date DATE argument is given without source, news from all sources for the date from local cache will be loaded.
-		If there are no news in cache that match the given date, the script will raise and handle an exception.
+		- DATE argument must be a string of digits in %Y%m%d format (YYYYMMDD), e.g. 20220601 (which is 1 June 2022)
+		- Combination of --date DATE and source arguments result in only news that were fetched from the source will be loaded from cache.
+		- If --date DATE argument is given without source, news from all sources for the date from local cache will be loaded.
+		- If there are no news in cache that match the given date, the script will raise and handle an exception.
 ```
 
 Arguments can be used in combinations, e.g.:
@@ -128,6 +148,7 @@ python rss_reader.py --json --limit 0 https://www.buzzfeed.com/world.xml
 python rss_reader.py --json --verbose --limit 5 --date 20220601 https://www.buzzfeed.com/world.xml
 python rss_reader.py --json --verbose --limit 5 --date 20220601
 python rss_reader.py --json --verbose --pdf --html --limit 5 --date 20220601
+python rss_reader.py --json --verbose --pdf D:/user/output/ --html output/final --limit 5 --date 20220601
 ```
 
 ## BASIC FUNCTIONALITY

@@ -4,31 +4,34 @@ import textwrap
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 import fpdf
-from tqdm import tqdm
 
 
 class RssConverter:
     """
     A base class for all data converters, which is used for keeping universal methods for all converters
     """
-    def __init__(self, news_dict=None, url: str = '', date: str = ''):
+    def __init__(self, news_dict=None, url: str = '', date: str = '', save_path: str = ''):
         """
-        Method is used to take and save a dictionary with news for processing and a file name for output while object
-        of RssConverter class is formed
+        Method is used to save feed URL, date of news, dictionary with news, valid output path and a converted file name
+        while object of RssConverter class is formed
+
         :param news_dict: a dictionary with news
         :param url: URL of rss-feed
         :param date: date of news
+        :param save_path: pass for saving news
         """
         self.url = url
         self.date = date
         self.file_name = self.create_file_name(url, date)
         self.news_dict = news_dict
+        self.save_path = RssConverter.check_save_path(save_path)
 
     @staticmethod
     def create_file_name(url: str = '', date: str = ''):
         """
         Method is used to create unique filenames for saving converted news to file. It uses URL, if given, to get its
         network location domain name, and date, if given, to combine unique filename for output.
+
         :param url: URL of rss-feed
         :param date: date of news
         :return: a name of the file
@@ -39,31 +42,65 @@ class RssConverter:
         return file_name
 
     @staticmethod
-    def check_directory(directory: str):
+    def check_directory(dir_structure: str):
         """
-        Method checks if passed directory exists in script_root directory and creates it if it doesn't
-        :param directory: directory name to check
+        Method checks if passed directory structure exists in script_root directory and creates it if it doesn't
+
+        :param dir_structure: directory structure to check
         :return: None
         """
-        if not os.path.exists(os.path.dirname(__file__) + directory):
-            os.mkdir(os.path.dirname(__file__) + directory)
+        path = os.path.join(os.path.dirname(__file__), dir_structure)
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+    @staticmethod
+    def check_save_path(save_path: str, default: str = 'output') -> str:
+        """
+        Method creates default output directory if it doesn't exist, and then checks if passed into function save path
+        exists and tries to create it if it doesn't.
+        If path exists and is a directory or is created successfully and is a directory, method returns given path,
+        else - returns default path value for saving files.
+
+        :param save_path: path to check
+        :param default: default path for saving files
+        :return: path for saving files
+        """
+        RssConverter.check_directory(default)
+        valid_path = os.path.join(os.path.dirname(__file__), default)
+        if save_path:
+            if os.path.exists(save_path) and os.path.isdir(save_path):
+                valid_path = save_path
+            else:
+                try:
+                    os.makedirs(save_path)
+                except Exception as exc:
+                    print(f"{exc.__class__}: Failed to create directory for saving file: {save_path}. "
+                          f'\nSaving will be done to default output directory: {valid_path}')
+                else:
+                    if os.path.isdir(save_path):
+                        valid_path = save_path
+                    else:
+                        print(f"Save path must be a directory: {save_path}. "
+                              f'\nSaving will be done to default output directory: {valid_path}')
+        return valid_path
 
 
 class PdfConverter(RssConverter):
     """
-    A class for converting news data to PDF format
-    If date is specified only cached sources are used without getting information from URL
+    A class for converting news data to PDF format.
+    If date is specified only cached sources are used without rss-reader getting information from URL
     """
-    def __init__(self, news_dict=None, url: str = '', date: str = ''):
+    def __init__(self, news_dict=None, url: str = '', date: str = '', save_path: str = ''):
         """
-        Method is used to take and save a dictionary with news and data of news if given for later processing and
-        creating a file name with file extension for output while object of PdfConverter class is formed
+        Method is used to save feed URL, date of news, dictionary with news, valid output path and a converted file name
+        while object of PdfConverter class is formed.
+
         :param news_dict: a dictionary with news
         :param url: URL of rss-feed
         :param date: date of news
-
+        :param save_path: pass for saving news
         """
-        RssConverter.__init__(self, news_dict, url, date)
+        RssConverter.__init__(self, news_dict, url, date, save_path)
         self.file_name = self.file_name + '.pdf'
 
     @staticmethod
@@ -91,9 +128,9 @@ class PdfConverter(RssConverter):
 
     def convert(self):
         """
-        method converts a dictionary of news into a pdf file saved in 'output' directory which is formed in script
-        directory (by default script directory is the 'rss_reader' directory in root directory 'final_task')
+        Method converts a dictionary of news into a pdf file and saves it in 'output' directory (self.save_path)
         If date is specified only cached sources are used without getting information from URL
+
         :return: None
         """
         news = self.news_dict
@@ -129,10 +166,13 @@ class PdfConverter(RssConverter):
                                 line_length=164)
         pdf.cell(200, 2, ln=1, align='L')
         feed_link = news.get('feed_link', '')
-        PdfConverter.print_cell(pdf, tab=36, text=feed_link, link=feed_link, length=53, line_length=164)
+        if feed_link != 'News sources can be reached through links listed in news':
+            PdfConverter.print_cell(pdf, tab=36, text=feed_link, link=feed_link, length=53, line_length=164)
+        else:
+            PdfConverter.print_cell(pdf, tab=36, text=feed_link, length=53, line_length=164)
         pdf.cell(200, 5, txt="=" * 65, ln=1, align='L')
-        # 'tdqm' package is used to show user a progress bar while converting news (especially requesting images)
-        for num, item in enumerate(tqdm(sorted(news['feed_items'], reverse=True), leave=False)):
+        #  converting news
+        for num, item in enumerate(sorted(news['feed_items'], reverse=True)):
             pdf.set_font('DejaVuMono', 'B', 14)
             news_title = news["feed_items"][item].get("title", "No title provided")
             news_link = news["feed_items"][item].get("link", "No link provided")  # will also be used later
@@ -177,38 +217,37 @@ class PdfConverter(RssConverter):
             pdf.set_text_color(0, 0, 0)
             # finishing news item block with printing a separator between news
             pdf.cell(200, 5, txt="-" * 76, ln=1, align='L')
-        # checking for output directory and saving pdf to file
-        RssConverter.check_directory('/output/')
-        file_name = os.path.dirname(__file__) + '/output/' + self.file_name
-        pdf.output(file_name)
-        print(f'\nConversion successful.\nFile saved at {file_name}')
+        # saving pdf to file
+        file_path = os.path.join(self.save_path, self.file_name)
+        pdf.output(file_path)
+        print(f'\nConversion successful.\nFile saved at {file_path}')
 
 
 class HtmlConverter(RssConverter):
     """
-    A class for converting news data to HTML format
+    A class for converting news data to HTML format.
     """
-    def __init__(self, news_dict=None, url: str = '', date: str = ''):
+    def __init__(self, news_dict=None, url: str = '', date: str = '', save_path: str = ''):
         """
-        Method is used to take and save a dictionary with news and data of news if given for later processing and
-        creating a file name with file extension for output while object of PdfConverter class is formed
+        Method is used to save feed URL, date of news, dictionary with news, valid output path and a converted file name
+        while object of PdfConverter class is formed
+
         :param news_dict: a dictionary with news
         :param url: URL of rss-feed
         :param date: date of news
+        :param save_path: pass for saving news
         """
-        RssConverter.__init__(self, news_dict, url, date)
+        RssConverter.__init__(self, news_dict, url, date, save_path)
         self.file_name = self.file_name + '.html'
 
     def convert(self):
         """
-        method converts a dictionary of news into a html file saved in 'output' directory which is formed in script
-        directory (by default script directory is the 'rss_reader' directory in root directory 'final_task')
-        It forms HTML document structure in a list and then writes list items to a file.
-        'tdqm' package is used to show user a progress bar
+        Method converts a dictionary of news into a pdf file and saves it in 'output' directory (self.save_path).
+        It forms HTML document structure in a list and then consequently writes list items to a file.
         :return: None
         """
         news = self.news_dict
-        # We will form HTML document structure in a list, starting with head
+        # Forming HTML document structure in a list, starting with head
         html_buffer = ['<!DOCTYPE html>',
                        '<html>',
                        '<head><meta charset="utf-8"><title>News gathered by rss_reader</title></head>',
@@ -225,10 +264,13 @@ class HtmlConverter(RssConverter):
         feed_desc = news.get('feed_description', 'No additional description')
         html_buffer.append(f'<h2 style = "margin-left: 130px">{feed_desc}</h2>')
         feed_link = news.get('feed_link', '')
-        html_buffer.append(f'<h3 style = "margin-left: 130px"><a href={feed_link}>{feed_link}</a></h3>')
+        if feed_link != 'News sources can be reached through links listed in news':
+            html_buffer.append(f'<h3 style = "margin-left: 130px"><a href={feed_link}>{feed_link}</a></h3>')
+        else:
+            html_buffer.append(f'<h3 style = "margin-left: 130px">{feed_link}</a></h3>')
         html_buffer.append(f'<h1 style="text-align:left">{"=" * 83}</h1>')
-        # 'tdqm' package is used to show user a progress bar while converting news
-        for item in tqdm(sorted(news['feed_items'], reverse=True), leave=False):
+        # converting news
+        for item in sorted(news['feed_items'], reverse=True):
             news_title = news["feed_items"][item].get("title", "No title provided")
             # checking for media and its type for forming the document
             news_media = None
@@ -262,20 +304,14 @@ class HtmlConverter(RssConverter):
                                    f'</a><p>')
             # finishing news item block with printing a separator between news
             html_buffer.append(f'<p style="text-align:left">{"-" * 280}</p>')
-        # closing previously opened tags
         html_buffer.append('</html>')
-        # checking for output directory and saving html to file
-        RssConverter.check_directory('/output/')
-        file_name = os.path.dirname(__file__) + '/output/' + self.file_name
-        with open(file_name, 'w', encoding='utf-8') as out:
+        # saving html to file
+        file_path = os.path.join(self.save_path, self.file_name)
+        with open(file_path, 'w', encoding='utf-8') as out:
             for line in html_buffer:
                 print(line, file=out)
-        print(f'\nConversion successful.\nFile saved at {file_name}')
+        print(f'\nConversion successful.\nFile saved at {file_path}')
 
 
 if __name__ == '__main__':
     pass
-    # with open(os.path.dirname(__file__) + '/test_examples/dict_v3.txt', encoding='utf-8') as file:
-    #     dictionary = eval(file.read())
-    #     html = HtmlConverter(dictionary)
-    #     html.convert_to_html()
