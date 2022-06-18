@@ -1,6 +1,5 @@
 import math
 
-
 class Pagination:
     def __init__(self, text, volume):
         self.text = text
