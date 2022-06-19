@@ -1,6 +1,6 @@
 """
 Main rss-reader module.
-Goal was to create a rss-reader using OOP and without third-party libraries to lessen external dependencies.
+Goal was to create a rss-reader using OOP and with bare minimum third-party libraries to lessen external dependencies.
 To make it easier to change the reader inner processing (if later needed) processing of the rss-feed into a
 dictionary of necessary data is split into several staticmethods.
 """
@@ -97,7 +97,6 @@ class AsyncImageCacher:
         """
         getlist = [(AsyncImageCacher.get_image(url)) for url in urls]
         returns = [await f for f in tqdm.tqdm(asyncio.as_completed(getlist), total=len(getlist))]
-        print(f"Finished downloading image(s)")
         image_dict = {}
         for tup in returns:
             if isinstance(tup, tuple):
@@ -670,7 +669,7 @@ def main():
                         print(f'Unexpected error while printing news: {exc}')
                 if args.html:
                     try:
-                        RssReader.log_runtime('\nConverting news to HTML. This may take time, please wait.')
+                        RssReader.log_runtime('Converting news to HTML. This may take time, please wait.')
                         news.html(news_dict=news.news_dict, url=news.url, date=news_date, save_path=args.html).convert()
                     except PermissionError as exc:
                         print(f"Couldn't access destination file, probably file is already in use: {exc}")
@@ -678,7 +677,7 @@ def main():
                         print(f'Unexpected error while converting to HTML: {exc}')
                 if args.pdf:
                     try:
-                        RssReader.log_runtime('\nConverting news to PDF. This may take time, please wait.')
+                        RssReader.log_runtime('Converting news to PDF. This may take time, please wait.')
                         news.pdf(news_dict=news.news_dict, url=news.url, date=news_date, save_path=args.pdf).convert()
                     except PermissionError as exc:
                         print(f"Couldn't access destination file, probably file is already in use: {exc}")

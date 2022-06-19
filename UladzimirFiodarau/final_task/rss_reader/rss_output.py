@@ -1,9 +1,11 @@
+import base64
 import datetime
+import fpdf
 import os
 import textwrap
+from io import BytesIO
+from PIL import Image
 from urllib.parse import urlparse
-from urllib.request import Request, urlopen
-import fpdf
 
 
 class RssConverter:
@@ -88,7 +90,7 @@ class RssConverter:
 class PdfConverter(RssConverter):
     """
     A class for converting news data to PDF format.
-    If date is specified only cached sources are used without rss-reader getting information from URL
+    Converter relies on previously downloaded data and is used without accessing URL.
     """
     def __init__(self, news_dict=None, url: str = '', date: str = '', save_path: str = ''):
         """
@@ -128,8 +130,8 @@ class PdfConverter(RssConverter):
 
     def convert(self):
         """
-        Method converts a dictionary of news into a pdf file and saves it in 'output' directory (self.save_path)
-        If date is specified only cached sources are used without getting information from URL
+        Method converts a dictionary of news into a pdf file and saves it in 'output' directory (self.save_path).
+        Method relies on previously downloaded data and is used without accessing URL.
 
         :return: None
         """
@@ -148,17 +150,21 @@ class PdfConverter(RssConverter):
         pdf.cell(200, 5, txt="=" * 65, ln=1, align='L')
         # trying to use feed logo if it is saved and can be accessed. If not - will use a standard rss logo
         feed_image = os.path.dirname(__file__) + '/rss-header.png'
-        if self.date:
-            pdf.image(feed_image, 12, 14, 33, 15)
+        if 'feed_media' in news:
+            if 'contains' in news['feed_media']:
+                temp_name = os.path.join(os.path.dirname(__file__), 'temp/logo.png')
+                RssConverter.check_directory('/temp/')
+                try:
+                    im = Image.open(BytesIO(base64.b64decode(news['feed_media']['contains'])))
+                    im.save(temp_name, 'PNG')
+                    pdf.image(temp_name, 12, 14, 33, 15)
+                except Exception:  # if script could not convert the image or format not supported, we supress
+                    pdf.image(feed_image, 12, 14, 33, 15)  # Exception and use a default image
+                finally:
+                    if os.path.exists(temp_name):
+                        os.remove(temp_name)
         else:
-            if 'feed_media' in news:
-                if 'type' not in news['feed_media'] or news['feed_media']['type'].startswith('image'):
-                    try:
-                        pdf.image(news['feed_media']['url'], 12, 14, 33, 15)
-                    except Exception:
-                        pdf.image(feed_image, 12, 14, 33, 15)
-            else:
-                pdf.image(feed_image, 12, 14, 33, 15)
+            pdf.image(feed_image, 12, 14, 33, 15)
         # printing Feed header
         PdfConverter.print_cell(pdf, tab=36, text=news.get('feed_title', 'No title'), length=53, line_length=164)
         pdf.cell(200, 2, ln=1, align='L')
@@ -182,25 +188,23 @@ class PdfConverter(RssConverter):
             news_date = f'Publication date: {news["feed_items"][item].get("pubDate", "No publication date provided")}'
             PdfConverter.print_cell(pdf, text=news_date, length=65)
             pdf.cell(200, 4, ln=1, align='L')
-            # as fpdf.FPDF sometimes fails to get an image from URL we try to get it through Request
             news_media = ''
             if 'media' in news["feed_items"][item] and 'url' in news["feed_items"][item]['media']:
                 media = news["feed_items"][item]['media']
                 news_media = media['url']  # We will use a link to media later in script
-                if 'type' not in media or media['type'].startswith('image'):
-                    if not self.date:
-                        temp_name = os.path.dirname(__file__) + '/temp/' + str(num) + '_' + "temp.jpg"
-                        try:
-                            with urlopen(Request(news_media), timeout=3) as response:
-                                RssConverter.check_directory('/temp/')
-                                with open(temp_name, "wb") as temp:
-                                    temp.write(response.read())
-                                    pdf.image(temp_name, w=60)
-                        except Exception:  # if script could not get the image or format not supported, we supress
-                            pass           # Exception and will use a link to media later in script
-                        finally:
-                            if os.path.exists(temp_name):
-                                os.remove(temp_name)
+                if 'contains' in media:
+                    temp_name = os.path.join(os.path.dirname(__file__), 'temp/image' + str(num) + '.jpg')
+                    RssConverter.check_directory('/temp/')
+                    try:
+                        im = Image.open(BytesIO(base64.b64decode(media['contains'])))
+                        rgb_im = im.convert('RGB')
+                        rgb_im.save(temp_name, 'JPEG')
+                        pdf.image(temp_name, w=60)
+                    except Exception:  # if script could not convert the image or format not supported, we supress
+                        pass           # Exception and will use a link to media later in script
+                    finally:
+                        if os.path.exists(temp_name):
+                            os.remove(temp_name)
             # Printing news description
             news_desc = news["feed_items"][item].get("description", "No description provided")
             PdfConverter.print_cell(pdf, text=news_desc, length=75)
@@ -220,7 +224,7 @@ class PdfConverter(RssConverter):
         # saving pdf to file
         file_path = os.path.join(self.save_path, self.file_name)
         pdf.output(file_path)
-        print(f'\nConversion successful.\nFile saved at {file_path}')
+        print(f'File saved at {file_path}')
 
 
 class HtmlConverter(RssConverter):
@@ -244,6 +248,7 @@ class HtmlConverter(RssConverter):
         """
         Method converts a dictionary of news into a pdf file and saves it in 'output' directory (self.save_path).
         It forms HTML document structure in a list and then consequently writes list items to a file.
+
         :return: None
         """
         news = self.news_dict
@@ -310,7 +315,7 @@ class HtmlConverter(RssConverter):
         with open(file_path, 'w', encoding='utf-8') as out:
             for line in html_buffer:
                 print(line, file=out)
-        print(f'\nConversion successful.\nFile saved at {file_path}')
+        print(f'File saved at {file_path}')
 
 
 if __name__ == '__main__':
