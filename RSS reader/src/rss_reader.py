@@ -1,6 +1,7 @@
 import argparse
 import logging
-import rss_reader
+from src import work_xml
+
 
 
 # link = "https://news.yahoo.com/rss"
@@ -16,8 +17,8 @@ import rss_reader
 # link = 'https://vse.sale/news/rss'
 
 def main():
-    arg_parser = argparse.ArgumentParser(description="Pure Python command-line RSS reader.")
-    arg_parser.add_argument("source", nargs='?', default='', type=str, help="RSS URL")
+    arg_parser = argparse.ArgumentParser(description="Pure Python command-line src reader.")
+    arg_parser.add_argument("source", nargs='?', default='', type=str, help="src reader URL")
     arg_parser.add_argument("--version", action="store_true", help="Print version info")
     arg_parser.add_argument("--json", action="store_true", help=" Print result as JSON in stdout")
     arg_parser.add_argument("--verbose", action="store_true", help="Outputs verbose status messages")
@@ -36,9 +37,9 @@ def main():
         elif args.source == '':
             print("URL is are required")
         elif args.json:
-            rss_reader.generate_json(args.source, args.limit)
+            work_xml.generate_json(args.source, args.limit)
         else:
-            rss_reader.print_to_console(args.source, args.limit)
+            work_xml.print_to_console(args.source, args.limit)
     except AttributeError:
         print("Error, failed to get an attribute. Check correctness URL")
 
