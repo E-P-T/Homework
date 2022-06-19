@@ -1,6 +1,6 @@
 ## CREATION GOAL
 The rss-reader has been created as a final task for graduating EPAM March 2022 Python Foundation course.
-My personal goal was to create a rss-reader using OOP and with minimum third-party libraries to lessen external dependencies.
+My personal goal was to create a rss-reader using OOP while trying to lessen external dependencies.
 Processing of rss URLs and various ways of output are split into corpuscular functions to allow easy changes of inner logic through inheritance. 
 
 ## PRODUCT VERSION
@@ -15,13 +15,19 @@ Script has been tested on a clean machine with python 3.9.13, so change commands
 
 The current version of the product requires Python 3.9 or higher to run. The product hasn't been tested on earlier versions of Python interpreter.
 
-Please be aware that many Operating Systems come with Python pre-installed but those Python installations may be out of date or even lack some of builtin packages.
-If errors caused by such things happen please update your Python interpreter. A quick guide for updating it on Ubuntu, for example, can be found here:
+Please be aware that many Operating Systems come with Python pre-installed but those Python installations may be out of date or even lack some of built-in packages.
+If errors caused by such things happen please update your Python interpreter. 
+- On Windows it is easily done by installation of a setup file downloaded from  http://www.python.org. 
+- A quick guide for updating it on Ubuntu can be found here:
 https://linuxize.com/post/how-to-install-python-3-9-on-ubuntu-20-04/
 
-Required third-party packages (can be found in requirements.txt file):
+Required third-party packages with versions used while developing rss-reader (can be found in requirements.txt file in 'final_task' directory):
 ```
-
+setuptools~=62.3.3 *is installed by default in Python 3.4 and higher
+fpdf~=1.7.2
+tqdm~=4.64.0
+aiohttp~=3.8.1
+Pillow~=9.1.1
 ```
 
 ## INSTALLATION
@@ -35,7 +41,7 @@ If you change them while using script - adjust your commands appropriately.
 ```
 1.1. copy or extract root directory of script (final_task) with all files and subdirectories to a local directory
 
-1.2. Install and activate virtual environment, to do it use following command while being in root directory of the script:
+1.2. Install and activate virtual environment, to do it, use following commands while being in root directory of the script:
 
 1.2.1. $ python -m venv venv (for UNIX-based systems) 
        or 	
@@ -65,7 +71,7 @@ Installation as a CLI utility requires previous steps 1.1 and 1.2 in part 1 of I
 
 ## USING RSS-READER
 
-Rss-reader is a Command Line Interface application, which possible options can be shown by calling the script in command line with -h (--help) argument. It can be used in three different ways, differing only in a way to call the script:
+Rss-reader is a Command Line Interface application, which possible options can be shown by calling the script in command line with -h (--help) argument. It can be used in three ways, differing only in a way of calling the script:
 
 1. Using as a script - can be called in two similar ways:
 
@@ -98,7 +104,7 @@ optional arguments:
   --limit LIMIT  Limit news topics if this parameter provided
   --date DATE    Date for news selection, must be in %Y%m%d format (YYYYMMDD)
 
-source is a mandatory argument but can only be skipped when using rss_reader with:
+source is a mandatory argument that can only be skipped when using rss_reader with:
 1) --help (-h) or --version arguments, as these two arguments stop the script after printing corresponding messages
 2) --date DATE argument, and in such case will get all the available news published on the given date from all cached URLs
 
@@ -109,29 +115,30 @@ source is a mandatory argument but can only be skipped when using rss_reader wit
 
 --pdf [PDF] argument is used to convert news data to PDF format and save as file
 --html [HTML]  argument is used to convert news data to HTML format and save as file
-		- Both --pdf [PDF] and --html [HTML] arguments result in saving news in correspondent file format
-		- [PDF] and [HTML] are optional arguments which take path to a directory where user wants to save converted files
+		- Both --pdf [PDF] and --html [HTML] arguments result in saving news in correspondent file format.
+		- [PDF] and [HTML] are optional arguments which take path to a directory where user wants to save converted files.
 		- NOTE that [PDF] and [HTML] save paths in Command Line commands SHOULD NOT contain surrounding quotes, usual for strings in Python
 		- If [PDF] / [HTML] is not provided with corresponding argument or not a valid directory (incorrect path or path to a file instead 
-		of a directory, converted file will be saved in default directory 'output' in script directory 
+		of a directory) converted file will be saved in default directory 'output' in script directory.
 		- If [PDF] / [HTML] is a nonexisting directory, rss-reader will try to create full path to such directory for user and will use 
-		default directory 'output' in script directory if creation fails
+		default directory 'output' in script directory if creation fails.
 		- It is recomended to use absolute paths as [PDF] and [HTML] arguments, relative path are processed by script according to the 
 		directory script is called from, and can lead to unexpected paths, though to help handle such situations save path is printed 
-		after file successfully saved
-		- although --pdf and --html can be used without [PDF] / [HTML] optional arguments, in such case in command they both shouldn't 
-		be positioned before *source* argument, as any of them will in such case use *source* argument as its [PDF] / [HTML] argument, which
-		will result in rss-reader failure or incorrect result		
+		after file successfully saved.
+		- Although --pdf and --html can be used without [PDF] / [HTML] optional arguments, in such case in command they both shouldn't 
+		be positioned directly before *source* argument, as any of them will in such case use *source* argument as its [PDF] / [HTML] argument, 
+		which will result in rss-reader failure or incorrect result.
 		
 --limit LIMIT argument is used to set the quantity of news, that are shown to the user:
 		- LIMIT must be a positive integer, which shows how many news are going to be shown from the feed.
-		- No --limit set or LIMIT equal to 0, or LIMIT set as a negative integer, all mean that user will get all available news from the feed.
+		- No --limit set, LIMIT equal to 0, or LIMIT set as a negative integer all mean that user will get all available news from the feed.
 		- A LIMIT, which surpasses number of news in feed, will also result in user getting all available news from the feed.
 		- Passing a non-integer LIMIT will raise an Exception and stop the Script run.
 		- While limiting news using --limit, the script chooses most recent news according to their publishing date in the feed.
 		
 --date DATE argument is used to load previously cached news. If it is given, the rss-reader doesn't require Internet connection to work.
-		- DATE argument must be a string of digits in %Y%m%d format (YYYYMMDD), e.g. 20220601 (which is 1 June 2022)
+		- providing --date argument results in news being sorted by publication time in descending order.
+		- DATE argument must be a string of digits in %Y%m%d format (YYYYMMDD), e.g. 20220601 (which is 1 June 2022).
 		- Combination of --date DATE and source arguments result in only news that were fetched from the source will be loaded from cache.
 		- If --date DATE argument is given without source, news from all sources for the date from local cache will be loaded.
 		- If there are no news in cache that match the given date, the script will raise and handle an exception.
@@ -156,7 +163,8 @@ python rss_reader.py --json --verbose --pdf D:/user/output/ --html output/final 
 Class RssReader is the class for fetching news from rss-feeds, caching them and processing for later output. 
 Child class RssReaderCached is for loading news from cache and processing for later output if they match given conditions.
 
-The rss-reader collects news from a given feed and forms a dictionary of the following structure called news_cache:
+When getting news from rss-URL rss-reader collects news from given feed, downloads images from media URLs for later caching 
+(to speed up process downloads are made in async mode) and forms a dictionary of the following structure called news_cache:
 ```
 {'feed_description': 'The text of RSS-feed description tag',
  'feed_link': 'URL of RSS-feed',
@@ -166,7 +174,8 @@ The rss-reader collects news from a given feed and forms a dictionary of the fol
  'feed_items': {'%Y:%m:%d %H:%M:%S': {'description': 'news item description',
                                       'link': 'news item link',
                                       'media': {'type': 'type (or type/format)',
-                                                'url': 'URL of news item media attachment'},
+                                                'url': 'URL of news item media attachment',
+                                                'contains': 'a string of base64 encoded image data'},
                                       'pubDate': 'publication date of news item',
                                       'title': 'news item title'},
                 '%Y:%m:%d %H:%M:%S':  {...},						
@@ -177,24 +186,24 @@ Note:
 Keys are not formed in dictionary if no corresponding data is found by the script.
 
 
-### JSON STRUCTURE
+### JSON OUTPUT STRUCTURE
 During runtime, the script converts gathered news data into JSON when script is used with --json argument. 
-The structure of JSON is the same as that of news_cache dictionary, but the number of news in JSON object is affected by --limit argument if it is provided.
+The number of news in JSON object is affected by --limit argument if it is provided.
 ```
-{"feed_description": "The text of RSS-feed description tag",
- "feed_link": "URL of RSS-feed",
- "feed_media": {"url": "URL of feed media attachment"},
- "feed_title": "title of RSS-feed",
- "feed_pubDate": "publication date of RSS-feed",
- "feed_items": {"%Y:%m:%d %H:%M:%S": {"description": "news item description",
-                                      "link": "news item link",
-                                      "media": {"type": "type (or type/format)",
-                                                "url": "URL of news item media attachment"},
-                                      "pubDate": "publication date of news item",
-                                      "title": "news item title"},
-                "%Y:%m:%d %H:%M:%S":  {...},						
-                }
-}	
+{
+ "Feed title": "title of RSS-feed",
+ "Feed description": "The text of RSS-feed description tag",
+ "Feed URL": "URL of RSS-feed",
+ "Last update": "publication date of RSS-feed",
+        "%Y:%m:%d %H:%M:%S": {
+            "Title": "news item title",
+            "Link": "news item link",
+            "Publication date": "publication date of news item",
+            "Description": "news item description",
+            "Media link": "URL of news item media attachment"
+        },
+        "%Y:%m:%d %H:%M:%S":  {...},
+}
 ```
 JSON output has been tested for being a valid JSON using online service JSON Online Validator and Formatter - JSON Lint (https://jsonlint.com)
 on english and russian feeds, e.g.:
@@ -209,7 +218,7 @@ https://money.onliner.by
 
 Cache is saved in subdirectory 'cache/' of the root directory of the script. 
 Its structure is similar to the before-mentioned news_cache structure with the news_cache dictionary as a value in a pair and 'URL of RSS-feed 'as its key 
-It is saved in form of JSON file, the structure of cache and JSON is shown on the following example:
+It is saved in form of JSON file, the structure of cache JSON is shown on the following example:
 ```
 {
  "URL of RSS-feed": {
@@ -224,8 +233,8 @@ It is saved in form of JSON file, the structure of cache and JSON is shown on th
                 "description": "news item description",
                 "pubDate": "publication date of news item",
                 "media": {
-                    "url": "URL of news item media attachment"
-                }
+                    "url": "URL of news item media attachment",
+                    "contains": "a string of base64 encoded image data"}
             }
         }
     },
@@ -234,15 +243,16 @@ It is saved in form of JSON file, the structure of cache and JSON is shown on th
         "feed_link": "URL of RSS-feed",
         "feed_description": "The text of RSS-feed description tag",
         "feed_media": {
-            "url": "URL of feed media attachment"
+            "url": "URL of feed media attachment",
+            "contains": "a string of base64 encoded image data"
         },
         "feed_items": {
             "%Y:%m:%d %H:%M:%S": {
                 "title": "news item title",
                 "description": "The text of RSS-feed description tag",
                 "media": {
-                    "url": "URL of news item media attachment"
-                },
+                    "url": "URL of news item media attachment",
+                    "contains": "a string of base64 encoded image data"},
                 "link": "news item link",
                 "pubDate": "publication date of news item"
                 
@@ -254,9 +264,11 @@ It is saved in form of JSON file, the structure of cache and JSON is shown on th
 
 ### DEFAULT OUTPUT STRUCTURE			
 - With source argument provided the Feed tags are formed from the feed information in news dictionary.
-- If script is used with --date DATE argument and no source argument the Feed tags are formed as a set of universal tags.
+- If script is used with --date DATE argument and no source argument, the Feed tags are formed as a set of universal tags
+and news are formed from all available cached sources
 - If --json argument is provided the print is done in form of before-mentioned JSON object.
-- If --json is not provided, the script by default makes a user-friendly print of news of the following structure:
+- If --json is not provided, the script by default makes a user-friendly print of news of the following structure (the number 
+of news printed is affected by --limit argument if it is provided):
 ```
 ========================================================================================================================
 Feed title: title of RSS-feed
@@ -268,7 +280,7 @@ Title: news item title
 Link: news item link
 Publication date: publication date of news item
 
-news item description
+News item description
 
 Media (type/format) link:
 URL of news item media attachment
@@ -285,7 +297,10 @@ there are filler messages prepared for printing data, which was not found in rss
 
 
 ### CONVERSION TO FILE
-If --pdf or --html argument is provided the script converts news to a file of corresponding format. File contains pictures and links, if they existed in the original article and if rss-reader managed to find them and process while conversion.
+If --pdf or --html argument is provided the script converts news to a file of corresponding format (the number of news converted is affected 
+by --limit argument if it is provided). File will contain pictures and links, if they existed in the original article and if rss-reader managed 
+to find them and process while conversion. To improve user experience progress bars are shown while conversion takes place, and removed after 
+it finishes.
 
 Default destination of output directory differs depending on the way rss-reader is used:
 1. Using as a script 
@@ -325,6 +340,19 @@ To run unittests for the script user can use following command while being in ro
 $ python -m unittest test_rss_reader.py (for UNIX-based systems) 
 or
 python -m unittest test_rss_reader.py (for Windows)
+```
+Test coverage for current version is:
+```
+Name                 Stmts   Miss  Cover
+----------------------------------------
+rss_exceptions.py       12      0   100%
+rss_logger.py            7      0   100%
+rss_output.py          179     89    50%
+rss_reader.py          397    153    61%
+test_rss_reader.py     199      1    99%
+----------------------------------------
+TOTAL                  794    243    69%
+
 ```
 
 ### Script has been tested on following feeds:

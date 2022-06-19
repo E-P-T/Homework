@@ -90,13 +90,13 @@ class AsyncImageCacher:
         """
         Method is used to combine all async requests of URLs into a dictionary with following key:value pairs:
         {URL: encoded image data} while also discarding failed requests results. Uses tqdm to show user progress bar
-        of async processes for better user experience
+        of async processes to improve user experience
 
         :param urls: list of image URLs
         :return: dictionary with requested image data
         """
         getlist = [(AsyncImageCacher.get_image(url)) for url in urls]
-        returns = [await f for f in tqdm.tqdm(asyncio.as_completed(getlist), total=len(getlist))]
+        returns = [await f for f in tqdm.tqdm(asyncio.as_completed(getlist), total=len(getlist), leave=False)]
         image_dict = {}
         for tup in returns:
             if isinstance(tup, tuple):

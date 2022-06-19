@@ -3,6 +3,7 @@ import datetime
 import fpdf
 import os
 import textwrap
+import tqdm
 from io import BytesIO
 from PIL import Image
 from urllib.parse import urlparse
@@ -148,7 +149,7 @@ class PdfConverter(RssConverter):
         #  setting a separate font for header block
         pdf.set_font('DejaVuMono', 'B', 14)
         pdf.cell(200, 5, txt="=" * 65, ln=1, align='L')
-        # trying to use feed logo if it is saved and can be accessed. If not - will use a standard rss logo
+        # trying to use feed logo if it is saved, in case of failure - will use a standard rss logo
         feed_image = os.path.dirname(__file__) + '/rss-header.png'
         if 'feed_media' in news:
             if 'contains' in news['feed_media']:
@@ -178,7 +179,7 @@ class PdfConverter(RssConverter):
             PdfConverter.print_cell(pdf, tab=36, text=feed_link, length=53, line_length=164)
         pdf.cell(200, 5, txt="=" * 65, ln=1, align='L')
         #  converting news
-        for num, item in enumerate(sorted(news['feed_items'], reverse=True)):
+        for num, item in enumerate(tqdm.tqdm(sorted(news['feed_items'], reverse=True), leave=False)):
             pdf.set_font('DejaVuMono', 'B', 14)
             news_title = news["feed_items"][item].get("title", "No title provided")
             news_link = news["feed_items"][item].get("link", "No link provided")  # will also be used later
@@ -193,15 +194,15 @@ class PdfConverter(RssConverter):
                 media = news["feed_items"][item]['media']
                 news_media = media['url']  # We will use a link to media later in script
                 if 'contains' in media:
-                    temp_name = os.path.join(os.path.dirname(__file__), 'temp/image' + str(num) + '.jpg')
+                    temp_name = os.path.join(os.path.dirname(__file__), 'temp/image' + str(num) + '.png')
                     RssConverter.check_directory('/temp/')
                     try:
                         im = Image.open(BytesIO(base64.b64decode(media['contains'])))
-                        rgb_im = im.convert('RGB')
-                        rgb_im.save(temp_name, 'JPEG')
+                        im.thumbnail((400, 400))  # to compress huge images for faster conversion
+                        im.save(temp_name, 'PNG')
                         pdf.image(temp_name, w=60)
                     except Exception:  # if script could not convert the image or format not supported, we supress
-                        pass           # Exception and will use a link to media later in script
+                        pass           # Exception and will use just a link to media later in script
                     finally:
                         if os.path.exists(temp_name):
                             os.remove(temp_name)
@@ -221,10 +222,10 @@ class PdfConverter(RssConverter):
             pdf.set_text_color(0, 0, 0)
             # finishing news item block with printing a separator between news
             pdf.cell(200, 5, txt="-" * 76, ln=1, align='L')
-        # saving pdf to file
+        # converting and saving pdf to file
         file_path = os.path.join(self.save_path, self.file_name)
         pdf.output(file_path)
-        print(f'File saved at {file_path}')
+        print(f'Success --> File saved at {file_path}')
 
 
 class HtmlConverter(RssConverter):
@@ -246,7 +247,7 @@ class HtmlConverter(RssConverter):
 
     def convert(self):
         """
-        Method converts a dictionary of news into a pdf file and saves it in 'output' directory (self.save_path).
+        Method converts a dictionary of news into a html file and saves it in 'output' directory (self.save_path).
         It forms HTML document structure in a list and then consequently writes list items to a file.
 
         :return: None
@@ -274,8 +275,8 @@ class HtmlConverter(RssConverter):
         else:
             html_buffer.append(f'<h3 style = "margin-left: 130px">{feed_link}</a></h3>')
         html_buffer.append(f'<h1 style="text-align:left">{"=" * 83}</h1>')
-        # converting news
-        for item in sorted(news['feed_items'], reverse=True):
+        # forming news items
+        for item in tqdm.tqdm(sorted(news['feed_items'], reverse=True), leave=False):
             news_title = news["feed_items"][item].get("title", "No title provided")
             # checking for media and its type for forming the document
             news_media = None
@@ -315,7 +316,7 @@ class HtmlConverter(RssConverter):
         with open(file_path, 'w', encoding='utf-8') as out:
             for line in html_buffer:
                 print(line, file=out)
-        print(f'File saved at {file_path}')
+        print(f'Success --> File saved at {file_path}')
 
 
 if __name__ == '__main__':
