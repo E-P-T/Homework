@@ -4,13 +4,18 @@ Goal was to create a rss-reader using OOP and without third-party libraries to l
 To make it easier to change the reader inner processing (if later needed) processing of the rss-feed into a
 dictionary of necessary data is split into several staticmethods.
 """
+import asyncio
+import aiohttp
 import argparse
+import base64
 import datetime
 import html
 import json
 import os
+import platform
 import re
 import sys
+import tqdm
 import xml.etree.ElementTree as ET
 from email.utils import parsedate_to_datetime
 from urllib import error
@@ -25,6 +30,110 @@ news_limit = None
 to_json = False
 verbose = False
 news_date = None
+
+
+class AsyncImageCacher:
+    """
+    Class is used to download images from urls for caching.
+    For better user experience getting URL data is made in async mode.
+    """
+    def __init__(self, news_dict):
+        """
+        Method is used for saving the news dictionary that is going to be updated and a list of URLs to download from
+
+        :param news_dict: news dictionary
+        """
+        self.news_dict = news_dict
+        self.image_urls = AsyncImageCacher.find_urls(self.news_dict)
+
+    @staticmethod
+    def find_urls(news_dict):
+        """
+        Method is used to parse a dictionary of standard structure, defined by RssReader logic and getting a list of
+        URLs from it
+
+        :param news_dict: news dictionary
+        :return: a list of found URLs
+        """
+        found_urls = []
+        if 'feed_media' in news_dict:
+            if 'type' not in news_dict['feed_media'] or news_dict['feed_media']['type'].startswith('image'):
+                found_urls.append(news_dict['feed_media']['url'])
+        for item in news_dict['feed_items']:
+            if 'media' in news_dict["feed_items"][item] and 'url' in news_dict["feed_items"][item]['media']:
+                media = news_dict["feed_items"][item]['media']
+                if 'type' not in media or media['type'].startswith('image'):
+                    found_urls.append(media['url'])
+        return found_urls
+
+    @staticmethod
+    async def get_image(url):
+        """
+        Method is used for async requesting URL and downloading image from it. Image is returned in tuple with URL, that
+        it was downloaded from, in form of base64 encoded string  (for later processing).
+        Read buffer size is set approximately to 4 Mb in case of heavy weighted image files.
+
+        :param url: image URL
+        :return: tuple (image URL, encoded image data) if download successful,  None if request fails
+        """
+        try:
+            async with aiohttp.ClientSession(read_bufsize=2 ** 22) as session:
+                async with session.get(url=url, read_bufsize=2 ** 22) as response:
+                    resp = await response.read()
+        except Exception as exc:
+            RssReader.log_runtime(f"Unable to get image from url {url} due to {exc.__class__}.")
+        else:
+            return url, base64.b64encode(resp).decode('utf-8')
+
+    @staticmethod
+    async def get_all_images(urls):
+        """
+        Method is used to combine all async requests of URLs into a dictionary with following key:value pairs:
+        {URL: encoded image data} while also discarding failed requests results. Uses tqdm to show user progress bar
+        of async processes for better user experience
+
+        :param urls: list of image URLs
+        :return: dictionary with requested image data
+        """
+        getlist = [(AsyncImageCacher.get_image(url)) for url in urls]
+        returns = [await f for f in tqdm.tqdm(asyncio.as_completed(getlist), total=len(getlist))]
+        print(f"Finished downloading image(s)")
+        image_dict = {}
+        for tup in returns:
+            if isinstance(tup, tuple):
+                image_dict[tup[0]] = tup[1]
+        return image_dict
+
+    @staticmethod
+    def update_dict(news, media_dict):
+        """
+        Method updates given news dictionary with standard structure, defined by RssReader logic with requested images
+        :param news: news dictionary
+        :param media_dict: dictionary with requested image data
+        :return: news dictionary with requested image data
+        """
+        if 'feed_media' in news:
+            if 'type' not in news['feed_media'] or news['feed_media']['type'].startswith('image'):
+                if news['feed_media']['url'] in media_dict:
+                    news['feed_media']['contains'] = media_dict[news['feed_media']['url']]
+        for item in news['feed_items']:
+            if 'media' in news["feed_items"][item] and 'url' in news["feed_items"][item]['media']:
+                media = news["feed_items"][item]['media']
+                if 'type' not in media or media['type'].startswith('image'):
+                    if media['url'] in media_dict:
+                        media['contains'] = media_dict[media['url']]
+        return news
+
+    def run(self):
+        """
+        Method combines other methods of AsyncImageCacher class into a single script
+        :return: news dictionary with requested image data
+        """
+        if platform.system() == "Windows":
+            asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+        media_dict = asyncio.run(AsyncImageCacher.get_all_images(self.image_urls))
+        new_dict = AsyncImageCacher.update_dict(self.news_dict, media_dict)
+        return new_dict
 
 
 class RssReader:
@@ -47,6 +156,11 @@ class RssReader:
         self.url = url
         self.news_cache = RssReader.prepare_dict(url)
         if self.news_cache:  # to prevent further funcs if prepare_dict failed
+            try:
+                RssReader.log_runtime('Trying to get images for cache. This may take some time, please wait.')
+                self.news_cache = AsyncImageCacher(self.news_cache).run()
+            except Exception as exc:
+                RssReader.log_runtime(f'Failed to get images for cache: {exc}')
             RssReader.update_local_cache(self.url, self.news_cache)
             self.news_dict = RssReader.limit_news_dict(self.news_cache, news_limit)
 
@@ -285,6 +399,7 @@ class RssReader:
     def limit_news_dict(news_cache: dict, limit=None) -> dict:
         """
         Method prepares a limited number of news for output if limit is set
+
         :param news_cache: dictionary with required data cached
         :param limit: limit of news to output
         :return: dictionary with a limited number of news
@@ -303,6 +418,7 @@ class RssReader:
     def load_from_local_cache() -> dict:
         """
         Method loads news cache from local cache in form of a nested dictionary if cache file exists.
+
         :return: a nested dictionary with cached news
         """
         RssReader.log_runtime('Loading news from local cache')
@@ -319,10 +435,10 @@ class RssReader:
         Method saves a dictionary of news to local cache in form of JSON object.
         Saving is done to a directory 'cache' in root directory of script, if such directory doesn't exist,
         it is created.
-        :param news_cache:
+
+        :param news_cache: dictionary with required data cached from rss URL
         :return: None
         """
-        RssReader.log_runtime('Saving news to local cache')
         if not os.path.exists(os.path.dirname(__file__)+'/cache/'):
             os.mkdir(os.path.dirname(__file__)+'/cache/')
         with open(os.path.dirname(__file__) + '/cache/rss_cache.json', 'w') as rss_cache:
@@ -330,16 +446,18 @@ class RssReader:
         RssReader.log_runtime('Successfully saved news to local cache')
 
     @staticmethod
-    def update_local_cache(url: str, url_news_cache: dict):
+    def update_local_cache(url: str, news_cache: dict):
         """
         Method updates existing local cache with news dictionary from current processed URL.
-        :param url:
-        :param url_news_cache:
+
+        :param url: current processed URL
+        :param news_cache: dictionary with required data cached from rss URL
         :return:
         """
-        news_cache = RssReader.load_from_local_cache()
-        news_cache[url] = url_news_cache
-        RssReader.save_to_local_cache(news_cache)
+        RssReader.log_runtime('Updating local cache')
+        local_cache = RssReader.load_from_local_cache()
+        local_cache[url] = news_cache
+        RssReader.save_to_local_cache(local_cache)
 
     def return_news_default(self):
         """
@@ -372,13 +490,39 @@ class RssReader:
                       f'{self.news_dict["feed_items"][item]["media"].get("url", "No link provided")}')
             print('-' * 120)
 
+    @staticmethod
+    def prepare_json_dict(news_dict: dict) -> dict:
+        """
+        Method is used to prepare news dictionary for output in JSON format. Removes 'contents' key, that holds encoded
+        image data, from news dictionary for better readability of JSON for user
+        :param news_dict: news dictionary
+        :return:
+        """
+        json_dict = {}
+        json_dict['Feed title'] = news_dict.get('feed_title', 'No title provided')
+        json_dict['Feed description'] = news_dict.get('feed_description', 'No description provided')
+        json_dict['Feed URL'] = news_dict.get('feed_link', 'No link provided')
+        json_dict['Last update'] = news_dict.get("feed_pubDate", "Not specified")
+        json_dict['feed_items'] = {}
+        for item in news_dict['feed_items']:
+            json_dict['feed_items'][item] = {}
+            elem = news_dict["feed_items"][item]
+            json_dict['feed_items'][item]['Title'] = elem.get("title", "No title provided")
+            json_dict['feed_items'][item]['Link'] = elem.get("link", "No link provided")
+            json_dict['feed_items'][item]['Publication date'] = elem.get("pubDate", "No publication date provided")
+            json_dict['feed_items'][item]['Description'] = elem.get("description", "No description provided")
+            if 'media' in elem and 'url' in elem['media']:
+                json_dict['feed_items'][item]['Media link'] = elem['media']['url']
+        return json_dict
+
     def return_news_json(self):
         """
         Method makes a pretty print of JSON data to stdout with indent set to 4 for better visibility
         :return: None
         """
         RssReader.log_runtime('Converting news to JSON format')
-        json_string = json.dumps(self.news_dict, ensure_ascii=False, indent=4)
+        json_dict = RssReader.prepare_json_dict(self.news_dict)
+        json_string = json.dumps(json_dict, ensure_ascii=False, indent=4)
         RssReader.log_runtime('Printing news in JSON format for the user\n')
         print(json_string)
 

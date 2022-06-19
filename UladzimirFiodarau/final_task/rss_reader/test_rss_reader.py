@@ -269,21 +269,19 @@ class TestRssReader(unittest.TestCase):
             dictionary = RssReader.limit_news_dict(eval(file.read().strip()), 5)
             self.assertTrue(len(dictionary['feed_items']) == 2)  # test file dict_v1.txt has 2 news items
 
-    @patch('rss_reader.RssReader.prepare_dict')
     @patch('builtins.print')
-    def test_return_news_default(self, mock_print, mock_dict):
+    def test_return_news_default(self, mock_print):
         """
         Test for return_news_default method of RssReader class
         mocks 'builtins.print' for output catching
-        mocks 'RssReader.prepare_dict' to prevent test errors due to URL misfunction
         uses example file form ./test_examples folder
         :return: None
         """
         with open(tests_dir + 'dict_v7.txt', encoding='utf-8') as file:
             dictionary = eval(file.read().strip())
-            mock_dict.return_value = dictionary
-            news = RssReader('http://valide_url')
-            news.return_news_default()
+            news = unittest.mock.MagicMock()
+            news.news_dict = dictionary
+            RssReader.return_news_default(news)
             self.assertEqual(mock_print.mock_calls,
                              [call('=' * 120),
                               call('Feed title: World - CBSNews.com'),
@@ -300,6 +298,37 @@ class TestRssReader(unittest.TestCase):
                               call('Media (image/jpeg) link:\n https://cbsnews3.cbsistatic.com/dnvn-800x450-nopad.jpg'),
                               call('-' * 120)
                               ])
+
+    @patch('builtins.print')
+    def test_return_news_json(self, mock_print):
+        """
+        Test for return_news_json method of RssReader class
+        mocks 'builtins.print' for output catching
+        uses example file form ./test_examples folder
+        :return: None
+        """
+        with open(tests_dir + 'dict_v7.txt', encoding='utf-8') as file:
+            dictionary = eval(file.read().strip())
+            news = unittest.mock.MagicMock()
+            news.news_dict = dictionary
+            RssReader.return_news_json(news)
+            self.assertEqual(mock_print.mock_calls,
+                             [call('{\n    "Feed title": "World - CBSNews.com",\n    '
+                                   '"Feed description": "World From CBSNews.com",\n    '
+                                   '"Feed URL": "https://www.cbsnews.com/",\n    '
+                                   '"Last update": "Fri, 03 Jun 2022 09:08:13 -0400",\n    '
+                                   '"feed_items": {\n        '
+                                   '"2022:06:03 08:44:00": {\n            '
+                                   '"Title": "Suspected serial killer accused of luring women on Facebook",'
+                                   '\n            '
+                                   '"Link": "https://www.cbsnews.com/news/suspected-serial-killer",\n            '
+                                   '"Publication date": "Fri, 03 Jun 2022 08:44:00 -0400",\n            '
+                                   '"Description": "\\"There are at least seven cases of women\'s killings",'
+                                   '\n            '
+                                   '"Media link": "https://cbsnews3.cbsistatic.com/dnvn-800x450-nopad.jpg"\n        '
+                                   '}\n    '
+                                   '}\n'
+                                   '}')])
 
     def test_parse_command_line(self):
         """
