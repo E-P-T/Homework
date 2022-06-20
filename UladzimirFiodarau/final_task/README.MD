@@ -51,7 +51,8 @@ If you change them while using script - adjust your commands appropriately.
        or
        venv\Scripts\activate.bat or venv\Scripts\activate.ps1 (for Windows)
        
-1.3. Install required packages to your fresh virtual environment, to do it use following command while being in root directory of the script:
+1.3. Install required packages to your fresh virtual environment, to do it use following command while being in root directory 
+of the script:
 
 1.3.1. $ pip install -r requirements.txt (for UNIX-based systems) 
        or 	
@@ -106,41 +107,44 @@ optional arguments:
 
 source is a mandatory argument that can only be skipped when using rss_reader with:
 1) --help (-h) or --version arguments, as these two arguments stop the script after printing corresponding messages
-2) --date DATE argument, and in such case will get all the available news published on the given date from all cached URLs
+2) --date DATE argument, and in such case will get all the available news published on the given date from cached URLs
 
---help (-h)  argument is used to print script's help information (listed above) and exit script
---version  argument is used to print script's version and exit script
+--help (-h) argument is used to print script's help information (listed above) and exit script
+--version argument is used to print script's version and exit script
 --verbose argument is used for verbose logging while running the script
---json argument is used to convert news data to JSON format and print JSON to user. The structure of JSON is described later in this file
+--json argument is used to convert news data to JSON format and print JSON to user, its structure is described later
 
 --pdf [PDF] argument is used to convert news data to PDF format and save as file
---html [HTML]  argument is used to convert news data to HTML format and save as file
+--html [HTML] argument is used to convert news data to HTML format and save as file
 		- Both --pdf [PDF] and --html [HTML] arguments result in saving news in correspondent file format.
 		- [PDF] and [HTML] are optional arguments which take path to a directory where user wants to save converted files.
-		- NOTE that [PDF] and [HTML] save paths in Command Line commands SHOULD NOT contain surrounding quotes, usual for strings in Python
-		- If [PDF] / [HTML] is not provided with corresponding argument or not a valid directory (incorrect path or path to a file instead 
-		of a directory) converted file will be saved in default directory 'output' in script directory.
-		- If [PDF] / [HTML] is a nonexisting directory, rss-reader will try to create full path to such directory for user and will use 
-		default directory 'output' in script directory if creation fails.
-		- It is recomended to use absolute paths as [PDF] and [HTML] arguments, relative path are processed by script according to the 
-		directory script is called from, and can lead to unexpected paths, though to help handle such situations save path is printed 
-		after file successfully saved.
-		- Although --pdf and --html can be used without [PDF] / [HTML] optional arguments, in such case in command they both shouldn't 
-		be positioned directly before *source* argument, as any of them will in such case use *source* argument as its [PDF] / [HTML] argument, 
-		which will result in rss-reader failure or incorrect result.
+		- NOTE that [PDF] and [HTML] save paths in Command Line commands SHOULD NOT contain surrounding quotes, usual for 
+		strings in Python
+		- If [PDF] / [HTML] is not provided with corresponding argument or not a valid directory (incorrect path or path 
+		to a file instead of a directory) converted file will be saved in default directory 'output' in script directory.
+		- If [PDF] / [HTML] is a nonexisting directory, rss-reader will try to create full path to such directory for user 
+		and will use default directory 'output' in script directory if creation fails.
+		- It is recomended to use absolute paths as [PDF] and [HTML] arguments, relative path are processed by script 
+		according to the directory script is called from, and can lead to unexpected paths, though to help handle such 
+		situations save path is printed after file successfully saved.
+		- Although --pdf and --html can be used without [PDF] / [HTML] optional arguments, in such case in command they 
+		both shouldn't be positioned directly before *source* argument, as any of them will in such case use *source* 
+		argument as its [PDF] / [HTML] argument, which will result in rss-reader failure or incorrect result.
 		
 --limit LIMIT argument is used to set the quantity of news, that are shown to the user:
 		- LIMIT must be a positive integer, which shows how many news are going to be shown from the feed.
-		- No --limit set, LIMIT equal to 0, or LIMIT set as a negative integer all mean that user will get all available news from the feed.
-		- A LIMIT, which surpasses number of news in feed, will also result in user getting all available news from the feed.
+		- No --limit set, LIMIT equal to 0, or LIMIT set as a negative integer all mean that user will get all available
+		 news from the feed.
+		- A LIMIT, which surpasses number of news in feed, will also result in user getting all available news.
 		- Passing a non-integer LIMIT will raise an Exception and stop the Script run.
-		- While limiting news using --limit, the script chooses most recent news according to their publishing date in the feed.
+		- While limiting news using --limit, the script chooses most recent news according to their publishing date.
 		
---date DATE argument is used to load previously cached news. If it is given, the rss-reader doesn't require Internet connection to work.
-		- providing --date argument results in news being sorted by publication time in descending order.
+--date DATE argument is used to load previously cached news of the given date (with no need in Internet connection to work).
+		- Providing --date argument results in news being sorted by publication time in descending order.
 		- DATE argument must be a string of digits in %Y%m%d format (YYYYMMDD), e.g. 20220601 (which is 1 June 2022).
-		- Combination of --date DATE and source arguments result in only news that were fetched from the source will be loaded from cache.
-		- If --date DATE argument is given without source, news from all sources for the date from local cache will be loaded.
+		- Combination of --date DATE and source arguments result in only news that were fetched from the source will be 
+		loaded from cache.
+		- If --date DATE argument is given without source, news from all sources from local cache will be loaded.
 		- If there are no news in cache that match the given date, the script will raise and handle an exception.
 ```
 
@@ -335,7 +339,7 @@ logger_info.basicConfig(level=logging.INFO,
 ## TESTING
 Unittests for the script are located in script directory, which is by default the 'rss_reader' directory in the root directory of the script in file test_rss_reader.py.
 Unittests require test files to operate correctly, those files are located in subdirectory 'test_examples' of root script directory.
-To run unittests for the script user can use following command while being in root directory of the script:
+To run unittests for the script user can use following command while being in script directory:
 ```
 $ python -m unittest test_rss_reader.py (for UNIX-based systems) 
 or
