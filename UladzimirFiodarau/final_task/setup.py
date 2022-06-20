@@ -9,7 +9,7 @@ with open("requirements.txt", "r", encoding="utf-8") as reqs:
 
 setup(
     name='rss-reader',
-    version='1.4',
+    version='1.5',
     author='Uladzimir Fiodarau',
     author_email='ufiodarau@gmail.com',
     description='Python RSS parser',
