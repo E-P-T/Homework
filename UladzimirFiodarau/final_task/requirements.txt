@@ -1,6 +1,7 @@
-setuptools~=62.3.3
-fpdf~=1.7.2
-tqdm~=4.64.0
 aiohttp~=3.8.1
-Pillow~=9.1.1
 colorama~=0.4.4
+fpdf~=1.7.2
+Pillow~=9.1.1
+Pygments~=2.12.0
+setuptools~=62.3.3
+tqdm~=4.64.0

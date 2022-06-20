@@ -24,11 +24,13 @@ https://linuxize.com/post/how-to-install-python-3-9-on-ubuntu-20-04/
 Required third-party packages with versions used while developing rss-reader (can be found in requirements.txt file in 'final_task' directory):
 ```
 setuptools~=62.3.3 *is installed by default in Python 3.4 and higher
-fpdf~=1.7.2
-tqdm~=4.64.0
 aiohttp~=3.8.1
-Pillow~=9.1.1
 colorama~=0.4.4
+fpdf~=1.7.2
+Pillow~=9.1.1
+Pygments~=2.12.0
+tqdm~=4.64.0
+
 ```
 
 ## INSTALLATION
@@ -79,17 +81,17 @@ Rss-reader is a Command Line Interface application, which possible options can b
 
 1.1. While being in root directory of the script (if the name of the script directory hasn't been changed) it can be called using the following command:
 
-     python rss_reader [-h] [--version] [--verbose] [--colorize | --json] [--pdf [PDF]] [--html [HTML]] [--limit LIMIT] [--date DATE] *source*
+     python rss_reader [-h] [--version] [--verbose] [--colorize] [--json] [--pdf [PDF]] [--html [HTML]] [--limit LIMIT] [--date DATE] *source*
 	 
 1.2 While being in script directory it can be called using the following command:
 
-     python rss_reader.py [-h] [--version] [--verbose] [--colorize | --json] [--pdf [PDF]] [--html [HTML]] [--limit LIMIT] [--date DATE] *source*	
+     python rss_reader.py [-h] [--version] [--verbose] [--colorize] [--json] [--pdf [PDF]] [--html [HTML]] [--limit LIMIT] [--date DATE] *source*	
 
 2. Using as a CLI utility
 	 
 2.1. While being in root directory of the script, if it was previously installed as a CLI utility, as described above, it can be called using the following command:
 
-     rss_reader [-h] [--version] [--verbose] [--colorize | --json] [--pdf [PDF]] [--html [HTML]] [--limit LIMIT] [--date DATE] *source*
+     rss_reader [-h] [--version] [--verbose] [--colorize] [--json] [--pdf [PDF]] [--html [HTML]] [--limit LIMIT] [--date DATE] *source*
 While calling the script in any of the before-mentioned ways, following arguments can be used:	 
 ```
 
@@ -114,10 +116,8 @@ source is a mandatory argument that can only be skipped when using rss_reader wi
 --help (-h) argument is used to print script's help information (listed above) and exit script
 --version argument is used to print script's version and exit script
 --verbose argument is used for verbose logging while running the script
-
 --colorize argument is used to print user news in colored mode
 --json argument is used to convert news data to JSON format and print JSON to user, its structure is described later
-		- Note that --colorize and --json arguments are mutually exclusive and can't be used together in a single command.
 		
 --pdf [PDF] argument is used to convert news data to PDF format and save as file
 --html [HTML] argument is used to convert news data to HTML format and save as file
@@ -165,6 +165,7 @@ python rss_reader.py --json --verbose --limit 5 --date 20220601 https://www.buzz
 python rss_reader.py --json --verbose --limit 5 --date 20220601
 python rss_reader.py --json --verbose --pdf --html --limit 5 --date 20220601
 python rss_reader.py --json --verbose --pdf D:/user/output/ --html output/final --limit 5 --date 20220601
+python rss_reader.py --json --verbose --colorize --pdf --limit 2 --date 20220601 
 ```
 
 ## BASIC FUNCTIONALITY
@@ -357,11 +358,10 @@ Name                 Stmts   Miss  Cover
 rss_exceptions.py       12      0   100%
 rss_logger.py            7      0   100%
 rss_output.py          178     88    51%
-rss_reader.py          397    153    61%
+rss_reader.py          430    181    58%
 test_rss_reader.py     199      1    99%
 ----------------------------------------
-TOTAL                  793    242    69%
-
+TOTAL                  826    270    67%
 ```
 
 ### Script has been tested on following feeds:

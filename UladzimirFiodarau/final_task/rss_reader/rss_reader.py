@@ -17,12 +17,13 @@ import re
 import sys
 import tqdm
 import xml.etree.ElementTree as ET
-from colorama import init as col_init, Fore, Back, Style
+from colorama import Fore, Back, Style
 from email.utils import parsedate_to_datetime
 from urllib import error
 from urllib.request import Request, urlopen
 from urllib.parse import urlparse
 import rss_exceptions
+from pygments import highlight, lexers, formatters
 from rss_logger import logger_info
 from rss_output import PdfConverter, HtmlConverter
 
@@ -560,6 +561,18 @@ class RssReader:
         RssReader.log_runtime('Printing news in JSON format for the user\n')
         print(json_string)
 
+    def return_news_json_colored(self):
+        """
+        Method makes a colored pretty print of JSON data to stdout with indent set to 4 for better visibility
+        :return: None
+        """
+        RssReader.log_runtime('Converting news to JSON format')
+        json_dict = RssReader.prepare_json_dict(self.news_dict)
+        json_string = json.dumps(json_dict, ensure_ascii=False, indent=4)
+        colored_json = highlight(json_string, lexers.JsonLexer(), formatters.TerminalFormatter())
+        RssReader.log_runtime('Printing colored news in JSON format for the user\n')
+        print(colored_json)
+
 
 class RssReaderCached(RssReader):
     """
@@ -638,9 +651,8 @@ def parse_command_line(args=None):
     parser.add_argument("--version", help="Print version info and exit", action="version",
                         version="You are using %(prog)s version 1.4")
     parser.add_argument("--verbose", help="Outputs verbose status messages", action="store_true")
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("--colorize", help="Enables colored news print", action="store_true")
-    group.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
+    parser.add_argument("--colorize", help="Enables colored news print", action="store_true")
+    parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
     parser.add_argument("--pdf", nargs='?', const=f"{default_save_path}", action="store", default='',
                         help="Save result as PDF file, can take path to a directory as argument")
     parser.add_argument("--html", nargs='?', const=f"{default_save_path}", action="store", default='',
@@ -694,7 +706,10 @@ def main():
             if 'news_dict' in news.__dict__ and news.news_dict:  # print only if news were generated w/o errors
                 if args.json:
                     try:
-                        news.return_news_json()
+                        if args.colorize:
+                            news.return_news_json_colored()
+                        else:
+                            news.return_news_json()
                     except Exception as exc:
                         print(f'Unexpected error while printing JSON object: {exc}')
                 else:
