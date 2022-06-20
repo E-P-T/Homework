@@ -438,8 +438,8 @@ class RssReader:
         :param news_cache: dictionary with required data cached from rss URL
         :return: None
         """
-        if not os.path.exists(os.path.dirname(__file__)+'/cache/'):
-            os.mkdir(os.path.dirname(__file__)+'/cache/')
+        if not os.path.exists(os.path.dirname(__file__) + '/cache/'):
+            os.mkdir(os.path.dirname(__file__) + '/cache/')
         with open(os.path.dirname(__file__) + '/cache/rss_cache.json', 'w') as rss_cache:
             json.dump(news_cache, rss_cache, indent=4)
         RssReader.log_runtime('Successfully saved news to local cache')
@@ -585,7 +585,7 @@ class RssReaderCached(RssReader):
                         if news_date in news_tag:
                             temp_news_dict['feed_items'][news_tag] = tag_text
         if len(temp_news_dict['feed_items']) == 0:
-            raise rss_exceptions.NoDataInCache('No news of the set date found in cache')
+            raise rss_exceptions.NoDataInCache('No news of the set date found in cache, please check date')
         news_dict = RssReader.limit_news_dict(temp_news_dict, limit)
         return news_dict
 

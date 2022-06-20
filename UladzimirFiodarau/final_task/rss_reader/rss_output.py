@@ -136,6 +136,7 @@ class PdfConverter(RssConverter):
 
         :return: None
         """
+        RssConverter.check_directory('temp')
         news = self.news_dict
         pdf = fpdf.FPDF()
         pdf.add_font("DejaVuMono", style="",
@@ -154,7 +155,6 @@ class PdfConverter(RssConverter):
         if 'feed_media' in news:
             if 'contains' in news['feed_media']:
                 temp_name = os.path.join(os.path.dirname(__file__), 'temp/logo.png')
-                RssConverter.check_directory('/temp/')
                 try:
                     im = Image.open(BytesIO(base64.b64decode(news['feed_media']['contains'])))
                     im.save(temp_name, 'PNG')
@@ -195,7 +195,6 @@ class PdfConverter(RssConverter):
                 news_media = media['url']  # We will use a link to media later in script
                 if 'contains' in media:
                     temp_name = os.path.join(os.path.dirname(__file__), 'temp/image' + str(num) + '.png')
-                    RssConverter.check_directory('/temp/')
                     try:
                         im = Image.open(BytesIO(base64.b64decode(media['contains'])))
                         im.thumbnail((400, 400))  # to compress huge images for faster conversion
