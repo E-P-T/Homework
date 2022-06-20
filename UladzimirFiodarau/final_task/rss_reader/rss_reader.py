@@ -17,6 +17,7 @@ import re
 import sys
 import tqdm
 import xml.etree.ElementTree as ET
+from colorama import init as col_init, Fore, Back, Style
 from email.utils import parsedate_to_datetime
 from urllib import error
 from urllib.request import Request, urlopen
@@ -489,6 +490,40 @@ class RssReader:
                       f'{self.news_dict["feed_items"][item]["media"].get("url", "No link provided")}')
             print('-' * 120)
 
+    def return_news_colored(self):
+        """
+        Method makes a colored pretty print of the dictionary formed from the news feed to stdout using dict.get()
+        method for getting info from news dictionary to prevent KeyErrors
+        :return: None
+        """
+        RssReader.log_runtime('Printing news for the user in colored mode\n')
+        print(Fore.MAGENTA, Back.WHITE + '=' * 120, Style.RESET_ALL)
+        print(Fore.RED,
+              f'Feed title: {self.news_dict.get("feed_title", "No title provided")}')
+        print(Fore.LIGHTWHITE_EX,
+              f'Feed description: {self.news_dict.get("feed_description", "No description provided")}')
+        print(Fore.LIGHTBLUE_EX,
+              f'Feed URL: {self.news_dict.get("feed_link", "No link provided")}')
+        print(Fore.LIGHTWHITE_EX, f'Last update: {self.news_dict.get("feed_pubDate", "Not specified")}')
+        print(Fore.MAGENTA, Back.WHITE + '=' * 120, Style.RESET_ALL)
+        for item in sorted(self.news_dict['feed_items'], reverse=True):
+            print(Fore.RED, f'Title: {self.news_dict["feed_items"][item].get("title", "No title provided")}')
+            print(Fore.LIGHTBLUE_EX, f'Link: '
+                  f'{self.news_dict["feed_items"][item].get("link", "No link provided")}')
+            print(Fore.LIGHTWHITE_EX, f'Publication date: '
+                  f'{self.news_dict["feed_items"][item].get("pubDate", "No publication date provided")}')
+            print()
+            print(Fore.LIGHTWHITE_EX, self.news_dict["feed_items"][item].get("description", "No description provided"))
+            print()
+            if 'media' in self.news_dict["feed_items"][item]:
+                if 'type' in self.news_dict["feed_items"][item]['media']:
+                    media_type = self.news_dict["feed_items"][item]['media']['type']
+                else:
+                    media_type = "image"
+                print(Fore.LIGHTBLUE_EX, f'Media ({media_type}) link:\n '
+                      f'{self.news_dict["feed_items"][item]["media"].get("url", "No link provided")}')
+            print(Fore.MAGENTA, Back.WHITE + '-' * 120, Style.RESET_ALL)
+
     @staticmethod
     def prepare_json_dict(news_dict: dict) -> dict:
         """
@@ -603,6 +638,7 @@ def parse_command_line(args=None):
     parser.add_argument("--version", help="Print version info and exit", action="version",
                         version="You are using %(prog)s version 1.4")
     parser.add_argument("--verbose", help="Outputs verbose status messages", action="store_true")
+    parser.add_argument("--colorize", help="Enables colored news print", action="store_true")
     parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
     parser.add_argument("--pdf", nargs='?', const=f"{default_save_path}", action="store", default='',
                         help="Save result as PDF file, can take path to a directory as argument")
@@ -662,9 +698,10 @@ def main():
                         print(f'Unexpected error while printing JSON object: {exc}')
                 else:
                     try:
-                        news.return_news_default()
-                    except KeyError as exc:
-                        print(f'Error while printing news: {exc}')
+                        if args.colorize:
+                            news.return_news_colored()
+                        else:
+                            news.return_news_default()
                     except Exception as exc:
                         print(f'Unexpected error while printing news: {exc}')
                 if args.html:
