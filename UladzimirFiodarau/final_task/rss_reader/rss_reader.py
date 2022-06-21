@@ -2,7 +2,7 @@
 Main rss-reader module.
 Goal was to create a rss-reader using OOP and with bare minimum third-party libraries to lessen external dependencies.
 To make it easier to change the reader inner processing (if later needed) processing of the rss-feed into a
-dictionary of necessary data is split into several staticmethods.
+dictionary of necessary data is split into several static methods.
 """
 import asyncio
 import aiohttp
@@ -31,6 +31,7 @@ sys.path.append(os.path.dirname(__file__))
 news_limit = None
 to_json = False
 verbose = False
+colorize = False
 news_date = None
 
 
@@ -168,13 +169,16 @@ class RssReader:
     @staticmethod
     def log_runtime(text: str):
         """
-        If --verbose is specified while running script user-friendly status messages are sent to stdout
+        If --verbose is specified while running script user-friendly status messages are sent to stdout.
         The method is used for logging in verbose mode and can be modified for other kinds of logging if needed.
         :param text: text for status logging
         :return: None
         """
         if verbose:
-            logger_info.info(text)
+            if colorize:
+                logger_info.info(text, color=32)
+            else:
+                logger_info.info(text)
 
     @staticmethod
     def process_string(string: str) -> str:
@@ -651,7 +655,7 @@ def parse_command_line(args=None):
     parser.add_argument("--version", help="Print version info and exit", action="version",
                         version="You are using %(prog)s version 1.4")
     parser.add_argument("--verbose", help="Outputs verbose status messages", action="store_true")
-    parser.add_argument("--colorize", help="Enables colored news print", action="store_true")
+    parser.add_argument("--colorize", help="Enables colored news print", action="store_true", default=False)
     parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
     parser.add_argument("--pdf", nargs='?', const=f"{default_save_path}", action="store", default='',
                         help="Save result as PDF file, can take path to a directory as argument")
@@ -680,6 +684,10 @@ def main():
             global verbose
             verbose = True
             RssReader.log_runtime("Verbose mode turned on")
+        if args.colorize:
+            global colorize
+            colorize = True
+            RssReader.log_runtime("Colored output mode turned on")
         if args.json:
             global to_json
             to_json = True
