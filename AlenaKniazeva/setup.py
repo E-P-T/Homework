@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="rss_reader",
-    version="2.1",
+    version="3.1",
     author="Alena Kniazeva",
     author_email="elena.n.kniazeva@gmail.com",
     description="RSS-reader",
@@ -13,7 +13,9 @@ setup(
     install_requires=[
     'requests>=2.26.0',
     'lxml>=4.9.0',
-    'beautifulsoup4>=4.11.1'
+    'beautifulsoup4>=4.11.1',
+    'jsonlines>=3.0.0',
+    'python-dateutil>=2.8.2'
     ],
     entry_points={
         'console_scripts': [

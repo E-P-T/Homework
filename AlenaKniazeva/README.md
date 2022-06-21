@@ -9,12 +9,12 @@
     <h2>Description</h2>
     <p>This application is Python RSS-reader. It is implemented to read news from a given feed with prescribed arguments.</p>
     <h2>Requirements</h2>
-    <p>The application requires the next Python libraries to be installed: <br><i>requests<br>beautifulsoup4<br>lxml</i></p>
+    <p>The application requires the next Python libraries to be installed: <br><i>requests<br>beautifulsoup4<br>lxml<br>jsonlines<br>python-dateutil</i></p>
     <p>Necessary libraries may be installed by entering the next command in a command line:<br><b>pip install library_name</b></p>
     <h2>Running</h2>
     <p>User can run the application from a command line (from a folder, where scripts of rss_reader are situated) in two ways:</p>
     <ul>
-        <li>running the script itself <b>(if all requirements are installed)</b> by a command:<br> <b>python rss_reader.py source [--version] [--json] [--verbose] [--limit LIMIT] [-h]</b><br>positional arguments:
+        <li>running the script itself <b>(if all requirements are installed)</b> by a command:<br> <b>python rss_reader.py source [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] [-h]</b><br>positional arguments:
         <dl>
             <dt>source</dt><dd><i>RSS URL</i></dd>
         </dl>
@@ -24,14 +24,17 @@
             <dt>--json</dt><dd><i>Print result as JSON in stdout</i></dd>
             <dt>--verbose</dt><dd><i>Outputs verbose status messages</i></dd>
             <dt>--limit LIMIT</dt><dd><i>Limit news topics if this parameter provided</i></dd>
+            <dt>--date DATE</dt><dd><i>Print result from a cash for a given date</i></dd>
             <dt>-h, --help</dt><dd><i>Show a help message and exit</i></dd>
         </dl>
         </li>
-        <li>installing of application by a command:<br><b>python setup.py develop</b><br>The application may be then run by a command:<br><b>rss_reader.py source [--version] [--json] [--verbose] [--limit LIMIT] [-h]</b>
+        <li>installing of application by a command:<br><b>python setup.py develop</b><br>The application may be then run by a command:<br><b>rss_reader source [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] [-h]</b>
         </li>
     </ul>
-    <h4>* About a JSON structure</h4>
+    <h3>* About a JSON structure</h3>
     <p>This application generates JSON with the next structure:<br>{"feed": "Name of sourse feed", <br> "news": [<br>{<br>"title": "title of news_1",<br>"pubdate": "publication date of a news_1",<br>"link": "sourse link for a news_1",<br>"description": "Short description of a content of a news_1"<br>},<br>{<br>"title": "title of news_2",<br>"pubdate": "publication date of a news_2",<br>"link": "sourse link for a news_2",<br>"description": "Short description of a content of a news_2"<br>...<br>]}</p>
+    <h3>** About a cashed news storage structure</h3>
+    <p>Cashed news sorage is provided by a file <i>dates.json</i> and a folder <i>cashed_feeds</i>.<br>When rss_reader is started without --date argument, the dates of publication of news are stored in the file <i>dates.json</i> and all news are stored in the folder <i>cashed_feeds</i>. Names of files in the folder <i>cashed_feeds</i> corresponds to dates of publication of news.<br>When rss_reader is started with --date argument, it reads news from the cash for entered date and source.</p>
 
 </body>
 </html>
