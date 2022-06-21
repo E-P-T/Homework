@@ -38,9 +38,6 @@ logger_info.basicConfig(level=logging.INFO,
                         datefmt='%Y:%m:%d %H:%M:%S',
                         )
 
-# setting default color of info print to no color and enabling decorator
-setattr(logger_info, "info", add_color(getattr(logger_info, "info"), no_color))
-
 
 if __name__ == '__main__':
     pass

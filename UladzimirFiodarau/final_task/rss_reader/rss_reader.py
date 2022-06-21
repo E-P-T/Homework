@@ -24,7 +24,7 @@ from urllib.request import Request, urlopen
 from urllib.parse import urlparse
 import rss_exceptions
 from pygments import highlight, lexers, formatters
-from rss_logger import logger_info
+from rss_logger import logger_info, add_color
 from rss_output import PdfConverter, HtmlConverter
 
 sys.path.append(os.path.dirname(__file__))
@@ -176,7 +176,8 @@ class RssReader:
         """
         if verbose:
             if colorize:
-                logger_info.info(text, color=32)
+                setattr(logger_info, "info", add_color(getattr(logger_info, "info"), "\33[32m"))
+                logger_info.info(text)
             else:
                 logger_info.info(text)
 
