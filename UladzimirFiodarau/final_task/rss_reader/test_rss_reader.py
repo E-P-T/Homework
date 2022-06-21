@@ -300,6 +300,37 @@ class TestRssReader(unittest.TestCase):
                               ])
 
     @patch('builtins.print')
+    def test_return_news_colored(self, mock_print):
+        """
+        Test for return_news_colored method of RssReader class
+        mocks 'builtins.print' for output catching
+        uses example file form ./test_examples folder
+        :return: None
+        """
+        with open(tests_dir + 'dict_v7.txt', encoding='utf-8') as file:
+            dictionary = eval(file.read().strip())
+            news = unittest.mock.MagicMock()
+            news.news_dict = dictionary
+            RssReader.return_news_colored(news)
+            self.assertEqual(mock_print.mock_calls,
+                             [call('\x1b[35m', '\x1b[47m' + '=' * 120, '\x1b[0m'),
+                              call('\x1b[31m', 'Feed title: World - CBSNews.com'),
+                              call('\x1b[97m', 'Feed description: World From CBSNews.com'),
+                              call('\x1b[94m', 'Feed URL: https://www.cbsnews.com/'),
+                              call('\x1b[97m', 'Last update: Fri, 03 Jun 2022 09:08:13 -0400'),
+                              call('\x1b[35m', '\x1b[47m' + '=' * 120, '\x1b[0m'),
+                              call('\x1b[31m', 'Title: Suspected serial killer accused of luring women on Facebook'),
+                              call('\x1b[94m', 'Link: https://www.cbsnews.com/news/suspected-serial-killer'),
+                              call('\x1b[97m', 'Publication date: Fri, 03 Jun 2022 08:44:00 -0400'),
+                              call(),
+                              call('\x1b[97m', '"There are at least seven cases of women\'s killings'),
+                              call(),
+                              call('\x1b[94m', 'Media (image/jpeg) link:'
+                                               '\n https://cbsnews3.cbsistatic.com/dnvn-800x450-nopad.jpg'),
+                              call('\x1b[35m', '\x1b[47m' + '-' * 120, '\x1b[0m')
+                              ])
+
+    @patch('builtins.print')
     def test_return_news_json(self, mock_print):
         """
         Test for return_news_json method of RssReader class
@@ -328,7 +359,8 @@ class TestRssReader(unittest.TestCase):
                                    '"Media link": "https://cbsnews3.cbsistatic.com/dnvn-800x450-nopad.jpg"\n        '
                                    '}\n    '
                                    '}\n'
-                                   '}')])
+                                   '}')
+                              ])
 
     def test_parse_command_line(self):
         """
@@ -337,7 +369,7 @@ class TestRssReader(unittest.TestCase):
         :return:
         """
         parser = rss_reader.parse_command_line(['--limit', '3', '--verbose', '--json', 'https://vse.sale/news/rss',
-                                                '--date', '20220601', '--pdf', '--html', 'D:/user/log/'])
+                                                '--date', '20220601', '--pdf','--colorize', '--html', 'D:/user/log/'])
         self.assertTrue(parser.limit)
         self.assertTrue(parser.verbose)
         self.assertTrue(parser.json)
@@ -345,6 +377,7 @@ class TestRssReader(unittest.TestCase):
         self.assertTrue(parser.date)
         self.assertTrue(parser.pdf)
         self.assertTrue(parser.html)
+        self.assertTrue(parser.colorize)
         with captured_output():
             with self.assertRaises(SystemExit):
                 rss_reader.parse_command_line(['--help'])
@@ -357,6 +390,7 @@ class TestRssReader(unittest.TestCase):
         self.assertFalse(parser.pdf)
         self.assertFalse(parser.html)
         self.assertFalse(parser.source)
+        self.assertFalse(parser.colorize)
 
 
 class TestRssOutput(unittest.TestCase):

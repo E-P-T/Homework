@@ -358,11 +358,10 @@ Name                 Stmts   Miss  Cover
 rss_exceptions.py       12      0   100%
 rss_logger.py           16      4    75%
 rss_output.py          178     88    51%
-rss_reader.py          436    186    57%
-test_rss_reader.py     199      1    99%
+rss_reader.py          436    167    62%
+test_rss_reader.py     209      1    99%
 ----------------------------------------
-TOTAL                  841    279    67%
-
+TOTAL                  851    260    69%
 ```
 
 ### Script has been tested on following feeds:
