@@ -102,7 +102,7 @@ optional arguments:
   -h, --help     show this help message and exit
   --version      Print version info and exit
   --verbose      Outputs verbose status messages
-  --colorize     Enables colored news print
+  --colorize     Enables colored output mode
   --json         Print result as JSON in stdout
   --pdf [PDF]    Save result as PDF file, can take path to a directory as argument
   --html [HTML]  Save result as HTML file, can take path to a directory as argument
@@ -116,7 +116,7 @@ source is a mandatory argument that can only be skipped when using rss_reader wi
 --help (-h) argument is used to print script's help information (listed above) and exit script
 --version argument is used to print script's version and exit script
 --verbose argument is used for verbose logging while running the script
---colorize argument is used to print user news in colored mode
+--colorize argument is used to enable colored output mode
 --json argument is used to convert news data to JSON format and print JSON to user, its structure is described later
 		
 --pdf [PDF] argument is used to convert news data to PDF format and save as file
@@ -226,7 +226,7 @@ https://money.onliner.by
 
 ### CACHING
 
-Cache is saved in subdirectory 'cache/' of the root directory of the script. 
+Cache is saved in subdirectory 'cache' of the root directory of the script. 
 Its structure is similar to the before-mentioned news_cache structure with the news_cache dictionary as a value in a pair and 'URL of RSS-feed 'as its key 
 It is saved in form of JSON file, the structure of cache JSON is shown on the following example:
 ```
@@ -356,16 +356,17 @@ Test coverage for current version is:
 Name                 Stmts   Miss  Cover
 ----------------------------------------
 rss_exceptions.py       12      0   100%
-rss_logger.py           16      4    75%
+rss_logger.py           15      6    60%
 rss_output.py          178     88    51%
-rss_reader.py          436    167    62%
+rss_reader.py          437    168    62%
 test_rss_reader.py     209      1    99%
 ----------------------------------------
-TOTAL                  851    260    69%
+TOTAL                  851    263    69%
 ```
 
 ### Script has been tested on following feeds:
 ```
+https://www.kommersant.ru/RSS/news.xml
 https://www.latimes.com/local/rss2.0.xml
 https://www.usda.gov/rss/latest-releases.xml
 https://www.yahoo.com/news/rss
@@ -385,5 +386,4 @@ https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
 https://auto.onliner.by/feed
 http://feeds.bbci.co.uk/news/world/rss.xml
 https://www.buzzfeed.com/world.xml
-https://www.kommersant.ru/RSS/news.xml
 ```

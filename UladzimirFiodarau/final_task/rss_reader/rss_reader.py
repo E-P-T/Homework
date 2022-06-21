@@ -84,7 +84,7 @@ class AsyncImageCacher:
                 async with session.get(url=url, read_bufsize=2 ** 22) as response:
                     resp = await response.read()
         except Exception as exc:
-            RssReader.log_runtime(f"Unable to get image from url {url} due to {exc.__class__}.")
+            RssReader.log_runtime(f"\nUnable to get image from url {url} due to {exc.__class__}.")
         else:
             return url, base64.b64encode(resp).decode('utf-8')
 
@@ -654,9 +654,9 @@ def parse_command_line(args=None):
     default_save_path = os.path.dirname(__file__) + '/output/'
     parser = argparse.ArgumentParser(description="Python command-line RSS reader.", exit_on_error=False)
     parser.add_argument("--version", help="Print version info and exit", action="version",
-                        version="You are using %(prog)s version 1.4")
+                        version="You are using %(prog)s version 1.5")
     parser.add_argument("--verbose", help="Outputs verbose status messages", action="store_true")
-    parser.add_argument("--colorize", help="Enables colored mode", action="store_true", default=False)
+    parser.add_argument("--colorize", help="Enables colored output mode", action="store_true", default=False)
     parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
     parser.add_argument("--pdf", nargs='?', const=f"{default_save_path}", action="store", default='',
                         help="Save result as PDF file, can take path to a directory as argument")
