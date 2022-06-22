@@ -28,10 +28,8 @@ class HistoryDict(dict):
             result = [x[:-1:] for x in list(deque(f, 10))]
             print(result)
 
-
 d = HistoryDict({"foo": 42})
 d.set_value("bar", 43)
-d.set_value("lidbeerbar", 45)
 d.get_history()
 
-
+# not fully completed
