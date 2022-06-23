@@ -1,6 +1,6 @@
 
 from logging import (getLogger, StreamHandler, Formatter,
-                     Logger as LG,  DEBUG as DBG)
+                     NullHandler, Logger as LG,  DEBUG as DBG)
 
 from rss_reader.interfaces.ilogger.ilogger import ISetLoggerConfig
 
