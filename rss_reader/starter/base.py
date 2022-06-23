@@ -15,3 +15,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
     :return: Command line parameter dictionary.
     :rtype: Dict[str, str]
     """
+
+    parser = argparse.ArgumentParser()
