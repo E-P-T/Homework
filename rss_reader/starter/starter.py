@@ -1,0 +1,4 @@
+
+
+class Starter:
+    pass
