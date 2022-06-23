@@ -10,6 +10,8 @@ log = Logger.get_logger(__name__)
 
 
 class FromWebHandler(IHandler):
+    """Internet data handler."""
+
     template = {'title': 'text',
                 'pubDate': 'text',
                 'source': 'text',
