@@ -4,6 +4,10 @@ from logging import getLogger, Logger as LG
 from rss_reader.interfaces.ilogger.ilogger import ISetLoggerConfig
 
 
+class StreamHandlerConfig(ISetLoggerConfig):
+    pass
+
+
 class Logger:
     """Logs data."""
 
