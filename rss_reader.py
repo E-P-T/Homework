@@ -13,19 +13,6 @@ import os.path
 from dateutil import parser
 
 
-def datetime_now():
-    return datetime.datetime.now().astimezone().strftime('%Y.%m.%d %H:%M:%S')
-
-
-def console_log(msg):
-    if verbose_true:
-        console.info(f'{datetime_now()} - {msg}', showTime=False)
-
-
-def console_error(msg):
-    console.error(f'{datetime_now()} - {msg}', showTime=False)
-
-
 def all_args():
     parser = argparse.ArgumentParser(
         description="Pure Python command-line RSS reader.")
@@ -43,18 +30,27 @@ def all_args():
     args = parser.parse_args()
     return args
 
+arguments = all_args()
+
+def datetime_now():
+    return datetime.datetime.now().astimezone().strftime('%Y.%m.%d %H:%M:%S')
+
+def console_log(msg):
+    if verbose_true:
+        console.info(f'{datetime_now()} - {msg}', showTime=False)
+
+def console_error(msg):
+    console.error(f'{datetime_now()} - {msg}', showTime=False)
 
 def check_version():
     """Method for revealing current version of the utility"""
     print("Version 2.1")
-
 
 def clean_desc(description):
     '''Function for decoding some part of feed item'''
     decoded_string = html.unescape(description)
     soup = BeautifulSoup(decoded_string, features="lxml")
     return soup.get_text()
-
 
 def check_url(url):
     '''Method for checking url`s validation and availability'''
@@ -76,15 +72,16 @@ def check_url(url):
     return False
 
 
+verbose_true = True if arguments.verbose else False
+
 def check_storage():
     console_log('Checking for storage existance')
     if os.path.exists('local_storage.json'):
-        console_log('Sorting and filtering')
+        console_log('Scanning the contaminants of the file')
         if os.stat("local_storage.json").st_size <= 2:
                 with open('local_storage.json', 'w', encoding='utf-8') as writefile:
                     json.dump(list(), writefile, ensure_ascii=False, indent=4)
         else:
-
             with open('local_storage.json') as f:
                 try:
                     f.read()
@@ -92,12 +89,10 @@ def check_storage():
                     with open('local_storage.json', 'w', encoding='utf-8') as writefile:
                         json.dump(list(), writefile, ensure_ascii=False, indent=4)
     else:
+        console_log('Local storage is not found')
+        console_log("Creating local storage 'local_storage.json'")
         with open('local_storage.json', 'w', encoding='utf-8') as writefile:
             json.dump(list(), writefile, ensure_ascii=False, indent=4)
-
-
-
-
 
 def get_data():
     """Collectiong the major part of an Feed and its` items."""
@@ -203,7 +198,6 @@ def get_data():
             json.dump(data, writefile, ensure_ascii=False, indent=4)
             writefile.close()
         
-        
         if arguments.json:
             """Function to convert feeds to json format."""
             item = {'Feed items': item_list}
@@ -211,49 +205,60 @@ def get_data():
             json_object = json.dumps(feed_json, indent=4, ensure_ascii=False)
             print(json_object)
 
-
-arguments = all_args()
 def get_date():
     date_data = []
     given_date = arguments.date
     given_source = arguments.source
     given_limit = arguments.limit
     data_json = arguments.json
-    
+    console_log('Reading the file')
     with open('local_storage.json', "r", encoding='utf-8') as file:
         data = json.loads(file.read())
-        amount = 0
         if given_source:
-            
-            for i in range(len(data)):
-                day = str(parser.parse(data[i]['News date:']).strftime("%Y%m%d"))
-                source = data[i]['Source']
-                if given_date == day and given_source == source:
-                    date_data.append(data[i])
-                    amount += 1
-                    if amount == given_limit:
-                        break
-            pprint(date_data)
-            print('Total data found:',len(date_data))
-        elif given_source is None:
-            for i in range(len(data)):
-                day = str(parser.parse(data[i]['News date:']).strftime("%Y%m%d"))
+            console_log(f'Searching data with cource {given_source}')
+            console_log('Converting collected data into json')
+            console_log('Collecting data according to given requirements: [source], [limit], [date], [json]')
+            console_log('Printing final result')
+            for item in data:
+                day = str(parser.parse(item['News date:']).strftime("%Y%m%d"))
+                source = item['Source']
                 if given_date == day:
-                    date_data.append(data[i])
-                    amount += 1
-                    if amount == given_limit:
-                        break
+                    if given_source == source:
+                        date_data.append(item)
             if data_json:
-                print(json.dumps(date_data, indent=4, ensure_ascii=False))
+                if len(date_data[:given_limit]) > 0:
+                    print(json.dumps(
+                        date_data[:given_limit], indent=4, ensure_ascii=False))
+                    print('Total data found:', len(date_data[:given_limit]))
+                else:
+                    print('No data found')
             else:
-                pprint(date_data)
-            print('Total data found:', len(date_data))
-        else:
-            print('No data found for given source')
+                for i in date_data[:given_limit]:
+                    pprint(i)
+        elif given_source is None:
+            console_log('Searching source is not given. Looking up local storage with given date')
+            console_log('Converting collected data into json')
+            console_log('Collecting data according to given requirements: [limit], [date], [json]')
+            console_log('Printing final result')
+            for item in data:
+                day = str(parser.parse(item['News date:']).strftime("%Y%m%d"))
+                source = item['Source']
+                if given_date == day:
+                    date_data.append(item)
+            if data_json:
+                if len(date_data[:given_limit]) > 0:
+                    print(json.dumps(
+                        date_data[:given_limit], indent=4, ensure_ascii=False))
+                    print('Total data found:', len(date_data[:given_limit]))
+                else:
+                    print('No data found')
+            else:
+                for i in date_data[:given_limit]:
+                    pprint(i)
+        
         file.close()
 
-verbose_true = True if arguments.verbose else False
-# data_true = True if arguments.verbose else False
+
 
 
 def read_defs():
@@ -274,7 +279,6 @@ def read_defs():
         if arguments.date is None:
             get_data()
         
-
     if arguments.version:
         check_version()
 
