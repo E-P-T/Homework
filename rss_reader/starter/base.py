@@ -9,6 +9,7 @@ from typing import Dict, Optional
 
 from rss_reader.logger.logger import (Logger, StreamHandlerConfig,
                                       NullHandlerConfig)
+from rss_reader.interfaces.ilogger.ilogger import ISetLoggerConfig
 
 
 NAME_LOGGER = 'rss-reader'
