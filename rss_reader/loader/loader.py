@@ -10,6 +10,13 @@ log = Logger.get_logger(__name__)
 
 
 class FromWebHandler(IHandler):
+    template = {'title': 'text',
+                'pubDate': 'text',
+                'source': 'text',
+                'link': 'text',
+                'content': ['url', 'title']
+                }
+
     def __init__(self,
                  crawler: ICrawler,
                  parser: IParser) -> None:
