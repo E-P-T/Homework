@@ -13,6 +13,7 @@ class StreamHandlerConfig(ISetLoggerConfig):
         sh.setLevel(DBG)
         li = ['%(asctime)s', '%(name)s', '%(levelname)s', '%(funcName)s',
               '%(lineno)d', '%(message)s']
+        str_f = '|'.join(li)
 
 
 class Logger:
