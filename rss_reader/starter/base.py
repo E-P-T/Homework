@@ -7,7 +7,8 @@ This module contains functions intended for the initial setup of the program.
 import argparse
 from typing import Dict, Optional
 
-from rss_reader.logger.logger import Logger, StreamHandlerConfig
+from rss_reader.logger.logger import (Logger, StreamHandlerConfig,
+                                      NullHandlerConfig)
 
 
 NAME_LOGGER = 'rss-reader'
