@@ -21,3 +21,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
         description='Pure Python command-line RSS reader.',
         epilog='''(c) 2022. Have a nice day.'''
     )
+
+    parser.add_argument('source')
