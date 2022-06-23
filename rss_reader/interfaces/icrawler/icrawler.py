@@ -1,3 +1,4 @@
+"""This module contains a set of interfaces for the crawler."""
 
 from abc import ABC, abstractmethod
 
