@@ -33,6 +33,10 @@ class StreamHandlerConfig(ISetLoggerConfig):
         return logger
 
 
+class NullHandlerConfig(ISetLoggerConfig):
+    pass
+
+
 class Logger:
     """Logs data."""
 
