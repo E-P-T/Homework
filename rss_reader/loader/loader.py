@@ -41,3 +41,6 @@ class FromWebHandler(IHandler):
                 self.template, name=tag_name, limit_elms=limit)
 
             log.info('Start generating results.')
+            result = {'title_web_resource': title_text}
+            items_dict = {'items': items}
+            result.update(items_dict)
