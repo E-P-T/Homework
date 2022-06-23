@@ -19,4 +19,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
     parser = argparse.ArgumentParser(
         prog='RSS reader',
         description='Pure Python command-line RSS reader.',
+        epilog='''(c) 2022. Have a nice day.'''
     )
