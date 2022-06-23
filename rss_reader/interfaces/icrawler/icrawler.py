@@ -3,4 +3,5 @@ from abc import ABC, abstractmethod
 
 
 class ICrawler(ABC):
-    pass
+    def get_data(self) -> bytes:
+        pass
