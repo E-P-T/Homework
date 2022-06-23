@@ -24,3 +24,10 @@ class FromWebHandler(IHandler):
         """
         self._crawler = crawler
         self._parser = parser
+
+        def get_data(self,
+                     tag_name: str,
+                     title_tag: str,
+                     source: str,
+                     limit: int) -> dict:
+            pass
