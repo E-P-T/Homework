@@ -5,7 +5,9 @@ from rss_reader.interfaces.ilogger.ilogger import ISetLoggerConfig
 
 
 class StreamHandlerConfig(ISetLoggerConfig):
-    pass
+
+    def set_config(self, name: str) -> LG:
+        pass
 
 
 class Logger:
