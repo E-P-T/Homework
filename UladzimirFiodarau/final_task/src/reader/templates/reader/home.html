@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %} Rss-reader: URLs {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <form action=" ">
+            <div class="add_form">
+                {{add_form.as_p}}
+            </div>
+            <button type="submit" class="btn btn-primary">Track feed</button>
+        </form>
+    </div>
+</div>
+
+<br>
+<h3>Currently tracking news from RSS channels:</h3>
+
+{% for obj in object_list %}
+<div class="card my-2">
+    <div class="card-header">
+        <h5> {{obj}}</h5>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{ obj.url }}</p>
+<!--            <a href="{{ obj.url }}" class="btn btn-primary">Follow URL</a>-->
+    </div>
+</div>
+
+{% empty %}
+<h4>No tracked feeds yet</h4>
+
+{% endfor %}
+{% endblock %}
