@@ -36,7 +36,7 @@ class StreamHandlerConfig(ISetLoggerConfig):
 class NullHandlerConfig(ISetLoggerConfig):
 
     def set_config(self, name: str) -> LG:
-        pass
+        logger = getLogger(name)
 
 
 class Logger:
