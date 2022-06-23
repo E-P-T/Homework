@@ -44,3 +44,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
                         help='Limit news topics if this parameter provided')
 
     namespace_ = parser.parse_args(args)
+
+    return vars(namespace_)
