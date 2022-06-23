@@ -7,6 +7,7 @@ from rss_reader.starter.base import (create_logger,
 
 def main():
     args = iaf()
+    create_logger(args.get('verbose'))
 
 
 if __name__ == "__main__":
