@@ -5,5 +5,5 @@ from logging import Logger as LG
 
 class ISetLoggerConfig(ABC):
     @abstractmethod
-    def set_config(self, name: str):
+    def set_config(self, name: str) -> LG:
         pass
