@@ -1,0 +1,3 @@
+
+class NonNumericError(Exception):
+    pass
