@@ -1,3 +1,8 @@
+"""Initial program setup.
+
+This module contains functions intended for the initial setup of the program.
+"""
+
 
 import argparse
 from typing import Dict
