@@ -7,6 +7,8 @@ This module contains functions intended for the initial setup of the program.
 import argparse
 from typing import Dict, Optional
 
+from rss_reader.logger.logger import Logger
+
 
 NAME_LOGGER = 'rss-reader'
 version = '0.0.1'
