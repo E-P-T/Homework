@@ -30,4 +30,11 @@ class Logger:
 
     @classmethod
     def get_logger(cls, module_name: str) -> LG:
+        """Get logger by name.
+
+        :param module_name: Logger name.
+        :type module_name: str
+        :return: object Logger
+        :rtype: LG
+        """
         return getLogger(cls.NAME_LOGGER).getChild(module_name)
