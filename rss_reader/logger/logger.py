@@ -41,6 +41,7 @@ class NullHandlerConfig(ISetLoggerConfig):
         sh = NullHandler()
         sh.setLevel(DBG)
         logger.addHandler(sh)
+        return logger
 
 
 class Logger:
