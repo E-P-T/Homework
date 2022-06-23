@@ -37,4 +37,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
                         help='Print result as JSON in stdout')
 
     parser.add_argument('--verbose',
-                        action='store_true')
+                        action='store_true',
+                        help='Outputs verbose status messages')
