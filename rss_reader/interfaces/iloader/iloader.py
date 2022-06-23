@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 
 class IHandler(ABC):
+    """Interface for receiving data."""
 
     def get_data(self, tag_name: str,
                  title_tag: str,
