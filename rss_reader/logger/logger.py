@@ -12,6 +12,14 @@ class StreamHandlerConfig(ISetLoggerConfig):
     """
 
     def set_config(self, name: str) -> LG:
+        """Set logger configuration.
+
+        :param name: Logger name.
+        :type name: str
+        :return: object Logger.
+        :rtype: LG
+        """
+
         logger = getLogger(name)
         logger.setLevel(DBG)
         sh = StreamHandler()
