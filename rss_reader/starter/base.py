@@ -22,4 +22,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
         epilog='''(c) 2022. Have a nice day.'''
     )
 
-    parser.add_argument('source')
+    parser.add_argument('source',
+                        nargs='?')
