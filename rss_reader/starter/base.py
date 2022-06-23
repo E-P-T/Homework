@@ -58,7 +58,7 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
 
 def create_logger(verbose: Optional[str]) -> None:
     if verbose:
-        config = StreamHandlerConfig()
+        config: ISetLoggerConfig = StreamHandlerConfig()
     else:
         config = NullHandlerConfig()
 
