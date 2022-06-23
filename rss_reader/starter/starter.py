@@ -22,3 +22,5 @@ class Starter:
 
         lim = self._argv.get('limit')
         limit = int(lim) if lim else None
+
+        log.info("Number was received.")
