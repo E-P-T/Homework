@@ -19,7 +19,7 @@ class Logger:
         self._config = config
 
     def setup_logger(self):
-        pass
+        return self._config.set_config(Logger.NAME_LOGGER)
 
     def get_logger(cls, module_name: str):
         pass
