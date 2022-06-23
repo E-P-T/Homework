@@ -13,3 +13,6 @@ class Starter:
         :type argv: Dict[str, str]
         """
         self._argv = argv
+
+    def run(self) -> None:
+        pass
