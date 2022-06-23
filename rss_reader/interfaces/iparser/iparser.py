@@ -23,6 +23,15 @@ class IParser(ABC):
     def get_tags_text(self,
                       selector: str,
                       limit_elms: int = None) -> Generator[str, None, None]:
+        """Returns the text stored in the tag(s).
+
+        :param selector: A string containing a CSS selector.
+        :type selector: str
+        :param limit_elms: The number of elements to return, defaults to None.
+        :type limit_elms: int, optional
+        :yield: Returns the text of each element.
+        :rtype: Generator[str, None, None]
+        """
         pass
 
     @abstractmethod
