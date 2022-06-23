@@ -44,3 +44,4 @@ class FromWebHandler(IHandler):
             result = {'title_web_resource': title_text}
             items_dict = {'items': items}
             result.update(items_dict)
+            log.info('Result was formed.')
