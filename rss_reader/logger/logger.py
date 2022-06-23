@@ -1,5 +1,5 @@
 
-from logging import getLogger, Logger as LG
+from logging import getLogger, Logger as LG,  DEBUG as DBG
 
 from rss_reader.interfaces.ilogger.ilogger import ISetLoggerConfig
 
