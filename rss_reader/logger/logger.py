@@ -18,3 +18,6 @@ class Logger:
 
     def setup_logger(self):
         pass
+
+    def get_logger(cls, module_name: str):
+        pass
