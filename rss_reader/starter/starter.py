@@ -1,5 +1,8 @@
 
 
+from typing import Dict
+
+
 class Starter:
     def __init__(self, argv: Dict[str, str]) -> None:
         """Initializer.
