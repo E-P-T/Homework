@@ -1,3 +1,13 @@
+"""This module contains classes for working with data logging.
+
+The module implements the Logger class, which provides basic functionality
+for the functioning of the data logging system.
+
+The module has two standard classes that serve as system customizers
+logging.
+
+"""
+
 
 from logging import (getLogger, StreamHandler, Formatter,
                      NullHandler, Logger as LG,  DEBUG as DBG)
