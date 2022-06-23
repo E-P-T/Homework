@@ -12,3 +12,4 @@ class FromWebHandler(IHandler):
                  crawler: ICrawler,
                  parser: IParser) -> None:
         self._crawler = crawler
+        self._parser = parser
