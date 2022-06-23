@@ -6,6 +6,10 @@ from rss_reader.interfaces.ilogger.ilogger import ISetLoggerConfig
 
 
 class StreamHandlerConfig(ISetLoggerConfig):
+    """Basic configuration.
+
+    Sets up logging with the output of the result on the screen.
+    """
 
     def set_config(self, name: str) -> LG:
         logger = getLogger(name)
