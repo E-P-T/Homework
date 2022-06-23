@@ -11,4 +11,4 @@ class FromWebHandler(IHandler):
     def __init__(self,
                  crawler: ICrawler,
                  parser: IParser) -> None:
-        pass
+        self._crawler = crawler
