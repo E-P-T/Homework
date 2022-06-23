@@ -37,3 +37,5 @@ class FromWebHandler(IHandler):
             self._parser.create_parser(markup=response_)
             title_text = next(self._parser.get_tags_text(
                 selector=title_tag))
+            items = self._parser.get_items(
+                self.template, name=tag_name, limit_elms=limit)
