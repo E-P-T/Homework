@@ -30,4 +30,5 @@ class FromWebHandler(IHandler):
                      title_tag: str,
                      source: str,
                      limit: int) -> dict:
-            pass
+
+            cr = self._crawler(source)
