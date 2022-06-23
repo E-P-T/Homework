@@ -39,3 +39,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
     parser.add_argument('--verbose',
                         action='store_true',
                         help='Outputs verbose status messages')
+
+    parser.add_argument('--limit')
