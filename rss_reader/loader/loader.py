@@ -32,3 +32,4 @@ class FromWebHandler(IHandler):
                      limit: int) -> dict:
 
             cr = self._crawler(source)
+            response_ = cr.get_data()
