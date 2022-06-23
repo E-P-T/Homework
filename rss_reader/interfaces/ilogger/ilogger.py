@@ -1,4 +1,6 @@
 
 
 class ISetLoggerConfig(ABC):
-    pass
+    @abstractmethod
+    def set_config(self, name: str):
+        pass
