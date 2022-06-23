@@ -1,24 +1,51 @@
+"""
+Module that contains classes for containing rss feed
+"""
+
 import json
 import bs4
 
 
 class RSS:
+    """
+    Base RSS object
+    """
     def __init__(self, feed):
         self.__get_title(feed)
 
     def __get_title(self, feed):
+        """
+        Method takes a feed (BeautifulSoup Tag) and set self title from tag title
+        :param feed:
+        :return: None
+        """
         self.title = feed.title.string
 
     def to_json(self):
+        """
+        Transforms self object into json instance
+        :return: json
+        """
         return json.dumps(self, default=lambda x: x.__dict__, indent=4, ensure_ascii=False)
 
 
 class RssFeed(RSS):
+    """
+    RSS Feed object that contains title of rss feed and includes in self rss feed items
+    """
     def __init__(self, feed, limit):
-        super().__init__(feed)
-        self.items = [RssFeedItem(item) for item in feed.findAll("item", limit=limit)]
+        if isinstance(feed, list):
+            self.title = "Loaded by date"
+            self.items = feed[:limit] if limit else feed
+        else:
+            super().__init__(feed)
+            self.items = [RssFeedItem(item) for item in feed.findAll("item", limit=limit)]
 
     def __str__(self):
+        """
+        Returns a string representation of RssItem object
+        return result: str
+        """
         if not self.items:
             return "NO DATA"
         result = f"\nFeed: {self.title}\n"
@@ -28,6 +55,9 @@ class RssFeed(RSS):
 
 
 class RssFeedItem(RSS):
+    """
+    Class for storage values of RSS feed item
+    """
     def __init__(self, item):
         if isinstance(item, dict):
             for key in item.keys():
@@ -37,6 +67,11 @@ class RssFeedItem(RSS):
             self.__parse_item(item)
 
     def __parse_item(self, item):
+        """
+        Method that takes an item (BeautifulSoup) and parses its field for self-values
+        :param item:
+        :return: None
+        """
         try:
             self.date = item.pubdate.string
         except AttributeError:
@@ -48,8 +83,8 @@ class RssFeedItem(RSS):
 
     def __parse_description(self, item):
         """
-        Takes an BeautifulSoup object and clean up it for self-description
-
+        Takes an item (BeautifulSoup) and parses it for self-description
+        If item doesn't have a description field, self-description will be set to 'Empty'
         :param item: BeautifulSoup object
         :return None:
         """
