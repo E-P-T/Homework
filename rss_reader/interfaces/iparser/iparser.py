@@ -1,3 +1,7 @@
+"""This module contains a set of interfaces that describe the work
+data parsers.
+"""
+
 
 from abc import ABC, abstractmethod
 from typing import Generator, List
