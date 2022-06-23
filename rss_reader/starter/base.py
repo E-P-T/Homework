@@ -33,4 +33,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
                         help='Print version info')
 
     parser.add_argument('--json',
-                        action='store_true')
+                        action='store_true',
+                        help='Print result as JSON in stdout')
