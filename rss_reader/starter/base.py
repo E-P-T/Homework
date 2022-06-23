@@ -58,3 +58,5 @@ def create_logger(verbose: Optional[str]) -> None:
         config = StreamHandlerConfig()
     else:
         config = NullHandlerConfig()
+
+    Logger(NAME_LOGGER, config).setup_logger()
