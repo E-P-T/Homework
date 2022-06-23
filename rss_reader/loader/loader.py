@@ -35,3 +35,5 @@ class FromWebHandler(IHandler):
             response_ = cr.get_data()
 
             self._parser.create_parser(markup=response_)
+            title_text = next(self._parser.get_tags_text(
+                selector=title_tag))
