@@ -6,7 +6,18 @@ from typing import Generator, List
 class IParser(ABC):
     @abstractmethod
     def create_parser(self, markup: bytes, features: str = 'xml') -> None:
-        pass
+        """Create a parser object.
+
+       :param markup: A string or a file-like object representing markup
+                      to be parsed.
+       :type markup: bytes
+       :param features: Desirable features of the parser to be used. This may
+                        be the name of a specific parser ("lxml", "lxml-xml",
+                        "html.parser", or "html5lib") or it may be the type
+                        of markup to be used ("html", "html5", "xml").
+                        Defaults to 'xml'.
+       :type features: str, optional
+       """
 
     @abstractmethod
     def get_tags_text(self,
