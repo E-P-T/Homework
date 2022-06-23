@@ -9,6 +9,8 @@ class StreamHandlerConfig(ISetLoggerConfig):
     def set_config(self, name: str) -> LG:
         logger = getLogger(name)
         logger.setLevel(DBG)
+        sh = StreamHandler()
+        sh.setLevel(DBG)
 
 
 class Logger:
