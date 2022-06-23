@@ -18,6 +18,7 @@ class StreamHandlerConfig(ISetLoggerConfig):
         formatter = Formatter(str_f, '%Y-%m-%d %H:%M:%S')
         sh.setFormatter(formatter)
         logger.addHandler(sh)
+        return logger
 
 
 class Logger:
