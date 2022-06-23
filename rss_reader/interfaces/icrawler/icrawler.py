@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 
 
 class ICrawler(ABC):
+    """Interface for a crawler."""
 
     @abstractmethod
     def get_data(self) -> bytes:
