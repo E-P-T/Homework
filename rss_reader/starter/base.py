@@ -42,3 +42,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
 
     parser.add_argument('--limit',
                         help='Limit news topics if this parameter provided')
+
+    namespace_ = parser.parse_args(args)
