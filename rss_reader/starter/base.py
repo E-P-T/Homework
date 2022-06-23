@@ -24,5 +24,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
 
     parser.add_argument('source',
                         nargs='?',
-                        default='https://news.yahoo.com/rss/'
-                        )
+                        default='https://news.yahoo.com/rss/',
+                        help='RSS URL')
