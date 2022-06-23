@@ -39,3 +39,5 @@ class FromWebHandler(IHandler):
                 selector=title_tag))
             items = self._parser.get_items(
                 self.template, name=tag_name, limit_elms=limit)
+
+            log.info('Start generating results.')
