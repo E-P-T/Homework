@@ -16,4 +16,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
     :rtype: Dict[str, str]
     """
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        prog='RSS reader',)
