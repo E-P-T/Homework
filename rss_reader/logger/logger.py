@@ -29,4 +29,4 @@ class Logger:
         return self._config.set_config(Logger.NAME_LOGGER)
 
     def get_logger(cls, module_name: str) -> LG:
-        pass
+        return getLogger(cls.NAME_LOGGER).getChild(module_name)
