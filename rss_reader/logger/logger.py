@@ -1,4 +1,6 @@
 
+from rss_reader.interfaces.ilogger.ilogger import ISetLoggerConfig
+
 
 class Logger:
     """Logs data."""
