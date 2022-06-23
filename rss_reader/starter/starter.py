@@ -18,4 +18,4 @@ class Starter:
         self._argv = argv
 
     def run(self) -> None:
-        pass
+        log.info("Get the number of requested news.")
