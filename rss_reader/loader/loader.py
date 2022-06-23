@@ -11,5 +11,14 @@ class FromWebHandler(IHandler):
     def __init__(self,
                  crawler: ICrawler,
                  parser: IParser) -> None:
+        """Initializer.
+
+        :param crawler: Crawler object. Used to get information
+                        from the Internet.
+        :type crawler: ICrawler
+        :param parser: Parser object. Used to parse information
+                        received from the Internet.
+        :type parser: IParser
+        """
         self._crawler = crawler
         self._parser = parser
