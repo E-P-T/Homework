@@ -1,3 +1,5 @@
+"""This module contains a set of interfaces for the loader."""
+
 
 from abc import ABC, abstractmethod
 
