@@ -12,9 +12,10 @@ def home_view(request):
 
 def news_view(request):
     qs = Cache.objects.all()
-    # cache = {}
-    # for obj in qs:
-    #     cache[obj.url] = obj.cache
-    # processed_cache = DjangoRssReaderCached.limit_news_dict(cache)
-    return render(request, 'reader/news.html', {'object_list': qs})
+    cache = {}
+    for obj in qs:
+        if obj and obj.url and obj.cache:
+            cache[obj.url] = obj.cache
+    processed_cache = DjangoRssReaderCached.limit_news_dict(cache)
+    return render(request, 'reader/news.html', {'news': processed_cache})
 

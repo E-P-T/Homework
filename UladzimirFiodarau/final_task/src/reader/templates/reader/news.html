@@ -3,21 +3,46 @@
 {% block title %} Rss-reader: URLs {% endblock %}
 
 {% block content %}
-<h3>Currently tracking news from RSS channels:</h3>
+<h3>Feed title: {{ news.feed_title }} </h3>
+<h4>Feed description: {{ news.feed_description }} </h4>
+<h4>Feed link: {{ news.feed_link }} <a href="news.feed_link"></a> </h4>
+{% if news.feed_pubDate %}
+    <h4>Last update: {{ news.feed_pubDate }} </h4>
+{% endif %}
 
-{% for obj in object_list %}
-<div class="card my-2">
-    <div class="card-header">
-        <h5> {{obj}}</h5>
-    </div>
-    <div class="card-body">
-        <p class="card-text">{{ obj.url }}</p>
-<!--            <a href="{{ obj.url }}" class="btn btn-primary">Follow URL</a>-->
+{% for item, value in news.feed_items.items %}
+<div class="card mb-3" style="max-width: 1920px;">
+    <div class="row g-0">
+        {% if value.media %}
+        <div class="col-md-4">
+            <img src="{{ value.media.url }}" class="img-fluid rounded-start" alt="Image here">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title"> {{ value.title }} </h5>
+                <p class="card-text">{{ value.pubDate }}</p>
+                <br>
+                <p class="card-text">{{ value.description }}</p>
+                <p><a href="value.link">Link: {{ value.link }} </a></p>
+                <p><a href="value.media.url">Media link: {{ value.media.url }} </a></p>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-md-auto">
+            <div class="card-body">
+                <h5 class="card-title"> {{ value.title }} </h5>
+                <p class="card-text">{{ value.pubDate }}</p>
+                <br>
+                <p class="card-text">{{ value.description }}</p>
+                <p><a href="value.link">Link: {{ value.link }} </a></p>
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 
 {% empty %}
-<h4>No tracked feeds yet</h4>
-
+<h4>No news found for you</h4>
 {% endfor %}
+
 {% endblock %}
