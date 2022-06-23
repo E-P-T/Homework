@@ -28,3 +28,6 @@ class Starter:
             raise NonNumericError("--limit has a non-numeric value") from e
 
         log.info("Number was received.")
+
+    def _get_data_from_resource(self):
+        pass
