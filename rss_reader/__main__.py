@@ -5,7 +5,8 @@ from rss_reader.starter.base import init_arguments_functionality as iaf
 
 
 def main():
-    pass
+    args = iaf()
+
 
 if __name__ == "__main__":
     pass
