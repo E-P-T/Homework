@@ -15,3 +15,6 @@ class Logger:
         """
         Logger.NAME_LOGGER = name_loger
         self._config = config
+
+    def setup_logger(self):
+        pass
