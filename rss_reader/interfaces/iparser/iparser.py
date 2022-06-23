@@ -12,3 +12,10 @@ class IParser(ABC):
                       selector: str,
                       limit_elms: int = None) -> Generator[str, None, None]:
         pass
+
+    @abstractmethod
+    def get_items(self,
+                  template: dict,
+                  name: str,
+                  limit_elms: int = None) -> List[dict]:
+        pass
