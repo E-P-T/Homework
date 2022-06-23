@@ -26,5 +26,6 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
                         nargs='?',
                         default='https://news.yahoo.com/rss/',
                         help='RSS URL')
-
-    parser.add_argument('--version')
+    
+    parser.add_argument('--version',
+                        action='version')
