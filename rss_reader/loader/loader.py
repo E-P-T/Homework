@@ -1,6 +1,7 @@
 
 
 from rss_reader.interfaces.iloader.iloader import IHandler
+from rss_reader.interfaces.icrawler.icrawler import ICrawler
 from rss_reader.logger.logger import Logger
 
 
