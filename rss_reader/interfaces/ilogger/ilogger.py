@@ -6,6 +6,8 @@ from logging import Logger as LG
 
 
 class ISetLoggerConfig(ABC):
+    """Logger configuration setup interface."""
+
     @abstractmethod
     def set_config(self, name: str) -> LG:
         """Set logger configuration.
