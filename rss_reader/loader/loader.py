@@ -33,3 +33,5 @@ class FromWebHandler(IHandler):
 
             cr = self._crawler(source)
             response_ = cr.get_data()
+
+            self._parser.create_parser(markup=response_)
