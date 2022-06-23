@@ -1,6 +1,6 @@
 
 from abc import ABC, abstractmethod
-from typing import Generator
+from typing import Generator, List
 
 
 class IParser(ABC):
