@@ -3,4 +3,4 @@
 class Logger:
     """Logs data."""
 
-    pass
+    NAME_LOGGER = 'base_logger'
