@@ -5,7 +5,7 @@ This module contains functions intended for the initial setup of the program.
 
 
 import argparse
-from typing import Dict
+from typing import Dict, Optional
 
 
 NAME_LOGGER = 'rss-reader'
