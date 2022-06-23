@@ -36,4 +36,5 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
                         action='store_true',
                         help='Print result as JSON in stdout')
 
-    parser.add_argument('--verbose')
+    parser.add_argument('--verbose',
+                        action='store_true')
