@@ -11,6 +11,8 @@ class StreamHandlerConfig(ISetLoggerConfig):
         logger.setLevel(DBG)
         sh = StreamHandler()
         sh.setLevel(DBG)
+        li = ['%(asctime)s', '%(name)s', '%(levelname)s', '%(funcName)s',
+              '%(lineno)d', '%(message)s']
 
 
 class Logger:
