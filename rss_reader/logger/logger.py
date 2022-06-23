@@ -34,6 +34,7 @@ class StreamHandlerConfig(ISetLoggerConfig):
 
 
 class NullHandlerConfig(ISetLoggerConfig):
+    """Logger configuration with output to the void."""
 
     def set_config(self, name: str) -> LG:
         logger = getLogger(name)
