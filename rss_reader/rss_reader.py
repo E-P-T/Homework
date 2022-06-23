@@ -150,7 +150,7 @@ def main():
     parser = argparse.ArgumentParser(description="This program gets information from RSS-channel "
                                                  "and returns in user friendly format.")
     parser.add_argument("source", type=str, help="RSS link for your information")
-    parser.add_argument("-v", "--version", action="version", version="Version 1.0.0",
+    parser.add_argument("-v", "--version", action="version", version="Version 1.2.0",
                         help="Print program version and exit.")
     parser.add_argument("--verbose", action="store_true", help="Outputs verbose status messages.")
     parser.add_argument("--json", action="store_true", help="Print result as JSON in stdout.")

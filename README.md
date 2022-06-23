@@ -1,12 +1,27 @@
 Welcome to rss_reader.py readme file!
 
-Installization:
+
+
+Installization.
+First option:
 - copy your programm to your folder 
 - open your folder in terminal 
 - than install requerments: 
 	py -m pip install -r requerments.txt
 - after that you you can adress to script typing command in terminal:
-....\you folder\py rss_reader.py [-h] [-v] [--verbose] [--json] [--limit LIMIT] source
+....\you folder\rss_reader\py rss_reader.py [-h] [-v] [--verbose] [--json] [--limit LIMIT] source
+
+Second option:
+- copy your package to your folder 
+- open your folder in terminal 
+- than install package: 
+	py pip install setup.py 
+	or
+	py pip install .
+- after that you you can adress to script typing command in terminal:
+....\you folder\rss_reader\py rss_reader.py [-h] [-v] [--verbose] [--json] [--limit LIMIT] source
+....\you folder\py rss_reader [-h] [-v] [--verbose] [--json] [--limit LIMIT] source
+....\any folder\rss_reader [-h] [-v] [--verbose] [--json] [--limit LIMIT] source
 
 
 usage: rss_reader.py [-h] [-v] [--verbose] [--json] [--limit LIMIT] source
