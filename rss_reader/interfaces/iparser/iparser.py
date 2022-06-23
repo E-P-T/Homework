@@ -4,6 +4,8 @@ from typing import Generator, List
 
 
 class IParser(ABC):
+    """Interface for a parser."""
+
     @abstractmethod
     def create_parser(self, markup: bytes, features: str = 'xml') -> None:
         """Create a parser object.
