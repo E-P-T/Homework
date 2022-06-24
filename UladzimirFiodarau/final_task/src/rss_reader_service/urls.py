@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from reader.views import cached_news_view, read_news_view, fresh_news_view, read_fresh_news_view
+from reader.views import cached_news_view, read_news_view, fresh_news_view, read_fresh_news_view, news_pdf
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +23,5 @@ urlpatterns = [
     path('read_news/', read_news_view, name='read_news'),
     path('fresh_news/', fresh_news_view, name='fresh_news'),
     path('read_fresh_news/', read_fresh_news_view, name='read_fresh_news'),
-
+    path('news_pdf/', news_pdf, name='news_pdf'),
 ]

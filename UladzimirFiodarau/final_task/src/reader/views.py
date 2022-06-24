@@ -4,6 +4,12 @@ from .models import Cache
 from .forms import AddUrlForm, NewsParametersForm, FreshNewsParametersForm
 from .reader import DjangoRssReader, DjangoRssReaderCached
 
+from django.http import FileResponse
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
+
 
 def paginate_news(dictionary: dict, limit: int = 0):
     pass
@@ -41,6 +47,7 @@ def read_news_view(request):
     paginator = Paginator(feed_news, 10)  # Show 10  per page.
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    _context['news'] = processed_cache
     _context['feed_title'] = feed_title
     _context['feed_news'] = feed_news
     _context['page_obj'] = page_obj
@@ -73,8 +80,32 @@ def read_fresh_news_view(request):
     paginator = Paginator(feed_news, 10)  # Show 10  per page.
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    _context['news'] = processed_cache
     _context['feed_title'] = feed_title
     _context['feed_news'] = feed_news
     _context['page_obj'] = page_obj
 
     return render(request, 'reader/read_news.html', _context)
+
+
+def news_pdf(request):
+    # create bytestream buffer
+    buffer = io.BytesIO()
+    canv = canvas.Canvas(buffer, pagesize=letter, bottomup=0)
+    # creating object
+    textob = canv.beginText()
+    textob.setTextOrigin(inch, inch)
+    textob.setFont('Helvetica', 14)
+
+    lines = ['1', '2', '3']
+
+    for line in lines:
+        textob.textLine(line)
+
+    canv.drawText(textob)
+    canv.showPage()
+    canv.save()
+    buffer.seek(0)
+
+    # return file
+    return FileResponse(buffer, as_attachment=True, filename='list.pdf')
