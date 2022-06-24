@@ -3,4 +3,5 @@ from abc import ABC, abstractmethod
 
 
 class IViewHandler(ABC):
-    pass
+    def set_next(self, handler: IViewHandler) -> IViewHandler:
+        pass
