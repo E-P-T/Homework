@@ -72,3 +72,7 @@ class StandartViewHandler(AbstractViewHandler):
         x = dict_.get(attr)
         if x:
             print(f'{str_}: {x}', end=end)
+
+
+class JSONViewHandler(AbstractViewHandler):
+    pass
