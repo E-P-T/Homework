@@ -1,4 +1,6 @@
 
+from requests import Response
+
 
 from rss_reader.interfaces.icrawler.icrawler import ICrawler
 
