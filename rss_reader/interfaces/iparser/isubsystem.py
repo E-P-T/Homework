@@ -1,3 +1,5 @@
+"""This module contains a set of interfaces that describe the work third party parsers."""
+
 
 from abc import ABC, abstractmethod
 from typing import Iterable
