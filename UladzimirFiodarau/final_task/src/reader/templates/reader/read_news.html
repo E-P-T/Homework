@@ -10,6 +10,28 @@
     <h4>Last update: {{ feed_title.feed_pubDate }} </h4>
 {% endif %}
 
+<div class="row">
+    <div class="col-md-auto mx-auto">
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?url={{ url }}&date={{ date }}&limit={{ limit }}&page=1">&laquo; first</a>
+                <a href="?url={{ url }}&date={{ date }}&limit={{ limit }}&page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+                <a href="?url={{ url }}&date={{ date }}&limit={{ limit }}&page={{ page_obj.next_page_number }}">next</a>
+                <a href="?url={{ url }}&date={{ date }}&limit={{ limit }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+    </div>
+</div>
+<br>
 {% for news in page_obj %}
 {% for item, value in news.items %}
 <div class="card mb-3" style="max-width: 1920px;">
@@ -48,7 +70,7 @@
 {% endfor %}
 
 <div class="row">
-    <div class="col">
+    <div class="col-md-auto mx-auto">
         <div class="pagination">
             <span class="step-links">
                 {% if page_obj.has_previous %}
@@ -68,5 +90,6 @@
 </div>
     </div>
 </div>
-
+<br>
+<br>
 {% endblock %}

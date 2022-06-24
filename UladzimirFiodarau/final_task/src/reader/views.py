@@ -4,6 +4,9 @@ from .models import Cache
 from .forms import AddUrlForm, NewsParametersForm
 from .reader import DjangoRssReader, DjangoRssReaderCached
 
+def paginate_news(dictionary:dict, limit:int =0):
+    pass
+
 
 def cached_news_view(request):
     qs = Cache.objects.all()
@@ -18,7 +21,6 @@ def cached_news_view(request):
 
 
 def read_news_view(request):
-    news_url, news_limit, news_date = '', None, ''
     news_url = request.GET['url'] if request.GET['url'] else ''
     news_limit = int(request.GET['limit']) if request.GET['limit'] and int(request.GET['limit']) > 0 else None
     news_date = request.GET['date'].replace('/', ':')
@@ -39,3 +41,7 @@ def read_news_view(request):
     _context['feed_news'] = feed_news
     _context['page_obj'] = page_obj
     return render(request, 'reader/read_news.html', _context)
+
+
+def read_fresh_news_view(request):
+    pass
