@@ -16,4 +16,5 @@ class AbstractViewHandler(IViewHandler):
         return handler
 
     def show(self, data: dict) -> None:
-        pass
+        if self._next_handler:
+            return self._next_handler.show(data)
