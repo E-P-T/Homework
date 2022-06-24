@@ -85,4 +85,5 @@ class JSONViewHandler(AbstractViewHandler):
         self._request = request
 
     def show(self, data: dict) -> None:
-        pass
+        if self._request.get('json'):
+            print(dumps(data, indent=3))
