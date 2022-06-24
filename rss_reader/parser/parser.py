@@ -74,3 +74,5 @@ class BeautifulParser(IParser):
                   limit_elms: int = None) -> List[dict]:
         final_dict = []
         items = self._find_all(name, limit_elms)
+
+        for item in items:
