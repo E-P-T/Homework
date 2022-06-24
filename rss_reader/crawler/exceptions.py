@@ -10,6 +10,8 @@ class BadURLError(Exception):
 
 
 class FailStatusCodeError(Exception):
+    """Occurs when the server response code differs from the expected one."""
+
     def __init__(self, status_code, *args, **kwargs) -> None:
         self.status_code = status_code
         super().__init__(*args, **kwargs)
