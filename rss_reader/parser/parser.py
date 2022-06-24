@@ -12,3 +12,6 @@ class BeautifulParser(IParser):
         :type subsystem: ISubsystem
         """
         self._subsystem = subsystem
+
+    def create_parser(self, markup: bytes, features: str = 'xml') -> None:
+        self._subsystem = self._subsystem(markup, features)
