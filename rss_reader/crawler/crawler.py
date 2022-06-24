@@ -9,3 +9,6 @@ class SuperCrawler(ICrawler):
 
     def get_data(self) -> bytes:
         pass
+
+    def _get_response(self) -> Response:
+        pass
