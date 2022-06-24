@@ -15,5 +15,9 @@ class IViewHandler(ABC):
 
     @abstractmethod
     def show(self, data: dict) -> None:
-        """Show data."""
+        """Show data.
+
+        :param data: Dictionary with data to be printed on the screen.
+        :type data: dict
+        """
         pass
