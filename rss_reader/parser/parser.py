@@ -1,3 +1,5 @@
+"""This module contains a class for parsing data received from the net."""
+
 
 from typing import Generator, Iterable, List
 
