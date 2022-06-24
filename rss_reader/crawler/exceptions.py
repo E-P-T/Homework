@@ -13,3 +13,6 @@ class FailStatusCodeError(Exception):
     def __init__(self, status_code, *args, **kwargs) -> None:
         self.status_code = status_code
         super().__init__(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return 'An unsupported HTTP status code returned. ({self.status_code})'
