@@ -1,3 +1,8 @@
+"""This module contains a set of handlers for receiving data.
+
+The handler receives data from a specific source, selects the necessary
+data elements and forms the final result.
+"""
 
 
 from rss_reader.interfaces.iloader.iloader import IHandler
