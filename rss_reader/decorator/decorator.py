@@ -1,4 +1,6 @@
 
 
 def send_log_of_start_function(func):
-    pass
+    def wrapper(*args, **kwargs):
+        pass
+    return wrapper
