@@ -1,4 +1,8 @@
+"""This module contains specific viewers.
 
+Viewers display data in the desired form.
+Each viewer is called in a chain.
+"""
 
 from typing import Dict, Optional
 from json import dumps
