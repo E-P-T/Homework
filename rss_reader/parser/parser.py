@@ -44,6 +44,7 @@ class BeautifulParser(IParser):
         """Return tags selected by CSS selector."""
         return self._subsystem.select(selector, limit=limit_elms)
 
+    @send_log_of_start_function
     def get_tags_text(self,
                       selector: str,
                       limit_elms: int = None) -> Generator[str, None, None]:
