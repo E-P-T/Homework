@@ -1,0 +1,4 @@
+
+
+class BadURLError(Exception):
+    pass
