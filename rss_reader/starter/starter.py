@@ -49,3 +49,4 @@ class Starter:
 
     def _get_viewer(self, request: Dict[str, str]) -> IViewHandler:
         stdout_ = StandartViewHandler()
+        json_ = JSONViewHandler(request)
