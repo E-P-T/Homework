@@ -1,5 +1,5 @@
 
-from requests import Response
+from requests import Response, get
 
 
 from rss_reader.interfaces.icrawler.icrawler import ICrawler
