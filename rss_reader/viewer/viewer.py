@@ -29,6 +29,7 @@ class StandartViewHandler(AbstractViewHandler):
         pass
 
     def _get_info(self, dict_: dict, attr: str, str_: str, end='\n') -> None:
+        """Print a string containing data from a dictionary."""
         x = dict_.get(attr)
         if x:
             print(f'{str_}: {x}', end=end)
