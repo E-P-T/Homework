@@ -3,6 +3,7 @@ from requests import Response, get, ConnectionError
 
 
 from rss_reader.interfaces.icrawler.icrawler import ICrawler
+from rss_reader.decorator.decorator import send_log_of_start_function
 from .exceptions import BadURLError, FailStatusCodeError
 
 
