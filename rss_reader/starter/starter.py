@@ -51,3 +51,4 @@ class Starter:
         stdout_ = StandartViewHandler()
         json_ = JSONViewHandler(request)
         json_.set_next(stdout_)
+        return json_
