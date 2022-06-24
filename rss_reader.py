@@ -26,7 +26,7 @@ def all_args():
     parser.add_argument(
         "--limit", help="Limit news topics if this parameter provided", type=int)
     parser.add_argument(
-        "--date", help="Get news published on a specific date from cache for further processing.")
+        "--date", help="Get news published on a specific date from cache for further processing.", nargs="*")
     args = parser.parse_args()
     return args
 
@@ -207,7 +207,10 @@ def get_data():
 
 def get_date():
     date_data = []
-    given_date = arguments.date
+    if len(arguments.date)>0:
+        given_date = arguments.date[0]
+    else:
+        given_date = arguments.date
     given_source = arguments.source
     given_limit = arguments.limit
     data_json = arguments.json
@@ -222,7 +225,13 @@ def get_date():
             for item in data:
                 day = str(parser.parse(item['News date:']).strftime("%Y%m%d"))
                 source = item['Source']
-                if given_date == day:
+                if len(given_date)==0 and given_source == source:
+                    if given_source == source:
+                        date_data.append(item)
+                elif len(given_date) == 0 and given_source is None:
+                    date_data.append(item)
+                elif given_date == day:
+                    # source siz data kiritilganda hamma malumotni omayapti
                     if given_source == source:
                         date_data.append(item)
             if data_json:
@@ -231,10 +240,14 @@ def get_date():
                         date_data[:given_limit], indent=4, ensure_ascii=False))
                     print('Total data found:', len(date_data[:given_limit]))
                 else:
-                    print('No data found')
+                    if verbose_true:
+                        console_error('No data found')
+                    else:
+                        print('No data found')
             else:
                 for i in date_data[:given_limit]:
                     pprint(i)
+                print('Total data found:', len(date_data[:given_limit]))
         elif given_source is None:
             console_log('Searching source is not given. Looking up local storage with given date')
             console_log('Converting collected data into json')
@@ -245,17 +258,22 @@ def get_date():
                 source = item['Source']
                 if given_date == day:
                     date_data.append(item)
+                elif len(given_date)==0:
+                    date_data.append(item)
             if data_json:
                 if len(date_data[:given_limit]) > 0:
                     print(json.dumps(
                         date_data[:given_limit], indent=4, ensure_ascii=False))
                     print('Total data found:', len(date_data[:given_limit]))
                 else:
-                    print('No data found')
+                    if verbose_true:
+                        console_error('No data found')
+                    else:
+                        print('No data found')
             else:
                 for i in date_data[:given_limit]:
                     pprint(i)
-        
+                print('Total data found:', len(date_data[:given_limit]))
         file.close()
 
 
@@ -266,25 +284,23 @@ def read_defs():
     """Method to print obtained feeds to console."""
     if verbose_true:
         console_log('Verbose mode turned on')
-
     if arguments.json:
         console_log('Json mode turned on')
-
-    if arguments.date:
-        console_log('Date mode turned on')
-        console_log(f'Given date is {arguments.date}')
-
     check_storage()
-    if arguments.source:
-        if arguments.date is None:
-            get_data()
+    if arguments.date is None and arguments.source:
+        get_data()
+    else:
+        if arguments.date or len(arguments.date) == 0:
+            console_log('Date mode turned on')
+            console_log(f'Given date is {arguments.date}')
+            get_date()
+
+        
+
         
     if arguments.version:
         check_version()
 
-    if arguments.date:
-        get_date()
-    
 
 
 if __name__ == '__main__':
