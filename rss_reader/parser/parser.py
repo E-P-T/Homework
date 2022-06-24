@@ -29,3 +29,6 @@ class BeautifulParser(IParser):
         :type features: str, optional
         """
         self._subsystem = self._subsystem(markup, features)
+
+    def _find_all(self, name: str = None, limit_elms: int = None) -> Iterable:
+        return self._subsystem.find_all(name, limit=limit_elms)
