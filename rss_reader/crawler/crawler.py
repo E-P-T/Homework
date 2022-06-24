@@ -14,7 +14,10 @@ class SuperCrawler(ICrawler):
         pass
 
     def _get_response(self) -> Response:
-        req = get(self._url)
+        try:
+            req = get(self._url)
+        except ConnectionError as e:
+            raise BadURLError(self._url) from e
         return req
 
     def _get_content(self, req: Response) -> bytes:
