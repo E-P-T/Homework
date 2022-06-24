@@ -1,3 +1,4 @@
+"""This module contains custom exceptions for the crawler package."""
 
 
 class BadURLError(Exception):
