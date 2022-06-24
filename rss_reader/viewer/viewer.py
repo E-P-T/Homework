@@ -77,6 +77,8 @@ class StandartViewHandler(AbstractViewHandler):
 
 
 class JSONViewHandler(AbstractViewHandler):
+    """Process data as JSON."""
+
     def __init__(self, request: Dict[str, str]) -> None:
         """Initializer.
 
