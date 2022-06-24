@@ -1,5 +1,6 @@
 
 from rss_reader.interfaces.iparser.iparser import IParser
+from rss_reader.interfaces.iparser.isubsystem import ISubsystem
 
 
 class BeautifulParser(IParser):
