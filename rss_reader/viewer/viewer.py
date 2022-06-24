@@ -30,3 +30,5 @@ class StandartViewHandler(AbstractViewHandler):
 
     def _get_info(self, dict_: dict, attr: str, str_: str, end='\n') -> None:
         x = dict_.get(attr)
+        if x:
+            print(f'{str_}: {x}', end=end)
