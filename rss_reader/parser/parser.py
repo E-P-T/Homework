@@ -47,5 +47,6 @@ class BeautifulParser(IParser):
         tags = self._select(selector, limit_elms)
 
         if not tags:
+            log.exception("No matching tags. Maybe the selector is wrong.")
             raise EmptyListError(
                 "No matching tags. Maybe the selector is wrong.")
