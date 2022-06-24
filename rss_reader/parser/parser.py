@@ -94,3 +94,6 @@ class BeautifulParser(IParser):
                         # The tag attributes from the template to find
                         attrs = template[tag_name]
                         for attr in attrs:
+                            # Write down the value of each attribute
+                            # if present or None
+                            attrs_dict.update({attr: tag.get(attr, None)})
