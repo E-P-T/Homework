@@ -47,4 +47,4 @@ class Starter:
         return web_hendler
 
     def _get_viewer(self, request: Dict[str, str]) -> IViewHandler:
-        pass
+        stdout_ = StandartViewHandler()
