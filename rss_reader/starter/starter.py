@@ -48,6 +48,7 @@ class Starter:
         return web_hendler
 
     def _get_viewer(self, request: Dict[str, str]) -> IViewHandler:
+        """Get data viewer."""
         stdout_ = StandartViewHandler()
         json_ = JSONViewHandler(request)
         json_.set_next(stdout_)
