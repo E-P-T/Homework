@@ -83,3 +83,6 @@ class JSONViewHandler(AbstractViewHandler):
         :type request: Dict[str, str]
         """
         self._request = request
+
+    def show(self, data: dict) -> None:
+        pass
