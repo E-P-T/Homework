@@ -43,3 +43,6 @@ class Starter:
         web_hendler = FromWebHandler(SuperCrawler,
                                      BeautifulParser(BeautifulSoup))
         return web_hendler
+
+    def _get_viewer(self, request: Dict[str, str]) -> IViewHandler:
+        pass
