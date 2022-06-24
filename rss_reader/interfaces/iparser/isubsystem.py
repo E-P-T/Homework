@@ -1,0 +1,4 @@
+
+
+class ISubsystem(ABC):
+    pass
