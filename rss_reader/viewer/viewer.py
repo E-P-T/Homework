@@ -25,6 +25,12 @@ class AbstractViewHandler(IViewHandler):
 
 
 class StandartViewHandler(AbstractViewHandler):
+    """Displays data on standard output
+
+    It is the base handler.
+    Executed when others have failed to process the data.
+    """
+
     def show(self, data: dict) -> None:
         """Show data.
 
