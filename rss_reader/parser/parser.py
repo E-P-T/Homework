@@ -91,3 +91,5 @@ class BeautifulParser(IParser):
                     else:
                         # A dictionary with subtag attribute data
                         attrs_dict = {}
+                        # The tag attributes from the template to find
+                        attrs = template[tag_name]
