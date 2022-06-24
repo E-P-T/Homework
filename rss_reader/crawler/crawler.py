@@ -30,4 +30,11 @@ class SuperCrawler(ICrawler):
         pass
 
     def _get_status(self, req: Response) -> int:
+        """Get status code.
+
+        :param req: Contains a server's response.
+        :type req: Response
+        :return: Status code.
+        :rtype: int
+        """
         return req.status_code
