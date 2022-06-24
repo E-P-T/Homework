@@ -1,3 +1,6 @@
+"""This module contains a set of interfaces for data viewers."""
+
+
 from __future__ import annotations
 from abc import ABC, abstractmethod
 
