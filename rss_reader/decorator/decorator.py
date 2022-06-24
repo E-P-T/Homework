@@ -7,5 +7,5 @@ log = Logger.get_logger(__name__)
 
 def send_log_of_start_function(func):
     def wrapper(*args, **kwargs):
-        pass
+        log.info(f'A {func.__name__} function starts working.')
     return wrapper
