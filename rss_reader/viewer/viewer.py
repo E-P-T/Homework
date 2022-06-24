@@ -26,6 +26,12 @@ class AbstractViewHandler(IViewHandler):
 
 class StandartViewHandler(AbstractViewHandler):
     def show(self, data: dict) -> None:
+        """Show data.
+
+        :param data: Dictionary with data to be printed on the screen.
+        :type data: dict
+        """
+
         self._get_info(data, "title_web_resource", "\nFeed: ", end="\n\n\n")
         items = data.get('items')
         if isinstance(items, list):
