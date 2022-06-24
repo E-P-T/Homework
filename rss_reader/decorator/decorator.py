@@ -1,3 +1,4 @@
+"""This module contains decorators used in the program."""
 
 from functools import wraps
 from rss_reader.logger.logger import Logger
