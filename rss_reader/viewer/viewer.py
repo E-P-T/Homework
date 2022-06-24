@@ -30,6 +30,10 @@ class StandartViewHandler(AbstractViewHandler):
         items = data.get('items')
         if isinstance(items, list):
             for i in items:
+                self._get_info(i, "title", "Title")
+                self._get_info(i, "source", "Source")
+                self._get_info(i, "pubDate", "PubDate")
+                self._get_info(i, "link", "Link")
 
     def _get_info(self, dict_: dict, attr: str, str_: str, end='\n') -> None:
         """Print a string containing data from a dictionary."""
