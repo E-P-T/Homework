@@ -97,3 +97,4 @@ class BeautifulParser(IParser):
                             # Write down the value of each attribute
                             # if present or None
                             attrs_dict.update({attr: tag.get(attr, None)})
+                        item_dict[tag_name] = attrs_dict
