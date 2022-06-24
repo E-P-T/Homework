@@ -88,3 +88,6 @@ class BeautifulParser(IParser):
                 if tag_name in template:
                     if isinstance(template[tag_name], str):
                         item_dict[tag_name] = tag.text
+                    else:
+                        # A dictionary with subtag attribute data
+                        attrs_dict = {}
