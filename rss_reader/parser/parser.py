@@ -76,3 +76,6 @@ class BeautifulParser(IParser):
         items = self._find_all(name, limit_elms)
 
         for item in items:
+
+            # The dictionary stores information about a particular news item.
+            item_dict = {}
