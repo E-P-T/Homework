@@ -99,6 +99,6 @@ class JSONViewHandler(AbstractViewHandler):
         :type data: dict
         """
         if self._request.get('json'):
-            print(dumps(data, indent=3))
+            print(dumps(data, indent=3, ensure_ascii=False))
         else:
             super().show(data)
