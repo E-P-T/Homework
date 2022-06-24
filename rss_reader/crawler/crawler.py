@@ -27,6 +27,13 @@ class SuperCrawler(ICrawler):
         return req
 
     def _get_content(self, req: Response) -> bytes:
+        """Get the content of the Response object.
+
+        :param req: Contains a server's response.
+        :type req: Response
+        :return: Content of the response, in bytes.
+        :rtype: bytes
+        """
         return req.content
 
     def _get_status(self, req: Response) -> int:
