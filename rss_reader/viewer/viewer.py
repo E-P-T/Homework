@@ -6,6 +6,8 @@ from rss_reader.decorator.decorator import send_log_of_start_function
 
 
 class AbstractViewHandler(IViewHandler):
+    """The base class of the handler."""
+
     _next_handler: Optional[IViewHandler] = None
 
     @send_log_of_start_function
