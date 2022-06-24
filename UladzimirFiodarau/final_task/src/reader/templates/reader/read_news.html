@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %} Rss-reader: URLs {% endblock %}
+{% block title %} News {% endblock %}
 
 {% block content %}
 <h3>Feed title: {{ feed_title.feed_title }} </h3>
@@ -46,8 +46,8 @@
                 <p class="card-text">{{ value.pubDate }}</p>
                 <br>
                 <p class="card-text">{{ value.description }}</p>
-                <p><a href="value.link">Link: {{ value.link }} </a></p>
-                <p><a href="value.media.url">Media link: {{ value.media.url }} </a></p>
+                <p><a href="{{ value.link }}">Link: {{ value.link }} </a></p>
+                <p><a href="{{ value.media.url }}">Media link: {{ value.media.url }} </a></p>
             </div>
         </div>
         {% else %}
@@ -57,7 +57,7 @@
                 <p class="card-text">{{ value.pubDate }}</p>
                 <br>
                 <p class="card-text">{{ value.description }}</p>
-                <p><a href="value.link">Link: {{ value.link }} </a></p>
+                <p><a href="{{ value.link }}">Link: {{ value.link }} </a></p>
             </div>
         </div>
         {% endif %}

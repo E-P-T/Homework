@@ -6,6 +6,18 @@ from rss_reader import rss_reader
 
 class DjangoRssReader(rss_reader.RssReader):
 
+    def __init__(self, url: str, news_limit: int = None):
+        """
+        Method serves for processing news from rss feeds
+        On object creation it gathers required news data, updates news cache and processes data for future output
+        :param url: URL of rss-feed
+        """
+        self.url = url
+        self.news_cache = rss_reader.RssReader.prepare_dict(url)
+        if self.news_cache:  # to prevent further funcs if prepare_dict failed
+            rss_reader.RssReader.update_local_cache(self.url, self.news_cache)
+            self.news_dict = rss_reader.RssReader.limit_news_dict(self.news_cache, news_limit)
+
     def save_django_reader_cache(self):
         cache_dict = {"url": self.url, 'cache': self.news_cache}
         if cache_dict['cache']:

@@ -12,5 +12,5 @@ from reader.reader import DjangoRssReader
 
 
 if __name__ == '__main__':
-    news = DjangoRssReader('https://www.goha.ru/rss/mmorpg')
+    news = DjangoRssReader('http://www.gazeta.ru/export/gazeta_rss.xml')
     news.save_django_reader_cache()

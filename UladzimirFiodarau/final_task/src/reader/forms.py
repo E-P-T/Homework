@@ -20,3 +20,13 @@ class NewsParametersForm(forms.Form):
                                  'leave empty to read news of all dates',
                            required=False,
                            )
+
+
+class FreshNewsParametersForm(forms.Form):
+    url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}),
+                         label='Enter a valid feed URL to read',
+                         required=True
+                         )
+    limit = forms.IntegerField(label='Enter a number of news to read, leave empty to read all found news',
+                               required=False,
+                               )
