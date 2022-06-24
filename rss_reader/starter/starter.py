@@ -32,5 +32,7 @@ class Starter:
 
         log.info("Number was received.")
 
-    def _get_data_from_resource(self):
-        pass
+    def _get_data_from_resource(self) -> IHandler:
+        web_hendler = FromWebHandler(SuperCrawler,
+                                     BeautifulParser(BeautifulSoup))
+        return web_hendler
