@@ -1,4 +1,6 @@
 
 
 class BadURLError(Exception):
-    pass
+    def __init__(self, url, *args, **kwargs) -> None:
+        self.url = url
+        super().__init__(*args, **kwargs)
