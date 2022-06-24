@@ -4,4 +4,4 @@ from rss_reader.interfaces.iviewer.iviewer import IViewHandler
 
 
 class AbstractViewHandler(IViewHandler):
-    pass
+    _next_handler: Optional[IViewHandler] = None
