@@ -26,7 +26,7 @@ class AbstractViewHandler(IViewHandler):
 
 class StandartViewHandler(AbstractViewHandler):
     def show(self, data: dict) -> None:
-        pass
+        self._get_info(data, "title_web_resource", "\nFeed: ", end="\n\n\n")
 
     def _get_info(self, dict_: dict, attr: str, str_: str, end='\n') -> None:
         """Print a string containing data from a dictionary."""
