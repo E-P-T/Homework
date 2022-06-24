@@ -75,4 +75,5 @@ class StandartViewHandler(AbstractViewHandler):
 
 
 class JSONViewHandler(AbstractViewHandler):
-    pass
+    def __init__(self, request: Dict[str, str]) -> None:
+        self._request = request
