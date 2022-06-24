@@ -1,0 +1,4 @@
+
+
+class SuperCrawler(ICrawler):
+    pass
