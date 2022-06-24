@@ -25,4 +25,5 @@ class AbstractViewHandler(IViewHandler):
 
 
 class StandartViewHandler(AbstractViewHandler):
-    pass
+    def show(self, data: dict) -> None:
+        pass
