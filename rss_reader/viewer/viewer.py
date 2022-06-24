@@ -87,6 +87,11 @@ class JSONViewHandler(AbstractViewHandler):
         self._request = request
 
     def show(self, data: dict) -> None:
+        """Display the data as a JSON structure.
+
+        :param data: Dictionary with data to be printed on the screen.
+        :type data: dict
+        """
         if self._request.get('json'):
             print(dumps(data, indent=3))
         else:
