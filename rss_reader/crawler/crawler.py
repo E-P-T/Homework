@@ -30,4 +30,4 @@ class SuperCrawler(ICrawler):
         pass
 
     def _get_status(self, req: Response) -> int:
-        pass
+        return req.status_code
