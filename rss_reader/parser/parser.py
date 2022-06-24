@@ -83,3 +83,8 @@ class BeautifulParser(IParser):
             item_tags = item.find_all()
             for tag in item_tags:
                 tag_name = tag.name
+                # if the tag name is contained in the template,
+                # then we write its contents to the dictionary.
+                if tag_name in template:
+                    if isinstance(template[tag_name], str):
+                        item_dict[tag_name] = tag.text
