@@ -35,6 +35,11 @@ class Starter:
         log.info("Number was received.")
 
     def _get_data_from_resource(self) -> IHandler:
+        """Get data handler.
+
+        :return: Data handler.
+        :rtype: IHandler
+        """
         web_hendler = FromWebHandler(SuperCrawler,
                                      BeautifulParser(BeautifulSoup))
         return web_hendler
