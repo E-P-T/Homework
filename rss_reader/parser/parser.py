@@ -67,3 +67,9 @@ class BeautifulParser(IParser):
 
         for i in tags:
             yield i.text
+
+    def get_items(self,
+                  template: dict,
+                  name: str,
+                  limit_elms: int = None) -> List[dict]:
+        pass
