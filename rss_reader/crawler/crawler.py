@@ -13,7 +13,9 @@ class SuperCrawler(ICrawler):
     def get_data(self) -> bytes:
         r = self._get_response()
         status = self._get_status(r)
-        return self._get_content(r)
+        if status == 200:
+            return self._get_content(r)
+        raise FailStatusCodeError(status)
 
     def _get_response(self) -> Response:
         """Get the server's response to an HTTP request.
