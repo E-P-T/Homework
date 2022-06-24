@@ -1,0 +1,3 @@
+
+class BeautifulParser(IParser):
+    pass
