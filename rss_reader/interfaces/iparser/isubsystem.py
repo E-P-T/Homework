@@ -19,4 +19,14 @@ class ISubsystem(ABC):
         pass
 
     def select(self, selector: str, limit: int = None) -> Iterable:
+        """Return tags selected by CSS selector.
+
+        :param selector:  A string containing a CSS selector.
+        :type selector: str
+        :param limit: After finding this number of results, stop looking,
+                      defaults to None
+        :type limit: int, optional
+        :return: An iterable object that provides the found elements.
+        :rtype: Iterable
+        """
         pass
