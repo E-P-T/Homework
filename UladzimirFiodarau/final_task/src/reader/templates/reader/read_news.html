@@ -3,14 +3,15 @@
 {% block title %} Rss-reader: URLs {% endblock %}
 
 {% block content %}
-<h3>Feed title: {{ news.feed_title }} </h3>
-<h5>Feed description: {{ news.feed_description }} </h5>
-<h5>Feed link: {{ news.feed_link }} <a href="news.feed_link"></a> </h5>
-{% if news.feed_pubDate %}
-    <h4>Last update: {{ news.feed_pubDate }} </h4>
+<h3>Feed title: {{ feed_title.feed_title }} </h3>
+<h5>Feed description: {{ feed_title.feed_description }} </h5>
+<h5>Feed link: {{ feed_title.feed_link }} <a href="news.feed_link"></a> </h5>
+{% if feed_title.feed_pubDate %}
+    <h4>Last update: {{ feed_title.feed_pubDate }} </h4>
 {% endif %}
 
-{% for item, value in news.feed_items.items %}
+{% for news in page_obj %}
+{% for item, value in news.items %}
 <div class="card mb-3" style="max-width: 1920px;">
     <div class="row g-0">
         {% if value.media %}
@@ -44,5 +45,28 @@
 {% empty %}
 <h4>No news found for you</h4>
 {% endfor %}
+{% endfor %}
+
+<div class="row">
+    <div class="col">
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?url={{ url }}&date={{ date }}&limit={{ limit }}&page=1">&laquo; first</a>
+                <a href="?url={{ url }}&date={{ date }}&limit={{ limit }}&page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+                <a href="?url={{ url }}&date={{ date }}&limit={{ limit }}&page={{ page_obj.next_page_number }}">next</a>
+                <a href="?url={{ url }}&date={{ date }}&limit={{ limit }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+    </div>
+</div>
 
 {% endblock %}
