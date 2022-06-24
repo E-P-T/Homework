@@ -25,7 +25,11 @@ class AbstractViewHandler(IViewHandler):
 
     @send_log_of_start_function
     def show(self, data: dict) -> None:
-        """Show data."""
+        """Show data.
+
+        :param data: Dictionary with data to be printed on the screen.
+        :type data: dict
+        """
         if self._next_handler:
             return self._next_handler.show(data)
 
