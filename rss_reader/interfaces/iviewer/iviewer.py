@@ -10,7 +10,13 @@ class IViewHandler(ABC):
 
     @abstractmethod
     def set_next(self, handler: IViewHandler) -> IViewHandler:
-        """Set the next viewer in the handler chain."""
+        """Set the next viewer in the handler chain.
+
+        :param handler: Next handler.
+        :type handler: IViewHandler
+        :return: Handler.
+        :rtype: IViewHandler
+        """
         pass
 
     @abstractmethod
