@@ -4,6 +4,7 @@ from typing import Generator, Iterable
 from rss_reader.interfaces.iparser.iparser import IParser
 from rss_reader.interfaces.iparser.isubsystem import ISubsystem
 from rss_reader.decorator.decorator import send_log_of_start_function
+from .exceptions import EmptyListError
 
 
 class BeautifulParser(IParser):
