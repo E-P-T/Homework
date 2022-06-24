@@ -1,6 +1,7 @@
 
 
 from typing import Dict
+from bs4 import BeautifulSoup
 
 from rss_reader.logger.logger import Logger
 from rss_reader.interfaces.iloader.iloader import IHandler
