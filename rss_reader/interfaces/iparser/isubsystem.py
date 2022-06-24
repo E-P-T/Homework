@@ -4,6 +4,7 @@ from typing import Iterable
 
 
 class ISubsystem(ABC):
+    """Basic interface of a third-party data parser."""
 
     def find_all(self, name: str = None, limit: int = None) -> Iterable:
         """Return all tags with the given name.
