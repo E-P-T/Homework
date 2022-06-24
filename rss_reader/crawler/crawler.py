@@ -9,6 +9,11 @@ from .exceptions import BadURLError, FailStatusCodeError
 
 class SuperCrawler(ICrawler):
     def __init__(self, url: str) -> None:
+        """Initializer.
+
+        :param url: URL of the requested web page.
+        :type url: str
+        """
         self._url = url
 
     @send_log_of_start_function
