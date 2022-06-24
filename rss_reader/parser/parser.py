@@ -72,4 +72,4 @@ class BeautifulParser(IParser):
                   template: dict,
                   name: str,
                   limit_elms: int = None) -> List[dict]:
-        pass
+        final_dict = []
