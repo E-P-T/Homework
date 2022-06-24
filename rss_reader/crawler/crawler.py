@@ -27,7 +27,7 @@ class SuperCrawler(ICrawler):
         return req
 
     def _get_content(self, req: Response) -> bytes:
-        pass
+        return req.content
 
     def _get_status(self, req: Response) -> int:
         """Get status code.
