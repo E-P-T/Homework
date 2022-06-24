@@ -27,3 +27,6 @@ class AbstractViewHandler(IViewHandler):
 class StandartViewHandler(AbstractViewHandler):
     def show(self, data: dict) -> None:
         pass
+
+    def _get_info(self, dict_: dict, attr: str, str_: str, end='\n') -> None:
+        pass
