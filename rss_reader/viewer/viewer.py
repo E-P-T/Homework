@@ -35,6 +35,13 @@ class StandartViewHandler(AbstractViewHandler):
                 self._get_info(i, "pubDate", "PubDate")
                 self._get_info(i, "link", "Link")
                 media_content = i.get("content")
+                if media_content:
+                    print("Media content:")
+                    self._get_info(media_content, "title",
+                                   "[title of media content]")
+                    self._get_info(media_content, "url",
+                                   "[source of media content]")
+                print('\n\n')
 
     def _get_info(self, dict_: dict, attr: str, str_: str, end='\n') -> None:
         """Print a string containing data from a dictionary."""
