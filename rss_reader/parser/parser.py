@@ -82,3 +82,4 @@ class BeautifulParser(IParser):
             # find all tags inside the tag that stores the news
             item_tags = item.find_all()
             for tag in item_tags:
+                tag_name = tag.name
