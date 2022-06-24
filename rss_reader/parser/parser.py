@@ -68,6 +68,7 @@ class BeautifulParser(IParser):
         for i in tags:
             yield i.text
 
+    @send_log_of_start_function
     def get_items(self,
                   template: dict,
                   name: str,
