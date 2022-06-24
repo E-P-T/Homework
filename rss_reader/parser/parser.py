@@ -11,6 +11,7 @@ log = Logger.get_logger(__name__)
 
 
 class BeautifulParser(IParser):
+    """A class to represent a parser."""
 
     def __init__(self, subsystem: ISubsystem) -> None:
         """Initializer.
