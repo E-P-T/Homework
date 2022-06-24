@@ -98,3 +98,4 @@ class BeautifulParser(IParser):
                             # if present or None
                             attrs_dict.update({attr: tag.get(attr, None)})
                         item_dict[tag_name] = attrs_dict
+            final_dict.append(item_dict)
