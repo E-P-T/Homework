@@ -31,4 +31,5 @@ class BeautifulParser(IParser):
         self._subsystem = self._subsystem(markup, features)
 
     def _find_all(self, name: str = None, limit_elms: int = None) -> Iterable:
+        """Return all tags with the given name."""
         return self._subsystem.find_all(name, limit=limit_elms)
