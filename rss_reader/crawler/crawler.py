@@ -14,6 +14,12 @@ class SuperCrawler(ICrawler):
         pass
 
     def _get_response(self) -> Response:
+        """Get the server's response to an HTTP request.
+
+        :raises BadURLError: If the url is wrong.
+        :return: Contains a server's response to an HTTP request.
+        :rtype: Response
+        """
         try:
             req = get(self._url)
         except ConnectionError as e:
