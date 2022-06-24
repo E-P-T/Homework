@@ -9,3 +9,4 @@ class AbstractViewHandler(IViewHandler):
 
     def set_next(self, handler: IViewHandler) -> IViewHandler:
         self._next_handler = handler
+        return handler
