@@ -43,4 +43,4 @@ class BeautifulParser(IParser):
     def get_tags_text(self,
                       selector: str,
                       limit_elms: int = None) -> Generator[str, None, None]:
-        pass
+         tags = self._select(selector, limit_elms)
