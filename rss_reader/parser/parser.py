@@ -93,3 +93,4 @@ class BeautifulParser(IParser):
                         attrs_dict = {}
                         # The tag attributes from the template to find
                         attrs = template[tag_name]
+                        for attr in attrs:
