@@ -22,7 +22,7 @@ class DjangoRssReader(rss_reader.RssReader):
 
 class DjangoRssReaderCached(rss_reader.RssReaderCached):
     @staticmethod
-    def limit_news_dict(news_cache: dict, limit=None, news_url: str = '') -> dict:
+    def limit_news_dict(news_cache: dict, limit=None, news_url: str = '', news_date: str = '') -> dict:
         """
         """
         if news_url and rss_reader.RssReaderCached.validate_url(news_url):
@@ -35,7 +35,7 @@ class DjangoRssReaderCached(rss_reader.RssReaderCached):
                               if key != 'feed_items'}
             temp_news_dict['feed_items'] = {}
         else:
-            temp_news_dict = {'feed_title': f'Cached news',
+            temp_news_dict = {'feed_title': f'Cached news of {news_date if news_date else "recent time"}',
                               'feed_description': f'Best news gathered for you and cached by our service',
                               'feed_link': f'News sources can be reached through links listed in news',
                               'feed_items': {},
@@ -44,7 +44,11 @@ class DjangoRssReaderCached(rss_reader.RssReaderCached):
             for key, value in feed.items():
                 if key == 'feed_items':
                     for news_tag, tag_text in value.items():
-                        temp_news_dict['feed_items'][news_tag] = tag_text
+                        if news_date:
+                            if news_date in news_tag:
+                                temp_news_dict['feed_items'][news_tag] = tag_text
+                        else:
+                            temp_news_dict['feed_items'][news_tag] = tag_text
         if len(temp_news_dict['feed_items']) == 0:
             raise rss_reader.rss_exceptions.NoDataInCache('No news found in cache')
         news_dict = rss_reader.RssReader.limit_news_dict(temp_news_dict, limit)

@@ -4,16 +4,29 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-md-6">
+    <div class="row g-0">
+    <div class="col-md-5 mx-auto">
+        <h3>Fill the form to select news to read</h3>
+        <form class="container" method="GET" action=" {% url 'read_news' %} ">
+            <div class="add_form">
+                {{choice_form.as_p}}
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Read News</button>
+        </form>
+    </div>
+        <div class="col-md-5 mx-auto">
+            <h3>Add another rss URL</h3>
         <form action=" ">
             <div class="add_form">
                 {{add_form.as_p}}
             </div>
             <button type="submit" class="btn btn-primary">Track feed</button>
         </form>
+        </div>
     </div>
 </div>
-
+<br>
 <br>
 <h3>Currently tracking news from RSS channels:</h3>
 
@@ -24,7 +37,6 @@
     </div>
     <div class="card-body">
         <p class="card-text">{{ obj.url }}</p>
-<!--            <a href="{{ obj.url }}" class="btn btn-primary">Follow URL</a>-->
     </div>
 </div>
 
