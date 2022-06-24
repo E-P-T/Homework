@@ -1,6 +1,6 @@
 
 
-from typing import Optional
+from typing import Dict, Optional
 from rss_reader.interfaces.iviewer.iviewer import IViewHandler
 from rss_reader.decorator.decorator import send_log_of_start_function
 
