@@ -53,3 +53,6 @@ class BeautifulParser(IParser):
             log.exception("No matching tags. Maybe the selector is wrong.")
             raise EmptyListError(
                 "No matching tags. Maybe the selector is wrong.")
+
+        for i in tags:
+            yield i.text
