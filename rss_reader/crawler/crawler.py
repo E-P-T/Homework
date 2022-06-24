@@ -3,6 +3,7 @@ from requests import Response, get
 
 
 from rss_reader.interfaces.icrawler.icrawler import ICrawler
+from .exceptions import BadURLError
 
 
 class SuperCrawler(ICrawler):
