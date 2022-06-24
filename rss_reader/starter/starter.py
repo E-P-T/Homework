@@ -5,6 +5,7 @@ from typing import Dict
 from rss_reader.logger.logger import Logger
 from rss_reader.interfaces.iloader.iloader import IHandler
 from rss_reader.loader.loader import FromWebHandler
+from rss_reader.parser.parser import BeautifulParser
 from .ecxeptions import NonNumericError
 
 log = Logger.get_logger(__name__)
