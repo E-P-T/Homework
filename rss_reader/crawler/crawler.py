@@ -13,6 +13,13 @@ class SuperCrawler(ICrawler):
 
     @send_log_of_start_function
     def get_data(self) -> bytes:
+        """Get the content of the requested page.
+
+        :raises FailStatusCodeError: If status code is not equal to 200.
+        :return: Page data.
+        :rtype: bytes
+        """
+
         r = self._get_response()
         status = self._get_status(r)
         if status == 200:
