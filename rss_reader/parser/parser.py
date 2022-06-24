@@ -43,4 +43,8 @@ class BeautifulParser(IParser):
     def get_tags_text(self,
                       selector: str,
                       limit_elms: int = None) -> Generator[str, None, None]:
-         tags = self._select(selector, limit_elms)
+        tags = self._select(selector, limit_elms)
+
+        if not tags:
+            raise EmptyListError(
+                "No matching tags. Maybe the selector is wrong.")
