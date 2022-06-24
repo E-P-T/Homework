@@ -79,3 +79,5 @@ class BeautifulParser(IParser):
 
             # The dictionary stores information about a particular news item.
             item_dict = {}
+            # find all tags inside the tag that stores the news
+            item_tags = item.find_all()
