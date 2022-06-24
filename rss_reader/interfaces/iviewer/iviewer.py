@@ -14,6 +14,6 @@ class IViewHandler(ABC):
         pass
 
     @abstractmethod
-    def show(self, data: dict):
+    def show(self, data: dict) -> None:
         """Show data."""
         pass
