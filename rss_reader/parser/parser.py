@@ -37,4 +37,5 @@ class BeautifulParser(IParser):
         return self._subsystem.find_all(name, limit=limit_elms)
 
     def _select(self, selector: str, limit_elms: int = None) -> Iterable:
+        """Return tags selected by CSS selector."""
         return self._subsystem.select(selector, limit=limit_elms)
