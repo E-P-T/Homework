@@ -72,6 +72,35 @@ class BeautifulParser(IParser):
                   template: dict,
                   name: str,
                   limit_elms: int = None) -> List[dict]:
+        """Get a list of found items.
+
+        :param template: Specifies the element search pattern. Represents a
+                         dictionary. The keys of the dictionary are the tags
+                         to be found, and the value is just a string
+                         (for example, 'text'). If you need to find the
+                         attributes of a tag, then the value is a list that
+                         lists all the attributes you need to search
+                         (for example, <media:content height="86"
+                         url="https://s.com,
+                         then: template = {'title': 'text',
+                                           'pubDate': 'text',
+                                           'content': ['url', 'title']}).
+        :type template: dict
+        :param name: The name of the tag in which the news is stored.
+        :type name: str
+        :param limit_elms: The number of elements to return, defaults to None.
+        :type limit_elms: int, optional
+        :return: List of found news. The dictionary structure corresponds to
+                 the template parameter. For example:
+                 [{
+                    'title': 'Wisconsin',
+                    'pubDate': '2022-06-23T15:52:47Z',
+                    'content':{
+                        'url': 'https://s.yimg.com/uu/ldskdk',
+                        'title': None}}]
+        :rtype: List[dict]
+        """
+
         final_dict = []
         items = self._find_all(name, limit_elms)
 
