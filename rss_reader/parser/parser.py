@@ -1,5 +1,5 @@
 
-from typing import Iterable
+from typing import Generator, Iterable
 
 from rss_reader.interfaces.iparser.iparser import IParser
 from rss_reader.interfaces.iparser.isubsystem import ISubsystem
