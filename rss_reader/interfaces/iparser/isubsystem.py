@@ -8,6 +8,7 @@ from typing import Iterable
 class ISubsystem(ABC):
     """Basic interface of a third-party data parser."""
 
+    @abstractmethod
     def find_all(self, name: str = None, limit: int = None) -> Iterable:
         """Return all tags with the given name.
 
@@ -21,6 +22,7 @@ class ISubsystem(ABC):
         """
         pass
 
+    @abstractmethod
     def select(self, selector: str, limit: int = None) -> Iterable:
         """Return tags selected by CSS selector.
 
