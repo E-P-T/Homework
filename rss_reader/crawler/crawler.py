@@ -11,6 +11,7 @@ class SuperCrawler(ICrawler):
     def __init__(self, url: str) -> None:
         self._url = url
 
+    @send_log_of_start_function
     def get_data(self) -> bytes:
         r = self._get_response()
         status = self._get_status(r)
