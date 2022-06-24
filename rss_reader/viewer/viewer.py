@@ -15,6 +15,7 @@ class AbstractViewHandler(IViewHandler):
         self._next_handler = handler
         return handler
 
+    @send_log_of_start_function
     def show(self, data: dict) -> None:
         """Show data."""
         if self._next_handler:
