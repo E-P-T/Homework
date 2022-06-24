@@ -4,6 +4,7 @@ from rss_reader.interfaces.iloader.iloader import IHandler
 from rss_reader.interfaces.icrawler.icrawler import ICrawler
 from rss_reader.interfaces.iparser.iparser import IParser
 from rss_reader.logger.logger import Logger
+from rss_reader.decorator.decorator import send_log_of_start_function
 
 
 log = Logger.get_logger(__name__)
