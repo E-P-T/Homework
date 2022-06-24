@@ -6,6 +6,10 @@ log = Logger.get_logger(__name__)
 
 
 def send_log_of_start_function(func):
+    """Log the start and end of the function.
+
+    It is decorator function.
+    """
 
     @wraps(func)
     def wrapper(*args, **kwargs):
