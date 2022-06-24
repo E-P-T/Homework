@@ -29,4 +29,4 @@ class StandartViewHandler(AbstractViewHandler):
         pass
 
     def _get_info(self, dict_: dict, attr: str, str_: str, end='\n') -> None:
-        pass
+        x = dict_.get(attr)
