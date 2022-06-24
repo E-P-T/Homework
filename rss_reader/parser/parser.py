@@ -99,3 +99,4 @@ class BeautifulParser(IParser):
                             attrs_dict.update({attr: tag.get(attr, None)})
                         item_dict[tag_name] = attrs_dict
             final_dict.append(item_dict)
+        return final_dict
