@@ -14,3 +14,6 @@ class SuperCrawler(ICrawler):
 
     def _get_response(self) -> Response:
         pass
+
+    def _get_content(self, req: Response) -> bytes:
+        pass
