@@ -35,6 +35,7 @@ class FromWebHandler(IHandler):
         self._crawler = crawler
         self._parser = parser
 
+    @send_log_of_start_function
     def get_data(self,
                  tag_name: str,
                  title_tag: str,
