@@ -8,6 +8,8 @@ from .exceptions import BadURLError, FailStatusCodeError
 
 
 class SuperCrawler(ICrawler):
+    """A class to represent a crawler."""
+
     def __init__(self, url: str) -> None:
         """Initializer.
 
