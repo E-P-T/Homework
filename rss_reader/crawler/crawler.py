@@ -1,5 +1,5 @@
 
-from requests import Response, get
+from requests import Response, get, ConnectionError
 
 
 from rss_reader.interfaces.icrawler.icrawler import ICrawler
