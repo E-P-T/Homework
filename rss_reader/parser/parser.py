@@ -1,6 +1,7 @@
 
 from rss_reader.interfaces.iparser.iparser import IParser
 from rss_reader.interfaces.iparser.isubsystem import ISubsystem
+from rss_reader.decorator.decorator import send_log_of_start_function
 
 
 class BeautifulParser(IParser):
@@ -13,6 +14,7 @@ class BeautifulParser(IParser):
         """
         self._subsystem = subsystem
 
+    @send_log_of_start_function
     def create_parser(self, markup: bytes, features: str = 'xml') -> None:
         """Create a parser object.
 
