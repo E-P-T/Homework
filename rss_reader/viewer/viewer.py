@@ -22,3 +22,7 @@ class AbstractViewHandler(IViewHandler):
         """Show data."""
         if self._next_handler:
             return self._next_handler.show(data)
+
+
+class StandartViewHandler(AbstractViewHandler):
+    pass
