@@ -48,3 +48,7 @@ def test_get_fail_error(monkeypatch):
 
     with pytest.raises(FailStatusCodeError):
         SuperCrawler('https://news.yahoo.com/rss/').get_data()
+
+
+def test_fail_url_response(monkeypatch):
+    pass
