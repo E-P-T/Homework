@@ -58,7 +58,12 @@ class StandartViewHandler(AbstractViewHandler):
                        alternative='no data', end="\n\n\n")
         items = data.get('items')
         is_list = isinstance(items, list)
-        if is_list and len(items) == 1:
+        is_now_news = False
+        for i in items:
+            if "no news" in i:
+                is_now_news = True
+
+        if is_list and is_now_news:
             self._get_info(items[0], "no news", "News")
         elif is_list:
             for i in items:
