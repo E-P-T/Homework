@@ -28,5 +28,10 @@ class TestLogger():
         assert isinstance(o, Logger)
 
     def test_get_logger(self, logger_obj):
+        """Check return type of get_logger function.
+
+        :param logger_obj: Logger from the rss-reader.logger package.
+        :type logger_obj: Logger
+        """
         o = logger_obj.get_logger('test_module')
         assert isinstance(o, Logger)
