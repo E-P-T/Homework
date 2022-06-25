@@ -5,6 +5,7 @@ from ..crawler import SuperCrawler
 
 
 class MockResponse:
+    """Mimics the behavior of the Response object."""
     def __init__(self, content, status_code=200) -> None:
         self.content = content
         self.status_code = status_code
