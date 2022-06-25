@@ -19,5 +19,10 @@ def test_null_config():
 
 class TestLogger():
     def test_setup_logger(self, logger_obj):
+        """Check return type of setup_logger function.
+
+        :param logger_obj: Logger from the rss-reader.logger package.
+        :type logger_obj: Logger
+        """
         o = logger_obj.setup_logger()
         assert isinstance(o, Logger)
