@@ -120,6 +120,7 @@ class JSONViewHandler(AbstractViewHandler):
         :param data: Dictionary with data to be printed on the screen.
         :type data: dict
         """
+        log.debug("Start outputting news in json format.")
         if self._request.get('json'):
             print(dumps(data, indent=3, ensure_ascii=False))
         else:
