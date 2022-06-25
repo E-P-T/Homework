@@ -56,7 +56,10 @@ class Starter:
             if not data['items']:
                 data['items'] = [{'no news': 'Sorry, no news'}]
 
+        log.info("Start getting the viewer object.")
         viewer = self._get_viewer(self._argv)
+        log.info("Stop getting the viewer object.")
+
         viewer.show(data)
 
     def _get_data_from_resource(self) -> IHandler:
