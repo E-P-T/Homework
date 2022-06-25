@@ -77,6 +77,7 @@ class StandartViewHandler(AbstractViewHandler):
                 self._get_info(items[0], "no news", "News")
             else:
                 for i in items:
+                    log.debug("Start posting news.")
                     self._get_info(i, "title", "Title")
                     self._get_info(i, "source", "Source")
                     self._get_info(i, "pubDate", "PubDate")
@@ -89,6 +90,7 @@ class StandartViewHandler(AbstractViewHandler):
                         self._get_info(media_content, "url",
                                        "[source of media content]")
                     print('\n\n')
+                    log.debug("Stop posting news.")
 
     def _get_info(self, dict_: dict, attr: str, str_: str,
                   alternative: str = '', end='\n') -> None:
