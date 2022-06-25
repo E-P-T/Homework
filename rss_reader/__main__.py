@@ -18,6 +18,7 @@ def main():
     log = Logger.get_logger(__name__)
 
     try:
+        log.info("Start the program.")
         s.run()
     except NonNumericError as e:
         print(f'Sorry, we have to stop working. Because:')
