@@ -33,6 +33,8 @@ def main():
              'We are terribly sorry.')
         print(s)
         log.error(e)
+    finally:
+        exit()
 
 
 if __name__ == "__main__":
