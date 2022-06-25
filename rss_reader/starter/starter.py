@@ -54,7 +54,7 @@ class Starter:
                 raise
 
             if not data['items']:
-                data['items'] = 'Sorry, no news'
+                data['items'] = [{'no news': 'Sorry, no news'}]
 
         viewer = self._get_viewer(self._argv)
         viewer.show(data)
