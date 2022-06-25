@@ -24,9 +24,9 @@ def main():
     arg_parser.add_argument("--json", action="store_true", help=" Print result as JSON in stdout")
     arg_parser.add_argument("--verbose", action="store_true", help="Outputs verbose status messages")
     arg_parser.add_argument("--limit", type=int, help="Limit news topics if this parameter provided")
-    arg_parser.add_argument("--date", type=int, help="Outputs news from cash by date")
-    arg_parser.add_argument("--html", action="store_true", help=" Print result as HTML in stdout")
-    arg_parser.add_argument("--pdf", action="store_true", help=" Print result as PDF in stdout")
+    arg_parser.add_argument("--date", type=int, help="Outputs news from cash by date. Required format: 20220525")
+    arg_parser.add_argument("--html", type=str, help=" Print result as HTML format in file. Required - path to save.")
+    arg_parser.add_argument("--pdf", type=str, help=" Print result as PDF format in file. Required - path to save.")
 
     args = arg_parser.parse_args()
 
@@ -43,6 +43,7 @@ def main():
                 xml_items = work_xml.get_cache_news(args.date)
             else:
                 print("URL is are required")
+                return False
         elif args.date:
             xml_items = work_xml.get_cache_news(args.date, args.source)
         else:
@@ -56,9 +57,9 @@ def main():
         if args.json:
             work_xml.generate_json(xml_items)
         elif args.html:
-            work_xml.generate_html(xml_items)
+            work_xml.generate_html(args.html, xml_items)
         elif args.pdf:
-            work_xml.generate_pdf(xml_items)
+            work_xml.generate_pdf(args.pdf, xml_items)
         else:
             work_xml.print_to_console(xml_items)
     except AttributeError:

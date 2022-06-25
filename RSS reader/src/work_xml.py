@@ -28,7 +28,8 @@ def take_xml_items(link, limit):
         key = 0
         for item in items_temp:
             items[key] = {'title': item.title.get_text(), 'pubDate': item.pubDate.get_text(),
-                          'description': item.description.get_text(), 'link': item.link.get_text()}
+                          'description': item.description.get_text() if item.description else 'No description',
+                          'link': item.link.get_text() if item.link else 'No link', }
             key += 1
         logging.info("Take xml items finished successfully")
 
@@ -184,7 +185,7 @@ def get_cache_news(date, source=False):
         return False
 
 
-def generate_html(xml_items):
+def generate_html(path, xml_items):
     logging.info("Generate html started")
     soup = BeautifulSoup()
     html = Tag(soup, name="html")
@@ -212,7 +213,7 @@ def generate_html(xml_items):
 
             body.append(div)
 
-        with open("HTML_file.html", 'w', encoding='utf-8') as file:
+        with open(os.path.join(path, "HTML_file.html"), 'w', encoding='utf-8') as file:
             file.write(soup.prettify())
         logging.info("Generate html finished successfully")
 
@@ -224,10 +225,8 @@ def generate_html(xml_items):
         return False
 
 
-def generate_pdf(xml_items):
+def generate_pdf(path, xml_items):
     logging.info("Generate pdf started")
-    # html = generate_html(xml_items)
-    # pdf = pdfkit.from_file('HTML_file.html', 'PDF_file.pdf')
 
     try:
         pdf = fpdf.FPDF()
@@ -249,7 +248,7 @@ def generate_pdf(xml_items):
             pdf.multi_cell(20, 10, item['description'])
             pdf.cell(20, 10, f"Link: {item['link']}", ln=1)
 
-        pdf.output("PDF_file.pdf")
+        pdf.output(os.path.join(path, "PDF_file.pdf"))
         logging.info("Generate pdf finished successfully")
 
 
