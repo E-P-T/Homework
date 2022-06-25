@@ -50,7 +50,7 @@ class Starter:
                                              self._argv.get('source'),
                                              limit)
             except BadURLError as e:
-                log.exception(e)
+                log.error(e)
                 raise
 
             if not data['items']:
