@@ -1,7 +1,7 @@
 import argparse
 import logging
-from src import work_xml
-
+# from src import work_xml
+import work_xml
 
 
 # link = "https://news.yahoo.com/rss"
@@ -23,28 +23,44 @@ def main():
     arg_parser.add_argument("--json", action="store_true", help=" Print result as JSON in stdout")
     arg_parser.add_argument("--verbose", action="store_true", help="Outputs verbose status messages")
     arg_parser.add_argument("--limit", type=int, help="Limit news topics if this parameter provided")
+    arg_parser.add_argument("--date", type=int, help="Outputs news from cash by date")
+    arg_parser.add_argument("--html", action="store_true", help=" Print result as HTML in stdout")
+    arg_parser.add_argument("--pdf", action="store_true", help=" Print result as PDF in stdout")
 
     args = arg_parser.parse_args()
 
-    version = "Version 1.1"
+    version = "Version 1.4"
 
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
+    else:
+        logging.basicConfig(filename='app.log', level=logging.INFO)
 
     try:
         if args.version:
             print(version)
         elif args.source == '':
-            print("URL is are required")
-        elif args.json:
-            work_xml.generate_json(args.source, args.limit)
+            if args.date:
+                xml_items = work_xml.get_cache_news(args.date)
+            else:
+                print("URL is are required")
+        elif args.date:
+            xml_items = work_xml.get_cache_news(args.date, args.source)
         else:
-            work_xml.print_to_console(args.source, args.limit)
+            xml_items = work_xml.take_xml_items(args.source, args.limit)
+            work_xml.set_cache_news(args.source, xml_items["items"])
+
+
+        if xml_items == False:
+            return False
+
+        if args.json:
+            work_xml.generate_json(xml_items)
+        else:
+            work_xml.print_to_console(xml_items)
     except AttributeError:
         print("Error, failed to get an attribute. Check correctness URL")
 
 
-
 if __name__ == "__main__":
     main()
-

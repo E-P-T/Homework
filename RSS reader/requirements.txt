@@ -1,0 +1,8 @@
+argparse
+requests
+logging
+dateutil
+bs4
+json
+sudo apt-get install wkhtmltopdf
+fpdf
