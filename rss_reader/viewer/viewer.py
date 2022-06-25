@@ -73,6 +73,7 @@ class StandartViewHandler(AbstractViewHandler):
                     is_now_news = True
 
             if is_now_news:
+                log.info("No news.")
                 self._get_info(items[0], "no news", "News")
             else:
                 for i in items:
