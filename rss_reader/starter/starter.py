@@ -37,6 +37,8 @@ class Starter:
 
         log.info("Number was received.")
 
+        data_handler = self._get_data_from_resource()
+
     def _get_data_from_resource(self) -> IHandler:
         """Get data handler.
 
