@@ -12,3 +12,4 @@ def test_stream_config():
 
 def test_null_config():
     sc = NullHandlerConfig()
+    logger = sc.set_config('name')
