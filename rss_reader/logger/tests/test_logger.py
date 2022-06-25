@@ -19,4 +19,5 @@ def test_null_config():
 
 class TestLogger():
     def test_setup_logger(self, logger_obj):
-        pass
+        o = logger_obj.setup_logger()
+        assert isinstance(o, Logger)
