@@ -54,9 +54,13 @@ class StandartViewHandler(AbstractViewHandler):
         :type data: dict
         """
 
-        self._get_info(data, "title_web_resource", "\nFeed: ", end="\n\n\n")
+        self._get_info(data, "title_web_resource", "\nFeed: ",
+                       alternative='no data', end="\n\n\n")
         items = data.get('items')
-        if isinstance(items, list):
+        is_list = isinstance(items, list)
+        if is_list and len(items) == 1:
+            self._get_info(items[0], "no news", "News")
+        elif is_list:
             for i in items:
                 self._get_info(i, "title", "Title")
                 self._get_info(i, "source", "Source")
@@ -70,14 +74,15 @@ class StandartViewHandler(AbstractViewHandler):
                     self._get_info(media_content, "url",
                                    "[source of media content]")
                 print('\n\n')
-        elif items:
-            print(items)
 
-    def _get_info(self, dict_: dict, attr: str, str_: str, end='\n') -> None:
+    def _get_info(self, dict_: dict, attr: str, str_: str,
+                  alternative: str = '', end='\n') -> None:
         """Print a string containing data from a dictionary."""
         x = dict_.get(attr)
         if x:
             print(f'{str_}: {x}', end=end)
+        elif alternative:
+            print(f'{str_}: {alternative}', end=end)
 
 
 class JSONViewHandler(AbstractViewHandler):
