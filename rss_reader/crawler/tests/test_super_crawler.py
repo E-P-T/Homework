@@ -16,3 +16,5 @@ def test_get_data(monkeypatch):
 
     monkeypatch.setattr(SuperCrawler, '_get_response', mock_get_data)
     data = SuperCrawler('https://news.yahoo888.com/rss/').get_data()
+
+    assert isinstance(data, bytes)
