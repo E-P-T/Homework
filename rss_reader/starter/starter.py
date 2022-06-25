@@ -1,4 +1,4 @@
-
+"""The main configurator for launching the program."""
 
 from typing import Dict
 from bs4 import BeautifulSoup
