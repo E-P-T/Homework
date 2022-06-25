@@ -17,7 +17,13 @@ def main():
     s = Starter(args)
 
     log = Logger.get_logger(__name__)
-    s.run()
+
+    try:
+        s.run()
+    except NonNumericError as e:
+        print(f'Sorry we have to stop working. Because:')
+        print(f'\t {e}')
+        log.error(e)
 
 
 if __name__ == "__main__":
