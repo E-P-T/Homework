@@ -18,6 +18,8 @@ log = Logger.get_logger(__name__)
 
 
 class Starter:
+    """A class to represent a starter main program."""
+
     def __init__(self, argv: Dict[str, str]) -> None:
         """Initializer.
 
