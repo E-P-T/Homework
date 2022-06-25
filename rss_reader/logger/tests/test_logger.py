@@ -18,4 +18,5 @@ def test_null_config():
 
 
 class TestLogger():
-    pass
+    def test_setup_logger(self, logger_obj):
+        pass
