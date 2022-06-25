@@ -28,6 +28,11 @@ def main():
         print(f'Sorry we have to stop working. Because:')
         print(f'\t {e}')
         log.error(e)
+    except Exception as e:
+        s = ('Sorry, we have to stop working. Something went wrong.'
+             'We are terribly sorry.')
+        print(s)
+        log.error(e)
 
 
 if __name__ == "__main__":
