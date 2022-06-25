@@ -59,26 +59,28 @@ class StandartViewHandler(AbstractViewHandler):
         items = data.get('items')
         is_list = isinstance(items, list)
         is_now_news = False
-        for i in items:
-            if "no news" in i:
-                is_now_news = True
 
-        if is_list and is_now_news:
-            self._get_info(items[0], "no news", "News")
-        elif is_list:
+        if is_list:
             for i in items:
-                self._get_info(i, "title", "Title")
-                self._get_info(i, "source", "Source")
-                self._get_info(i, "pubDate", "PubDate")
-                self._get_info(i, "link", "Link")
-                media_content = i.get("content")
-                if media_content:
-                    print("Media content:")
-                    self._get_info(media_content, "title",
-                                   "[title of media content]")
-                    self._get_info(media_content, "url",
-                                   "[source of media content]")
-                print('\n\n')
+                if "no news" in i:
+                    is_now_news = True
+
+            if is_now_news:
+                self._get_info(items[0], "no news", "News")
+            else:
+                for i in items:
+                    self._get_info(i, "title", "Title")
+                    self._get_info(i, "source", "Source")
+                    self._get_info(i, "pubDate", "PubDate")
+                    self._get_info(i, "link", "Link")
+                    media_content = i.get("content")
+                    if media_content:
+                        print("Media content:")
+                        self._get_info(media_content, "title",
+                                       "[title of media content]")
+                        self._get_info(media_content, "url",
+                                       "[source of media content]")
+                    print('\n\n')
 
     def _get_info(self, dict_: dict, attr: str, str_: str,
                   alternative: str = '', end='\n') -> None:
