@@ -1,3 +1,5 @@
+"""A test suite for the logger module."""
+
 from logging import Logger
 
 from ..logger import StreamHandlerConfig, NullHandlerConfig
@@ -18,6 +20,8 @@ def test_null_config():
 
 
 class TestLogger():
+    """Class tests Logger class from rss-reader."""
+
     def test_setup_logger(self, logger_obj):
         """Check return type of setup_logger function.
 
