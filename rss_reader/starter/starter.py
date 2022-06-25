@@ -60,7 +60,9 @@ class Starter:
         viewer = self._get_viewer(self._argv)
         log.info("Stop getting the viewer object.")
 
+        log.info("Start displaying data.")
         viewer.show(data)
+        log.info("Stop displaying data.")
 
     def _get_data_from_resource(self) -> IHandler:
         """Get data handler."""
