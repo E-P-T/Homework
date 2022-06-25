@@ -21,11 +21,11 @@ def main():
     try:
         s.run()
     except NonNumericError as e:
-        print(f'Sorry we have to stop working. Because:')
+        print(f'Sorry, we have to stop working. Because:')
         print(f'\t {e}')
         log.error(e)
     except BadURLError as e:
-        print(f'Sorry we have to stop working. Because:')
+        print(f'Sorry, we have to stop working. Because:')
         print(f'\t {e}')
         log.error(e)
     except Exception as e:
