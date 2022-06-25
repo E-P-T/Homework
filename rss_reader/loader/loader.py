@@ -64,7 +64,10 @@ class FromWebHandler(IHandler):
         cr = self._crawler(source)
         response_ = cr.get_data()
 
+        log.debug('Start creating the parser.')
         self._parser.create_parser(markup=response_)
+        log.debug('Stop creating the parser.')
+
         title_text = next(self._parser.get_tags_text(
             selector=title_tag))
         items = self._parser.get_items(
