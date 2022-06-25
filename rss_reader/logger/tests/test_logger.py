@@ -1,4 +1,5 @@
 
 
 def test_stream_config():
-    sc = StreamHandlerConfig().set_config('name')
+    sc = StreamHandlerConfig()
+    logger = sc.set_config('name')
