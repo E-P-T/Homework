@@ -1,3 +1,4 @@
+from logging import Logger
 
 
 def test_stream_config():
