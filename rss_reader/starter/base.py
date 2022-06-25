@@ -57,7 +57,7 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
     return vars(namespace_)
 
 
-def create_logger(verbose: Optional[str]) -> None:
+def create_logger(verbose: bool) -> None:
     if verbose:
         config: ISetLoggerConfig = StreamHandlerConfig()
     else:
