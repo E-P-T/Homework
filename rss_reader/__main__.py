@@ -4,7 +4,7 @@
 from rss_reader.starter.base import (create_logger,
                                      init_arguments_functionality as iaf)
 from rss_reader.starter.starter import Starter
-
+from rss_reader.logger.logger import Logger
 
 def main():
     args = iaf()
