@@ -4,6 +4,7 @@
 from rss_reader.starter.base import (create_logger,
                                      init_arguments_functionality as iaf)
 from rss_reader.logger.logger import Logger
+from rss_reader.starter.ecxeptions import NonNumericError
 
 
 def main():
