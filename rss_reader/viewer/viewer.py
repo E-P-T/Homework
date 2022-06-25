@@ -11,6 +11,8 @@ from rss_reader.interfaces.iviewer.iviewer import IViewHandler
 from rss_reader.decorator.decorator import send_log_of_start_function
 from rss_reader.logger.logger import Logger
 
+log = Logger.get_logger(__name__)
+
 
 class AbstractViewHandler(IViewHandler):
     """The base class of the handler."""
