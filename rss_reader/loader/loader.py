@@ -68,10 +68,12 @@ class FromWebHandler(IHandler):
         self._parser.create_parser(markup=response_)
         log.debug('Stop creating the parser.')
 
+        log.debug('Start getting parsed data.')
         title_text = next(self._parser.get_tags_text(
             selector=title_tag))
         items = self._parser.get_items(
             self.template, name=tag_name, limit_elms=limit)
+        log.debug('Stop getting parsed data.')
 
         log.info('Start generating results.')
         result = {'title_web_resource': title_text}
