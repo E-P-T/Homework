@@ -20,6 +20,11 @@ class MockResponse:
 
 
 def test_get_data(monkeypatch):
+    """Checks the type of the returned object.
+
+    Type must be a byte string.
+    """
+
     def mock_get_data(*args, **kwargs):
         return MockResponse(b'')
 
