@@ -34,6 +34,7 @@ def main():
         print(s)
         log.error(e)
     finally:
+        log.info("Stop the program.")
         exit()
 
 
