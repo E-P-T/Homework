@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+   <head>
+       <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+       <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       <title>{% block title %} Rss-reader {% endblock %}</title>
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+   <style type="text/css">
+
+        </style>
+   </head>
+   <body>
+
+<br>
+<div class="row">
+    <div class="col">
+<h3>Feed title: {{ news.feed_title }} </h3>
+<h5>Feed description: {{ news.feed_description }} </h5>
+<h5>Feed link: {{ news.feed_link }} <a href="news.feed_link"></a> </h5>
+{% if news.feed_pubDate %}
+    <h4>Last update: {{news.feed_pubDate }} </h4>
+{% endif %}
+    </div>
+</div>
+<br>
+{% for item, value in news.feed_items.items %}
+<div class="card mb-3" style="max-width: 1920px;">
+    <div class="row g-0">
+        {% if value.media %}
+        <div class="col-md-4">
+            <img src="{{ value.media.url }}" class="img-fluid rounded-start" alt="Image here">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title"> {{ value.title }} </h5>
+                <p class="card-text">{{ value.pubDate }}</p>
+                <br>
+                <p class="card-text">{{ value.description }}</p>
+                <p><a href="{{ value.link }}">Link: {{ value.link }} </a></p>
+                <p><a href="{{ value.media.url }}">Media link: {{ value.media.url }} </a></p>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-md-auto">
+            <div class="card-body">
+                <h5 class="card-title"> {{ value.title }} </h5>
+                <p class="card-text">{{ value.pubDate }}</p>
+                <br>
+                <p class="card-text" style="font-size: 18px">{{ value.description }}</p>
+                <p><a href="{{ value.link }}">Link: {{ value.link }} </a></p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% empty %}
+<h4>No news found for you</h4>
+{% endfor %}
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+   </body>
+</html>
