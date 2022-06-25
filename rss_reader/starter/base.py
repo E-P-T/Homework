@@ -58,6 +58,13 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
 
 
 def create_logger(verbose: bool) -> None:
+    """Create a logger.
+
+    :param verbose: Parameter responsible for selecting a specific handler.
+                    The handler is responsible for how the information is
+                    displayed.
+    :type verbose: bool
+    """
     if verbose:
         config: ISetLoggerConfig = StreamHandlerConfig()
     else:
