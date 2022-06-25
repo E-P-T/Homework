@@ -2,7 +2,7 @@ import pytest
 import requests
 
 from ..crawler import SuperCrawler
-from ..exceptions import FailStatusCodeError
+from ..exceptions import FailStatusCodeError, BadURLError
 
 
 class MockResponse:
