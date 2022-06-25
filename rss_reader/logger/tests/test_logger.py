@@ -11,6 +11,7 @@ def test_stream_config():
 
 
 def test_null_config():
+    """Check that NullHandlerConfig returns the desired logger type."""
     sc = NullHandlerConfig()
     logger = sc.set_config('name')
     assert isinstance(logger, Logger)
