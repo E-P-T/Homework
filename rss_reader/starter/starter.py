@@ -55,11 +55,7 @@ class Starter:
                 data['items'] = 'Sorry, no news'
 
     def _get_data_from_resource(self) -> IHandler:
-        """Get data handler.
-
-        :return: Data handler.
-        :rtype: IHandler
-        """
+        """Get data handler."""
         web_hendler = FromWebHandler(SuperCrawler,
                                      BeautifulParser(BeautifulSoup))
         return web_hendler
