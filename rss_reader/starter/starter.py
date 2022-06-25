@@ -38,7 +38,7 @@ class Starter:
                 lim = self._argv.get('limit')
                 limit = int(lim) if lim else None
             except ValueError as e:
-                log.exception(e)
+                log.error(e)
                 raise NonNumericError("--limit has a non-numeric value") from e
 
             log.info("Number was received.")
