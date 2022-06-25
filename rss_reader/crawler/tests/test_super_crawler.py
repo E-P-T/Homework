@@ -7,6 +7,13 @@ from ..crawler import SuperCrawler
 class MockResponse:
     """Mimics the behavior of the Response object."""
     def __init__(self, content, status_code=200) -> None:
+        """Initializer.
+
+        :param content: The content to be returned.
+        :type content: str
+        :param status_code: HTTP status code, defaults to 200
+        :type status_code: int, optional
+        """
         self.content = content
         self.status_code = status_code
 
