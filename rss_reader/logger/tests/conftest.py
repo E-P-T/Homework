@@ -1,6 +1,6 @@
 import pytest
 
-from ..logger import Logger, StreamHandlerConfig
+from ..logger import Logger, StreamHandlerConfig, NullHandlerConfig
 
 
 @pytest.fixture(scope="class",
