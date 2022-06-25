@@ -55,3 +55,6 @@ def test_fail_url_response(monkeypatch):
         raise ConnectionError
 
     monkeypatch.setattr(requests, 'get', mock_get_error)
+
+    with pytest.raises(BadURLError):
+        SuperCrawler('https://news.yahoo888.com/rss/').get_data()
