@@ -9,6 +9,7 @@ from rss_reader.crawler.exceptions import BadURLError
 
 
 def main():
+    """Entry point to the program."""
 
     args = iaf()
     create_logger(args.get('verbose'))
