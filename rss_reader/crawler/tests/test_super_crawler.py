@@ -32,3 +32,7 @@ def test_get_data(monkeypatch):
     data = SuperCrawler('https://news.yahoo888.com/rss/').get_data()
 
     assert isinstance(data, bytes)
+
+
+def test_get_fail_error(monkeypatch):
+    pass
