@@ -27,6 +27,7 @@ class Starter:
         self._argv = argv
 
     def run(self) -> None:
+        """Program launch."""
 
         if self._argv['source']:
             log.info("Get the number of requested news.")
