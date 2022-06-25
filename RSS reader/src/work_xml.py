@@ -1,11 +1,14 @@
 from pprint import pprint
 from dateutil import parser
-from fpdf import FPDF, fpdf
+from fpdf import fpdf
 from bs4 import BeautifulSoup, Tag
-from os.path import exists, getsize
 import requests
 import json
 import logging
+import os
+
+system_path = os.path.dirname(os.path.abspath(__file__))
+cache_file = os.path.join(system_path, 'cache.json')
 
 
 def take_xml_items(link, limit):
@@ -84,10 +87,10 @@ def generate_json(xml_items):
         return False
 
 
-def read_cache_file(cache_file='cache.json'):
+def read_cache_file():
     logging.info("Read cache file started")
     try:
-        if exists(cache_file) and getsize(cache_file) > 0:
+        if os.path.exists(cache_file) and os.path.getsize(cache_file) > 0:
             with open(cache_file, 'r') as file:
                 cache = json.load(file)
         else:
@@ -102,7 +105,7 @@ def read_cache_file(cache_file='cache.json'):
         return False
 
 
-def write_cache_file(cache, cache_file='cache.json'):
+def write_cache_file(cache):
     logging.info("Write cache file started")
     try:
         with open(cache_file, 'w+') as file:

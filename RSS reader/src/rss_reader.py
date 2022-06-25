@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import argparse
 import logging
 from src import work_xml
@@ -33,8 +34,6 @@ def main():
 
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
-    else:
-        logging.basicConfig(filename='app.log', level=logging.INFO)
 
     try:
         if args.version:
