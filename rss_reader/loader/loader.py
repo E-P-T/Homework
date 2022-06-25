@@ -75,10 +75,10 @@ class FromWebHandler(IHandler):
             self.template, name=tag_name, limit_elms=limit)
         log.debug('Stop getting parsed data.')
 
-        log.info('Start generating results.')
+        log.debug('Start generating results.')
         result = {'title_web_resource': title_text}
         items_dict = {'items': items}
         result.update(items_dict)
-        log.info('Result was formed.')
+        log.debug('Result was formed.')
 
         return result
