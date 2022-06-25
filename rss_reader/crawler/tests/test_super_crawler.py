@@ -38,3 +38,5 @@ def test_get_fail_error(monkeypatch):
 
     def mock_get_status(*args, **kwargs):
         return MockResponse(b'', 100)
+
+    monkeypatch.setattr(SuperCrawler, '_get_status', mock_get_status)
