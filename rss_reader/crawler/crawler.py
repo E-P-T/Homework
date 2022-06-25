@@ -9,6 +9,8 @@ from rss_reader.decorator.decorator import send_log_of_start_function
 from rss_reader.logger.logger import Logger
 from .exceptions import BadURLError, FailStatusCodeError
 
+log = Logger.get_logger(__name__)
+
 
 class SuperCrawler(ICrawler):
     """A class to represent a crawler."""
