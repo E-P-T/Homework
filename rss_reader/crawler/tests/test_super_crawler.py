@@ -9,4 +9,5 @@ class MockResponse:
 
 
 def test_get_data(monkeypatch):
-    pass
+    def mock_get_data(*args, **kwargs):
+        return MockResponse(b'')
