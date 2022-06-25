@@ -56,7 +56,7 @@ class StandartViewHandler(AbstractViewHandler):
         :param data: Dictionary with data to be printed on the screen.
         :type data: dict
         """
-
+        log.debug("Print title.")
         self._get_info(data, "title_web_resource", "\nFeed: ",
                        alternative='no data', end="\n\n\n")
         items = data.get('items')
