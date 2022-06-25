@@ -1,4 +1,4 @@
 
 
 def test_stream_config():
-    pass
+    sc = StreamHandlerConfig().set_config('name')
