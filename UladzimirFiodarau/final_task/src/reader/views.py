@@ -3,8 +3,9 @@ from django.shortcuts import render
 from .models import Cache
 from .forms import AddUrlForm, NewsParametersForm, FreshNewsParametersForm
 from .reader import DjangoRssReader, DjangoRssReaderCached
+import ast
 
-from django.http import FileResponse
+from django.http import HttpResponse, FileResponse
 import io
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
@@ -109,3 +110,97 @@ def news_pdf(request):
 
     # return file
     return FileResponse(buffer, as_attachment=True, filename='list.pdf')
+
+
+def news_pdf2(request):
+    pass
+
+
+def news_html(request):
+    news = ast.literal_eval(request.POST.get('news', {}))
+    if news:
+        response = HttpResponse(content_type='html')
+        response['Content-Disposition'] = 'attachment; filename=news.html'
+
+        html_buffer = ['<!DOCTYPE html>',
+                       '<html>',
+                       '<head><meta charset="utf-8"><title>News gathered by rss_reader</title></head>',
+                       ]
+        # forming Feed info block
+        html_buffer.append(f'<h1 style="text-align:left">{"=" * 83}</h1>')
+        feed_image = 'https://www.ict4dconference.org/wp-content/uploads/2020/10/rss-feed-logo.png'
+        if 'feed_media' in news:
+            if 'type' not in news['feed_media'] or news['feed_media']['type'].startswith('image'):
+                feed_image = news['feed_media']['url']
+        feed_title = news.get('feed_title', 'No title')
+        html_buffer.append(f'<img src="{feed_image}" alt="Logo" width="120" height="60" style="float:left">'
+                           f'<h1 style = "margin-left: 130px">{feed_title}</h1>')
+        feed_desc = news.get('feed_description', 'No additional description')
+        html_buffer.append(f'<h2 style = "margin-left: 130px">{feed_desc}</h2>')
+        feed_link = news.get('feed_link', '')
+        if feed_link != 'News sources can be reached through links listed in news':
+            html_buffer.append(f'<h3 style = "margin-left: 130px"><a href={feed_link}>{feed_link}</a></h3>')
+        else:
+            html_buffer.append(f'<h3 style = "margin-left: 130px">{feed_link}</a></h3>')
+        html_buffer.append(f'<h1 style="text-align:left">{"=" * 83}</h1>')
+        # forming news items
+        for item in sorted(news['feed_items'], reverse=True):
+            news_title = news["feed_items"][item].get("title", "No title provided")
+            # checking for media and its type for forming the document
+            news_media = None
+            news_image = None
+            if 'media' in news["feed_items"][item] and 'url' in news["feed_items"][item]['media']:
+                media = news["feed_items"][item]['media']
+                news_media = media['url']  # We will use a link to media later in script
+                if 'type' not in media or media['type'].startswith('image'):
+                    news_image = media['url']
+            tab = 330 if news_image else 0
+            # printing image if found and title
+            if news_image:
+                html_buffer.append(f'<img src="{news_image}" alt="Image" width="320" height="200" style="float:left">'
+                                   f'<h3 style = "margin-left: {tab}px">{news_title}</h3>')
+            else:
+                html_buffer.append(f'<h3 style = "margin-left: 0px">{news_title}</h3>')
+            # printing publication date
+            news_date = f'Publication date: {news["feed_items"][item].get("pubDate", "No publication date provided")}'
+            html_buffer.append(f'<p style = "margin-left: {tab}px">{news_date}</p>')
+            # printing description
+            news_desc = news["feed_items"][item].get("description", "No description provided")
+            html_buffer.append(f'<p style = "margin-left: {tab}px">{news_desc}</p><br>')
+            # printing news link and media link
+            news_link = news["feed_items"][item].get("link", "No link provided")
+            if news_link != "No link provided":
+                html_buffer.append(f'<p style = "margin-left: {tab}px"><a href={news_link}>{news_link}</a><p>')
+            else:
+                html_buffer.append(f'<p style = "margin-left: {tab}px"><{news_link}<p>')
+            if news_media:
+                html_buffer.append(f'<p style = "margin-left: {tab}px"><a href={news_media}>Media link: {news_media}'
+                                   f'</a><p>')
+            # finishing news item block with printing a separator between news
+            html_buffer.append(f'<p style="text-align:left">{"-" * 280}</p>')
+        html_buffer.append('</html>')
+
+        response.writelines(html_buffer)
+        return response
+
+    # # create bytestream buffer
+    # buffer = io.BytesIO()
+    # canv = canvas.Canvas(buffer, pagesize=letter, bottomup=0)
+    # # creating object
+    # textob = canv.beginText()
+    # textob.setTextOrigin(inch, inch)
+    # textob.setFont('Helvetica', 14)
+    #
+    # lines = ['1', '2', '3']
+    #
+    # for line in lines:
+    #     textob.textLine(line)
+    #
+    # canv.drawText(textob)
+    # canv.showPage()
+    # canv.save()
+    # buffer.seek(0)
+    #
+    # # return file
+    # return FileResponse(buffer, as_attachment=True, filename='list.pdf')
+
