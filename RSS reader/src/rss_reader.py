@@ -1,7 +1,7 @@
 import argparse
 import logging
-# from src import work_xml
-import work_xml
+from src import work_xml
+
 
 
 # link = "https://news.yahoo.com/rss"
@@ -56,6 +56,10 @@ def main():
 
         if args.json:
             work_xml.generate_json(xml_items)
+        elif args.html:
+            work_xml.generate_html(xml_items)
+        elif args.pdf:
+            work_xml.generate_pdf(xml_items)
         else:
             work_xml.print_to_console(xml_items)
     except AttributeError:

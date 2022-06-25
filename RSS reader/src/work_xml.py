@@ -181,3 +181,76 @@ def get_cache_news(date, source=False):
         return False
 
 
+def generate_html(xml_items):
+    logging.info("Generate html started")
+    soup = BeautifulSoup()
+    html = Tag(soup, name="html")
+    body = Tag(soup, name="body")
+    soup.append(html)
+    html.append(body)
+
+    try:
+        for item in xml_items['items'].values():
+            div = Tag(soup, name="div")
+
+            h1 = Tag(soup, name="h1")
+            h1.string = item['title']
+            pPubDate = Tag(soup, name="p")
+            pPubDate.string = item['pubDate']
+            pdescription = Tag(soup, name="p")
+            pdescription.string = item['description']
+            plink = Tag(soup, name="p")
+            plink.string = item['link']
+
+            div.append(h1)
+            div.append(pPubDate)
+            div.append(pdescription)
+            div.append(plink)
+
+            body.append(div)
+
+        with open("HTML_file.html", 'w', encoding='utf-8') as file:
+            file.write(soup.prettify())
+        logging.info("Generate html finished successfully")
+
+        return soup
+
+    except Exception as e:
+        print(f'This extraction job failed. See exceptions: {e}')
+        logging.info("Generate html finished with exception")
+        return False
+
+
+def generate_pdf(xml_items):
+    logging.info("Generate pdf started")
+    # html = generate_html(xml_items)
+    # pdf = pdfkit.from_file('HTML_file.html', 'PDF_file.pdf')
+
+    try:
+        pdf = fpdf.FPDF()
+        pdf.add_font("Sans", style="", fname="Noto_Sans/NotoSans-Regular.ttf", uni=True)
+        pdf.set_font("Sans", size=16)
+
+        pdf.add_page()
+
+        feed = xml_items['title']
+        pdf.cell(200, 10, feed, ln=1, align='C')
+
+        for item in xml_items['items'].values():
+            # wrapped_title = '\n'.join(wrap(title, width=50)) # добавляет через каждые 50 символов \n
+            # print(wrapped_title)
+
+            pdf.cell(200, 10, 'NEWS', ln=1, align='C')
+            pdf.multi_cell(200, 10, item['title'])
+            pdf.multi_cell(200, 10, item['pubDate'])
+            pdf.multi_cell(20, 10, item['description'])
+            pdf.cell(20, 10, f"Link: {item['link']}", ln=1)
+
+        pdf.output("PDF_file.pdf")
+        logging.info("Generate pdf finished successfully")
+
+
+    except Exception as e:
+        print(f'This extraction job failed. See exceptions: {e}')
+        logging.info("Generate pdf finished with exception")
+        return False
