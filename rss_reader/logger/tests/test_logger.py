@@ -1,6 +1,6 @@
 from logging import Logger
 
-from ..logger import StreamHandlerConfig
+from ..logger import StreamHandlerConfig, NullHandlerConfig
 
 
 def test_stream_config():
