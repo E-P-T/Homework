@@ -9,7 +9,7 @@ from rss_reader.starter.starter import Starter
 def main():
     args = iaf()
     create_logger(args.get('verbose'))
-    s = Starter()
+    s = Starter(args)
     s.run()
 
 
