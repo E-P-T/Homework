@@ -15,3 +15,7 @@ def test_null_config():
     sc = NullHandlerConfig()
     logger = sc.set_config('name')
     assert isinstance(logger, Logger)
+
+
+class TestLogger():
+    pass
