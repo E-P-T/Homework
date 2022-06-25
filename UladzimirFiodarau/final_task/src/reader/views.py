@@ -1,5 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from django.views.generic import View
+
 from .models import Cache
 from .forms import AddUrlForm, NewsParametersForm, FreshNewsParametersForm
 from .reader import DjangoRssReader, DjangoRssReaderCached
@@ -7,9 +9,11 @@ import ast
 
 from django.http import HttpResponse, FileResponse
 import io
+from django.template.loader import get_template
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+from xhtml2pdf import pisa
 
 
 def paginate_news(dictionary: dict, limit: int = 0):
@@ -112,10 +116,6 @@ def news_pdf(request):
     return FileResponse(buffer, as_attachment=True, filename='list.pdf')
 
 
-def news_pdf2(request):
-    pass
-
-
 def news_html(request):
     news = ast.literal_eval(request.POST.get('news', {}))
     if news:
@@ -183,24 +183,24 @@ def news_html(request):
         response.writelines(html_buffer)
         return response
 
-    # # create bytestream buffer
-    # buffer = io.BytesIO()
-    # canv = canvas.Canvas(buffer, pagesize=letter, bottomup=0)
-    # # creating object
-    # textob = canv.beginText()
-    # textob.setTextOrigin(inch, inch)
-    # textob.setFont('Helvetica', 14)
-    #
-    # lines = ['1', '2', '3']
-    #
-    # for line in lines:
-    #     textob.textLine(line)
-    #
-    # canv.drawText(textob)
-    # canv.showPage()
-    # canv.save()
-    # buffer.seek(0)
-    #
-    # # return file
-    # return FileResponse(buffer, as_attachment=True, filename='list.pdf')
 
+def html_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = io.BytesIO()
+    pdf = pisa.pisaDocument(io.BytesIO(html.encode("utf-8")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+
+class GeneratePdf(View):
+    def post(self, request, *args, **kwargs):
+        _context = {}
+        news = ast.literal_eval(request.POST.get('news', {}))
+        _context['news'] = news
+        # getting the template
+        pdf = html_to_pdf('reader/output.html', _context)
+
+        # rendering the template
+        return HttpResponse(pdf, content_type='application/pdf')

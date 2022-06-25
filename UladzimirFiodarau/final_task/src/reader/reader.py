@@ -1,8 +1,10 @@
+import io
 from django.db import IntegrityError
 
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 from reader.models import Cache
 from rss_reader import rss_reader
-
 
 class DjangoRssReader(rss_reader.RssReader):
 
@@ -66,3 +68,11 @@ class DjangoRssReaderCached(rss_reader.RssReaderCached):
         news_dict = rss_reader.RssReader.limit_news_dict(temp_news_dict, limit)
         return news_dict
 
+def html_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = io.BytesIO()
+    pdf = pisa.pisaDocument(io.BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
