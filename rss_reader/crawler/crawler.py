@@ -2,6 +2,7 @@
 
 
 from requests import Response, get, ConnectionError
+from requests.exceptions import MissingSchema
 
 from rss_reader.interfaces.icrawler.icrawler import ICrawler
 from rss_reader.decorator.decorator import send_log_of_start_function
@@ -44,6 +45,8 @@ class SuperCrawler(ICrawler):
         try:
             req = get(self._url)
         except ConnectionError as e:
+            raise BadURLError(self._url) from e
+        except MissingSchema as e:
             raise BadURLError(self._url) from e
         return req
 
