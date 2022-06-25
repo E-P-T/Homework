@@ -53,3 +53,5 @@ def test_get_fail_error(monkeypatch):
 def test_fail_url_response(monkeypatch):
     def mock_get_error(*args, **kwargs):
         raise ConnectionError
+
+    monkeypatch.setattr(requests, 'get', mock_get_error)
