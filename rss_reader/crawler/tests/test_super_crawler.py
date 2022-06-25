@@ -51,6 +51,11 @@ def test_get_fail_error(monkeypatch):
 
 
 def test_fail_url_response(monkeypatch):
+    """Check that a BadURLError exception is returned.
+
+    An exception is thrown when it is not possible to get data from the site.
+    """
+
     def mock_get_error(*args, **kwargs):
         raise ConnectionError
 
