@@ -48,6 +48,9 @@ class Starter:
             log.exception(e)
             raise
 
+        if not data['items']:
+            data['items'] = 'Sorry, no news'
+
     def _get_data_from_resource(self) -> IHandler:
         """Get data handler.
 
