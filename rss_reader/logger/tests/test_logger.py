@@ -11,4 +11,4 @@ def test_stream_config():
 
 
 def test_null_config():
-    pass
+    sc = NullHandlerConfig()
