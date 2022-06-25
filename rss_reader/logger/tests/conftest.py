@@ -2,4 +2,4 @@ import pytest
 
 
 def logger_obj(request):
-    pass
+    yield Logger('test_name', request.param())
