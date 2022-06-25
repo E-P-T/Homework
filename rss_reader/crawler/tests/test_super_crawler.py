@@ -1,3 +1,5 @@
+"""A test suite for the SuperCrawler class."""
+
 import pytest
 import requests
 
