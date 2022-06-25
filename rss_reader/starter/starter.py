@@ -27,29 +27,31 @@ class Starter:
         self._argv = argv
 
     def run(self) -> None:
-        log.info("Get the number of requested news.")
 
-        try:
-            lim = self._argv.get('limit')
-            limit = int(lim) if lim else None
-        except ValueError as e:
-            log.exception(e)
-            raise NonNumericError("--limit has a non-numeric value") from e
+        if self._argv['source']:
+            log.info("Get the number of requested news.")
 
-        log.info("Number was received.")
+            try:
+                lim = self._argv.get('limit')
+                limit = int(lim) if lim else None
+            except ValueError as e:
+                log.exception(e)
+                raise NonNumericError("--limit has a non-numeric value") from e
 
-        data_handler = self._get_data_from_resource()
-        try:
-            data = data_handler.get_data('item',
-                                         'channel > title',
-                                         self._argv.get('source'),
-                                         limit)
-        except BadURLError as e:
-            log.exception(e)
-            raise
+            log.info("Number was received.")
 
-        if not data['items']:
-            data['items'] = 'Sorry, no news'
+            data_handler = self._get_data_from_resource()
+            try:
+                data = data_handler.get_data('item',
+                                             'channel > title',
+                                             self._argv.get('source'),
+                                             limit)
+            except BadURLError as e:
+                log.exception(e)
+                raise
+
+            if not data['items']:
+                data['items'] = 'Sorry, no news'
 
     def _get_data_from_resource(self) -> IHandler:
         """Get data handler.
