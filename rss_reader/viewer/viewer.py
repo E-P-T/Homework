@@ -59,7 +59,11 @@ class StandartViewHandler(AbstractViewHandler):
         log.debug("Print title.")
         self._get_info(data, "title_web_resource", "\nFeed: ",
                        alternative='no data', end="\n\n\n")
+
+        log.debug("Start getting news.")
         items = data.get('items')
+        log.debug("Start getting news.")
+
         is_list = isinstance(items, list)
         is_now_news = False
 
