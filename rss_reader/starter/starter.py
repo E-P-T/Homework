@@ -56,6 +56,8 @@ class Starter:
             if not data['items']:
                 data['items'] = 'Sorry, no news'
 
+        viewer = self._get_viewer(self._argv)
+
     def _get_data_from_resource(self) -> IHandler:
         """Get data handler."""
         web_hendler = FromWebHandler(SuperCrawler,
