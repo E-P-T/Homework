@@ -28,4 +28,5 @@ class TestLogger():
         assert isinstance(o, Logger)
 
     def test_get_logger(self, logger_obj):
-        pass
+        o = logger_obj.get_logger('test_module')
+        assert isinstance(o, Logger)
