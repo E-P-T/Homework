@@ -57,6 +57,7 @@ class Starter:
                 data['items'] = 'Sorry, no news'
 
         viewer = self._get_viewer(self._argv)
+        viewer.show(data)
 
     def _get_data_from_resource(self) -> IHandler:
         """Get data handler."""
