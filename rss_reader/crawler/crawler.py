@@ -54,6 +54,8 @@ class SuperCrawler(ICrawler):
             log.error(s)
             raise BadURLError(self._url) from e
         except MissingSchema as e:
+            s = f'It is not possible to get data for the given url ({self._url})'
+            log.error(s)
             raise BadURLError(self._url) from e
         return req
 
