@@ -35,4 +35,6 @@ def test_get_data(monkeypatch):
 
 
 def test_get_fail_error(monkeypatch):
-    pass
+
+    def mock_get_status(*args, **kwargs):
+        return MockResponse(b'', 100)
