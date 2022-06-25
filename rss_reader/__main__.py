@@ -15,6 +15,7 @@ def main():
     log = Logger.get_logger(__name__)
 
     from rss_reader.starter.starter import Starter
+    log.debug("Create a Starter object.")
     s = Starter(args)
 
     try:
