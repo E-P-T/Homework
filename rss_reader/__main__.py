@@ -9,13 +9,13 @@ from rss_reader.crawler.exceptions import BadURLError
 
 
 def main():
+
     args = iaf()
     create_logger(args.get('verbose'))
+    log = Logger.get_logger(__name__)
 
     from rss_reader.starter.starter import Starter
     s = Starter(args)
-
-    log = Logger.get_logger(__name__)
 
     try:
         log.info("Start the program.")
