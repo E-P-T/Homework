@@ -10,6 +10,7 @@ def main():
     args = iaf()
     create_logger(args.get('verbose'))
     s = Starter()
+    s.run()
 
 
 if __name__ == "__main__":
