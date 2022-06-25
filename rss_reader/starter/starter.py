@@ -38,6 +38,10 @@ class Starter:
         log.info("Number was received.")
 
         data_handler = self._get_data_from_resource()
+        data = data_handler.get_data('item',
+                                     'channel > title',
+                                     self._argv.get('source'),
+                                     limit)
 
     def _get_data_from_resource(self) -> IHandler:
         """Get data handler.
