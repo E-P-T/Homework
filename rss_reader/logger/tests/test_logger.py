@@ -26,3 +26,6 @@ class TestLogger():
         """
         o = logger_obj.setup_logger()
         assert isinstance(o, Logger)
+
+    def test_get_logger(self, logger_obj):
+        pass
