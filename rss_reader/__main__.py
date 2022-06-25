@@ -1,4 +1,4 @@
-"""Program entry point."""
+"""Entry point to the program."""
 
 
 from rss_reader.starter.base import (create_logger,
