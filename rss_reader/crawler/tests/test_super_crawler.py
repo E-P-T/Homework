@@ -36,6 +36,10 @@ def test_get_data(monkeypatch):
 
 
 def test_get_fail_error(monkeypatch):
+    """Check that a FailStatusCodeError exception is returned.
+
+    An exception is thrown when status code is not equal to 200.
+    """
 
     def mock_get_status(*args, **kwargs):
         return MockResponse(b'', 100)
