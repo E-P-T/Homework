@@ -7,4 +7,5 @@ from ..logger import Logger, StreamHandlerConfig, NullHandlerConfig
                 params=[StreamHandlerConfig,
                         NullHandlerConfig])
 def logger_obj(request):
+    """The fixture returns a logger object with different configurations."""
     yield Logger('test_name', request.param())
