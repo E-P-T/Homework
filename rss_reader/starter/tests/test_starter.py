@@ -8,6 +8,7 @@ from ..ecxeptions import NonNumericError
 
 
 class BadURLError(Exception):
+    """Serves to simulate the occurrence of a BadURLError error."""
     pass
 
 
