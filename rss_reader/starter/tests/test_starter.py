@@ -20,6 +20,10 @@ def test_starter_run_NonNumericError():
 
 
 def test_starter_run_BadURLError(monkeypatch):
+    """Verify that the BadURLError exception is being caught.
+
+    Occurs when an invalid URL is specified.
+    """
 
     def mock_get_status(*args, **kwargs):
         class Mock_BadURLError:
