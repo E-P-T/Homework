@@ -1,4 +1,6 @@
 
+from typing import Optional
+
 from rss_reader.interfaces.isaver.isaver import ISaveHandler
 
 
