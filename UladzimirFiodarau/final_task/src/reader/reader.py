@@ -29,7 +29,7 @@ class DjangoRssReader(rss_reader.RssReader):
                 cache.cache = c.cache
                 cache.save()
         else:
-            print('No news got for caching')
+            raise ValueError('No news found in URL, please check URL')
 
 
 class DjangoRssReaderCached(rss_reader.RssReaderCached):

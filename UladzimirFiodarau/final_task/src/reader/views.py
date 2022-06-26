@@ -12,6 +12,42 @@ from .models import Cache
 from .forms import AddUrlForm, NewsParametersForm, FreshNewsParametersForm
 from .reader import DjangoRssReader, DjangoRssReaderCached
 
+__all__ = ['cached_news_view',
+           'read_news_view',
+           'fresh_news_view',
+           'read_fresh_news_view',
+           'news_pdf',
+           'news_html',
+           'page_not_found',
+           'page_server_error',
+           'page_permission_denied',
+           'page_bad_request',
+           'add_news',
+           'start_page_view'
+           ]
+
+
+def add_news(request):
+    url = request.POST.get('url')
+    if url:
+        cache = DjangoRssReader(url)
+        cache.save_django_reader_cache()
+    qs = Cache.objects.all()
+    news_choice_form = NewsParametersForm()
+    add_form = AddUrlForm()
+
+    return render(request, 'reader/cached_news.html',
+                  {'object_list': qs,
+                   'add_form': add_form,
+                   'choice_form': news_choice_form,
+                   })
+
+
+def start_page_view(request):
+
+    return render(request, 'reader/start.html'
+                  )
+
 
 def cached_news_view(request):
     qs = Cache.objects.all()
@@ -41,7 +77,7 @@ def read_news_view(request):
                                                             news_url=news_url, news_date=news_date)
 
     feed_title = {key: value for key, value in processed_cache.items() if key != 'feed_items'}
-    feed_news = [{key: value}for key, value in processed_cache['feed_items'].items()]
+    feed_news = [{key: value} for key, value in processed_cache['feed_items'].items()]
     paginator = Paginator(feed_news, 10)  # Show 10  per page.
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -74,7 +110,7 @@ def read_fresh_news_view(request):
         raise ValueError('No news found')
 
     feed_title = {key: value for key, value in processed_cache.items() if key != 'feed_items'}
-    feed_news = [{key: value}for key, value in processed_cache['feed_items'].items()]
+    feed_news = [{key: value} for key, value in processed_cache['feed_items'].items()]
     paginator = Paginator(feed_news, 10)  # Show 10  per page.
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -98,7 +134,7 @@ def news_pdf(request):
     DEFAULT_FONT["helvetica"] = "DejaVuSansMono"
     pisa_status = pisa.CreatePDF(html, dest=response, encoding="utf-8")
     if pisa_status.err:
-        return HttpResponse('We had som errors <pre>' + html + '</pre>')
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
 
@@ -113,3 +149,33 @@ def news_html(request):
         response.writelines(html)
         return response
 
+
+def page_not_found(request, exception):
+    message = f'Page not found, please check URL'
+    return render(request, 'reader/exception.html',
+                  {'message': message,
+                   })
+
+
+def page_server_error(request, *args, **kwargs):
+    message = 'Something went wrong, Server Error happened'
+    print(request)
+    print(args)
+    print(kwargs)
+    return render(request, 'reader/exception.html',
+                  {'message': message,
+                   })
+
+
+def page_permission_denied(request, *args, **kwargs):
+    message = 'Permission Denied for this operation'
+    return render(request, 'reader/exception.html',
+                  {'message': message,
+                   })
+
+
+def page_bad_request(request, *args, **kwargs):
+    message = 'You have made a suspicious from a security perspective request, \noperation stopped'
+    return render(request, 'reader/exception.html',
+                  {'message': message,
+                   })

@@ -5,9 +5,9 @@
 <br>
 <div class="row">
     <div class="col">
-<h3>Feed title: {{ feed_title.feed_title }} </h3>
-<h5>Feed description: {{ feed_title.feed_description }} </h5>
-<h5>Feed link: {{ feed_title.feed_link }} <a href="news.feed_link"></a> </h5>
+<h3>{{ feed_title.feed_title }} </h3>
+<h4>{{ feed_title.feed_description }} </h4>
+<h4>{{ feed_title.feed_link }} <a href="news.feed_link"></a> </h4>
 {% if feed_title.feed_pubDate %}
     <h4>Last update: {{ feed_title.feed_pubDate }} </h4>
 {% endif %}
@@ -24,6 +24,9 @@
                 {% csrf_token %}
                 <div class="btn-group-vertical w-75">
                     <button type="submit" name="news" value="{{ news }}" form="pdfForm" class="btn btn-primary btn-lg btn-block">Save as PDF</button>
+                    <div class="col-md-auto mx-auto">
+                        <p>Conversion to PDF may take time, please be patient.</p>
+                    </div>
                 </div>
             </form>
         </div>

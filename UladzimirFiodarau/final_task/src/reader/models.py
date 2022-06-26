@@ -1,5 +1,6 @@
+import re
+
 from django.db import models
-from urllib.parse import urlparse
 
 
 class Cache(models.Model):
@@ -11,5 +12,5 @@ class Cache(models.Model):
         verbose_name_plural = 'RSS feeds'
 
     def __str__(self):
-        feed_name = urlparse(self.url).netloc.split('.')[-2].capitalize()
+        feed_name = re.search('^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)', self.url)[1].upper()
         return feed_name

@@ -16,7 +16,7 @@ class NewsParametersForm(forms.Form):
     limit = forms.IntegerField(label='Enter a number of news to read, leave empty to read all cached news',
                                required=False,
                                )
-    date = forms.DateField(label='Enter date of news to read. Input format YYYY/MM/DD, e.g. 2022/06/01,\n'
+    date = forms.DateField(label='Enter date of news to read. Input format YYYY/MM/DD, e.g. 2022/06/01\n'
                                  'leave empty to read news of all dates',
                            required=False,
                            )
