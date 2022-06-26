@@ -26,3 +26,15 @@ def test_JSONViewHandler_show(capsys):
     out = out.strip('\n')
     x = dumps(data, indent=3)
     assert out == x
+
+
+def test_JSONViewHandler_chain_show(mocker):
+
+    m = __name__ + '.StandartViewHandler.show'
+    mock_show = mocker.patch(m)
+    data = {'test_dict': 1}
+    json_obj = JSONViewHandler({})
+    stdout_ = StandartViewHandler()
+    json_obj.set_next(stdout_)
+    json_obj.show(data)
+    assert mock_show.called
