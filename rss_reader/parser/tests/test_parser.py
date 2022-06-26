@@ -35,6 +35,7 @@ def test_get_tags_text_type(monkeypatch):
 
 
 def test_get_tags_text_EmptyListError(monkeypatch):
+    """подтвердить возникновение ошибки EmptyListError."""
 
     def mock_raise(*args, **kwargs):
         return []
