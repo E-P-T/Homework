@@ -10,3 +10,9 @@ def test_init_arguments_functionality(option):
     """Check if dictionary returned"""
     a = iaf(option)
     assert isinstance(a, dict)
+
+
+@pytest.mark.parametrize("option", [("https://y.com", "--json",)])
+def test_init_return_json(option):
+    a = iaf(option)
+    assert 'json' in a
