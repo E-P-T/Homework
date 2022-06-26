@@ -29,6 +29,7 @@ def test_JSONViewHandler_show(capsys):
 
 
 def test_JSONViewHandler_chain_show(mocker):
+    """Check that the show method is called in chain."""
 
     m = __name__ + '.StandartViewHandler.show'
     mock_show = mocker.patch(m)
