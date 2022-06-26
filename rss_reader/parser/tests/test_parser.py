@@ -47,6 +47,7 @@ def test_get_tags_text_EmptyListError(monkeypatch):
 
 
 def test_get_tags_text_amount_of_elements(monkeypatch):
+    """Check that the correct number of elements is returned."""
 
     def mock_tags(*args, **kwargs):
         return [MockTags(), MockTags()]
