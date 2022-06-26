@@ -50,6 +50,11 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
     parser.add_argument('--limit',
                         help='Limit news topics if this parameter provided')
 
+    parser.add_argument('--date',
+                        help='Search for news on a specified date.\
+                             Date in the format Y-m-d (for example: 20191206).'
+                        )
+
     namespace_ = parser.parse_args(args)
 
     return vars(namespace_)
