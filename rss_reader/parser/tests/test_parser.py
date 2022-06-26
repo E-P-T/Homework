@@ -9,6 +9,11 @@ from ..exceptions import EmptyListError
 
 
 class MockTags:
+    """A custom class.
+
+    That will be a dummy return value will override BeautifulParser._select
+    called in BeautifulParser.get_tags_text.
+    """
 
     @property
     def text(self):
