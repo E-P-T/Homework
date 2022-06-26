@@ -2,6 +2,7 @@
 from typing import Optional
 
 from rss_reader.interfaces.isaver.isaver import ISaveHandler
+from rss_reader.decorator.decorator import send_log_of_start_function
 
 
 class AbstractSaveHandler(ISaveHandler):
