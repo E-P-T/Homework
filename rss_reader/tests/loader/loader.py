@@ -19,6 +19,7 @@ def mock_crawler(mocker):
 
 @pytest.fixture
 def mock_parser(mocker):
+    """Replaces parser methods"""
 
     m = __name__ + '.BeautifulParser'
     mock_cls = mocker.patch(m)
