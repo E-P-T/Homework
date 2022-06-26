@@ -46,10 +46,10 @@ def test_get_fail_error(monkeypatch):
     def mock_get_status(*args, **kwargs):
         return MockResponse(b'', 100)
 
-    monkeypatch.setattr(SuperCrawler, '_get_status', mock_get_status)
+    monkeypatch.setattr(SuperCrawler, '_get_response', mock_get_status)
 
     with pytest.raises(FailStatusCodeError):
-        SuperCrawler('https://news.yahoo.com/rss/').get_data()
+        SuperCrawler('https://news.yahoo3.com/rss/').get_data()
 
 
 def test_fail_url_response(monkeypatch):
