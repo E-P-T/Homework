@@ -1,4 +1,5 @@
 
 
 class AbstractSaveHandler(ISaveHandler):
-    pass
+    
+    _next_handler: Optional[ISaveHandler] = None
