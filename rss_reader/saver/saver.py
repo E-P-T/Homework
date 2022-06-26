@@ -1,5 +1,5 @@
 
-from typing import Optional
+from typing import Optional, List
 
 from rss_reader.interfaces.isaver.isaver import ISaveHandler
 from rss_reader.decorator.decorator import send_log_of_start_function
