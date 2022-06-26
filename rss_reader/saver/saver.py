@@ -11,6 +11,13 @@ class AbstractSaveHandler(ISaveHandler):
 
     @send_log_of_start_function
     def set_next(self, handler: ISaveHandler) -> ISaveHandler:
+        """Set the next saver in the handler chain.
+
+        :param handler: Next handler.
+        :type handler: ISaveHandler
+        :return: Handler.
+        :rtype: ISaveHandler
+        """
         self._next_handler = handler
         return handler
 
