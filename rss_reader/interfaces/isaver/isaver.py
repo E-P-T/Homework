@@ -5,6 +5,8 @@ from abc import ABC, abstractmethod
 
 
 class ISaveHandler(ABC):
+    """Basic interface of data savers."""
+
     @abstractmethod
     def set_next(self, handler: ISaveHandler) -> ISaveHandler:
         """Set the next saver in the handler chain.
