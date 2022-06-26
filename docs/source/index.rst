@@ -10,6 +10,8 @@ Welcome to rss-reader's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   start_program.rst
+
 
 
 Indices and tables
