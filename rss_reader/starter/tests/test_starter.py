@@ -7,6 +7,10 @@ from ..starter import Starter
 from ..ecxeptions import NonNumericError
 
 
+class BadURLError(Exception):
+    pass
+
+
 def test_starter_run_NonNumericError():
     """Check NonNumericError exception return
 
