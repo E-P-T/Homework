@@ -5,3 +5,6 @@ __pycache__
 build/
 source/_templates
 source/_static
+docs/build
+rss_reader.egg-info/
+dist/
