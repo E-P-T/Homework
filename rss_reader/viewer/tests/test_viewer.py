@@ -17,6 +17,7 @@ def test_StandartViewHandler_show(capsys):
 
 
 def test_JSONViewHandler_show(capsys):
+    """Check that the show method prints data to stdout in the format json."""
 
     data = {'test_dict': 1}
     json_obj = JSONViewHandler({'json': 1})
