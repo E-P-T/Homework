@@ -16,4 +16,9 @@ class ISaveHandler(ABC):
         pass
 
     def save(self, data: dict):
+        """Save data.
+
+        :param data: Dictionary with data to save.
+        :type data: dict
+        """
         pass
