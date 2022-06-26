@@ -27,3 +27,11 @@ def mock_parser(mocker):
     mock_cp.create_parser.return_value = "Create!"
     mock_cp.get_tags_text.return_value = iter(["Title!"])
     mock_cp.get_items.return_value = [{'mock_item': 1}]
+
+
+def test_get_items_empty(mock_crawler, mock_parser):
+
+    h = FromWebHandler(SuperCrawler, BeautifulParser('s'))
+    r = h.get_data('a', 'b', 'c', 1)
+    assert r == {'title_web_resource': 'Title!',
+                 'items': [{'mock_item': 1}]}
