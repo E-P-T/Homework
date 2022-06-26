@@ -1,4 +1,4 @@
-
+"""A test suite for the parser module."""
 
 import pytest
 from collections.abc import Generator
