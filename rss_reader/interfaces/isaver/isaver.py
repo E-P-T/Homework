@@ -3,4 +3,9 @@ from abc import ABC, abstractmethod
 
 
 class ISaveHandler(ABC):
-    pass
+    @abstractmethod
+    def set_next(self, handler: ISaveHandler) -> ISaveHandler:
+        pass
+
+    def save(self, data: dict):
+        pass
