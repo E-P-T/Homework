@@ -22,6 +22,13 @@ class AbstractSaveHandler(ISaveHandler):
         return handler
 
     @send_log_of_start_function
-    def save(self, data: dict, file: str):
+    def save(self, data: dict, file: str) -> None:
+        """Save data.
+
+        :param data: Dictionary with data to save.
+        :type data: dict
+        :param file: File for save.
+        :type file: str
+        """
         if self._next_handler:
             return self._next_handler.show(data)
