@@ -14,3 +14,14 @@ def test_StandartViewHandler_show(capsys):
     out, err = capsys.readouterr()
     out = out.strip('\n')
     assert out == 'Feed: : mock_show'
+
+
+def test_JSONViewHandler_show(capsys):
+
+    data = {'test_dict': 1}
+    json_obj = JSONViewHandler({'json': 1})
+    json_obj.show(data)
+    out, err = capsys.readouterr()
+    out = out.strip('\n')
+    x = dumps(data, indent=3)
+    assert out == x
