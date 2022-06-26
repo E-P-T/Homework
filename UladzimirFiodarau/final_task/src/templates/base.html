@@ -12,13 +12,16 @@
    </head>
    <body>
    <div class="container-md mx-auto">
-       <nav class="navbar navbar-expand-lg bg-light">
+       <nav class="navbar navbar-expand-lg " style="background-color: #e3f2fd;">
+
            <div class="container-fluid">
                <a class="navbar-brand" href="{% url 'start' %} ">Start</a>
                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                    <span class="navbar-toggler-icon"></span>
                </button>
+
                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                        <li class="nav-item">
                            <a class="nav-link active" href="{% url 'fresh_news' %}">FreshNews</a>
@@ -26,13 +29,22 @@
                        <li class="nav-item">
                            <a class="nav-link active" aria-current="page" href="{% url 'cached_news' %}#">CachedNews</a>
                        </li>
-                       <li class="nav-item">
                    </ul>
-                   <form class="d-flex" role="search">
-                       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                       <button class="btn btn-outline-success" type="submit">Search</button>
-                   </form>
+
+                   <ul class="navbar-nav">
+                       {% if user.is_authenticated %}
+                       <li class="nav-item">
+                           <a class="nav-link active" aria-current="page" href="{% url 'logout' %}#">Log Out</a>
+                       </li>
+                       {% else %}
+                       <li class="nav-item">
+                           <a class="nav-link active" aria-current="page" href="{% url 'login' %}#">Log In</a>
+                       </li>
+                       {% endif %}
+                   </ul>
+
                </div>
+
            </div>
        </nav>
        <div class="container">

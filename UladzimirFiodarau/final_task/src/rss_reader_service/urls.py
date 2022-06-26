@@ -19,7 +19,8 @@ from reader.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('reader.urls')),
+    path('reader/', include('reader.urls')),
+    path('accounts/', include('accounts.urls')),
 ]
 
 handler404 = page_not_found

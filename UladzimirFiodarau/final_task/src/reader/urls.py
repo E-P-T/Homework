@@ -10,5 +10,5 @@ urlpatterns = [
     path('read_fresh_news/', read_fresh_news_view, name='read_fresh_news'),
     path('news_pdf/', news_pdf, name='news_pdf'),
     path('news_html/', news_html, name='news_html'),
-    path('', start_page_view, name='start'),
+    path('start/', start_page_view, name='start'),
 ]
