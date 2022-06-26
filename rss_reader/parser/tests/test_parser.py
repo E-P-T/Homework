@@ -44,3 +44,17 @@ def test_get_tags_text_EmptyListError(monkeypatch):
 
     with pytest.raises(EmptyListError):
         next(BeautifulParser(object).get_tags_text('title'))
+
+
+def test_get_tags_text_amount_of_elements(monkeypatch):
+
+    def mock_tags(*args, **kwargs):
+        return [MockTags(), MockTags()]
+
+    monkeypatch.setattr(BeautifulParser, "_select", mock_tags)
+
+    result = BeautifulParser(object).get_tags_text('title')
+    count = 0
+    for i in result:
+        count += 1
+    assert count == 2
