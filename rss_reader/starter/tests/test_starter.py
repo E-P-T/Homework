@@ -17,3 +17,20 @@ def test_starter_run_NonNumericError():
     s = Starter(argv)
     with raises(NonNumericError):
         s.run()
+
+
+def test_starter_run_BadURLError(monkeypatch):
+
+    def mock_get_status(*args, **kwargs):
+        class Mock_BadURLError:
+            @classmethod
+            def get_data(self, a, b, c, d):
+                raise BadURLError
+        return Mock_BadURLError()
+
+    monkeypatch.setattr(Starter, '_get_data_from_resource', mock_get_status)
+
+    argv = {'source': 1, 'limit': 1}
+    s = Starter(argv)
+    with raises(BadURLError):
+        s.run()
