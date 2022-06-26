@@ -9,6 +9,8 @@ from rss_reader.parser.parser import BeautifulParser
 
 @pytest.fixture
 def mock_crawler(mocker):
+    """Replaces crawler methods"""
+
     m = __name__ + '.SuperCrawler'
     mock_cls = mocker.patch(m)
     mock_cp = mock_cls.return_value
