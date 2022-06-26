@@ -62,7 +62,7 @@ def test_get_tags_text_amount_of_elements(monkeypatch):
 
 
 def test_get_items_empty(monkeypatch):
-
+    """Check that an empty dictionary is returned on an invalid tag"""
     def mock_items(*args, **kwargs):
         return []
 
