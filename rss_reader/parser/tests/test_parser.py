@@ -21,6 +21,10 @@ class MockTags:
 
 
 def test_get_tags_text_type(monkeypatch):
+    """Check the type of the returned object.
+
+    The type of the returned object is Generator.
+    """
 
     def mock_tag(*args, **kwargs):
         return MockTags
