@@ -2,4 +2,4 @@
 
 from json import dumps
 
-from ..viewer import JSONViewHandler
+from ..viewer import JSONViewHandler, StandartViewHandler
