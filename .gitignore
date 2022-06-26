@@ -2,3 +2,6 @@
 .idea
 .coverage
 __pycache__
+build
+source/_templates
+source/_static
