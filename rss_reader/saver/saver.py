@@ -1,0 +1,4 @@
+
+
+class AbstractSaveHandler(ISaveHandler):
+    pass
