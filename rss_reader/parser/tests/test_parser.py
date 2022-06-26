@@ -59,3 +59,15 @@ def test_get_tags_text_amount_of_elements(monkeypatch):
     for i in result:
         count += 1
     assert count == 2
+
+
+def test_get_items_empty(monkeypatch):
+
+    def mock_items(*args, **kwargs):
+        return []
+
+    monkeypatch.setattr(BeautifulParser, "_find_all", mock_items)
+
+    result = BeautifulParser(object).get_items({}, 'title')
+
+    assert bool(result) is False
