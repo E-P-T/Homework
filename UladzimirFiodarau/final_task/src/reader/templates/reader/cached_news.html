@@ -30,12 +30,12 @@
         <div class="col-md-5 mx-auto">
             <div class="row g-0">
                 <div class="col-md-auto mx-auto">
-                    <h3>Add another rss URL</h3>
+                    <h3>Add another RSS URL</h3>
                 </div>
             </div>
         <br>
 
-            <form action=" {% url 'add_news' %} " method='post'>
+            <form action=" {% url 'add_news' %} " method='POST'>
                 {% csrf_token %}
 
                 <div class="add_form">
