@@ -1,4 +1,6 @@
 
+from rss_reader.interfaces.isaver.isaver import ISaveHandler
+
 
 class AbstractSaveHandler(ISaveHandler):
 
