@@ -8,6 +8,10 @@ from ..ecxeptions import NonNumericError
 
 
 def test_starter_run_NonNumericError():
+    """Check NonNumericError exception return
+
+    Occurs when --limit is not equal to a number.
+    """
 
     argv = {'source': 1, 'limit': 'abc'}
     s = Starter(argv)
