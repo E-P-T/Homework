@@ -1,5 +1,5 @@
 
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 
 
 class IReadFile(ABC):
