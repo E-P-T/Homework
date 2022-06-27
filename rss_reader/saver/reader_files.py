@@ -1,5 +1,6 @@
 
 from pandas import DataFrame, read_csv
+from pandas.errors import EmptyDataError
 from typing import Optional
 
 from rss_reader.interfaces.isaver.ireader_files import IReadFile
