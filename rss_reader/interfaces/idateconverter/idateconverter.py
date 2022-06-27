@@ -1,0 +1,3 @@
+
+class IDateConverter(ABC):
+    pass
