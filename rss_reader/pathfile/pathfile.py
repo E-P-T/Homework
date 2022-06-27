@@ -1,3 +1,5 @@
+"""This module contains objects that work with the file system of the OS."""
+
 
 from pathlib import Path
 
