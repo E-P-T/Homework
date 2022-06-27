@@ -38,6 +38,8 @@ class Decorator(IComponent):
 
 
 class LimitRecords(Decorator):
+    """A decorator that produces a certain number of entries."""
+
     def __init__(self, limit: int, component: IComponent) -> None:
         """Initializer.
 
