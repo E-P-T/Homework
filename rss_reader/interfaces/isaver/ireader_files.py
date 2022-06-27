@@ -1,4 +1,6 @@
 
+from pandas import DataFrame
+
 from typing import Optional
 from abc import abstractmethod, ABC
 
