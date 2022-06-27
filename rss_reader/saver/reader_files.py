@@ -8,4 +8,4 @@ class ReaderFiles(IReadFile):
                       index_col_: str,
                       creater: ICreateFile,
                       encoding_: str = 'utf-8') -> Optional[DataFrame]:
-        pass
+        local_storage = None
