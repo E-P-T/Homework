@@ -3,4 +3,6 @@ from rss_reader.interfaces.idateconverter.idateconverter import IDateConverter
 
 
 class DateConverter(IDateConverter):
-    pass
+    @staticmethod
+    def date_convert(date: str, format: str = '%Y%m%d') -> str:
+        pass
