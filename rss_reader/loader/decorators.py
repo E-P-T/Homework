@@ -22,4 +22,8 @@ class BaseComponent(IComponent):
 
 
 class Decorator(IComponent):
-    pass
+
+    _component: IComponent = None
+
+    def __init__(self, component: IComponent) -> None:
+        self._component = component
