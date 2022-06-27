@@ -1,6 +1,7 @@
 
 from abc import abstractmethod, ABC
 from typing import Optional
+from pandas import DataFrame
 
 
 class IDataConverter(ABC):
