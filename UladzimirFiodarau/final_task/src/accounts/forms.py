@@ -44,3 +44,13 @@ class UserRegistrationForm(forms.ModelForm):
         if data['password'] != data['password2']:
             raise forms.ValidationError('Passwords do not match')
         return data['password2']
+
+
+class UserUpdateForm(forms.Form):
+    send_email = forms.BooleanField(required=False,
+                                    widget=forms.CheckboxInput,
+                                    label='Sending email notifications')
+
+    class Meta:
+        model = User
+        fields = ('send_email', )
