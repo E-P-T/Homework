@@ -35,3 +35,6 @@ class Decorator(IComponent):
 
     def operation(self, data) -> DataFrame:
         return self._component.operation(data)
+
+class LimitRecords(Decorator):
+    pass
