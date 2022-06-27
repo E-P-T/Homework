@@ -78,3 +78,7 @@ class SortByEqual(Decorator):
         self._search_column = search_column
         self._criterion = criterion
         super().__init__(component)
+
+    def operation(self, data: DataFrame) -> DataFrame:
+        result = self.component.operation(data)
+        return result[result[self._search_column] == self._criterion]
