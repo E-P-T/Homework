@@ -1,0 +1,4 @@
+
+
+class ICreateFile(ABC):
+    pass
