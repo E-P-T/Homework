@@ -1,0 +1,4 @@
+
+
+class PathFile(ICreateFile):
+    pass
