@@ -1,3 +1,5 @@
+"""This module contains objects that read files."""
+
 
 from pandas import DataFrame, read_csv
 from pandas.errors import EmptyDataError
