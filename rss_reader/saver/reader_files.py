@@ -16,3 +16,5 @@ class ReaderFiles(IReadFile):
                                      encoding=encoding_)
         except EmptyDataError as e:
             pass
+        except FileNotFoundError as e:
+            pass
