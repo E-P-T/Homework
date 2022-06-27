@@ -22,8 +22,9 @@ class ReaderFiles(IReadFile):
                                      index_col=index_col_,
                                      encoding=encoding_)
         except EmptyDataError as e:
-            pass
+            log.error(f'{file} is empty')
         except FileNotFoundError as e:
-            pass
+            log.exception(f'No such file or directory: {file}')
+            creater.create_file(file)
 
         return local_storage
