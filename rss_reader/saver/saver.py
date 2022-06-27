@@ -32,3 +32,7 @@ class AbstractSaveHandler(ISaveHandler):
         """
         if self._next_handler:
             return self._next_handler.show(data)
+
+
+class LocalSaveHandler(AbstractSaveHandler):
+    pass
