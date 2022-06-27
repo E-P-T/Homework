@@ -10,6 +10,6 @@ class IDataConverter(ABC):
     """Basic converter interface."""
 
     @abstractmethod
-    def concat_data(self, data, local_data) -> Optional[DataFrame]:
+    def concat_data(self, data: List[dict], local_data: str) -> Optional[DataFrame]:
         """Get normalized data."""
         pass
