@@ -2,7 +2,7 @@
 
 
 from abc import abstractmethod, ABC
-from typing import Optional
+from typing import List, Optional
 from pandas import DataFrame
 
 
