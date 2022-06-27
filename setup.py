@@ -6,8 +6,7 @@ def read(file_name):
 
 setup(
     name='RSS_reader',
-    version='2.2',
-    license='',
+    version='4.1',
     description='Really good lib',
     long_description=read("README.md"),
     long_description_content_type='text/markdown',
