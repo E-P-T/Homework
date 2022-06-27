@@ -1,0 +1,4 @@
+
+
+class IReadFile(ABC):
+    pass
