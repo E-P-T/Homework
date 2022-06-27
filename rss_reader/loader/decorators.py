@@ -36,5 +36,8 @@ class Decorator(IComponent):
     def operation(self, data) -> DataFrame:
         return self._component.operation(data)
 
+
 class LimitRecords(Decorator):
-    pass
+    def __init__(self, limit: int, component: IComponent) -> None:
+        self._limit = limit
+        super().__init__(component)
