@@ -16,3 +16,5 @@ class DataConverter(IDataConverter):
         norm_data = self._convert_date(norm_data, 'item.pubDate')
         data_concat = concat([local_data, norm_data],
                              ignore_index=True)
+        data_concat.drop_duplicates(keep='first', inplace=True,
+                                    ignore_index=True)
