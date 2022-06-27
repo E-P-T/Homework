@@ -3,6 +3,7 @@ from abc import abstractmethod, ABC
 
 
 class ICreateFile(ABC):
+    """A interface for creating files."""
 
     @abstractmethod
     def create_file(self, file: str) -> None:
