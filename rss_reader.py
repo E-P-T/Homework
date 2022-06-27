@@ -4,14 +4,15 @@ import datetime
 import argparse
 import html
 import validators
-import requests
 import json
 from py_console import console
 from pprint import pprint
 from bs4 import BeautifulSoup
 import os.path
 from dateutil import parser
-
+from HTML_converter import convert_to_html
+import requests  # request img from web
+import shutil  # save img locally
 
 def all_args():
     parser = argparse.ArgumentParser(
@@ -27,7 +28,10 @@ def all_args():
         "--limit", help="Limit news topics if this parameter provided", type=int)
     parser.add_argument(
         "--date", help="Get news published on a specific date from cache for further processing.", nargs="*")
+    parser.add_argument(
+        "--to-html", help="Convert news to .html format and save it into 'html_convert' directory with 'local datetime' name", action='store_true')
     args = parser.parse_args()
+    # print(args.to_pdf)
     return args
 
 arguments = all_args()
@@ -44,7 +48,7 @@ def console_error(msg):
 
 def check_version():
     """Method for revealing current version of the utility"""
-    print("Version 2.1")
+    print("Version 4.1")
 
 def clean_desc(description):
     '''Function for decoding some part of feed item'''
@@ -175,6 +179,7 @@ def get_data():
 
         print(f'\nFeed: {feed}')
 
+        
         for new in news:
             print(new)
 
@@ -197,6 +202,8 @@ def get_data():
         with open('local_storage.json', 'w', encoding='utf-8') as writefile:
             json.dump(data, writefile, ensure_ascii=False, indent=4)
             writefile.close()
+            
+        
         
         if arguments.json:
             """Function to convert feeds to json format."""
@@ -204,6 +211,29 @@ def get_data():
             feed_json.update(item)
             json_object = json.dumps(feed_json, indent=4, ensure_ascii=False)
             print(json_object)
+        
+        if arguments.to_html:
+            data_dicts_html = []
+            for data in item_list:
+                data_dicts_html.append(data)
+
+                
+            convert_to_html(data_dicts_html, arguments.to_html)
+            console_log("The result for given date successfully convert to html")
+        img_folder='img_storage'
+        if os.path.exists(img_folder):
+            pass
+        else:
+            os.mkdir(img_folder)
+        for item in item_list:
+            # print(item)
+            if 'News image_link:' in item:
+                img_name=item['News image_link:'].split('/')[-1]+'.jpeg'
+                res = requests.get(item['News image_link:'], stream=True)
+                if res.status_code == 200:
+                    with open(f'{img_folder}/{img_name}', 'wb') as f:
+                        shutil.copyfileobj(res.raw, f)
+    
 
 def get_date():
     date_data = []
@@ -236,15 +266,21 @@ def get_date():
                         date_data.append(item)
             if data_json:
                 if len(date_data[:given_limit]) > 0:
-                    print(json.dumps(
-                        date_data[:given_limit], indent=4, ensure_ascii=False))
-                    print('Total data found:', len(date_data[:given_limit]))
+                    if arguments.to_html:
+                        convert_to_html(date_data[:given_limit], arguments.to_html)
+                    else:
+                        print(json.dumps(
+                            date_data[:given_limit], indent=4, ensure_ascii=False))
+                        print('Total data found:', len(date_data[:given_limit]))
                 else:
                     if verbose_true:
                         console_error('No data found')
                     else:
                         print('No data found')
             else:
+                if arguments.to_html:
+                    convert_to_html(
+                        date_data[:given_limit])
                 for i in date_data[:given_limit]:
                     pprint(i)
                 print('Total data found:', len(date_data[:given_limit]))
@@ -262,20 +298,28 @@ def get_date():
                     date_data.append(item)
             if data_json:
                 if len(date_data[:given_limit]) > 0:
-                    print(json.dumps(
-                        date_data[:given_limit], indent=4, ensure_ascii=False))
-                    print('Total data found:', len(date_data[:given_limit]))
+                    if arguments.to_html:
+                        convert_to_html(
+                            date_data[:given_limit], arguments.to_html)
+                    else:
+                        print(json.dumps(
+                            date_data[:given_limit], indent=4, ensure_ascii=False))
+                        print('Total data found:', len(date_data[:given_limit]))
                 else:
                     if verbose_true:
                         console_error('No data found')
                     else:
                         print('No data found')
             else:
+                if arguments.to_html:
+                    print('sadfaasdfsad')
+                    convert_to_html(date_data[:given_limit], arguments.to_html)
                 for i in date_data[:given_limit]:
                     pprint(i)
-                print('Total data found:', len(date_data[:given_limit]))
+                    print('Total data found:', len(date_data[:given_limit]))
         file.close()
 
+    
 
 
 
@@ -295,12 +339,14 @@ def read_defs():
             console_log(f'Given date is {arguments.date}')
             get_date()
 
-        
+    # if arguments.to_pdf:
+    #     convert_pdf()
 
         
     if arguments.version:
         check_version()
 
+    # object()
 
 
 if __name__ == '__main__':
