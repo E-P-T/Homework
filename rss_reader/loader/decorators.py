@@ -64,4 +64,17 @@ class LimitRecords(Decorator):
 
 
 class SortByEqual(Decorator):
-    pass
+    def __init__(self, search_column: str, criterion: str,
+                 component: IComponent) -> None:
+        """Initializer.
+
+        :param search_column: the name of the column to select from.
+        :type search_column: str
+        :param criterion: comparison criterion.
+        :type criterion: str
+        :param component: object of type IComponent.
+        :type component: IComponent
+        """
+        self._search_column = search_column
+        self._criterion = criterion
+        super().__init__(component)
