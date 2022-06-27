@@ -4,4 +4,6 @@ from rss_reader.interfaces.idataconverter.idataconverter import IDataConverter
 
 
 class DataConverter(IDataConverter):
-    pass
+
+    def concat_data(self, data, local_data) -> Optional[DataFrame]:
+        pass
