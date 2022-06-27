@@ -9,7 +9,7 @@ class IDateConverter(ABC):
     @staticmethod
     @abstractmethod
     def date_convert(date: str, format: str) -> str:
-        """Return the textual representation of the substring.
+        """Return the date part.
 
         :param date: Date in original state.
         :type date: str
