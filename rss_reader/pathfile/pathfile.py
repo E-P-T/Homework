@@ -1,4 +1,5 @@
 
 
 class PathFile(ICreateFile):
-    pass
+    def create_file(self, file: str) -> None:
+        pass
