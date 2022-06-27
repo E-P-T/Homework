@@ -2,4 +2,5 @@
 
 class PathFile(ICreateFile):
     def create_file(self, file: str) -> None:
-        pass
+        file = Path(file)
+        file.touch(exist_ok=True)
