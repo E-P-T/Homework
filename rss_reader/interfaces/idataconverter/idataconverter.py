@@ -7,6 +7,8 @@ from pandas import DataFrame
 
 
 class IDataConverter(ABC):
+    """Basic converter interface."""
+
     @abstractmethod
     def concat_data(self, data, local_data) -> Optional[DataFrame]:
         pass
