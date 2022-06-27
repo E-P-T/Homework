@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from pandas import DataFrame
+
 
 class IComponent(ABC):
     """Basic Component Interface"""
