@@ -1,4 +1,6 @@
 
+from rss_reader.interfaces.ipathfile.ipathfile import ICreateFile
+
 
 class PathFile(ICreateFile):
     def create_file(self, file: str) -> None:
