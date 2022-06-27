@@ -1,0 +1,4 @@
+
+
+class IDataConverter(ABC):
+    pass
