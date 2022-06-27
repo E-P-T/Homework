@@ -48,3 +48,14 @@ class LimitRecords(Decorator):
         """
         self._limit = limit
         super().__init__(component)
+
+    def operation(self, data: DataFrame) -> DataFrame:
+        """Return the required number of data records.
+
+        :param data: Sample data.
+        :type data: DataFrame
+        :return: Data sampling.
+        :rtype: DataFrame
+        """
+        result = self.component.operation(data)
+        return result.head(self._limit)
