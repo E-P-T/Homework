@@ -1,5 +1,7 @@
 
 
+from typing import Optional
+
 from rss_reader.interfaces.isaver.ireader_files import IReadFile
 from rss_reader.interfaces.ipathfile.ipathfile import ICreateFile
 
