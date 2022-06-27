@@ -1,4 +1,7 @@
 
 
 class ICreateFile(ABC):
-    pass
+
+    @abstractmethod
+    def create_file(self, file: str) -> None:
+        pass
