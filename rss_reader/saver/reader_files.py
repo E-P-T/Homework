@@ -1,0 +1,4 @@
+
+
+class ReaderFiles(IReadFile):
+    pass
