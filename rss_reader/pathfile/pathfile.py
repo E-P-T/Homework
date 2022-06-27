@@ -1,4 +1,6 @@
 
+from pathlib import Path
+
 from rss_reader.interfaces.ipathfile.ipathfile import ICreateFile
 
 
