@@ -1,0 +1,7 @@
+@font-face {
+    		font-family: DejaVuSansMono;
+    		src: url(/fonts/DejaVuSansMono.ttf);
+		}
+
+#brand {font-family: DejaVuSansMono;
+        font-size: 120%;}
