@@ -11,6 +11,8 @@ log = Logger.get_logger(__name__)
 
 
 class ReaderFiles(IReadFile):
+    """A class to represent a file reader."""
+
     def read_csv_file(self, file: str,
                       index_col_: str,
                       creater: ICreateFile,
