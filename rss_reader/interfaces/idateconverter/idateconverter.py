@@ -1,6 +1,6 @@
 """This module contains classes that work with dates."""
 
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class IDateConverter(ABC):
