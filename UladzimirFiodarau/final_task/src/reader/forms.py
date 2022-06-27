@@ -1,7 +1,5 @@
 from django import forms
 
-from rss_reader_service import settings
-
 
 class AddUrlForm(forms.Form):
     url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}),
