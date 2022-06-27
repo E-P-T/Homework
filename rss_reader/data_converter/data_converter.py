@@ -1,0 +1,4 @@
+
+
+class DataConverter(IDataConverter):
+    pass
