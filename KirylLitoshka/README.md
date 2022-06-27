@@ -6,6 +6,7 @@
 
 ## Installation
 
+(imagine that we are at the root of the repository)
 ```bash
 git clone https://github.com/KirylLitoshka/Homework.git
 pip install . # or python setup.py install
@@ -25,18 +26,21 @@ python rss_parser.py ...args #see Usage directory
 After installing the package, use `rss_parser [args]` command in console, if you haven't installed the package, use `python rss_parser.py [args]` 
 from downloaded folder 
 ```bash
-usage: rss_parser [-h] [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] [source] 
+usage: rss_parser [-h] [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] [--to-html [PATH]] [--to-pdf [PATH]] [source] 
 
 positional arguments:
-  source         RSS URL
+  source            RSS URL
 
 options:
-  -h, --help     show this help message and exit
-  --version      Print version info
-  --json         Print result as JSON in stdout
-  --verbose      Outputs verbose status messages
-  --limit LIMIT  Limit news topics if this parameter provided
-  --date DATE    Print result with actual publishing date of the news
+  -h, --help        show this help message and exit
+  --version         Print version info
+  --json            Print result as JSON in stdout
+  --verbose         Outputs verbose status messages
+  --limit LIMIT     Limit news topics if this parameter provided
+  --date DATE       Print result with actual publishing date of the news
+  --to-html [PATH]  Prints RSS items into HTML format
+  --to-pdf [PATH]   Prints RSS items into PDF format
+
 ```
 Notification: `--date` argument accept date in YYYYMMDD format only (Example: 20220618). Also, each RSS feed parsing is saved to directory depending on entered command
 (see `rss_parser/storage/local` if `python rss_parser.py [args]` is used and `{env}\lib\rss_parser\storage\local` for installed version)
