@@ -48,7 +48,7 @@ class UserRegistrationForm(forms.ModelForm):
 
 class UserUpdateForm(forms.Form):
     send_email = forms.BooleanField(required=False,
-                                    widget=forms.CheckboxInput,
+                                    widget=forms.CheckboxInput(attrs={'style': 'width:20px;height:20px;'}),
                                     label='Sending email notifications')
 
     class Meta:
