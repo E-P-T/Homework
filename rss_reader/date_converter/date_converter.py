@@ -1,3 +1,5 @@
+"""This module contains classes that work with dates"""
+
 
 from datetime import datetime
 
