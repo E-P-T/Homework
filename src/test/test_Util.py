@@ -1,7 +1,7 @@
 import datetime
 import json
 from unittest import TestCase
-from src.Util import Util
+from Util import Util
 from colorama import Fore
 
 

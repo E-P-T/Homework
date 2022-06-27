@@ -1,6 +1,6 @@
 import datetime
 from unittest import TestCase
-from src.news.News import News
+from news.News import News
 
 
 class TestNews(TestCase):

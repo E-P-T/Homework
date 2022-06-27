@@ -1,7 +1,7 @@
 import io
 from contextlib import redirect_stdout
 from unittest import TestCase
-from src.Logger import Logger, Level
+from Logger import Logger, Level
 
 
 class TestLogger(TestCase):

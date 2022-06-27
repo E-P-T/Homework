@@ -18,7 +18,7 @@ class UtilException(Exception):
 
 class Util:
     indent = '  '
-    cached_file = Path(__file__).parent.parent.joinpath('cached.json')
+    cached_file = Path(__file__).parent.joinpath('cached.json')
 
     @classmethod
     def colorize(cls, message: str, color: str, back_color: str = None) -> str:
