@@ -61,3 +61,7 @@ class LimitRecords(Decorator):
         """
         result = self.component.operation(data)
         return result.head(self._limit)
+
+
+class SortByEqual(Decorator):
+    pass
