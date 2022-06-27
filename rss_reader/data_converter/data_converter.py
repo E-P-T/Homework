@@ -25,3 +25,4 @@ class DataConverter(IDataConverter):
         df[column_name] = to_datetime(df.get(column_name), utc=utc)
         df[column_name] = df.get(column_name).dt.date.apply(
             lambda x: x.strftime(format))
+        return df
