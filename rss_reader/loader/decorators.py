@@ -22,6 +22,7 @@ class BaseComponent(IComponent):
 
 
 class Decorator(IComponent):
+    """Decorator base class."""
 
     _component: IComponent = None
 
