@@ -1,4 +1,6 @@
 
 
 class IDataConverter(ABC):
-    pass
+    @abstractmethod
+    def concat_data(self, data, local_data) -> Optional[DataFrame]:
+        pass
