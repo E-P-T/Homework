@@ -39,5 +39,12 @@ class Decorator(IComponent):
 
 class LimitRecords(Decorator):
     def __init__(self, limit: int, component: IComponent) -> None:
+        """Initializer.
+
+        :param limit: How many records to return.
+        :type limit: int
+        :param component: object of type IComponent.
+        :type component: IComponent
+        """
         self._limit = limit
         super().__init__(component)
