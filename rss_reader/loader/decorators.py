@@ -12,5 +12,10 @@ class IComponent(ABC):
 
 
 class BaseComponent(IComponent):
+    """A base concrete component.
+
+    It is a stub.
+    """
+
     def operation(self, data) -> str:
         return data
