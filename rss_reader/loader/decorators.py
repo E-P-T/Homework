@@ -80,5 +80,12 @@ class SortByEqual(Decorator):
         super().__init__(component)
 
     def operation(self, data: DataFrame) -> DataFrame:
+        """Return records that match the criteria.
+
+        :param data: sample data.
+        :type data: DataFrame
+        :return: data sampling.
+        :rtype: DataFrame
+        """
         result = self.component.operation(data)
         return result[result[self._search_column] == self._criterion]
