@@ -7,6 +7,8 @@ from rss_reader.interfaces.isaver.ireader_files import IReadFile
 from rss_reader.interfaces.ipathfile.ipathfile import ICreateFile
 from rss_reader.logger.logger import Logger
 
+log = Logger.get_logger(__name__)
+
 
 class ReaderFiles(IReadFile):
     def read_csv_file(self, file: str,
