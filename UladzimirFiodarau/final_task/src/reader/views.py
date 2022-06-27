@@ -151,31 +151,28 @@ def news_html(request):
 
 
 def page_not_found(request, exception):
-    message = f'Page not found, please check URL'
+    message = f'Error 404. Page not found, please check URL'
     return render(request, 'reader/exception.html',
                   {'message': message,
                    })
 
 
 def page_server_error(request, *args, **kwargs):
-    message = 'Something went wrong, Server Error happened'
-    print(request)
-    print(args)
-    print(kwargs)
+    message = 'Error 500. Something went wrong, Server Error happened'
     return render(request, 'reader/exception.html',
                   {'message': message,
                    })
 
 
 def page_permission_denied(request, *args, **kwargs):
-    message = 'Permission Denied for this operation'
+    message = 'Error 403. Permission Denied for this operation'
     return render(request, 'reader/exception.html',
                   {'message': message,
                    })
 
 
 def page_bad_request(request, *args, **kwargs):
-    message = 'You have made a suspicious from a security perspective request, \noperation stopped'
+    message = 'Error 400. You have made a suspicious from a security perspective request, \noperation stopped'
     return render(request, 'reader/exception.html',
                   {'message': message,
                    })
