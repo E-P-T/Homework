@@ -1,5 +1,7 @@
 """This module contains classes that work with dates."""
 
+from abc import ABC
+
 
 class IDateConverter(ABC):
     """Converts date."""
