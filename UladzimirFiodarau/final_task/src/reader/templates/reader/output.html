@@ -15,9 +15,9 @@
 <br>
 <div class="row">
     <div class="col">
-<h3>Feed title: {{ news.feed_title }} </h3>
-<h5>Feed description: {{ news.feed_description }} </h5>
-<h5>Feed link: {{ news.feed_link }} <a href="news.feed_link"></a> </h5>
+<h3>{{ news.feed_title }} </h3>
+<h5>{{ news.feed_description }} </h5>
+<h5>{{ news.feed_link }} <a href="news.feed_link"></a> </h5>
 {% if news.feed_pubDate %}
     <h4>Last update: {{news.feed_pubDate }} </h4>
 {% endif %}
