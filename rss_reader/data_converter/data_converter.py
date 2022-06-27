@@ -1,5 +1,7 @@
 
 
+from typing import Optional
+
 from rss_reader.interfaces.idataconverter.idataconverter import IDataConverter
 
 
