@@ -1,3 +1,5 @@
+"""This module contains a set of interfaces for the logger."""
+
 
 from abc import abstractmethod, ABC
 from typing import Optional
