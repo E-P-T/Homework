@@ -22,6 +22,8 @@ class DataConverter(IDataConverter):
     def _convert_date(self, df: DataFrame, column_name:
                       str, format: str = '%Y-%m-%d',
                       utc: bool = True) -> DataFrame:
+        """Convert the date to the desired format."""
+
         df[column_name] = to_datetime(df.get(column_name), utc=utc)
         df[column_name] = df.get(column_name).dt.date.apply(
             lambda x: x.strftime(format))
