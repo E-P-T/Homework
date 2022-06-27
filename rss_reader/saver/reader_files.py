@@ -4,4 +4,8 @@ from rss_reader.interfaces.isaver.ireader_files import IReadFile
 
 
 class ReaderFiles(IReadFile):
-    pass
+    def read_csv_file(self, file: str,
+                      index_col_: str,
+                      creater: ICreateFile,
+                      encoding_: str = 'utf-8') -> Optional[DataFrame]:
+        pass
