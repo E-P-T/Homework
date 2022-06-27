@@ -11,4 +11,5 @@ class IDataConverter(ABC):
 
     @abstractmethod
     def concat_data(self, data, local_data) -> Optional[DataFrame]:
+        """Get normalized data."""
         pass
