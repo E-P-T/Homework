@@ -4,6 +4,8 @@ from pandas import DataFrame
 from typing import Optional
 from abc import abstractmethod, ABC
 
+from rss_reader.interfaces.ipathfile.ipathfile import ICreateFile
+
 
 class IReadFile(ABC):
     @abstractmethod
