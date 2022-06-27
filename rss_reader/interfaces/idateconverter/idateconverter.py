@@ -1,5 +1,9 @@
+"""This module contains classes that work with dates."""
+
 
 class IDateConverter(ABC):
+    """Converts date."""
+
     @staticmethod
     @abstractmethod
     def date_convert(date: str, format: str) -> str:
