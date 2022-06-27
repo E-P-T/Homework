@@ -27,3 +27,7 @@ class Decorator(IComponent):
 
     def __init__(self, component: IComponent) -> None:
         self._component = component
+
+    @property
+    def component(self) -> IComponent:
+        return self._component
