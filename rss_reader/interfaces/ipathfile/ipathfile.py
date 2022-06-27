@@ -1,3 +1,5 @@
+"""This module contains a set of interfaces for the pathfile package."""
+
 
 from abc import abstractmethod, ABC
 
