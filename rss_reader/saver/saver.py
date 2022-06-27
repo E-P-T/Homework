@@ -41,7 +41,7 @@ class AbstractSaveHandler(ISaveHandler):
 
 class LocalSaveHandler(AbstractSaveHandler):
     def save(self, data: List[dict], file: str = 'local_storage.csv') -> None:
-        local_data = ReaderFiles().read_csv_file(file, 'index', CreaterFiles())
+        local_data = ReaderFiles().read_csv_file(file, 'index', PathFile())
 
         try:
             norm_data = DataConverter().concat_data(data, local_data)
