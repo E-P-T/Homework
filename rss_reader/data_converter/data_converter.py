@@ -12,3 +12,5 @@ class DataConverter(IDataConverter):
         norm_data = json_normalize(data, record_path=['items'],
                                    meta=['title_web_resource', 'link'],
                                    record_prefix="item.")
+
+        norm_data = self._convert_date(norm_data, 'item.pubDate')
