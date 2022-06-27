@@ -19,3 +19,7 @@ class BaseComponent(IComponent):
 
     def operation(self, data) -> str:
         return data
+
+
+class Decorator(IComponent):
+    pass
