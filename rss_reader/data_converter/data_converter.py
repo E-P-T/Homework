@@ -14,3 +14,5 @@ class DataConverter(IDataConverter):
                                    record_prefix="item.")
 
         norm_data = self._convert_date(norm_data, 'item.pubDate')
+        data_concat = concat([local_data, norm_data],
+                             ignore_index=True)
