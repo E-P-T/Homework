@@ -7,6 +7,7 @@ from rss_reader.interfaces.isaver.isaver import ISaveHandler
 from rss_reader.decorator.decorator import send_log_of_start_function
 from rss_reader.data_converter.data_converter import DataConverter
 from rss_reader.saver.reader_files import ReaderFiles
+from rss_reader.pathfile.pathfile import PathFile
 
 
 class AbstractSaveHandler(ISaveHandler):
