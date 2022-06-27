@@ -31,3 +31,6 @@ class Decorator(IComponent):
     @property
     def component(self) -> IComponent:
         return self._component
+
+    def operation(self, data) -> DataFrame:
+        return self._component.operation(data)
