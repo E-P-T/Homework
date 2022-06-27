@@ -36,4 +36,4 @@ class AbstractSaveHandler(ISaveHandler):
 
 class LocalSaveHandler(AbstractSaveHandler):
     def save(self, data: List[dict], file: str = 'local_storage.csv') -> None:
-        pass
+        local_data = ReaderFiles().read_csv_file(file, 'index', CreaterFiles())
