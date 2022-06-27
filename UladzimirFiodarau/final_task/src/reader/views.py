@@ -1,4 +1,6 @@
 import ast
+
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -32,10 +34,10 @@ def add_news(request):
     if url:
         cache = DjangoRssReader(url)
         cache.save_django_reader_cache()
+        messages.success(request, 'URL successfully added')
     qs = Cache.objects.all()
     news_choice_form = NewsParametersForm()
     add_form = AddUrlForm()
-
     return render(request, 'reader/cached_news.html',
                   {'object_list': qs,
                    'add_form': add_form,
@@ -44,7 +46,6 @@ def add_news(request):
 
 
 def start_page_view(request):
-
     return render(request, 'reader/start.html'
                   )
 
@@ -53,7 +54,6 @@ def cached_news_view(request):
     qs = Cache.objects.all()
     news_choice_form = NewsParametersForm()
     add_form = AddUrlForm()
-
     return render(request, 'reader/cached_news.html',
                   {'object_list': qs,
                    'add_form': add_form,
@@ -75,7 +75,6 @@ def read_news_view(request):
             cache[obj.url] = obj.cache
     processed_cache = DjangoRssReaderCached.limit_news_dict(news_cache=cache, limit=news_limit,
                                                             news_url=news_url, news_date=news_date)
-
     feed_title = {key: value for key, value in processed_cache.items() if key != 'feed_items'}
     feed_news = [{key: value} for key, value in processed_cache['feed_items'].items()]
     paginator = Paginator(feed_news, 10)  # Show 10  per page.
@@ -85,7 +84,6 @@ def read_news_view(request):
     _context['feed_title'] = feed_title
     _context['feed_news'] = feed_news
     _context['page_obj'] = page_obj
-
     return render(request, 'reader/read_news.html', _context)
 
 
@@ -108,7 +106,6 @@ def read_fresh_news_view(request):
         processed_cache = DjangoRssReader.limit_news_dict(news_cache=news.news_dict, limit=news_limit)
     else:
         raise ValueError('No news found')
-
     feed_title = {key: value for key, value in processed_cache.items() if key != 'feed_items'}
     feed_news = [{key: value} for key, value in processed_cache['feed_items'].items()]
     paginator = Paginator(feed_news, 10)  # Show 10  per page.
@@ -118,7 +115,6 @@ def read_fresh_news_view(request):
     _context['feed_title'] = feed_title
     _context['feed_news'] = feed_news
     _context['page_obj'] = page_obj
-
     return render(request, 'reader/read_news.html', _context)
 
 
