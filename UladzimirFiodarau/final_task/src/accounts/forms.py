@@ -22,3 +22,25 @@ class UserLoginForm(forms.Form):
             if not user:
                 raise forms.ValidationError('Account is deactivated')
         return super(UserLoginForm, self).clean(*args, **kwargs)
+
+
+class UserRegistrationForm(forms.ModelForm):
+    email = forms.CharField(label='Please, input your email',
+                            widget=forms.EmailInput(attrs={'class': 'form-control'})
+                            )
+    password = forms.CharField(label='Please, input password',
+                               widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+                               )
+    password2 = forms.CharField(label='Please, repeat password',
+                                widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+                                )
+
+    class Meta:
+        model = User
+        fields = ('email', )
+
+    def clean_password2(self):
+        data = self.cleaned_data
+        if data['password'] != data['password2']:
+            raise forms.ValidationError('Passwords do not match')
+        return data['password2']
