@@ -1,7 +1,7 @@
 
 
 from typing import Optional
-from pandas import DataFrame, json_normalize
+from pandas import DataFrame, json_normalize, concat
 
 from rss_reader.interfaces.idataconverter.idataconverter import IDataConverter
 
