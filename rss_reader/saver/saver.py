@@ -38,4 +38,8 @@ class LocalSaveHandler(AbstractSaveHandler):
     def save(self, data: List[dict], file: str = 'local_storage.csv') -> None:
         local_data = ReaderFiles().read_csv_file(file, 'index', CreaterFiles())
 
-        norm_data = DataConverter().concat_data(data, local_data)
+        try:
+            norm_data = DataConverter().concat_data(data, local_data)
+        except NotImplementedError as e:
+            local_data = None
+            norm_data = pd.DataFrame()
