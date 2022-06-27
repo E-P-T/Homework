@@ -5,3 +5,7 @@ Pillow~=9.1.1
 Pygments~=2.12.0
 setuptools~=62.3.3
 tqdm~=4.64.0
+
+Django~=4.0.5
+reportlab~=3.6.10
+xhtml2pdf~=0.2.8
