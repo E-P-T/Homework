@@ -18,3 +18,5 @@ class ReaderFiles(IReadFile):
             pass
         except FileNotFoundError as e:
             pass
+
+        return local_storage
