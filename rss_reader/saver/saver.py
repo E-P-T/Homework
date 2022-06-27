@@ -43,3 +43,5 @@ class LocalSaveHandler(AbstractSaveHandler):
         except NotImplementedError as e:
             local_data = None
             norm_data = pd.DataFrame()
+
+        norm_data.to_csv(file, encoding='utf-8', index_label='index')
