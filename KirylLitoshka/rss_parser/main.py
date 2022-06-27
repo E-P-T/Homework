@@ -19,5 +19,4 @@ def main():
         result = parser.start_parse()
         print(result)
     except Exception as exc:
-        print(exc.__class__.__name__)
         print(exc)

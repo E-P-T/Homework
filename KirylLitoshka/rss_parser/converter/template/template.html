@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400&display=swap"
+          rel="stylesheet">
+    <style>
+        *,
+        *::after,
+        *::before {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Roboto", sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            display: block;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .title {
+            text-align: center;
+        }
+
+        .post-container {
+            display: flex;
+            flex-wrap: wrap;
+            row-gap: 30px;
+            column-gap: 5%;
+            padding: 20px 0;
+        }
+
+        .post {
+            max-width: 30%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post_link > * {
+            padding: 5px 0;
+        }
+
+        .post img {
+            width: 100%;
+        }
+
+        .post_title {
+            text-align: center;
+        }
+
+        .post_date {
+            text-align: right;
+            color: grey;
+            font-size: 14px;
+            padding: 5px 0;
+        }
+
+        .post_description {
+            margin-top: auto;
+        }
+
+        .post_description a {
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="title">{{data.title}}</h1>
+    <div class="post-container">
+        {% for item in data['items'] %}
+        <div class="post">
+            <h3 class="post_title">
+                <a href="{{ item.link }}">{{ item.title }}</a>
+            </h3>
+            {% if item.date %}
+            <p class="post_date">{{item.date}}</p>
+            {% endif %}
+            <p class="post_description">{{item.description}}</p>
+            {% if item.images %}
+                <div class="post_images">
+                    {% for img in item.images %}
+                    <img src="{{img}}" alt="post image">
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+</html>

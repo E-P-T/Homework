@@ -56,7 +56,7 @@ class RSSParserTest(unittest.TestCase):
         sys.argv.extend(["https://www.buzzfeed.com/world.xml", "--limit", "3", "--version"])
         args = self.parser.args_as_dict()
         rss = RssParser(**args)
-        self.assertEqual(rss.get_data(), 1.3)
+        self.assertEqual(rss.get_data(), 1.4)
 
     def test_exception_with_negative_limit(self):
         """

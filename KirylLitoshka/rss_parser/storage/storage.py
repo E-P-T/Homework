@@ -7,6 +7,7 @@ import pathlib
 import shelve
 import json
 from datetime import datetime
+from dateutil.parser import parse
 from ..rss import RssFeedItem
 from .exceptions import StorageError
 
@@ -68,7 +69,9 @@ class Storage:
             load_data = {k: v for k, v in load_data.items() if k == source}
         for key in load_data:
             for item in load_data[key]:
-                item_date = datetime.strptime(item["date"], self.date_format).date()
+                if item["date"] is None:
+                    continue
+                item_date = parse(item["date"]).date()
                 if item_date == date:
                     result.append(item)
         if not result:

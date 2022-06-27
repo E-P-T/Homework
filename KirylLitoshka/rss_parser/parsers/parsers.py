@@ -3,9 +3,10 @@ import logging
 import argparse
 import requests
 from bs4 import BeautifulSoup
-from requests.exceptions import ConnectionError as ConnError
+from requests.exceptions import ConnectionError as ConnError, ReadTimeout
 from ..storage import Storage
 from ..rss import RssFeed
+from ..converter import Converter
 
 
 class Parser:
@@ -26,6 +27,10 @@ class Parser:
         self.parser.add_argument("--limit", help="Limit news topics if this parameter provided", default=None, type=int)
         self.parser.add_argument("--date", help="Print result with actual publishing date of the news", default=None,
                                  type=str)
+        self.parser.add_argument("--to-html", metavar="PATH", nargs="?", help="Prints RSS items into HTML format",
+                                 default=argparse.SUPPRESS, const="", type=str)
+        self.parser.add_argument("--to-pdf", metavar="PATH", nargs="?", help="Prints RSS items into PDF format",
+                                 default=argparse.SUPPRESS, const="", type=str)
         self.parser.add_argument("source", nargs="?", help="RSS URL", type=str)
 
     @property
@@ -59,7 +64,7 @@ class RssParser:
     RSS Parser
     """
 
-    def __init__(self, source: str, limit: int, verbose: bool, json: bool, version: bool, date: str):
+    def __init__(self, source: str, limit: int, verbose: bool, json: bool, version: bool, date: str, **kwargs):
         self.feed = None
         self.url = source
         self.limit = limit
@@ -67,6 +72,8 @@ class RssParser:
         self.is_json = json
         self.is_verbose = verbose
         self.date = date
+        self.to_pdf = kwargs.get("to_pdf", None)
+        self.to_html = kwargs.get("to_html", None)
         self.storage = Storage()
 
     def get_data(self):
@@ -96,7 +103,7 @@ class RssParser:
                                 datefmt="%d.%m.%Y %H:%M:%S")
         if self.version:
             logging.info("Current version")
-            return 1.3
+            return 1.4
         if self.limit is not None and self.limit <= 0:
             logging.info(f"Fail! Limit must be more than zero (Your value is {self.limit})")
             raise Exception("Limit must be more that zero")
@@ -113,9 +120,18 @@ class RssParser:
             logging.info("Trying to get rss feed by date")
             storage_data = self.storage.load_by_date(self.date, self.url)
             self.feed = RssFeed(storage_data, self.limit)
+        if self.to_html is not None:
+            logging.info("Trying to converting feed to HTML format")
+            converter = Converter(self.feed.to_json(), self.to_html)
+            converter.to_html()
+        if self.to_pdf is not None:
+            logging.info("Trying to converting feed to PDF format")
+            converter = Converter(self.feed.to_json(), self.to_pdf)
+            converter.to_pdf()
         if self.is_json:
             logging.info("Transformation RSS feed into JSON format")
             return self.feed.to_json()
+
         return self.feed
 
     def get_feed(self, text):
@@ -146,8 +162,8 @@ class RssParser:
             logging.info(f"Fail! Invalid URL")
             raise Exception("Fail! Invalid URL")
         try:
-            with requests.get(self.url) as response:
+            with requests.get(self.url, timeout=5) as response:
                 return response.content
-        except ConnError:
+        except (ConnError, ReadTimeout):
             logging.info(f"Fail! Cannot connect to {self.url}")
             raise ConnError(f"Failed Connect to {self.url}")
