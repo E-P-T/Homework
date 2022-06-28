@@ -2,11 +2,14 @@ import argparse
 import sys
 
 from rss_parse import __version__
+from rss_parse.exceptions.exceptions import CacheException
 from rss_parse.parse.params import Params
 from rss_parse.parse.rss_feed import RssFeed
+from rss_parse.parse.rss_feed_cache import TmpDirectoryCache
 from rss_parse.parse.rss_parser import ParsingException
 from rss_parse.parse.rss_parser_factory import get_parser
 from rss_parse.processor.rss_processor_factory import get_processor
+from rss_parse.utils.arg_parse_types import date_YYYYMMDD
 from rss_parse.utils.message_consumer import get_message_consumer
 from rss_parse.utils.printing_utils import print_error
 
@@ -20,6 +23,7 @@ def parse_params_from_arguments():
     parser.add_argument("--json", help="Print result as JSON in stdout", action="store_true")
     parser.add_argument("--verbose", help="Output verbose status messages", action="store_true")
     parser.add_argument("--limit", help="Limit news topics if this parameter provided", type=int, default=-1)
+    parser.add_argument("--date", help="Limit the feed by publication date - format YYYYMMDD", type=date_YYYYMMDD)
     args = parser.parse_args()
 
     return Params.from_args(args)
@@ -35,7 +39,7 @@ def main():
     mc.add_message("Program started")
 
     mc.add_message("Initializing parser...")
-    parser = get_parser(params.source, mc)
+    parser = get_parser(params.pub_date, params.source, mc)
     mc.add_message("Parser initialized")
 
     rss_feed = None
@@ -47,6 +51,14 @@ def main():
         mc.add_message("Exiting the program")
         # FIXME: Map Exceptions to errors or something like this
         exit(2)
+
+    # FIXME: Ideally I need to skip caching if I took it from cache
+    mc.add_message("Trying to add fetched news to the local cache")
+    try:
+        tmp_cache = TmpDirectoryCache(rss_feed)
+        tmp_cache.cache()
+    except CacheException:
+        mc.add_message("Unable to save RSS Feed to cache. Proceeding...")
 
     # Fixme: move to preprocessor
     rss_items = sorted(rss_feed.rss_items, key=lambda item: item.publication_date, reverse=True)

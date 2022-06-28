@@ -1,3 +1,4 @@
+import os.path
 import xml
 from abc import ABC, abstractmethod
 
@@ -7,6 +8,7 @@ from requests.exceptions import InvalidSchema, InvalidURL, MissingSchema
 
 from rss_parse.exceptions.exceptions import ParsingException
 from rss_parse.parse.rss_feed import RssFeed, RssItem
+from rss_parse.parse.rss_feed_mapper import RSS_FEED_JSON_MAPPER
 from rss_parse.parse.rss_keys import *
 from rss_parse.utils.message_consumer import MESSAGE_CONSUMER_NOOP
 from rss_parse.utils.parsing_utils import sanitize_text, to_date
@@ -23,6 +25,21 @@ class RssParser(ABC):
         :rtype: rss_parse.rss_feed.RssFeed
         """
         pass
+
+
+class RssJsonParser(RssParser):
+
+    def __init__(self, file_name, mc=None):
+        super().__init__(mc)
+        self.__file_name = file_name
+        self._mc = mc
+
+    def parse(self):
+        if not os.path.exists(self.__file_name):
+            return RssFeed([])
+        with open(self.__file_name, "r") as f:
+            rss_json = f.read()
+            return RSS_FEED_JSON_MAPPER.from_json(rss_json)
 
 
 class RssXmlParser(RssParser):
