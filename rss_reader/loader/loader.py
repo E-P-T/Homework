@@ -142,18 +142,27 @@ class FromWebHandler(IHandler):
     def __init__(self,
                  tag_name: str,
                  title_tag: str,
-                 channel_link: str,
                  source: str,
                  limit: Optional[int],
                  crawler: ICrawler,
                  parser: IParser) -> None:
         """Initializer.
 
+        :param tag_name: The name of the tag in which the news is stored.
+        For example <item>.
+        :type tag_name: str
+        :param title_tag: The name of the tag that contains the title.
+        It is CSS selector.
+        :type title_tag: str
+        :param source: News source url.
+        :type source: str
+        :param limit: The number of elements to return.
+        :type limit: Optional[int]
         :param crawler: Crawler object. Used to get information
-                        from the Internet.
+        from the Internet.
         :type crawler: ICrawler
         :param parser: Parser object. Used to parse information
-                        received from the Internet.
+        received from the Internet.
         :type parser: IParser
         """
         self._tag_name = tag_name
