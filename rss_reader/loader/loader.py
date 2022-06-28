@@ -167,7 +167,6 @@ class FromWebHandler(IHandler):
         """
         self._tag_name = tag_name
         self._title_tag = title_tag
-        self._channel_linik = channel_link
         self._source = source
         self._limit = limit
         self._crawler = crawler
