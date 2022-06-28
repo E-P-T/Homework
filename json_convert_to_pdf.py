@@ -20,6 +20,7 @@ check_database_avaiable()
 
 
 def convert_to_pdf(infoFromJson, filename=None):
+    '''Converting data into pdf format '''
     if '/' in str(filename):
 
         new_folder = filename.split('/')[0]
