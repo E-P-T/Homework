@@ -16,6 +16,7 @@ VERSION_INFO = "4.3.0"
 
 # get argparse data
 def get_args():
+    '''functions argument return'''
     parser = argparse.ArgumentParser(
         description='Pure Python command-line RSS reader.')
 
@@ -42,78 +43,21 @@ def get_args():
 
 # console log info
 def verbose_caches(status_inf):
+    '''shows info logs'''
     verbose_args = get_args()
     if verbose_args.verbose:
         console.info("INFO " + str(datetime.now())+" "+status_inf)
 
 # console log error
 def verbose_caches_error(status_inf):
+    '''shows error logs'''
     verbose_args = get_args()
     if verbose_args.verbose:
         console.error("INFO " + str(datetime.now())+" "+status_inf)
 
-
-# check verbose without process
-
-# def get_verbose():
-
-#     verbose_args = get_args()
-#     verbose_data = []
-#     if verbose_args.verbose:
-#         date_info = "INFO " + str(datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
-#         # verbose_data.append(date_info)
-#         status_debug = "Verbose mode turn on"
-#         verbose_data.append(status_debug)
-#         if verbose_args.source:
-#             if verbose_args.limit:
-#                 status_limit = "{}".format(str(verbose_args.limit[0])) + " news were given"
-#             else:
-#                 status_limit = "limit is not given"
-#             verbose_data.append(status_limit)
-
-#             url = "Validating URL "+ "{}".format(verbose_args.source)
-#             verbose_data.append(url)
-#             if isValidURL(verbose_args.source) is True:
-#                 check_url = "URL validated successfully"
-#             else:
-#                 check_url = "Please enter valid url!"
-#             verbose_data.append(check_url)
-
-#             making_request = "Making a URL request"
-#             verbose_data.append(making_request)
-
-#             check_ = str(requests.get(verbose_args.source))
-#             if "200" in check_:
-#                 success_url = "URL request successful. Reading and decoding response data"
-#             else:
-#                 success_url = "Page not found"
-#             verbose_data.append(success_url)
-
-#             if success_url != "Page not found":
-#                 url_path = requests.get(verbose_args.source)
-#                 tags = "Converting ElementTree. Element object to a dictionary. Searching for tags: ('title', 'creator', 'description', 'link', 'content', 'pubDate', 'image', 'enclosure')"
-#                 verbose_data.append(tags)
-#                 try:
-#                     soup = BeautifulSoup(url_path.content,'xml')
-#                     entries = soup.find_all('item')[0]
-#                     entries = soup.find_all('title')[0]
-#                     success_tags = "Creating separate key-value pairs for item tags"
-#                     verbose_data.append(success_tags)
-#                     # print(entries,"entrieslar soni")
-#                 except:
-#                     error_tags = "Unfortunately we could not find his item and feed parts through the link you provided"
-#                     verbose_data.append(error_tags)
-#         else:
-#             no_link = "Link is not given"
-#             verbose_data.append(no_link)
-
-#     #print verbose data
-#     for data_status in verbose_data:
-#         print(date_info+" "+data_status)
-
-
 # Gives information according to inputted limitation
 def get_news():
+    '''Function for collecting news and distributing and printing'''
     # try:
     link_args = get_args()
     data_dicts = []
@@ -440,8 +384,9 @@ def get_news():
             json.dump(data, file, ensure_ascii=False, indent=4)
             file.close()
 
-
+#dictionary convert to json and print
 def dict_to_json(data_dict_json):
+    '''function for converting dictionary into json'''
     json_args = get_args()
     if json_args.json:
         verbose_caches("Data succussfully converted into json")
@@ -452,12 +397,13 @@ def dict_to_json(data_dict_json):
 
 # print version
 def get_version():
-
+    '''get version'''
     if get_args().version:
         print(VERSION_INFO)
 
 
 def main():
+    '''calling all functions turn by turn'''
     check_database_avaiable()
     local_img_storage()
     get_version()
