@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="rss_reader",
-    version="3.1",
+    version="4.1",
     author="Alena Kniazeva",
     author_email="elena.n.kniazeva@gmail.com",
     description="RSS-reader",
@@ -11,6 +11,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
+    'fpdf>=1.7.2',
     'requests>=2.26.0',
     'lxml>=4.9.0',
     'beautifulsoup4>=4.11.1',

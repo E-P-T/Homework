@@ -1,20 +1,24 @@
 """ Pure Python command-line RSS reader."""
 
 import argparse
-from unittest import result
 import requests
 import json
 import sys
 import logging
 import datetime
 import os
+import shutil
+import base64
+import uuid
+import pickle
 import jsonlines     
 from logging import StreamHandler, Formatter
 from bs4 import BeautifulSoup
-from dateutil import parser             
+from dateutil import parser   
+from fpdf import FPDF 
 
 
-version = '3.1'
+version = '4.1'
 
 
 def parse_input():
@@ -30,6 +34,8 @@ def parse_input():
     parser.add_argument(
         '--date', type = lambda s: datetime.datetime.strptime(s, '%Y%m%d'), 
         help = 'Print result from a cash for a given date')
+    parser.add_argument('--html', type = str, help ='Print result to HTML file')
+    parser.add_argument('--pdf', type = str, help ='Print result to PDF file')
 
     args, rest = parser.parse_known_args()
     if rest:
@@ -58,7 +64,7 @@ def connect(path):
         print("Error: Unknown request exception occured.")
         return None
     else:
-        return response.text
+        return response
 
 
 class MyFeedParser:
@@ -91,45 +97,76 @@ class MyFeedParser:
                 a_counter = limit
             else:
                 a_counter = a_num
-                if verbose: self.logger.warning('All available content of a feed will be read')
+                if verbose:
+                    self.logger.warning('All available content of a feed will be read')
         else:
             a_counter = a_num
-            if verbose: self.logger.warning('All available content of a feed will be read')
-        if verbose: self.logger.info('Reading news...')
+            if verbose:
+                self.logger.warning('All available content of a feed will be read')
+        if verbose: 
+            self.logger.info('Reading news...')
         for txt in articles:
             title = txt.find('title').text
             link = txt.find('link').text
             pubdate = parser.parse(txt.find('pubDate').text) # parses pubDate to datetime object
             # connect to link and psrse description from an initial web-page                        
-            a = connect(link)
+            a = connect(link).text
             s = BeautifulSoup(a, "html.parser")
             meta_tag = s.find('meta', attrs={'property': 'og:description'})
             if meta_tag: 
                 descr = meta_tag['content']
             else:
                 descr = "No description provided"
+            meta_tag_image = s.find('meta', attrs={'property': 'og:image'})
+            cur_date = str(pubdate.date())
+            if meta_tag_image: 
+                media_url = meta_tag_image['content']
+                img = connect(media_url).content  # read madia in bytes
+                img_base64 = base64.b64encode(img)  # encode to base64
+                img_path = os.path.join(
+                    os.path.abspath('cashed_img'), cur_date + '_' + str(uuid.uuid4().hex) + '.data')
+            else:
+                media_url = ''
+                img_path = ''
         
             # create an Article object for each item
-            article = {'title': title, 'pubdate': pubdate.isoformat(), 'link': link, 'description': descr}
+            article = {
+                'title': title, 'pubdate': pubdate.isoformat(), 'link': link, 'description': descr, 
+                'media_url': media_url, 'media_path': img_path, 'feed': self.feed, 'source': source
+                }
             # append current article to a collection of news
             self.news.append(article)
 
             # send article to cash file
-            article['feed'] = self.feed
-            article['source'] = source
             with open('dates.json', 'r') as f:
                 mydates = json.load(f)
-            cur_data = str(pubdate.date())
-            if cur_data in mydates:
-                filepath = os.path.abspath(mydates[cur_data])
-                with jsonlines.open(filepath, mode='a') as writer:
-                    writer.write(article)
+            if cur_date in mydates:
+                filepath = os.path.abspath(mydates[cur_date])
+                # check whether current article wasn't appended to cash before
+                flag = 0
+                with jsonlines.open(mydates[cur_date]) as reader:
+                    for obj in reader:
+                        if obj['link'] == article['link']:
+                            flag = 1
+                            setted_media_path = obj['media_path']
+                            break
+                if flag == 0:
+                    with jsonlines.open(filepath, mode='a') as writer:
+                        writer.write(article)
+                    if article['media_url'] != '':
+                        with open (article['media_path'], 'wb') as f:
+                            pickle.dump(img_base64, f)
+                elif article['media_url'] != '':
+                    article['media_path'] = setted_media_path
             else:
-                mydates[cur_data] = os.path.join(os.path.abspath('cashed_feeds'), cur_data+'.jsonl')
+                mydates[cur_date] = os.path.join(os.path.abspath('cashed_feeds'), cur_date+'.jsonl')
                 with open('dates.json', 'w') as f:
                     json.dump(mydates, f) 
-                with jsonlines.open(mydates[cur_data], mode='w') as writer:
+                with jsonlines.open(mydates[cur_date], mode='w') as writer:
                     writer.write(article)
+                if article['media_url'] != '':
+                    with open (article['media_path'], 'wb') as f:
+                        pickle.dump(img_base64, f)
 
             a_counter -= 1
             if not a_counter:
@@ -144,7 +181,8 @@ class MyFeedParser:
             mydates = json.load(f)
         cur_date = str(my_date.date())
         if cur_date in mydates:
-            if verbose: self.logger.info('Reading news from cash for the entered date...') 
+            if verbose:
+                self.logger.info('Reading news from cash for the entered date...') 
             with jsonlines.open(mydates[cur_date]) as reader:
                 if my_source != '':
                     flag = 0 # Flag to check if cashed news for entered date are available for entered feed
@@ -178,15 +216,105 @@ class MyFeedParser:
             print("Error: There are no cashed news for the entered date.")
             sys.exit()
 
-    def print_json(self):
+    def print_json(self, verbose):
         """Converts results to JSON and prints to stdout"""
         news_cut = []
         for new in self.news:
-            news_cut.append(
-                {'title': new['title'], 'pubdate': new['pubdate'], 
-                'link': new['link'], 'description': new['description']})
-        d = {'feed' : self.feed, 'news' : self.news}
+            a = {'title': new['title'], 'pubdate': new['pubdate'], 
+                'link': new['link'], 'description': new['description']}
+            if new['media_url'] != '': a['media_url'] = new['media_url']
+            news_cut.append(a)
+        d = {'feed' : self.feed, 'news' : news_cut}
         print(json.dumps(d, ensure_ascii = False, indent = 2))
+        if verbose:
+                self.logger.info('Printing of JSON is finished')
+
+    def print_html(self, path, verbose):
+        """Converts results to HTML file"""
+        if verbose:
+            self.logger.info('Creating of HTML file...')
+        shutil.copy('rss_downloads.html', path)
+        mypath = os.path.join(path, 'rss_downloads.html')
+        with open(mypath, 'w', encoding='utf-16') as f:
+            self.news.sort(key=lambda dictionary: dictionary['feed'])
+            feed = self.news[0]['feed']
+            a = '  <h1>' + feed + '</h1>'
+            f.write(a)
+            for n in self.news:
+                if n['feed'] != feed:
+                    a = '  <h1>' + n['feed'] + '</h1>'
+                    f.write(a)
+                    feed = n['feed']
+                a = '  <h3><b>' + n['title'] + '</b></h3>'
+                a += '<p>Date: <i>' + n['pubdate'][:10] + '</i><br>'
+                a += 'Link: <a href =' + n['link'] + '>' + n['link'] + '</a><br>'
+                f.write(a)
+                if n['media_url'] != '':
+                    with open(n['media_path'], 'rb') as fi:
+                        data_base64 = pickle.load(fi)
+                        data = data_base64.decode()    # convert bytes to string
+                    img_html = '  ' + ('<img src="data:image/jpeg;base64,' + data +
+                         '" alt="New image" height = "150"')                 # embed in html
+                    f.write(img_html)
+                a = '<br><br>' + n['description'] + '<br></p>'
+                f.write(a)
+            f.write('</body>')
+            f.write('</html>')
+        if verbose:
+            self.logger.info('News are stored in a file: {}'.format(mypath))
+
+    def print_pdf(self, path, verbose):
+        """Converts results to PDF file"""
+        if verbose:
+            self.logger.info('Creating of PDF file...')
+        mypath_pdf = os.path.join(path, 'rss_downloads.pdf')
+        pdf = FPDF()
+        pdf.alias_nb_pages()
+        font_path = os.path.join(os.path.abspath('font'), 'DejaVuSerif.ttf')
+        pdf.add_font('DejaVuSerif','', font_path, uni=True)
+        font_path = os.path.join(os.path.abspath('font'), 'DejaVuSerif-Bold.ttf')
+        pdf.add_font('DejaVuSerif','B', font_path, uni=True)
+        font_path = os.path.join(os.path.abspath('font'), 'DejaVuSerif-Italic.ttf')
+        pdf.add_font('DejaVuSerif','I', font_path, uni=True)
+
+        pdf.add_page()
+        pdf.set_font('DejaVuSerif', 'B', 16)
+        self.news.sort(key=lambda dictionary: dictionary['feed'])
+        feed = self.news[0]['feed']
+        pdf.cell(0, 5, feed, 0, 1)
+        pdf.ln() 
+        im_count = 0
+        for n in self.news:
+            if n['feed'] != feed:
+                pdf.set_font('DejaVuSerif', 'B', 16)
+                feed = n['feed']
+                pdf.ln()
+                pdf.cell(0, 5, feed, 0, 1)
+                pdf.ln()
+            pdf.set_font('DejaVuSerif', 'B', 12)
+            pdf.multi_cell(0, 5, n['title'], 0)  
+            pdf.set_font('DejaVuSerif', 'I', 10)
+            pdf.cell(0, 5, 'Date: '+n['pubdate'][:10], 0, 1) 
+            pdf.cell(0, 5, 'Link: '+n['link'], 0, 1, '', False, n['link'])
+            if n['media_url'] != '':
+                with open(n['media_path'], 'rb') as fi:
+                    data_base64 = pickle.load(fi)
+                    data = base64.b64decode(data_base64) # decode from base64 (bytes)
+                with open('output-image'+str(im_count)+'.jpg', 'wb') as im:
+                    im.write(data)
+                pdf.image('output-image'+str(im_count)+'.jpg', None, None, 70)
+                im_count += 1
+            
+            pdf.set_font('DejaVuSerif', '', 12)
+            pdf.multi_cell(0, 5, n['description'], 0)
+            pdf.ln()
+        if verbose:
+            self.logger.info('News are stored in a file: {}'.format(mypath_pdf))
+                
+        pdf.output(mypath_pdf, 'F')
+        for i in range(im_count):
+            os.remove('output-image'+str(i)+'.jpg')
+        
 
     def __str__(self):
         result = '\n' + "Feed: {}".format(self.feed) + '\n' + '\n'
@@ -207,22 +335,43 @@ def main():
     if args.date:
         my_feed.cash_read(args.date, args.source, args.verbose, args.limit)
         if args.json:
-            my_feed.print_json()
+            my_feed.print_json(args.verbose)
+            if args.html:
+                my_feed.print_html(args.html, args.verbose)
+            elif args.pdf:
+                my_feed.print_pdf(args.pdf, args.verbose)
         else:
-            print(my_feed)    
-        if args.verbose: my_feed.logger.info('News are printed')
+            if args.html:
+                my_feed.print_html(args.html, args.verbose)
+            elif args.pdf:
+                my_feed.print_pdf(args.pdf, args.verbose)
+            else:
+                print(my_feed)    
+                if args.verbose:
+                    my_feed.logger.info('News are printed')
     else: 
         if args.source != '':
-            content = connect(args.source)  # obtain a content of source page
+            content = connect(args.source).text  # obtain a content of source page
             if content != None:
                 # create an instance of MyFeedParser class
                 my_feed.parse(content, args.limit, args.verbose, args.source) 
                 if args.json:
-                    my_feed.print_json()
+                    my_feed.print_json(args.verbose)
+                    if args.html:
+                        my_feed.print_html(args.html, args.verbose)
+                    elif args.pdf:
+                        my_feed.print_pdf(args.pdf, args.verbose)
                 else:
-                    print(my_feed)    
-                if args.verbose: my_feed.logger.info('News are printed')
-    if args.verbose: my_feed.logger.info('RSS-reader finished. Logging stopped')     
+                    if args.html:
+                        my_feed.print_html(args.html, args.verbose)
+                    elif args.pdf:
+                        my_feed.print_pdf(args.pdf, args.verbose)
+                    else:
+                        print(my_feed)     
+                        if args.verbose:
+                            my_feed.logger.info('News are printed')
+    if args.verbose:
+        my_feed.logger.info('RSS-reader finished. Logging stopped')     
 
 
 if __name__ == '__main__':
