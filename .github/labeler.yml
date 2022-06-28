@@ -1,2 +1,2 @@
 final_task:
-    - '(task|final)'
+    - '(final).*'
