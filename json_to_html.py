@@ -22,8 +22,8 @@ readfile.close()
 
 
 def convert_to_html(dataset, filename=None):
+    '''Converting data into html format'''
     for data in dataset:
-        print()
         main_div = soup.new_tag('div', **{'class': 'card mb-3'})
         body_div = soup.new_tag('div', **{'class': 'card-body'})
         p_tag_small = soup.new_tag('p', **{'class': 'card-text'})
