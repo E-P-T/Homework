@@ -31,6 +31,10 @@ class AbstractLoaderHandler(ILoadHandler):
         return None
 
 
+class FromLocalSTorageHandler(AbstractLoaderHandler):
+    pass
+
+
 class FromWebHandler(IHandler):
     """Internet data handler."""
 
