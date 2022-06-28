@@ -1,4 +1,7 @@
 
+from abc import ABC, abstractmethod
+from pandas import DataFrame
+
 
 class IReadFile(ABC):
     @abstractmethod
