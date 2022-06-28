@@ -98,6 +98,28 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
             return super().get_data()
 
     def _convert_to_dict(self, raw_data: DataFrame) -> list:
+        """Convert to the desired data structure.
+
+        For example:
+        [
+            {'title_web_resource': 'Yahoo News - Latest News & Headlines',
+            'link':'https://news.yahoo.com/rss/',
+            'items': [
+                {'title': 'The media receive copies onched missiles on25 June',
+                'link': 'https://news.yahoo.com/medi04.html',
+                'pubDate': '2022-06-28',
+                'source': 'Ukrayina Pravda',
+                'content': 
+                    {
+                        'url': 'https://s.yimg.com/uu/api/re.com/en/ukc321c3475',
+                        'title': None
+                    }
+                }
+                ]
+            }
+        ]
+        """
+
         l_item = []
 
         def new_item():
