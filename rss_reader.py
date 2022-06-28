@@ -5,14 +5,15 @@ import argparse
 import html
 import validators
 import json
-from py_console import console
-from pprint import pprint
+from py_console import console 
+from pprint import pprint #PrettyPrint function
 from bs4 import BeautifulSoup
 import os.path
 from dateutil import parser
-from HTML_converter import convert_to_html
+from HTML_converter import convert_to_html #HTML converter function
 import requests  # request img from web
 import shutil  # save img locally
+from PDF_converter import convert_to_pdf  # PDF converter function
 
 def all_args():
     parser = argparse.ArgumentParser(
@@ -30,6 +31,8 @@ def all_args():
         "--date", help="Get news published on a specific date from cache for further processing.", nargs="*")
     parser.add_argument(
         "--to-html", help="Convert news to .html format and save it into 'html_convert' directory with 'local datetime' name", action='store_true')
+    parser.add_argument(
+        "--to-pdf", help="Convert news to .pdf format and save it into 'pdf_convert' directory with 'local datetime' name", action='store_true')
     args = parser.parse_args()
     # print(args.to_pdf)
     return args
@@ -37,18 +40,21 @@ def all_args():
 arguments = all_args()
 
 def datetime_now():
+    '''Method of defining current datetime'''
     return datetime.datetime.now().astimezone().strftime('%Y.%m.%d %H:%M:%S')
 
 def console_log(msg):
+    '''Function for printing verbose log messages'''
     if verbose_true:
         console.info(f'{datetime_now()} - {msg}', showTime=False)
 
 def console_error(msg):
+    '''Function for printing verbsoe error messages'''
     console.error(f'{datetime_now()} - {msg}', showTime=False)
 
 def check_version():
     """Method for revealing current version of the utility"""
-    print("Version 4.1")
+    print("Version 4.2")
 
 def clean_desc(description):
     '''Function for decoding some part of feed item'''
@@ -79,6 +85,7 @@ def check_url(url):
 verbose_true = True if arguments.verbose else False
 
 def check_storage():
+    '''Method of checking for existance of storage, if the storage is not found, the function will automatically create one'''
     console_log('Checking for storage existance')
     if os.path.exists('local_storage.json'):
         console_log('Scanning the contaminants of the file')
@@ -99,7 +106,7 @@ def check_storage():
             json.dump(list(), writefile, ensure_ascii=False, indent=4)
 
 def get_data():
-    """Collectiong the major part of an Feed and its` items."""
+    """The main function for collectiong the major part of an Feed and its` items."""
     given_limit = arguments.limit
     console_log(f'Limit is given {given_limit}')
     if check_url(arguments.source):
@@ -179,7 +186,6 @@ def get_data():
 
         print(f'\nFeed: {feed}')
 
-        
         for new in news:
             print(new)
 
@@ -187,7 +193,6 @@ def get_data():
         for i in range(len(links)):
             print(f'[{i+1}]: {links[i]}')
         print("\n")
-        
 
         with open('local_storage.json', "r", encoding='utf-8') as file:
             data = json.loads(file.read())
@@ -203,8 +208,6 @@ def get_data():
             json.dump(data, writefile, ensure_ascii=False, indent=4)
             writefile.close()
             
-        
-        
         if arguments.json:
             """Function to convert feeds to json format."""
             item = {'Feed items': item_list}
@@ -213,20 +216,28 @@ def get_data():
             print(json_object)
         
         if arguments.to_html:
+            """Function to convert feeds to html format."""
             data_dicts_html = []
             for data in item_list:
                 data_dicts_html.append(data)
+            convert_to_html(data_dicts_html)
+            console_log("The result for given date successfully convert into html")
+            
+        if arguments.to_pdf:
+            """Function to convert feeds to pdf format."""
+            data_dicts_pdf = []
+            for data in item_list:
+                data_dicts_pdf.append(data)
+            convert_to_pdf(data_dicts_pdf)
+            console_log("The result for given date successfully convert into pdf")
 
-                
-            convert_to_html(data_dicts_html, arguments.to_html)
-            console_log("The result for given date successfully convert to html")
         img_folder='img_storage'
         if os.path.exists(img_folder):
             pass
         else:
             os.mkdir(img_folder)
+
         for item in item_list:
-            # print(item)
             if 'News image_link:' in item:
                 img_name=item['News image_link:'].split('/')[-1]+'.jpeg'
                 res = requests.get(item['News image_link:'], stream=True)
@@ -236,6 +247,7 @@ def get_data():
     
 
 def get_date():
+    '''Distrubuting collected data from local storage "local_storage.json" for different functions according to required options'''
     date_data = []
     if len(arguments.date)>0:
         given_date = arguments.date[0]
@@ -252,6 +264,13 @@ def get_date():
             console_log('Converting collected data into json')
             console_log('Collecting data according to given requirements: [source], [limit], [date], [json]')
             console_log('Printing final result')
+            if arguments.to_html and arguments.to_pdf:
+                console_log('Converting result into html')
+                console_log('Converting result into pdf')
+            elif arguments.to_pdf:
+                console_log('Converting result into pdf')
+            elif arguments.to_html:
+                console_log('Converting result into html')
             for item in data:
                 day = str(parser.parse(item['News date:']).strftime("%Y%m%d"))
                 source = item['Source']
@@ -261,13 +280,17 @@ def get_date():
                 elif len(given_date) == 0 and given_source is None:
                     date_data.append(item)
                 elif given_date == day:
-                    # source siz data kiritilganda hamma malumotni omayapti
                     if given_source == source:
                         date_data.append(item)
             if data_json:
+                
                 if len(date_data[:given_limit]) > 0:
                     if arguments.to_html:
-                        convert_to_html(date_data[:given_limit], arguments.to_html)
+                        
+                        convert_to_html(date_data[:given_limit], arguments.date)
+                    elif arguments.to_pdf:
+                        
+                        convert_to_pdf(date_data[:given_limit], arguments.date)
                     else:
                         print(json.dumps(
                             date_data[:given_limit], indent=4, ensure_ascii=False))
@@ -277,18 +300,28 @@ def get_date():
                         console_error('No data found')
                     else:
                         print('No data found')
-            else:
-                if arguments.to_html:
-                    convert_to_html(
-                        date_data[:given_limit])
-                for i in date_data[:given_limit]:
-                    pprint(i)
+            
+            elif arguments.to_html:
+                
+                convert_to_html(date_data[:given_limit], arguments.date)
+            elif arguments.to_pdf:
+               
+                convert_to_pdf(date_data[:given_limit], arguments.date)
+            for i in date_data[:given_limit]:
+                pprint(i)
                 print('Total data found:', len(date_data[:given_limit]))
         elif given_source is None:
             console_log('Searching source is not given. Looking up local storage with given date')
             console_log('Converting collected data into json')
             console_log('Collecting data according to given requirements: [limit], [date], [json]')
             console_log('Printing final result')
+            if arguments.to_html and arguments.to_pdf:
+                console_log('Converting result into html')
+                console_log('Converting result into pdf')
+            elif arguments.to_pdf:
+                console_log('Converting result into pdf')
+            elif arguments.to_html:
+                console_log('Converting result into html')
             for item in data:
                 day = str(parser.parse(item['News date:']).strftime("%Y%m%d"))
                 source = item['Source']
@@ -299,8 +332,9 @@ def get_date():
             if data_json:
                 if len(date_data[:given_limit]) > 0:
                     if arguments.to_html:
-                        convert_to_html(
-                            date_data[:given_limit], arguments.to_html)
+                        convert_to_html(date_data[:given_limit], arguments.date)
+                    elif arguments.to_pdf:
+                        convert_to_pdf(date_data[:given_limit], arguments.date)
                     else:
                         print(json.dumps(
                             date_data[:given_limit], indent=4, ensure_ascii=False))
@@ -312,19 +346,23 @@ def get_date():
                         print('No data found')
             else:
                 if arguments.to_html:
-                    print('sadfaasdfsad')
-                    convert_to_html(date_data[:given_limit], arguments.to_html)
+                    console_log('Converting result into html')
+                    if arguments.to_pdf:
+                        console_log('Converting result into pdf')
+                    convert_to_html(date_data[:given_limit], arguments.date)
+                elif arguments.to_pdf:
+                    if arguments.to_html:
+                        console_log('Converting result into html')
+                    console_log('Converting result into pdf')
+                    convert_to_pdf(date_data[:given_limit], arguments.date)
                 for i in date_data[:given_limit]:
                     pprint(i)
                     print('Total data found:', len(date_data[:given_limit]))
+                
         file.close()
-
-    
-
 
 
 def read_defs():
-
     """Method to print obtained feeds to console."""
     if verbose_true:
         console_log('Verbose mode turned on')
@@ -338,15 +376,9 @@ def read_defs():
             console_log('Date mode turned on')
             console_log(f'Given date is {arguments.date}')
             get_date()
-
-    # if arguments.to_pdf:
-    #     convert_pdf()
-
-        
     if arguments.version:
         check_version()
 
-    # object()
 
 
 if __name__ == '__main__':
