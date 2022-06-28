@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h2 align="center"><a href="{{data.link}}">{{data.title}}</a></h2>
+{% if data.date %}
+<p align="right">{{ data.date }}</p>
+{% endif %}
+<p>{{ data.description }}</p>
+<br>
+<br>
+<br>
+{% for img in data['images'] %}
+<a href="{{img}}">
+    <img align="center" width="450" src="{{img}}" alt="feed item image">
+</a>
+<br>
+{% endfor %}
+</body>
+</html>
