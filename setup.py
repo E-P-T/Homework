@@ -7,8 +7,6 @@ def read(file_name):
         return file.read()
 
 
-# requirements = read('requirements.txt')
-
 # entry_points = {'gui_scripts': ['rss_reader=rss_reader:main']}
 entry_points = {'console_scripts': ['rss_reader=rss_reader:main']}
 
