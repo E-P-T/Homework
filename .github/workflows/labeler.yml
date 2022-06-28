@@ -11,6 +11,6 @@ jobs:
         uses: Bhacaz/label-regex@v1
         with:
           field: title
-          regex: '(?<final_task>final[ -]*task)'
+          regex: '(?<final_task>(F|f)(I|i)(N|n)(A|a)(L|l)[ -]*(T|t)(A|a)(S|s)(K|k)).*'
           lowercase: true
           token: "${{ secrets.GITHUB_TOKEN }}"
