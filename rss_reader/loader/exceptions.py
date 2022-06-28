@@ -1,4 +1,6 @@
 
+from pandas.errors import EmptyDataError
+
 
 class EmptyURLError(Exception):
     """Occurs when the url is empty."""
