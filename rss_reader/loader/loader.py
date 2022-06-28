@@ -129,7 +129,7 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
         return l_item
 
 
-class FromWebHandler(IHandler):
+class FromWebHandler(AbstractLoaderHandler):
     """Internet data handler."""
 
     template = {'title': 'text',
