@@ -1,6 +1,9 @@
 import unittest
-from unittest.mock import patch
-from rss_reader.rss_reader import *
+from unittest.mock import patch, Mock
+import rss_reader
+from rss_reader import *
+import lxml
+import os
 
 
 class MyTest(unittest.TestCase):
@@ -52,6 +55,56 @@ class MyTest(unittest.TestCase):
                         "the growing awareness of women’s rights and how divisive feminism still remains."
         root_2 = etree.fromstring(description_2)
         self.assertEqual(description_handler(root_2), clear_descr_2)
+
+
+    def test_date_handler(self):
+        date_inf_1 = Mock()
+        date_inf_1.text = "Fri, 24 Jun 2022 07:18:35 +0000"
+        date_inf_2 = Mock()
+        date_inf_2.text = "Fri, 24 Jun 2022 05:36:37 GMT"
+        date_inf_3 = Mock()
+        date_inf_3.text = "2022-06-24T05:39:45Z"
+        self.assertEqual(date_handler(date_inf_1), "Fri, 24 Jun 2022 07:18:35 +0000")
+        self.assertEqual(date_handler(date_inf_2), "Fri, 24 Jun 2022 05:36:37 +0000")
+        self.assertEqual(date_handler(date_inf_3), "Fri, 24 Jun 2022 05:39:45 +0000")
+        self.assertEqual(date_handler(None), "Date field doesn't provided!")
+
+    def test_link_handler(self):
+        inf = Mock()
+        inf.text = "https://www.google.com"
+        self.assertEqual(link_handler(inf), "https://www.google.com")
+        self.assertEqual(link_handler(None), "Link field doesn't provided!")
+
+    def test_description_handler(self):
+        self.assertEqual(description_handler(None), "There is no description!")
+        inf_1 = Mock()
+        inf_1.text = None
+        self.assertEqual(description_handler(inf_1), "There is no description")
+        inf_2 = Mock()
+        inf_2.text = '<p><a >Test information</a></p>'
+        self.assertEqual(description_handler(inf_2), "Test information")
+
+    @patch("os.path.exists")
+    def test_create_path(self, mock_exist):
+        mock_exist.return_value = True
+        path = os.path.join("C:/", "rss_reader")
+        create_path(path)
+        mock_exist.assert_called_once_with(path)
+
+    @patch("rss_reader.printer")
+    @patch("rss_reader.news_to_json")
+    def test_uotput_form(self, mock_printer, mock_news_to_json):
+        title = Mock()
+        news = Mock()
+        self.assertEqual(uotput_form(title, news, "main"), "Choose between console or json!")
+        uotput_form(title, news, "json")
+        mock_printer.assert_called_with(title, news)
+        uotput_form(title, news, "console")
+        mock_news_to_json.assert_called_with(title, news)
+
+
+
+
 
 
 if __name__ == '__main__':

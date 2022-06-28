@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="rss_reader",
-    version="1.2.0",
+    version="1.3.0",
     description="Simple RSS-reader for console use.",
     author="Farrukh Nurmatov",
     packages=find_packages(),
@@ -14,7 +14,8 @@ setup(
                       "lxml>=4.9.0",
                       "requests>=2.28.0",
                       "soupsieve>=2.3.2.post1",
-                      "urllib3>=1.26.9"
+                      "urllib3>=1.26.9",
+                      "python-dateutil>=2.8.2"
                       ],
     python_requires=">=3.9",
     entry_points={
