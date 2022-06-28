@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
 
-from rss.helpers import get_media_link_type
+from .helpers import get_media_link_type
 
 
 class ElementType(Enum):

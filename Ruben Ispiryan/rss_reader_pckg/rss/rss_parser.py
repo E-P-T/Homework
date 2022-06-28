@@ -12,7 +12,10 @@ from .rss_classes import Item, Element, ElementType, ElementCollection
 
 
 class RSSException(Exception):
-    pass
+    def __init__(self, message, is_logged):
+        super().__init__(message)
+
+        self.is_logged = is_logged
 
 
 class RSSParser:
@@ -32,10 +35,10 @@ class RSSParser:
         """
         if not url:
             logging.error('RSS URL must be provided!')
-            raise RSSException('Argument url must be of type str.')
+            raise RSSException('Argument url must be of type str.', is_logged=True)
         if not re.match(r'(https?://[^\s"<]+)', url):
             logging.error('Invalid RSS URL was provided!')
-            raise RSSException('Argument provided was not a valid web url.')
+            raise RSSException('Argument provided was not a valid web url.', is_logged=True)
         req = requests.get(url)
         logging.info('RSS is requested from given URL')
         self.soup = BeautifulSoup(req.content, features='xml')
@@ -57,14 +60,14 @@ class RSSParser:
             return self.soup.findAll('item', limit=limit)
         if not is_number(limit):
             logging.error('RSS parser limit was non-number!')
-            raise RSSException('Non-number limit was passed.')
+            raise RSSException('Non-number limit was passed.', is_logged=True)
         if float(limit) % 1:
             logging.error('RSS parser limit passed was not an integer!')
-            raise RSSException('Non-integer limit was passed.')
+            raise RSSException('Non-integer limit was passed.', is_logged=True)
         limit = int(limit)
         if limit <= 0:
             logging.error('RSS parser limit passed was not a positive integer!')
-            raise RSSException('Non-positive limit was passed.')
+            raise RSSException('Non-positive limit was passed.', is_logged=True)
         logging.info(f'Getting all items from feed until limit of {limit} item(s) is reached')
 
         return self.soup.findAll('item', limit=limit)
