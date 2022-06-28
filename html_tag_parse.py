@@ -2,8 +2,6 @@ from io import StringIO
 from html.parser import HTMLParser
 
 # html parser for clean data
-
-
 class MLStripper(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -22,6 +20,7 @@ class MLStripper(HTMLParser):
 
 
 def clean_desc(html):
+    '''Decoding and returning data'''
     s = MLStripper()
     s.feed(html)
     return s.get_data()
