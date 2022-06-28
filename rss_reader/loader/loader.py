@@ -5,7 +5,7 @@ data elements and forms the final result.
 """
 
 
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from numpy import nan
 from pandas import DataFrame
 
@@ -15,10 +15,12 @@ from rss_reader.interfaces.iparser.iparser import IParser
 from rss_reader.logger.logger import Logger
 from rss_reader.decorator.decorator import send_log_of_start_function
 from rss_reader.date_converter.date_converter import DateConverter
+from rss_reader.parser.exceptions import EmptyListError
+
 
 from .reader import ReaderCSVFile
 from .decorators import BaseComponent, SortByEqual, LimitRecords
-from .exceptions import DataEmptyError
+from .exceptions import DataEmptyError, EmptyURLError
 
 
 log = Logger.get_logger(__name__)
@@ -53,7 +55,7 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
             raw_data = ReaderCSVFile.read(self._file)
 
             try:
-                dt = DateConverter().date(date)
+                dt = DateConverter().date_convert(date)
             except ValueError as e:
                 raise ValueError('Wrong time format') from e
 
@@ -76,6 +78,7 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
                     'There is no data to provide for the current date.')
 
             data = self._convert_to_dict(fined_data)
+
             return data
         else:
             return super().get_data()
@@ -115,6 +118,7 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
                         break
                 else:
                     new_item()
+
         return l_item
 
 
@@ -129,6 +133,11 @@ class FromWebHandler(IHandler):
                 }
 
     def __init__(self,
+                 tag_name: str,
+                 title_tag: str,
+                 channel_link: str,
+                 source: str,
+                 limit: Optional[int],
                  crawler: ICrawler,
                  parser: IParser) -> None:
         """Initializer.
@@ -140,15 +149,16 @@ class FromWebHandler(IHandler):
                         received from the Internet.
         :type parser: IParser
         """
+        self._tag_name = tag_name
+        self._title_tag = title_tag
+        self._channel_linik = channel_link
+        self._source = source
+        self._limit = limit
         self._crawler = crawler
         self._parser = parser
 
     @send_log_of_start_function
-    def get_data(self,
-                 tag_name: str,
-                 title_tag: str,
-                 source: str,
-                 limit: int) -> dict:
+    def get_data(self) -> List[dict]:
         """Return a dictionary with parsed data.
 
         :param tag_name: The name of the tag in which the news is stored.
@@ -163,25 +173,35 @@ class FromWebHandler(IHandler):
         :return: Dictionary with parsed data.
         :rtype: dict
         """
+        if not self._source:
+            raise EmptyURLError('Passed url is empty!')
 
-        cr = self._crawler(source)
+        cr = self._crawler(self._source)
         response_ = cr.get_data()
 
         log.debug('Start creating the parser.')
         self._parser.create_parser(markup=response_)
         log.debug('Stop creating the parser.')
 
-        log.debug('Start getting parsed data.')
-        title_text = next(self._parser.get_tags_text(
-            selector=title_tag))
+        log.debug('Start the process of getting the resource title.')
+        try:
+            title_tag = self._parser.get_tags_text(selector=self._title_tag)
+            title_text = next(title_tag)
+        except EmptyListError:
+            title_text = None
+        log.debug('Stop the process of getting the resource title.')
+
         items = self._parser.get_items(
-            self.template, name=tag_name, limit_elms=limit)
-        log.debug('Stop getting parsed data.')
+            self.template, name=self._tag_name, limit_elms=self._limit)
+
+        if not items:
+            raise DataEmptyError('no news')
 
         log.debug('Start generating results.')
         result = {'title_web_resource': title_text}
+        result.update({'link': self._source})
         items_dict = {'items': items}
         result.update(items_dict)
         log.debug('Result was formed.')
 
-        return result
+        return [result]
