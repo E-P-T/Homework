@@ -4,6 +4,7 @@ from json_to_html import convert_to_html
 from json_convert_to_pdf import convert_to_pdf
 from utilty import isValidURL
 import argparse
+from rss_reader import get_news
 # from rss_reader import get_arg
 
 def create_parser():
@@ -53,6 +54,21 @@ class TestRssReader(unittest.TestCase):
     def test_arg_limit(self):
         parsed = self.parser.parse_args(['--limit','5'])
         self.assertEqual(parsed.limit, 5)
+        
+    def test_arg_source_news(self):
+        parsed = self.parser.parse_args(['https://news.google.com/rss/','--limit','1'])
+        test=get_news(parsed)
+        self.assertEqual(test, True)
+        
+    def test_arg_json_news(self):
+        parsed = self.parser.parse_args(['https://news.google.com/rss/','--limit','1','--json'])
+        test=get_news(parsed)
+        self.assertEqual(test, True)
+        
+    def test_arg_date_news(self):
+        parsed = self.parser.parse_args(['https://news.google.com/rss/','--limit','1','--date','20220625'])
+        test=get_news(parsed)
+        self.assertEqual(test, True)
     
     def test_arg_source(self):
         parsed = self.parser.parse_args(['https://news.google.com/rss/'])
