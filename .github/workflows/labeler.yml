@@ -8,7 +8,7 @@ jobs:
     name: Add label
     steps:
       - name: "Assign label to Final Task"
-        uses: final_task
+        uses: Bhacaz/label-regex@v1
         with:
           field: title
           regex: '(F|f)(I|i)(N|n)(A|a)(L|l)[ -]*(T|t)(A|a)(S|s)(K|k)'
