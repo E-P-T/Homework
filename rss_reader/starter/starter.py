@@ -73,7 +73,6 @@ class Starter:
 
         wh = FromWebHandler('item',
                             'channel > title',
-                            'channel > link',
                             self._argv.get('source'),
                             self._argv.get('limit'),
                             SuperCrawler,
