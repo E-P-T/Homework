@@ -1,17 +1,8 @@
 import os
 from json2html import *
-import requests
 from bs4 import BeautifulSoup
 import datetime
 
-
-url = "https://www.google.com/"
-timeout = 5
-try:
-    request = requests.get(url, timeout=timeout)
-    online = True
-except (requests.ConnectionError, requests.Timeout) as exception:
-    online = False
 
 with open('base.html', 'r', encoding='utf-8') as readfile:
     html_file = readfile.read()
@@ -19,14 +10,16 @@ with open('base.html', 'r', encoding='utf-8') as readfile:
 soup = BeautifulSoup(html_file, "html.parser")
 readfile.close()
 
-def convert_to_html(dataset, filename=None):
+
+def convert_to_html(dataset,date=None):
+     '''Method of data convertion into html'''
      for data in dataset:
           main_div = soup.new_tag('div', **{'class': 'card mb-3 em'})
           body_div = soup.new_tag('div', **{'class': 'card-body'})
           tag_p = soup.new_tag('p', **{'class': 'card-text'})
           body_div.append(tag_p)
           for key, value in data.items():
-               if online:
+               if date:
                     img_source = "News image_link:"
                     if key == img_source:
                          img_tag = soup.new_tag(
@@ -44,7 +37,6 @@ def convert_to_html(dataset, filename=None):
                     if key == 'News image_link:':
                          img_name = value.split('/')[-1]
                          for i in res:
-                              print(i[:-5])
                               if img_name == i[:-5]:
                                    img_tag = soup.new_tag(
                                        "img", **{'class': 'card-img-top'}, src=f"../{dir_path}/{img_name}.jpeg", alt="No image link")
@@ -89,7 +81,7 @@ def convert_to_html(dataset, filename=None):
           main_div.append(body_div)
           soup.body.div.append(main_div)
           folder = 'html_convert'
-          if online:
+          if date:
               file = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")+'(online)'+'.html'
           else:
               file = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")+'(offline)'+'.html'
