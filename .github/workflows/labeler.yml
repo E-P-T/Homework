@@ -1,16 +1,31 @@
+# on:
+#   pull_request:
+#     types: [opened, edited]
+
+# jobs:
+#   label_regex:
+#     runs-on: ubuntu-latest
+#     name: Add label
+#     steps:
+#       - name: "Assign label to Final Task"
+#         uses: Bhacaz/label-regex@v1
+#         with:
+#           field: title
+#           regex: '(?<final_task>(F|f)(I|i)(N|n)(A|a)(L|l)[ -]*(T|t)(A|a)(S|s)(K|k)).*'
+#           lowercase: true
+#           token: "${{ secrets.GITHUB_TOKEN }}"
+
+
+name: "Issue Labeler"
 on:
   pull_request:
     types: [opened, edited]
 
 jobs:
-  label_regex:
+  triage:
     runs-on: ubuntu-latest
-    name: Add label
     steps:
-      - name: "Assign label to Final Task"
-        uses: Bhacaz/label-regex@v1
-        with:
-          field: title
-          regex: '(?<final_task>(F|f)(I|i)(N|n)(A|a)(L|l)[ -]*(T|t)(A|a)(S|s)(K|k)).*'
-          lowercase: true
-          token: "${{ secrets.GITHUB_TOKEN }}"
+    - uses: github/issue-labeler@v2.0
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+        configuration-path: .github/labeler.yml
