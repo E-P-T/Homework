@@ -34,5 +34,5 @@ class ILoadHandler(ABC):
         pass
 
     @abstractmethod
-    def get_data(self, data: dict):
+    def get_data(self):
         pass
