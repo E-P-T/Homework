@@ -6,3 +6,17 @@ class EmptyURLError(Exception):
 
 class DataEmptyError(Exception):
     """Occurs when there is no data."""
+
+
+class DataFileEmptyError(EmptyDataError):
+    """Occurs when there is no data in the uploaded file."""
+
+    def __init__(self, file, *args, **kwargs) -> None:
+        self.file = file
+        super().__init__(*args, **kwargs)
+
+    def __str__(self) -> str:
+        a = f'No columns to parse from file ({self.file}). '\
+            f'Delete the file and run the program in the mode of reading '\
+            f'news from the Internet.'
+        return a
