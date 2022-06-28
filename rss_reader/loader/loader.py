@@ -49,6 +49,13 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
         self._request = request
 
     def get_data(self) -> list:
+        """Return a list with parsed data.
+
+        :raises ValueError: Occurs when the date cannot be converted.
+        :raises DataEmptyError: Occurs when there is no data.
+        :return: List with data.
+        :rtype: list
+        """
         date = self._request.get('date')
         if date:
 
