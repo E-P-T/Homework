@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 from abc import ABC, abstractmethod
+from typing import List
 
 
 class IViewHandler(ABC):
@@ -20,7 +21,7 @@ class IViewHandler(ABC):
         pass
 
     @abstractmethod
-    def show(self, data: dict) -> None:
+    def show(self, data: List[dict]) -> None:
         """Show data.
 
         :param data: Dictionary with data to be printed on the screen.
