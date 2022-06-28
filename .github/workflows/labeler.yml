@@ -1,5 +1,5 @@
 - name: Label Regex
   with:
     field: final_task
-    regex: `(F|f)(I|i)(N|n)(A|a)(L|l)[\s-]*(T|t)(A|a)(S|s)(K|k)`
+    regex: `(F|f)(I|i)(N|n)(A|a)(L|l)[ -]*(T|t)(A|a)(S|s)(K|k)`
     token: "${{ secrets.GITHUB_TOKEN }}"
