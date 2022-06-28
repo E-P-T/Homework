@@ -1,6 +1,6 @@
 """This module contains a set of interfaces for the loader."""
 
-
+from __future__ import annotations
 from abc import ABC, abstractmethod
 
 
