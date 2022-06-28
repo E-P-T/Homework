@@ -20,6 +20,7 @@ class DataConverter(IDataConverter):
                              ignore_index=True)
         data_concat.drop_duplicates(keep='first', inplace=True,
                                     ignore_index=True)
+        return data_concat
 
     def _convert_date(self, df: DataFrame, column_name:
                       str, format: str = '%Y-%m-%d',
