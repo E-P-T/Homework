@@ -1,6 +1,2 @@
-on:
-  pull_requests:
-    types: [opened, edited]
-
 final_task:
     - '(task|final)'
