@@ -4,7 +4,7 @@ Viewers display data in the desired form.
 Each viewer is called in a chain.
 """
 
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 from json import dumps
 
 from rss_reader.interfaces.iviewer.iviewer import IViewHandler
@@ -33,7 +33,7 @@ class AbstractViewHandler(IViewHandler):
         return handler
 
     @send_log_of_start_function
-    def show(self, data: dict) -> None:
+    def show(self, data: List[dict]) -> None:
         """Show data.
 
         :param data: Dictionary with data to be printed on the screen.
@@ -50,56 +50,46 @@ class StandartViewHandler(AbstractViewHandler):
     Executed when others have failed to process the data.
     """
 
-    def show(self, data: dict) -> None:
-        """Show data.
+    def show(self, data: List[dict]) -> None:
+        for i in data:
+            self._show_item(i)
 
-        :param data: Dictionary with data to be printed on the screen.
-        :type data: dict
-        """
-        log.debug("Print title.")
-        self._get_info(data, "title_web_resource", "\nFeed: ",
-                       alternative='no data', end="\n\n\n")
-
-        log.debug("Start getting news.")
+    def _show_item(self, data: dict):
+        """Показать данные"""
+        self._get_info(data, "title_web_resource", "\nFeed: ", end="\n\n\n")
         items = data.get('items')
-        log.debug("Start getting news.")
-
-        is_list = isinstance(items, list)
-        is_now_news = False
-
-        if is_list:
+        if isinstance(items, list):
             for i in items:
-                if "no news" in i:
-                    is_now_news = True
+                self._get_info(i, "title", "Title")
+                self._get_info(i, "source", "Source")
+                self._get_info(i, "pubDate", "PubDate")
+                self._get_info(i, "link", "Link")
+                media_content = i.get("content")
 
-            if is_now_news:
-                log.info("No news.")
-                self._get_info(items[0], "no news", "News")
-            else:
-                for i in items:
-                    log.debug("Start posting news.")
-                    self._get_info(i, "title", "Title")
-                    self._get_info(i, "source", "Source")
-                    self._get_info(i, "pubDate", "PubDate")
-                    self._get_info(i, "link", "Link")
-                    media_content = i.get("content")
-                    if media_content:
-                        print("Media content:")
-                        self._get_info(media_content, "title",
-                                       "[title of media content]")
-                        self._get_info(media_content, "url",
-                                       "[source of media content]")
-                    print('\n\n')
-                    log.debug("Stop posting news.")
+                if not self._is_empty(media_content):
+                    print("Media content:")
+                    self._get_info(media_content, "title",
+                                   "[title of media content]")
+                    self._get_info(media_content, "url",
+                                   "[source of media content]")
+                print('\n\n')
+        elif items:
+            print(items)
 
-    def _get_info(self, dict_: dict, attr: str, str_: str,
-                  alternative: str = '', end='\n') -> None:
-        """Print a string containing data from a dictionary."""
+    def _is_empty(self, lst: List[Dict[str, str]]) -> bool:
+        result = True
+        for i in lst:
+            if lst[i] is not None:
+                result = False
+                break
+
+        return result
+
+    def _get_info(self, dict_: dict, attr: str, str_: str, end='\n'):
+        """получить строку с данными из словаря"""
         x = dict_.get(attr)
         if x:
             print(f'{str_}: {x}', end=end)
-        elif alternative:
-            print(f'{str_}: {alternative}', end=end)
 
 
 class JSONViewHandler(AbstractViewHandler):
