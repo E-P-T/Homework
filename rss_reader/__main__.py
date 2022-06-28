@@ -19,25 +19,25 @@ def main():
     log.debug("Create a Starter object.")
     s = Starter(args)
 
-    try:
-        log.info("Start the program.")
-        s.run()
-    except NonNumericError as e:
-        print(f'Sorry, we have to stop working. Because:')
-        print(f'\t {e}')
-        log.error(e)
-    except BadURLError as e:
-        print(f'Sorry, we have to stop working. Because:')
-        print(f'\t {e}')
-        log.error(e)
-    except Exception as e:
-        s = ('Sorry, we have to stop working. Something went wrong.'
-             'We are terribly sorry.')
-        print(s)
-        log.error(e)
-    finally:
-        log.info("Stop the program.")
-        exit()
+    # try:
+    log.info("Start the program.")
+    s.run()
+    # except NonNumericError as e:
+    #     print(f'Sorry, we have to stop working. Because:')
+    #     print(f'\t {e}')
+    #     log.error(e)
+    # except BadURLError as e:
+    #     print(f'Sorry, we have to stop working. Because:')
+    #     print(f'\t {e}')
+    #     log.error(e)
+    # except Exception as e:
+    #     s = ('Sorry, we have to stop working. Something went wrong.'
+    #          'We are terribly sorry.')
+    #     print(s)
+    #     log.error(e)
+    # finally:
+    #     log.info("Stop the program.")
+    #     exit()
 
 
 if __name__ == "__main__":
