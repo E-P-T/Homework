@@ -104,7 +104,7 @@ class JSONViewHandler(AbstractViewHandler):
         """
         self._request = request
 
-    def show(self, data: dict) -> None:
+    def show(self, data: List[dict]) -> None:
         """Display the data as a JSON structure.
 
         :param data: Dictionary with data to be printed on the screen.
