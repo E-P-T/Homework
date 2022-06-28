@@ -32,7 +32,44 @@ class AbstractLoaderHandler(ILoadHandler):
 
 
 class FromLocalSTorageHandler(AbstractLoaderHandler):
-    pass
+
+    def __init__(self, file: str, request: Dict[str, str]) -> None:
+        self._file = file
+        self._request = request
+
+    def get_data(self) -> list:
+        date = self._request.get('date')
+        if date:
+
+            raw_data = ReaderCSVFile.read(self._file)
+
+            try:
+                dt = DateConverter().date(date)
+            except ValueError as e:
+                raise ValueError('Wrong time format') from e
+
+            bc = BaseComponent()
+            fined_data = SortByEqual('item.pubDate', dt.__str__(), bc)
+
+            source = self._request.get('source')
+            if source:
+                fined_data = SortByEqual(
+                    'link', source, fined_data)
+
+            limit = self._request.get('limit')
+            if limit:
+                fined_data = LimitRecords(limit, fined_data)
+
+            fined_data = fined_data.operation(raw_data)
+
+            if fined_data.empty:
+                raise DataEmptyError(
+                    'There is no data to provide for the current date.')
+
+            data = self._convert_to_dict(fined_data)
+            return data
+        else:
+            return super().get_data()
 
 
 class FromWebHandler(IHandler):
