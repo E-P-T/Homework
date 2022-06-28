@@ -43,6 +43,7 @@ class AbstractLoaderHandler(ILoadHandler):
 
 
 class FromLocalSTorageHandler(AbstractLoaderHandler):
+    """Data loader from local storage."""
 
     def __init__(self, file: str, request: Dict[str, str]) -> None:
         self._file = file
