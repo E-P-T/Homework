@@ -1,0 +1,3 @@
+
+class ReaderCSVFile(IReadFile):
+    pass
