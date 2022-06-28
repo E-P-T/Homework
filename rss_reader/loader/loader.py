@@ -27,16 +27,30 @@ log = Logger.get_logger(__name__)
 
 
 class AbstractLoaderHandler(ILoadHandler):
+    """The base class of the handler."""
 
     _next_handler: Optional[ILoadHandler] = None
 
     @send_log_of_start_function
     def set_next(self, handler: ILoadHandler) -> ILoadHandler:
+        """Set the next viewer in the handler chain.
+
+        :param handler: Next handler.
+        :type handler: ILoadHandler
+        :return: Handler.
+        :rtype: ILoadHandler
+        """
         self._next_handler = handler
         return handler
 
     @send_log_of_start_function
     def get_data(self) -> list:
+        """Get the requested data.
+
+        :return: List with data.
+        :rtype: list
+        """
+
         if self._next_handler:
             return self._next_handler.get_data()
         return None
