@@ -174,23 +174,17 @@ class FromWebHandler(AbstractLoaderHandler):
 
     @send_log_of_start_function
     def get_data(self) -> List[dict]:
-        """Return a dictionary with parsed data.
+        """Return a list with parsed data.
 
-        :param tag_name: The name of the tag in which the news is stored.
-        :type tag_name: str
-        :param title_tag: The name of the tag in which the name
-                            of the rss resource is stored.
-        :type title_tag: str
-        :param source: Resource URL.
-        :type source: str
-        :param limit: Number of news items to display.
-        :type limit: int
-        :return: Dictionary with parsed data.
-        :rtype: dict
+        :raises EmptyURLError: Occurs when the url is empty.
+        :raises DataEmptyError: Occurs when there is no data.
+        :return: List with data.
+        :rtype: List[dict]
         """
         if not self._source:
             raise EmptyURLError('Passed url is empty!')
 
+        # get data from internet
         cr = self._crawler(self._source)
         response_ = cr.get_data()
 
@@ -206,12 +200,14 @@ class FromWebHandler(AbstractLoaderHandler):
             title_text = None
         log.debug('Stop the process of getting the resource title.')
 
+        # get news
         items = self._parser.get_items(
             self.template, name=self._tag_name, limit_elms=self._limit)
 
         if not items:
             raise DataEmptyError('no news')
 
+        # collect all the data in a dictionary
         log.debug('Start generating results.')
         result = {'title_web_resource': title_text}
         result.update({'link': self._source})
