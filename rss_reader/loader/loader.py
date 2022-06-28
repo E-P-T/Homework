@@ -15,6 +15,22 @@ from rss_reader.decorator.decorator import send_log_of_start_function
 log = Logger.get_logger(__name__)
 
 
+class AbstractLoaderHandler(ILoadHandler):
+
+    _next_handler: Optional[ILoadHandler] = None
+
+    @send_log_of_start_function
+    def set_next(self, handler: ILoadHandler) -> ILoadHandler:
+        self._next_handler = handler
+        return handler
+
+    @send_log_of_start_function
+    def get_data(self) -> list:
+        if self._next_handler:
+            return self._next_handler.get_data()
+        return None
+
+
 class FromWebHandler(IHandler):
     """Internet data handler."""
 
