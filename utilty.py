@@ -1,7 +1,7 @@
 import re
 
 def isValidURL(str):
-     
+    '''Url validation checker'''
     # Regex to check valid URL
     regex = ("((http|https)://)(www.)?" +
              "[a-zA-Z0-9@:%._\\+~#?&//=]" +
