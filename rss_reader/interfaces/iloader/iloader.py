@@ -26,3 +26,13 @@ class IHandler(ABC):
         :rtype: dict
         """
         pass
+
+
+class ILoadHandler(ABC):
+    @abstractmethod
+    def set_next(self, handler: ILoadHandler) -> ILoadHandler:
+        pass
+
+    @abstractmethod
+    def get_data(self, data: dict):
+        pass
