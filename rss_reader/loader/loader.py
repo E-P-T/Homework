@@ -52,31 +52,38 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
         date = self._request.get('date')
         if date:
 
+            # load data from local storage
             raw_data = ReaderCSVFile.read(self._file)
 
+            # convert date to string
             try:
                 dt = DateConverter().date_convert(date)
             except ValueError as e:
                 raise ValueError('Wrong time format') from e
 
+            # design pattern - decorator
             bc = BaseComponent()
+            # sort by date
             fined_data = SortByEqual('item.pubDate', dt.__str__(), bc)
 
             source = self._request.get('source')
             if source:
+                # sort by source
                 fined_data = SortByEqual(
                     'link', source, fined_data)
 
             limit = self._request.get('limit')
             if limit:
+                # sort by limit
                 fined_data = LimitRecords(limit, fined_data)
-
+            # start execution of the decorator pattern
             fined_data = fined_data.operation(raw_data)
 
             if fined_data.empty:
                 raise DataEmptyError(
                     'There is no data to provide for the current date.')
 
+            # convert to the given dictionary structure
             data = self._convert_to_dict(fined_data)
 
             return data
