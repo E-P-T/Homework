@@ -71,6 +71,43 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
         else:
             return super().get_data()
 
+    def _convert_to_dict(self, raw_data: DataFrame) -> list:
+        l_item = []
+
+        def new_item():
+            new_source = {}
+            new_source['title_web_resource'] = v.get('title_web_resource')
+            new_source['link'] = link
+            new_source['items'] = [item]
+            l_item.append(new_source)
+
+        for i, v in raw_data.iterrows():
+
+            v.replace(nan, None, inplace=True)
+            link = v.get('link')
+
+            item = {}
+            item['title'] = v.get('item.title')
+            item['link'] = v.get('item.link')
+            item['pubDate'] = v.get('item.pubDate')
+            item['source'] = v.get('item.source')
+
+            content = {}
+            content['url'] = v.get('item.content.url')
+            content['title'] = v.get('item.content.title')
+            item['content'] = content
+
+            if not l_item:
+                new_item()
+            else:
+                for i in l_item:
+                    if link == i.get('link'):
+                        i['items'].append(item)
+                        break
+                else:
+                    new_item()
+        return l_item
+
 
 class FromWebHandler(IHandler):
     """Internet data handler."""
