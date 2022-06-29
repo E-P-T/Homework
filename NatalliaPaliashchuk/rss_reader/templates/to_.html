@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ feed_title }}</title>
+</head>
+<body>
+    <h3>{{ feed_title }}</h3>
+    {%- for item in feed_items %}
+        <p>
+        Title: {{ item.item_title }}<br>
+        Date: {{ item.item_pub_date }}<br>
+        Link: <a href="{{ item.item_url }}">{{ item.item_url }}</a><br><br>
+        {%- if item.item_image_url != '' %}
+            <img src="{{ item.item_image_url }}" style="max-width:150px;width:100%;border:0">
+        {%- endif %}<br>
+        {{ item.item_desc_text }}<br>
+        {%- for link in item.item_desc_links %}
+            [{{ link.link_pos }}]: <a href="{{ link.link_url }}">{{ link.link_type }}</a><br>
+        {%- endfor %}
+        </p>
+    {%- endfor %}
+</body>
+</html>
