@@ -1,5 +1,3 @@
-[![PyPI version](https://badge.fury.io/py/rss-news-reader.svg)](https://badge.fury.io/py/rss-news-reader)
-
 # Python RSS reader
 
 `rss-reader` is a command line utility that makes it easy to view RSS feeds in a readable format.
@@ -35,12 +33,32 @@ Now, you can run the utility by this command:
 Now, provided, your current directory is `/Final_task`, you can run `rss_reader` as a
 package:
 
-    python rss__reader
+    rss_reader {your arguments}
 
 or, provided, your current directory is `/Final_task/rss_reader`, you can directly run the
 module:
+    python rss_reader.py {your arguments}
 
-    python rss_reader.py
+
+!!! Before using short command (rss_reader {your arguments}) generate distribution packages for the package. These are archives that are uploaded to the Python Package Index and can be installed by pip.
+Make sure you have the latest version of PyPA’s build installed:
+
+  >>>pip install --upgrade build
+
+Now run this command from the same directory where pyproject.toml is located: 
+
+  >>>python -m build    
+
+This command should output a lot of text and once completed should generate two files in the dist directory:
+    dist/
+      RSS_reader-4.2-py3-none-any.whl
+      RSS_reader-4.2.tar.gz
+      
+The tar.gz file is a source distribution whereas the .whl file is a built distribution. Newer pip versions preferentially install built distributions, but will fall back to source distributions if needed. You should always upload a source distribution and provide built distributions for the platforms your project is compatible with. In this case, our example package is compatible with Python on any platform so only one built distribution is needed.
+
+  >>>pip install --editable .
+
+This command will install the package in develop mode, meaning it will just link back to where the sources are. If by any chance the sources are moved or deleted, importing the package will fail.
 
 ## Functionality
 
@@ -262,14 +280,15 @@ Modules tested:
     (
       test_convert_to_html(),
       test_convert_to_pdf(),
-      test_is_valid_url(),
-      test_arg_limit(),
-      test_arg_source(),
-      test_arg_date()
+      test_url_validation(),
+      test_args_limit(),
+      test_args_source(),
+      test_args_date(),
+      test_clean_desc()
 
     )
-
-***Test coverage is 51%.***
+Before testing please pay attention to notes inside the functions. Some test require folders or images which are stored locally. Best sollution is to run the utility couple of times checking with different arguments and optins. 
+project is tested for the file convertions, url validation, argparse options and decoding the html functions.
 
 In order to run tests, please, install dependencies:
 
