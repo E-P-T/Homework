@@ -14,6 +14,7 @@ class TestRSSParser(unittest.TestCase):
         self.rss_parser = RSSParser()
         with open(f'{os.path.dirname(os.path.abspath(__file__))}/test_rss.xml', 'r', encoding="utf8") as f:
             self.rss_parser.soup = BeautifulSoup(f.read(), features='xml')
+        logging.disable(logging.ERROR)
 
     def test_correct_no_limit(self):
         results = self.rss_parser.items()
@@ -26,7 +27,7 @@ class TestRSSParser(unittest.TestCase):
     def test_limit_wrong_number_type(self):
         with self.assertRaises(RSSException) as e:
             self.rss_parser.items(-1)
-        self.assertEqual(e.exception.args[0], 'Non-positive limit was passed.')
+
         with self.assertRaises(RSSException) as e:
             self.rss_parser.items(0)
         self.assertEqual(e.exception.args[0], 'Non-positive limit was passed.')
