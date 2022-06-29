@@ -442,6 +442,10 @@ At the bottom of the screen user can see all currently tracked RSS feed URLs. If
 To add an RSS feed to tracking list use "Add another RSS URL" form on CachedNews page. Enter an RSS feed URL to the form field and press "Track Feed". 
 If feed added successfully, message "URL successfully added" will float.
 
+### Updating cached RSS sources
+To simultaneously update all tracked (cached) RSS feeds use "Update Cache" button on CachedNews page. 
+For each tracked URL, if updated successfully - message "${URL} successfully added", and if update fails for some reasons - message "Couldn't update ${URL}" will float.
+
 ### Saving news
 While reading news user can save and download them in HTML or PDF formats by clicking correspondent buttons. Note that saving as PDF may take some 
 time due to necessity of downloading and converting images from news source.
@@ -469,7 +473,6 @@ User can change and save settings in settings menu (at current level of developi
 After saving settings message "User settings saved" will float.
 
 User can also delete his user profile by pressing a button "Delete User". Which will also cause message "User deleted" to float.
-
 
 
 ## Both CLI utility and web service have been tested on following feeds:

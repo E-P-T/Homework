@@ -48,10 +48,27 @@
                     </div>
                 </div>
             </form>
+            <br>
+            <br>
+                        <div class="row g-0">
+                <div class="col-md-auto mx-auto">
+                    <h3>Update tracked RSS feeds</h3>
+                </div>
+            </div>
+<br>
+            <div class="row g-0">
+    <div class="col-md-auto mx-auto">
+        <form action="{% url 'update_cache' %}">
+            <button type="submit" class="btn btn-primary btn-lg">Update Cache</button>
+        </form>
+    </div>
+</div>
         </div>
 
     </div>
 </div>
+
+
 
 <br>
 <div class="row g-0">
@@ -59,8 +76,11 @@
         <h3>Currently tracking news from RSS channels:</h3>
     </div>
 </div>
-<br>
 
+
+
+
+<br>
 <div class="row row-cols-1 row-cols-md-3 g-4">
 
 {% for obj in object_list %}

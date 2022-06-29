@@ -11,4 +11,5 @@ urlpatterns = [
     path('news_pdf/', news_pdf, name='news_pdf'),
     path('news_html/', news_html, name='news_html'),
     path('start/', start_page_view, name='start'),
+    path('update_cache/', update_all_cache_view, name='update_cache'),
 ]

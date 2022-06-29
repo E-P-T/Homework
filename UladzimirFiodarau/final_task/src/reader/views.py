@@ -14,7 +14,10 @@ from .models import Cache
 from .forms import AddUrlForm, NewsParametersForm, FreshNewsParametersForm
 from .reader import DjangoRssReader, DjangoRssReaderCached
 
-__all__ = ['cached_news_view',
+__all__ = ['add_news',
+           'start_page_view',
+           'cached_news_view',
+           'update_all_cache_view',
            'read_news_view',
            'fresh_news_view',
            'read_fresh_news_view',
@@ -24,8 +27,6 @@ __all__ = ['cached_news_view',
            'page_server_error',
            'page_permission_denied',
            'page_bad_request',
-           'add_news',
-           'start_page_view'
            ]
 
 
@@ -54,6 +55,25 @@ def cached_news_view(request):
     qs = Cache.objects.all()
     news_choice_form = NewsParametersForm()
     add_form = AddUrlForm()
+    return render(request, 'reader/cached_news.html',
+                  {'object_list': qs,
+                   'add_form': add_form,
+                   'choice_form': news_choice_form,
+                   })
+
+
+def update_all_cache_view(request):
+    qs = Cache.objects.all()
+    news_choice_form = NewsParametersForm()
+    add_form = AddUrlForm()
+    url_list = [obj.url for obj in qs if obj]
+    for url in url_list:
+        try:
+            news = DjangoRssReader(url, news_limit=None)
+            news.save_django_reader_cache()
+            messages.success(request, f'{url} successfully updated')
+        except Exception:
+            messages.error(request, f"Couldn't update {url}")
     return render(request, 'reader/cached_news.html',
                   {'object_list': qs,
                    'add_form': add_form,
