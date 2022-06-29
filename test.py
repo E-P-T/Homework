@@ -16,12 +16,13 @@ class TestRssReader(unittest.TestCase):
         
         self.url = "https://news.yahoo.com/rss/"
         self.dataset = [{
-            "Source": "https://news.yahoo.com/rss/",
-            "News title:": "\"It's a terrible scene\": At least 21 teens die in tavern mystery",
-            "News date:": "2022-06-26 18:06:00",
-            "News link:": "https://news.yahoo.com/terrible-scene-least-21-teens-180658249.html",
-            "News source:": "https://www.cbsnews.com/",
-            "News image_link:": "https://s.yimg.com/uu/api/res/1.2/7fJJnU5hoPxnY6a5h0Ki5g--~B/aD0yNTYwO3c9Mzg0MDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/cbs_news_897/0086668e97cf2885e4decaffd9611be7"
+            "Source": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+            "News title:": "Shanghai Wrestles With Psychological Scars From Lockdown",
+            "News date:": "2022-06-29 09:00:46",
+            "News link:": "https://www.nytimes.com/2022/06/29/world/asia/shanghai-lockdown-china.html",
+            "News image_link:": "https://static01.nyt.com/images/2022/06/28/world/00china-mentalhealth-01/00china-mentalhealth-01-moth.jpg",
+            "News creator:": "Vivian Wang",
+            "News description:": "The lockdown fueled anxiety, fear and depression among the city’s residents. Experts have warned that the mental health impact of the confinement will be long-lasting."
         }]
 
         self.convert_to_html = convert_to_html(self.dataset)
