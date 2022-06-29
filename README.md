@@ -1,28 +1,122 @@
-# How to create a PR with a homework task
+RSS reader
+=========
 
-1. Create fork from the following repo: https://github.com/E-P-T/Homework. (Docs: https://docs.github.com/en/get-started/quickstart/fork-a-repo )
-2. Clone your forked repo in your local folder.
-3. Create separate branches for each session.Example(`session_2`, `session_3` and so on)
-4. Create folder with you First and Last name in you forked repo in the created session.
-5. Add your task into created folder
-6. Push finished session task in the appropriate branch in accordance with written above.
- You should get the structure that looks something like that
+This is RSS reader version 1.0.
 
+rss_reader.py is a python script intended to get RSS feed from given source URL
+and write its content to standart output.
+
+Please be carefull with redirecting output to files. In this case CPython implementation
+of Python interpreter will change encoding from UTF-8 to
+the system locale encoding (i.e. the ANSI codepage).
+
+This script will try to install all required packages from PyPI with pip in
+the current environment.
+
+Tests
+------
+
+To launch tests run 
+
+on Windows
+
+```shell
+python -m unittest tests.py
 ```
- Branch: Session_2
-         DzmitryKolb
-              |___Task1.py
-              |___Task2.py
- Branch: Session_3
-         DzmitryKolb
-              |___Task1.py
-              |___Task2.py
+
+on Linux 
+
+```bash
+python3 -m unittest tests.py
 ```
 
-7. When you finish your work on task you should create Pull request to the appropriate branch of the main repo https://github.com/E-P-T/Homework (Docs: https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
-Please use the following instructions to prepare good description of the pull request:
-    - Pull request header should be: `Session <Number of the session> - <FirstName> <LastName>`.
-      Example: `Session 2 - Dzmitry Kolb`
-    - Pull request body: You should write here what tasks were implemented.
-      Example: `Finished: Task 1.2, Task 1.3, Task 1.6`
+To check test coverage run
 
+on Windows
+
+```shell
+python -m coverage run --source=rss_reader -m unittest tests.py
+python -m coverage report -m
+```
+
+on Linux
+
+```bash
+python3 -m coverage run --source=rss_reader -m unittest tests.py
+python3 -m coverage report -m
+```
+
+How to execute
+------
+
+There are two ways to start RSS reader
+
+on Windows
+
+```shell
+python -m rss_reader ...
+```
+
+or
+
+```shell
+python rss_reader.py ...
+```
+
+on Linux
+
+```bash
+python3 -m rss_reader ...
+```
+
+or
+
+```bash
+python3 rss_reader.py ...
+```
+
+Command line format
+-------
+
+    usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT]
+                        source
+
+    Pure Python command-line RSS reader.
+
+    positional arguments:
+    source         RSS URL
+
+    optional arguments:
+    -h, --help     show this help message and exit
+    --version      Print version info
+    --json         Print result as JSON in stdout
+    --verbose      Outputs verbose status messages
+    --limit LIMIT  Limit news topics if this parameter provided
+
+
+JSON representation
+-------
+
+```json
+{
+ "title": Title of the feed,
+ "link": URL of feed,
+ "description": Description of the feed,
+ "items": [
+  {
+   "title": Item title if present,
+   "pubDate": Publication date if present,
+   "link": URL of the item if present,
+   "description": Description of the item,
+   "links": [
+    [
+     Link URL,
+     Link type
+    ],
+    ...
+   ]
+  },
+  ...
+ ]
+}
+```
