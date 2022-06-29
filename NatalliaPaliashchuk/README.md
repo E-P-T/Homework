@@ -7,7 +7,7 @@ The following dependencies are required for installation:
 - PIP
 
 ### Install CLI utility
-`$ python setup.py install`\
+`# python setup.py install`\
 ### Using the application without installation of CLI utility
 - install all dependencies\
 `$ pip install -r requirements.txt`

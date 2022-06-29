@@ -20,3 +20,10 @@ dist/
 build/
 *.egg-info/
 
+# Venv
+share/
+pyvenv.cfg
+bin/
+include/
+lib/
+
