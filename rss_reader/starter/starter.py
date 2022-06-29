@@ -11,6 +11,7 @@ from rss_reader.crawler.crawler import SuperCrawler
 from rss_reader.crawler.exceptions import BadURLError
 from rss_reader.interfaces.iviewer.iviewer import IViewHandler
 from rss_reader.viewer.viewer import StandartViewHandler, JSONViewHandler
+from rss_reader.pathfile.pathfile import PathFile
 
 from rss_reader.interfaces.isaver.isaver import ISaveHandler
 from rss_reader.saver.saver import LocalSaveHandler
@@ -18,6 +19,8 @@ from rss_reader.saver.saver import LocalSaveHandler
 from .ecxeptions import NonNumericError
 
 log = Logger.get_logger(__name__)
+
+LOCAL_STORAGE = '.rss-reader/local_storage.csv'
 
 
 class Starter:
@@ -49,7 +52,11 @@ class Starter:
         viewer.show(data)
         log.info("Stop displaying data.")
 
-        self._get_saver().save(data)
+        # the place where the database of saved queries is stored
+        local_storage = PathFile().home()/LOCAL_STORAGE
+
+        # save data
+        self._get_saver().save(data, local_storage)
 
     def _get_limit(self) -> None:
         log.info("Get the number of requested news.")
