@@ -252,6 +252,11 @@ class DjangoRssReader(RssReader):
             self.news_dict = RssReader.limit_news_dict(self.news_cache, news_limit)
 
     def save_django_reader_cache(self):
+        """
+        Method is used to save cached news to database using Cache model. If cache with such URL already exists,
+        it updates it.
+        :return: None
+        """
         cache_dict = {"url": self.url, 'cache': self.news_cache}
         if cache_dict['cache']:
             c = Cache(**cache_dict)
@@ -266,9 +271,18 @@ class DjangoRssReader(RssReader):
 
 
 class DjangoRssReaderCached(RssReader):
+
     @staticmethod
     def limit_news_dict(news_cache: dict, limit=None, news_url: str = '', news_date: str = '') -> dict:
         """
+        Method prepares a limited number of news for output if limit is set. It can also select news from a certain URL
+        news_url is given and a certain date id news_date is given.
+
+        :param news_cache: dictionary with required data cached
+        :param limit: limit of news to output
+        :param news_url: URL source of news to output
+        :param news_date: date of news to output
+        :return: dictionary with a limited number of news
         """
         if news_url and RssReader.validate_url(news_url):
             news_cache = {url: feed for url, feed in news_cache.items() if url == news_url}

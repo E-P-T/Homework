@@ -15,6 +15,7 @@ User = get_user_model()
 
 
 def login_view(request):
+    """view function for rendering Login screen and user authentication"""
     form = UserLoginForm(request.POST or None)
     if form.is_valid():
         data = form.cleaned_data
@@ -27,11 +28,13 @@ def login_view(request):
 
 
 def logout_view(request):
+    """view function for user logout"""
     logout(request)
     return redirect('login')
 
 
 def register_view(request):
+    """view function for rendering Register screen and user registration"""
     form = UserRegistrationForm(request.POST or None)
     if form.is_valid():
         new_user = form.save(commit=False)
@@ -45,6 +48,7 @@ def register_view(request):
 
 
 def user_settings_view(request):
+    """view function for rendering UserSettings screen and working with user settings"""
     if request.user.is_authenticated:
         user = request.user
         if request.method == 'POST':
@@ -62,6 +66,7 @@ def user_settings_view(request):
 
 
 def user_delete_view(request):
+    """view function for user deletion"""
     if request.user.is_authenticated:
         user = request.user
         if request.method == 'POST':

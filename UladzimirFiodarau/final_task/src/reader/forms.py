@@ -2,11 +2,13 @@ from django import forms
 
 
 class AddUrlForm(forms.Form):
+    """form for adding URLs to tracking list"""
     url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}),
                          label='Enter RSS feed URL here to track its news')
 
 
 class NewsParametersForm(forms.Form):
+    """Form for choosing news parameters to read news from cache"""
     url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}),
                          label='Enter a feed URL to read, leave empty to read all cached feeds',
                          required=False
@@ -21,6 +23,7 @@ class NewsParametersForm(forms.Form):
 
 
 class FreshNewsParametersForm(forms.Form):
+    """Form for choosing news parameters to read fresh news"""
     url = forms.URLField(widget=forms.URLInput(attrs={'class': 'form-control'}),
                          label='Enter a valid feed URL to read',
                          required=True

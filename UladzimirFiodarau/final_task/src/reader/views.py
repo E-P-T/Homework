@@ -1,5 +1,4 @@
 import ast
-import sys
 
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -32,6 +31,7 @@ __all__ = ['add_news',
 
 
 def add_news(request):
+    """ view function for adding new URLs to track list"""
     url = request.POST.get('url')
     try:
         if url:
@@ -52,11 +52,14 @@ def add_news(request):
 
 
 def start_page_view(request):
+    """ view function for rendering start page"""
     return render(request, 'reader/start.html'
                   )
 
 
 def cached_news_view(request):
+    """ view function for rendering CachedNews page. Takes a queryset from Cache Model to show user info about
+    currently tracked URLs"""
     qs = Cache.objects.all()
     news_choice_form = NewsParametersForm()
     add_form = AddUrlForm()
@@ -68,6 +71,8 @@ def cached_news_view(request):
 
 
 def update_all_cache_view(request):
+    """ view function for updating all cached URLs. Takes a queryset from Cache Model to show user info about
+    currently tracked URLs"""
     qs = Cache.objects.all()
     news_choice_form = NewsParametersForm()
     add_form = AddUrlForm()
@@ -87,6 +92,7 @@ def update_all_cache_view(request):
 
 
 def read_news_view(request):
+    """View function with a controller to process cached news into output data to render news for reading"""
     _context = {'url': request.GET['url'], 'limit': request.GET['limit'], 'date': request.GET['date']}
 
     news_url = request.GET['url'] if request.GET['url'] else ''
@@ -116,6 +122,7 @@ def read_news_view(request):
 
 
 def fresh_news_view(request):
+    """ view function for rendering FreshNews page."""
     news_choice_form = FreshNewsParametersForm()
     return render(request, 'reader/fresh_news.html',
                   {'choice_form': news_choice_form,
@@ -123,6 +130,7 @@ def fresh_news_view(request):
 
 
 def read_fresh_news_view(request):
+    """View function with a controller to process fresh news into output data to render news for reading"""
     _context = {'url': request.GET['url'], 'limit': request.GET['limit']}
 
     news_url = request.GET['url'] if request.GET['url'] else ''
@@ -131,7 +139,7 @@ def read_fresh_news_view(request):
         news = DjangoRssReader(news_url, news_limit=news_limit)
         news.save_django_reader_cache()
         if 'news_dict' in news.__dict__:
-          processed_cache = DjangoRssReader.limit_news_dict(news_cache=news.news_dict, limit=news_limit)
+            processed_cache = DjangoRssReader.limit_news_dict(news_cache=news.news_dict, limit=news_limit)
         else:
             raise ValueError('No news found')
         feed_title = {key: value for key, value in processed_cache.items() if key != 'feed_items'}
@@ -150,6 +158,7 @@ def read_fresh_news_view(request):
 
 
 def news_pdf(request):
+    """view function to process news to PDF document and return it to user"""
     news = ast.literal_eval(request.POST.get('news', {}))
     template = get_template('reader/output.html')
     _context = {'news': news}
@@ -166,6 +175,7 @@ def news_pdf(request):
 
 
 def news_html(request):
+    """view function to process news to HTML document and return it to user"""
     news = ast.literal_eval(request.POST.get('news', {}))
     if news:
         _context = {'news': news}
@@ -178,6 +188,7 @@ def news_html(request):
 
 
 def page_not_found(request, exception):
+    """view function for custom handling Error 404 and rendering it on a template"""
     message = f'Error 404. Page not found, please check URL'
     return render(request, 'reader/exception.html',
                   {'message': message,
@@ -185,6 +196,7 @@ def page_not_found(request, exception):
 
 
 def page_server_error(request, *args, **kwargs):
+    """view function for custom handling Error 500 and rendering it on a template"""
     message = 'Error 500. Something went wrong, Server Error happened'
     return render(request, 'reader/exception.html',
                   {'message': message,
@@ -192,6 +204,7 @@ def page_server_error(request, *args, **kwargs):
 
 
 def page_permission_denied(request, *args, **kwargs):
+    """view function for custom handling Error 403 and rendering it on a template"""
     message = 'Error 403. Permission Denied for this operation'
     return render(request, 'reader/exception.html',
                   {'message': message,
@@ -199,6 +212,7 @@ def page_permission_denied(request, *args, **kwargs):
 
 
 def page_bad_request(request, *args, **kwargs):
+    """view function for custom handling Error 400 and rendering it on a template"""
     message = 'Error 400. You have made a suspicious from a security perspective request, \noperation stopped'
     return render(request, 'reader/exception.html',
                   {'message': message,

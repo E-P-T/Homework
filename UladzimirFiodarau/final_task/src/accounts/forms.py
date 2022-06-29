@@ -6,6 +6,7 @@ User = get_user_model()
 
 
 class UserLoginForm(forms.Form):
+    """Form for user login with logics for login data validation"""
     email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
@@ -25,6 +26,7 @@ class UserLoginForm(forms.Form):
 
 
 class UserRegistrationForm(forms.ModelForm):
+    """Form for user registration"""
     email = forms.CharField(label='Please, input your email',
                             widget=forms.EmailInput(attrs={'class': 'form-control'})
                             )
@@ -36,10 +38,12 @@ class UserRegistrationForm(forms.ModelForm):
                                 )
 
     class Meta:
+        """class is used to connect form with User Model"""
         model = User
         fields = ('email', )
 
     def clean_password2(self):
+        """method is used for double password entering validation during registration"""
         data = self.cleaned_data
         if data['password'] != data['password2']:
             raise forms.ValidationError('Passwords do not match')
@@ -47,10 +51,12 @@ class UserRegistrationForm(forms.ModelForm):
 
 
 class UserUpdateForm(forms.Form):
+    """Form for UserSettings page for user to change his/her settings"""
     send_email = forms.BooleanField(required=False,
                                     widget=forms.CheckboxInput(attrs={'style': 'width:20px;height:20px;'}),
                                     label='Sending email notifications')
 
     class Meta:
+        """class is used to connect form with User Model"""
         model = User
         fields = ('send_email', )

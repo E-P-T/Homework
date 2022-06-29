@@ -369,7 +369,7 @@ class TestRssReader(unittest.TestCase):
         :return:
         """
         parser = rss_reader.parse_command_line(['--limit', '3', '--verbose', '--json', 'https://vse.sale/news/rss',
-                                                '--date', '20220601', '--pdf','--colorize', '--html', 'D:/user/log/'])
+                                                '--date', '20220601', '--pdf', '--colorize', '--html', 'D:/user/log/'])
         self.assertTrue(parser.limit)
         self.assertTrue(parser.verbose)
         self.assertTrue(parser.json)
