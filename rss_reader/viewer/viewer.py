@@ -83,10 +83,11 @@ class StandartViewHandler(AbstractViewHandler):
 
     def _is_empty(self, lst: List[Dict[str, str]]) -> bool:
         result = True
-        for i in lst:
-            if lst[i] is not None:
-                result = False
-                break
+        if lst:
+            for i in lst:
+                if lst[i] is not None:
+                    result = False
+                    break
 
         return result
 
