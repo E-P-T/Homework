@@ -33,7 +33,7 @@ def test_starter_run_BadURLError(monkeypatch):
     def mock_get_status(*args, **kwargs):
         class Mock_BadURLError:
             @classmethod
-            def get_data(self, a, b, c, d):
+            def get_data(self):
                 raise BadURLError
         return Mock_BadURLError()
 
