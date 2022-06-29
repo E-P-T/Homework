@@ -1,8 +1,0 @@
-argparse
-requests
-logging
-dateutil
-bs4
-json
-fpdf
-lxml

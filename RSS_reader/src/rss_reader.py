@@ -1,21 +1,7 @@
-# -*- coding:utf-8 -*-
 import argparse
 import logging
 from src import work_xml
 
-
-
-# link = "https://news.yahoo.com/rss"
-# link = 'https://news.google.com/rss/'
-# link = 'https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/world/rss.xml'
-# link = 'https://www.cnbc.com/id/100727362/device/rss/rss.html'
-# link = 'https://www.cbsnews.com/latest/rss/world'
-# link = 'https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml'
-# link = 'https://auto.onliner.by/feed'
-# link = 'http://feeds.bbci.co.uk/news/world/rss.xml'
-# link = 'https://www.buzzfeed.com/world.xml'
-# link = 'https://feeds.bbci.co.uk/news/world/rss.xml'
-# link = 'https://vse.sale/news/rss'
 
 def main():
     arg_parser = argparse.ArgumentParser(description="Pure Python command-line src reader.")
@@ -30,14 +16,14 @@ def main():
 
     args = arg_parser.parse_args()
 
-    version = "Version 1.4"
+    xml_items = False
 
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
     try:
         if args.version:
-            print(version)
+            print(get_version())
         elif args.source == '':
             if args.date:
                 xml_items = work_xml.get_cache_news(args.date)
@@ -50,20 +36,23 @@ def main():
             xml_items = work_xml.take_xml_items(args.source, args.limit)
             work_xml.set_cache_news(args.source, xml_items["items"])
 
-
         if xml_items == False:
             return False
 
         if args.json:
             work_xml.generate_json(xml_items)
         elif args.html:
-            work_xml.generate_html(args.html, xml_items)
+            work_xml.save_html(args.html, work_xml.generate_html(xml_items))
         elif args.pdf:
             work_xml.generate_pdf(args.pdf, xml_items)
         else:
             work_xml.print_to_console(xml_items)
     except AttributeError:
         print("Error, failed to get an attribute. Check correctness URL")
+
+
+def get_version():
+    return "Version 1.4"
 
 
 if __name__ == "__main__":

@@ -1,4 +1,3 @@
-from pprint import pprint
 from dateutil import parser
 from fpdf import fpdf
 from bs4 import BeautifulSoup, Tag
@@ -11,7 +10,7 @@ system_path = os.path.dirname(os.path.abspath(__file__))
 cache_file = os.path.join(system_path, 'cache.json')
 
 
-def take_xml_items(link, limit):
+def take_xml_items(link, limit):  # we accept the url and the limit and return the dict
     logging.info("Take xml items started")
     try:
         r = requests.get(link)
@@ -27,7 +26,8 @@ def take_xml_items(link, limit):
         items = dict()
         key = 0
         for item in items_temp:
-            items[key] = {'title': item.title.get_text(), 'pubDate': item.pubDate.get_text(),
+            items[key] = {'title': item.title.get_text(),
+                          'pubDate': item.pubDate.get_text(),
                           'description': item.description.get_text() if item.description else 'No description',
                           'link': item.link.get_text() if item.link else 'No link', }
             key += 1
@@ -40,7 +40,7 @@ def take_xml_items(link, limit):
         return False
 
 
-def print_to_console(xml_items):
+def print_to_console(xml_items):  # output the fields to the console
     logging.info("Print to console started")
     try:
         if 'title' in xml_items:
@@ -63,24 +63,10 @@ def generate_json(xml_items):
     logging.info("Generate json started")
     try:
         for item in xml_items['items'].values():
-            news = {
-                'title': item['title'],
-                'pubDate': item['pubDate'],
-                'description': item['description'],
-                'link': item['link']
-            }
+            json_item = json.dumps(item, indent=4)
+            print(json_item)
 
-            # print(json.dumps(news, indent=4))
-            # print(json.loads(news_dict))
-
-            # pp = pprint.PrettyPrinter(indent=4)
-            # pp.pprint(json.dumps(xmltodict.parse(my_xml)))
-
-            news_dict = json.dumps(news, indent=4)
-            n = json.loads(news_dict)
-            pprint(n)
         logging.info("Generate json finished successfully")
-
 
     except Exception as e:
         print(f'This extraction job failed. See exceptions: {e}')
@@ -119,6 +105,27 @@ def write_cache_file(cache):
         return False
 
 
+def re_generate_cache(cache_object, source, items):
+    logging.info("Re-generate cache started")
+    try:
+        for item in items.values():
+            date = parser.parse(item['pubDate']).strftime('%Y%m%d')
+
+            if date not in cache_object:
+                cache_object[date] = dict()
+
+            if source not in cache_object[date]:
+                cache_object[date][source] = dict()
+
+            cache_object[date][source][item['title']] = item
+        logging.info("Re-generate cache finished successfully")
+        return cache_object
+    except Exception as e:
+        print(f'This extraction job failed. See exceptions: {e}')
+        logging.info("Re-generate cache finished with exception")
+        return False
+
+
 def set_cache_news(source, items):
     logging.info("Set cache news started")
     try:
@@ -126,19 +133,11 @@ def set_cache_news(source, items):
         if not cache:
             cache = dict()
 
-        for item in items.values():
-            date = parser.parse(item['pubDate']).strftime('%Y%m%d')
-
-            if date not in cache:
-                cache[date] = dict()
-
-            if source not in cache[date]:
-                cache[date][source] = dict()
-
-            cache[date][source][item['title']] = item
+        cache = re_generate_cache(cache, source, items)
 
         write_cache_file(cache)
         logging.info("Set cache news finished successfully")
+        return cache
 
     except Exception as e:
         print(f'This extraction job failed. See exceptions: {e}')
@@ -185,7 +184,7 @@ def get_cache_news(date, source=False):
         return False
 
 
-def generate_html(path, xml_items):
+def generate_html(xml_items):
     logging.info("Generate html started")
     soup = BeautifulSoup()
     html = Tag(soup, name="html")
@@ -203,25 +202,34 @@ def generate_html(path, xml_items):
             pPubDate.string = item['pubDate']
             pdescription = Tag(soup, name="p")
             pdescription.string = item['description']
-            plink = Tag(soup, name="p")
-            plink.string = item['link']
+            alink = Tag(soup, name="a")
+            alink.string = item['link']
 
             div.append(h1)
             div.append(pPubDate)
             div.append(pdescription)
-            div.append(plink)
+            div.append(alink)
 
             body.append(div)
 
-        with open(os.path.join(path, "HTML_file.html"), 'w', encoding='utf-8') as file:
-            file.write(soup.prettify())
-        logging.info("Generate html finished successfully")
-
-        return soup
+        return soup.prettify()
 
     except Exception as e:
         print(f'This extraction job failed. See exceptions: {e}')
         logging.info("Generate html finished with exception")
+        return False
+
+
+def save_html(path, html_str):
+    logging.info("Save html started")
+    try:
+        with open(os.path.join(path, "HTML_file.html"), 'w', encoding='utf-8') as file:
+            file.write(html_str)
+        logging.info("Save html finished successfully")
+
+    except Exception as e:
+        print(f'This extraction job failed. See exceptions: {e}')
+        logging.info("Save html finished with exception")
         return False
 
 
@@ -239,18 +247,14 @@ def generate_pdf(path, xml_items):
         pdf.cell(200, 10, feed, ln=1, align='C')
 
         for item in xml_items['items'].values():
-            # wrapped_title = '\n'.join(wrap(title, width=50)) # добавляет через каждые 50 символов \n
-            # print(wrapped_title)
-
             pdf.cell(200, 10, 'NEWS', ln=1, align='C')
             pdf.multi_cell(200, 10, item['title'])
             pdf.multi_cell(200, 10, item['pubDate'])
-            pdf.multi_cell(20, 10, item['description'])
-            pdf.cell(20, 10, f"Link: {item['link']}", ln=1)
+            pdf.multi_cell(200, 10, item['description'])
+            pdf.multi_cell(200, 10, f"Link: {item['link']}")
 
         pdf.output(os.path.join(path, "PDF_file.pdf"))
         logging.info("Generate pdf finished successfully")
-
 
     except Exception as e:
         print(f'This extraction job failed. See exceptions: {e}')
