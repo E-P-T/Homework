@@ -427,7 +427,8 @@ To read fresh news use navigation panel button "FreshNews" or following URL:
 ```
 http://127.0.0.1:8000/reader/fresh_news/ 
 ```
-Enter an RSS feed URL and number of news to read to correspondent form fields and press "Read News" button.
+Enter an RSS feed URL and number of news to read to correspondent form fields and press "Read News" button. If exception is raised while 
+reading news from URL, message "Couldn't get news from {URL}" will float.
 
 ### Reading cached news
 News are automatically cached after reading fresh news and can be added to cache with "Add another RSS URL" form on CachedNews page.
@@ -437,14 +438,15 @@ http://127.0.0.1:8000/reader/cached_news/
 ```
 Enter an RSS feed URL, number of news to read and date of news you would like to filter to correspondent form fields and press "Read News" button.
 At the bottom of the screen user can see all currently tracked RSS feed URLs. If there are currently no tracked feeds user will see "No tracked feeds yet" message.
+If exception is raised while reading news from cache, message "Couldn't get news from cache" will float.
 
 ### Adding RSS URLs to cache
 To add an RSS feed to tracking list use "Add another RSS URL" form on CachedNews page. Enter an RSS feed URL to the form field and press "Track Feed". 
-If feed added successfully, message "URL successfully added" will float.
+If feed added successfully, message "URL successfully added" will float, if not - message "Couldn't add {URL} to tracking list".
 
 ### Updating cached RSS sources
 To simultaneously update all tracked (cached) RSS feeds use "Update Cache" button on CachedNews page. 
-For each tracked URL, if updated successfully - message "${URL} successfully added", and if update fails for some reasons - message "Couldn't update ${URL}" will float.
+For each tracked URL, if updated successfully - message "{URL} successfully added", and if update fails for some reasons - message "Couldn't update {URL}" will float.
 
 ### Saving news
 While reading news user can save and download them in HTML or PDF formats by clicking correspondent buttons. Note that saving as PDF may take some 
