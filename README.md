@@ -272,23 +272,22 @@ tokens.
 
 ## Testing
 
-Modules tested:
-
-+ to_html.py
-+ to_pdf.py
-+ rss_reader.py
-    (
-      test_convert_to_html(),
-      test_convert_to_pdf(),
-      test_url_validation(),
-      test_args_limit(),
-      test_args_source(),
-      test_args_date(),
-      test_clean_desc()
-
-    )
 Before testing please pay attention to notes inside the functions. Some test require folders or images which are stored locally. Best sollution is to run the utility couple of times checking with different arguments and optins. 
 project is tested for the file convertions, url validation, argparse options and decoding the html functions.
+
+Modules tested:
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+HTML_converter.py      77     13    83%
+PDF_converter.py       36      2    94%
+rss_reader.py         319    175    45%
+test.py                48      1    98%
+---------------------------------------
+TOTAL                 480    191    60%
+
+  *Test coverage is 60%.*
+  
 
 In order to run tests, please, install dependencies:
 
