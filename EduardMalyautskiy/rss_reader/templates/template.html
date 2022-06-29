@@ -1,0 +1,49 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>RSS reader results.</title>
+</head>
+<body>
+
+{% for d in data %}
+<div>
+<h3>Feed: {{d['Feed']}}</h3>
+<h4>
+    Title: {{d['Title']}}
+</h4>
+</div>
+<div>
+<p> Description:
+    {% if d.get('Description') %}
+    {{d.get('Description')}}
+    {% else %}
+    No description
+    {% endif %}
+</p>
+<p>Date: {{d['Date']}}</p>
+
+<p>
+    Article link: <a href='{{d['Link']}}'>{{d['Link']}}</a>
+</p>
+</div>
+<div>
+{% if local or d['LocalImgLink'] == d['Media']%}
+
+<img width="400" src=  {{'file:///'+ d['LocalImgLink']}}>
+{% else %}
+<img width="400" src={{d['Media']}} >
+{% endif %}
+ </div>
+<div>
+<p>
+    Image link: <a
+        href='{{d['Media']}}'>{{d['Media']}}</a>
+</p>
+    </div>
+<br><br><br><br><br>
+{% endfor %}
+
+</body>
+</html>
