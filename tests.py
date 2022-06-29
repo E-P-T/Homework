@@ -1,6 +1,8 @@
 import unittest
 import rss_reader
 import sys
+import datetime
+import bs4
 
 
 class TestParseArgs(unittest.TestCase):
@@ -106,7 +108,7 @@ class TestParseFeed(unittest.TestCase):
         self.assertEqual(len(feed['items']), 4)
         self.assertEqual(feed['items'][0]['title'], 'Star City')
         self.assertEqual(feed['items'][0]['link'], 'http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp')
-        self.assertEqual(feed['items'][0]['pubDate'], 'Tue, 03 Jun 2003 09:39:21 GMT')
+        self.assertEqual(feed['items'][0]['pubDate'], datetime.datetime(2003, 6, 3, 9, 39, 21, tzinfo=datetime.timezone.utc))
         self.assertEqual(feed['items'][0]['description'], '[image 2]How do Americans get ready to work with Russians aboard the International Space Station? They take a crash course in culture, language and protocol at Russia\'s Star City[3].')
         self.assertEqual(len(feed['items'][0]['links']), 3)
         self.assertEqual(feed['items'][0]['links'][0], ('http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp', 'link'))
@@ -137,7 +139,7 @@ class TestParseFeed(unittest.TestCase):
         text = rss_reader.format_text(feed)
         self.assertEqual(text,
                          "Feed: Liftoff News\n\nTitle: Star City\n"
-                         "Date: Tue, 03 Jun 2003 09:39:21 GMT\n"
+                         "Date: Tue, 03 Jun 2003 09:39:21 +0000\n"
                          "Link: http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp\n\n"
                          "[image 2]How do Americans get ready to work with Russians aboard the International Space Station? They take a crash course in culture, language and protocol at Russia\'s Star City[3].\n\n"
                          "Links:\n[1]: http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp (link)\n"
@@ -153,7 +155,7 @@ class TestParseFeed(unittest.TestCase):
         self.assertEqual(json,
                          '{\n "title": "Liftoff News",\n "link": "http://liftoff.msfc.nasa.gov/",\n'
                          ' "description": "Liftoff to Space Exploration.",\n "items": [\n'
-                         '  {\n   "title": "Star City",\n   "pubDate": "Tue, 03 Jun 2003 09:39:21 GMT",\n'
+                         '  {\n   "title": "Star City",\n   "pubDate": "Tue, 03 Jun 2003 09:39:21 +0000",\n'
                          '   "link": "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp",\n'
                          '   "description": "[image 2]How do Americans get ready to work with Russians aboard the International Space Station? They take a crash course in culture, language and protocol at Russia\'s Star City[3].",\n'
                          '   "links": [\n'
@@ -161,3 +163,128 @@ class TestParseFeed(unittest.TestCase):
                          '    [\n     "https://example.com/images/logo.png",\n     "image"\n    ],\n'
                          '    [\n     "http://howe.iki.rssi.ru/GCTC/gctc_e.htm",\n     "link"\n    ]\n'
                          '   ]\n  }\n ]\n}')
+
+
+class TestAuxiliary(unittest.TestCase):
+
+    def test_get_link(self):
+        elem = bs4.BeautifulSoup('<enclosure url="http://www.scripting.com/mp3s/weatherReportSuite.mp3" length="12216320" type="audio/mpeg" />', 'lxml-xml').enclosure
+        link = rss_reader.get_link(elem)
+        self.assertEqual(link, ('http://www.scripting.com/mp3s/weatherReportSuite.mp3', 'audio'))
+
+    def test_get_text(self):
+        self.assertEqual(rss_reader.get_text(None), '')
+
+
+class TextCache(unittest.TestCase):
+
+    def test_merge_items(self):
+        self.maxDiff = None
+        alist = [
+            {
+                'title': 'A',
+                'link': 'http://example.com/A',
+                'description': 'Describe A',
+                'pubDate': datetime.datetime.fromisoformat('2022-03-01T10:11:23+03:00')
+            },
+            {
+                'title': 'B',
+                'link': 'http://example.com/B',
+                'description': 'Describe B',
+                'pubDate': datetime.datetime.fromisoformat('2022-02-02T10:11:23+03:00')
+            },
+        ]
+        blist = [
+            {
+                'title': 'B',
+                'link': 'http://example.com/B',
+                'description': 'Describe B',
+                'pubDate': datetime.datetime.fromisoformat('2022-02-02T10:11:23+03:00')
+            },
+            {
+                'title': 'C',
+                'link': 'http://example.com/C',
+                'description': 'Describe C',
+                'pubDate': datetime.datetime.fromisoformat('2022-01-02T10:11:23+03:00')
+            },
+        ]
+        rlist = [
+            {
+                'title': 'A',
+                'link': 'http://example.com/A',
+                'description': 'Describe A',
+                'pubDate': datetime.datetime.fromisoformat('2022-03-01T10:11:23+03:00')
+            },
+            {
+                'title': 'B',
+                'link': 'http://example.com/B',
+                'description': 'Describe B',
+                'pubDate': datetime.datetime.fromisoformat('2022-02-02T10:11:23+03:00')
+            },
+            {
+                'title': 'C',
+                'link': 'http://example.com/C',
+                'description': 'Describe C',
+                'pubDate': datetime.datetime.fromisoformat('2022-01-02T10:11:23+03:00')
+            },
+        ]
+        self.assertEqual(rss_reader.merge_items(alist, blist), rlist)
+
+    def test_update_cache(self):
+        cache = {
+            'http://example.com/feedA': {
+                'title': 'feed A',
+                'description': 'Describe A',
+                'link': 'http://example.com/feedA',
+                'items': []
+            }
+        }
+        feed = {
+            'title': 'feed B',
+            'description': 'Describe B',
+            'link': 'http://example.com/feedB',
+            'items': []
+        }
+        new_cache = {
+            'http://example.com/feedA': {
+                'title': 'feed A',
+                'description': 'Describe A',
+                'link': 'http://example.com/feedA',
+                'items': []
+            },
+            'http://example.com/feedB': {
+                'title': 'feed B',
+                'description': 'Describe B',
+                'link': 'http://example.com/feedB',
+                'items': []
+            }
+        }
+        rss_reader.update_cache(cache, 'http://example.com/feedB', feed)
+        self.assertEqual(cache, new_cache)
+
+    def test_lookup_cache(self):
+        cache = {
+            'http://example.com/feedA': {
+                'title': 'feed A',
+                'description': 'Describe A',
+                'link': 'http://example.com/feedA',
+                'items': []
+            },
+            'http://example.com/feedB': {
+                'title': 'feed B',
+                'description': 'Describe B',
+                'link': 'http://example.com/feedB',
+                'items': []
+            }
+        }
+        self.assertEqual(
+            rss_reader.lookup_cache(
+                cache, 'http://example.com/feedA',
+                datetime.datetime.fromisoformat('2022-06-01T01:00+03:00')),
+            {
+                'title': 'feed A',
+                'description': 'Describe A',
+                'link': 'http://example.com/feedA',
+                'items': []
+            }
+        )

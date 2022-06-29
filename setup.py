@@ -11,9 +11,11 @@ setup(
         'charset-normalizer==2.0.12',
         'idna==3.3',
         'lxml==4.9.0',
+        'python-dateutil==2.8.2',
         'requests==2.28.0',
+        'six==1.16.0',
         'soupsieve==2.3.2.post1',
-        'urllib3==1.26.9',
+        'urllib3==1.26.9'
     ],
     entry_points={
         'console_scripts': [

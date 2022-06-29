@@ -140,21 +140,21 @@ Before installation there are three ways to start RSS reader
 Command line format
 -------
 
-    usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT]
-                        source
+    usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] source
 
-    Pure Python command-line RSS reader.
+	Pure Python command-line RSS reader.
 
-    positional arguments:
-    source         RSS URL
+	positional arguments:
+	  source         RSS URL
 
-    optional arguments:
-    -h, --help     show this help message and exit
-    --version      Print version info
-    --json         Print result as JSON in stdout
-    --verbose      Outputs verbose status messages
-    --limit LIMIT  Limit news topics if this parameter provided
-
+	optional arguments:
+	  -h, --help     show this help message and exit
+	  --version      Print version info
+	  --json         Print result as JSON in stdout
+	  --verbose      Outputs verbose status messages
+	  --limit LIMIT  Limit news topics if this parameter provided
+	  --date DATE    Get from cache news that was published after specified date (date should be specified in format
+					 YYYYmmdd, for example --date 20191020)
 
 JSON representation
 -------
@@ -182,3 +182,45 @@ JSON representation
  ]
 }
 ```
+
+Cache storage format
+------
+
+News cache is stored in file rss_reader.cache in current working directory
+
+Content of the cache file is serialized dictionary by module `pickle`.
+
+Keys of the dictionary are URLs of retieved feeds.
+
+For each key in dictionary appropriate value is the result of parsing feed with merged item lists.
+
+Items from all retrieval of the same URL will be merged together in single list.
+
+The result of parsing feed is the dictionary with following keys:
+
+	- `title` - title of the feed
+	
+	- `link` - link to the feed
+	
+	- `description` - description of the feed
+	
+	- `items` - list of parsed items of the feed.
+
+The result of parsing item of feed is dictionary with following keys:
+
+	- `title` - title of the item
+
+	- `pubDate` - publication date of the item
+
+	- `link` - link to resource related to the item
+	
+	- `description` - description of the item
+
+	- `links` - a list of links collected for the item.
+
+There is a tuple in the list `links` for each link collected for the item. The tuple has two elements:
+
+	- URL of the link
+	
+	- type of the link. It may be just link if type is html or unknown.
+	Or it may be type part of MIME type of the resource.
