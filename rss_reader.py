@@ -93,7 +93,7 @@ def check_storage():
                 with open('local_storage.json', 'w', encoding='utf-8') as writefile:
                     json.dump(list(), writefile, ensure_ascii=False, indent=4)
         else:
-            with open('local_storage.json') as f:
+            with open('local_storage.json', encoding='utf-8') as f:
                 try:
                     f.read()
                 except:
