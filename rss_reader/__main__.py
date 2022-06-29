@@ -6,6 +6,7 @@ from rss_reader.starter.base import (create_logger,
 from rss_reader.logger.logger import Logger
 from rss_reader.starter.ecxeptions import NonNumericError
 from rss_reader.crawler.exceptions import BadURLError
+from rss_reader.loader.exceptions import EmptyURLError
 
 
 def main():
@@ -30,11 +31,15 @@ def main():
         print(f'Sorry, we have to stop working. Because:')
         print(f'\t {e}')
         log.error(e)
+    except EmptyURLError as e:
+        print(f'Sorry, we have to stop working. Because:')
+        print(f'\t {e}')
+        log.error(e)
     except Exception as e:
         s = ('Sorry, we have to stop working. Something went wrong.'
              'We are terribly sorry.')
         print(s)
-        log.error(e)
+        log.error(e)    
     finally:
         log.info("Stop the program.")
         exit()
