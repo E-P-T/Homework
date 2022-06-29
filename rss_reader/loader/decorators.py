@@ -66,6 +66,8 @@ class LimitRecords(Decorator):
 
 
 class SortByEqual(Decorator):
+    """A decorator that selects DataFrame elements by column value."""
+
     def __init__(self, search_column: str, criterion: str,
                  component: IComponent) -> None:
         """Initializer.
