@@ -11,6 +11,8 @@ Welcome to rss-reader's documentation!
    :caption: Contents:
 
    start_program.rst
+   display_information.rst
+   local_storage.rst
    tests.rst
 
 
