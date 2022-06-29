@@ -40,13 +40,30 @@ class AbstractSaveHandler(ISaveHandler):
 
 
 class LocalSaveHandler(AbstractSaveHandler):
-    def save(self, data: List[dict], file: str = 'local_storage.csv') -> None:
+    """Stores data locally."""
+
+    def save(self, data: List[dict], file: str) -> None:
+        """Save data.
+
+        :param data: Dictionary with data to save.
+        :type data: List[dict]
+        :param file: File save path.
+        :type file: str
+        """
         local_data = ReaderFiles().read_csv_file(file, 'index', PathFile())
 
         try:
-            norm_data = DataConverter().concat_data(data, local_data)
+            dc = DataConverter()
+            norm_data = dc.normalize_(data, record_path=['items'],
+                                      meta=['title_web_resource', 'link'],
+                                      record_prefix="item.")
+            norm_data = dc.convert_date(norm_data, 'item.pubDate')
+            data_concat = dc.concat_data(local_data, norm_data,
+                                         ignore_index=True)
+            data_to_file = dc.drop_duplicates_(data_concat, keep='first',
+                                               ignore_index=True)
         except NotImplementedError as e:
             local_data = None
-            norm_data = pd.DataFrame()
+            data_to_file = pd.DataFrame()
 
-        norm_data.to_csv(file, encoding='utf-8', index_label='index')
+        data_to_file.to_csv(file, encoding='utf-8', index_label='index')
