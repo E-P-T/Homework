@@ -16,4 +16,5 @@ class PathFile(ICreateFile):
         :type file: str
         """
         file = Path(file)
+        Path.mkdir(file.parent, parents=True, exist_ok=True)
         file.touch(exist_ok=True)
