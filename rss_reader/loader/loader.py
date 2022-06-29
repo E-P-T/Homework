@@ -186,8 +186,6 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
                 else:
                     new_item()
 
-        print(f'->   {l_item}')
-
         return l_item
 
 
@@ -249,6 +247,24 @@ class FromWebHandler(AbstractLoaderHandler):
         # get data from internet
         cr = self._crawler(self._source)
         response_ = cr.get_data()
+
+#         response_ = '''
+#         <rss xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
+# 	<channel>
+# 		<title>Yahoo News - Latest News & Headlines</title>
+# 		<link>https://www.yahoo.com/news</link>
+# 		<item>
+# <title>‘Tonight, it’s my turn’: Biden takes spill while getting off bike after beach ride</title>
+# <link></link>
+# <pubDate>2022-06-18T14:37:24Z</pubDate>
+# <source url="http://www.ap.org/"></source>
+# <guid isPermaLink="false">biden-takes-spill-while-getting-143724765.html</guid>
+# <media:content height="86" url="" width="130"/>
+# <media:credit role="publishing company"/>
+# </item>
+# 	</channel>
+# </rss>
+#         '''
 
         log.debug('Start creating the parser.')
         self._parser.create_parser(markup=response_)
