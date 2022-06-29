@@ -1,13 +1,17 @@
 # RSS reader
-Pure Python command-line RSS reader.
+Pure Python command-line RSS reader
 ___
 ## Installation
-### Install all dependencies
-`$ pip install -r requirements.txt`
+The following dependencies are required for installation:
+- Python 3.9 or above
+- PIP
+
 ### Install CLI utility
-`$ python setup.py install`
-### The application can be used also without installation of CLI utility
-To run the application use `rss_reader.py` file.\
+`$ python setup.py install`\
+### Using the application without installation of CLI utility
+- install all dependencies\
+`$ pip install -r requirements.txt`
+- run the application using `rss_reader.py` file\
 Example:\
 `$ python rss_reader.py --version`
 ___
