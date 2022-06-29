@@ -46,7 +46,7 @@ class ReaderFiles(IReadFile):
         except EmptyDataError as e:
             log.error(f'{file} is empty')
         except FileNotFoundError as e:
-            log.exception(f'No such file or directory: {file}')
+            log.error(f'No such file or directory: {file}')
             creater.create_file(file)
 
         return local_storage
