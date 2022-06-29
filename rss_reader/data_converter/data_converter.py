@@ -8,6 +8,7 @@ from rss_reader.interfaces.idataconverter.idataconverter import IDataConverter
 
 
 class DataConverter(IDataConverter):
+    """Transforms data from one state to another."""
 
     def concat_data(self, data: List[dict],
                     local_data: DataFrame,
