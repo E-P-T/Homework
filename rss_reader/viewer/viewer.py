@@ -57,14 +57,19 @@ class StandartViewHandler(AbstractViewHandler):
         :type data: List[dict]
         """
         for i in data:
+            log.debug('start displaying new block news.')
             self._show_item(i)
+            log.debug('stop displaying new block news.')
 
     def _show_item(self, data: dict):
         """Show data."""
+        log.debug('start getting title.')
         self._get_info(data, "title_web_resource", "\nFeed: ", end="\n\n\n")
+        log.debug('stop getting title.')
         items = data.get('items')
         if isinstance(items, list):
             for i in items:
+                log.debug('start getting new news.')
                 self._get_info(i, "title", "Title")
                 self._get_info(i, "source", "Source")
                 self._get_info(i, "pubDate", "PubDate")
@@ -78,6 +83,7 @@ class StandartViewHandler(AbstractViewHandler):
                     self._get_info(media_content, "url",
                                    "[source of media content]")
                 print('\n\n')
+                log.debug('stop getting new news.')
         elif items:
             print(items)
 
