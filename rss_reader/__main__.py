@@ -20,29 +20,24 @@ def main():
     log.debug("Create a Starter object.")
     s = Starter(args)
 
+    def print_exc(e: Exception):
+        print(f'Sorry, we have to stop working. Because:')
+        print(f'\t {e}')
+        log.error(e)
+
     try:
         log.info("Start the program.")
         s.run()
     except NonNumericError as e:
-        print(f'Sorry, we have to stop working. Because:')
-        print(f'\t {e}')
-        log.error(e)
+        print_exc(e)
     except BadURLError as e:
-        print(f'Sorry, we have to stop working. Because:')
-        print(f'\t {e}')
-        log.error(e)
+        print_exc(e)
     except EmptyURLError as e:
-        print(f'Sorry, we have to stop working. Because:')
-        print(f'\t {e}')
-        log.error(e)
+        print_exc(e)
     except DataEmptyError as e:
-        print(f'Sorry, we have to stop working. Because:')
-        print(f'\t {e}')
-        log.error(e)
+        print_exc(e)
     except DataFileNotFoundError as e:
-        print(f'Sorry, we have to stop working. Because:')
-        print(f'\t {e}')
-        log.error(e)
+        print_exc(e)
     except Exception as e:
         s = ('Sorry, we have to stop working. Something went wrong.'
              'We are terribly sorry.')
