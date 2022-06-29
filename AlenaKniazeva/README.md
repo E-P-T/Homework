@@ -39,6 +39,7 @@
     <p>A cashed news storage is provided by a file <i>dates.json</i> and folders <i>cashed_feeds</i> and <i>cashed_img</i>.<br>When rss_reader is started without a --date argument, dates of publication of news are stored in the file <i>dates.json</i> together with path to file, where all news for this date are stored. All news (including title, link, date of publication, description, feed name, URL of media content, if a new has it, and path to media file in storage) are stored in the folder <i>cashed_feeds</i>. Media content of stored news is stored in the folder <i>cashed_img</i>.  Names of files in the folder <i>cashed_feeds</i> corresponds to dates of publication of news.<br>When rss_reader is started with --date argument, it reads news from the cash for entered date and source.</p>
     <h3>*** Additional remarks</h3>
     <p>A folder <i>font</i> contains a font for creating a PDF result file. A file <i>rss_downloads.html</i> contains initial template for creating a HTML result file. </p>
-
+    <h2>Running tests</h2>
+    <p>User can run tests from a command line (from a folder, where scripts of rss_reader are situated) by a command:<br> <b>python -m unittest discover</b> </p>
 </body>
 </html>
