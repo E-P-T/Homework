@@ -1,5 +1,7 @@
-from abc import ABC, abstractmethod
+"""This module implements the decorator pattern."""
 
+
+from abc import ABC, abstractmethod
 from pandas import DataFrame
 
 
