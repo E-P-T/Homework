@@ -16,7 +16,7 @@ the current environment.
 Tests
 ------
 
-To launch tests run 
+To launch tests run
 
 on Windows
 
@@ -46,34 +46,96 @@ python3 -m coverage run --source=rss_reader -m unittest tests.py
 python3 -m coverage report -m
 ```
 
-How to execute
+All specified above commands should be used when current directory is the directory with rss_reader.py
+
+How to execute without installation
 ------
 
-There are two ways to start RSS reader
+Before installation there are two ways to start RSS reader
+
+1. Using module loading. Run from directory with rss_reader.py file the following command
+
+	on Windows
+
+	```shell
+	python -m rss_reader ...
+	```
+
+	on Linux
+
+	```bash
+	python3 -m rss_reader ...
+	```
+
+2. Specifying the script file. Run from directory with rss_reader.py file the following command
+
+	on Windows
+
+	```shell
+	python rss_reader.py ...
+	```
+
+	on Linux
+
+	```bash
+	python3 rss_reader.py ...
+	```
+
+Installation
+------
+
+To install the script as site-package to python environment run the following command
 
 on Windows
 
 ```shell
-python -m rss_reader ...
-```
-
-or
-
-```shell
-python rss_reader.py ...
+python setup.py install
 ```
 
 on Linux
 
 ```bash
-python3 -m rss_reader ...
+python3 setup.py install
 ```
 
-or
+How to execute after installation
+------
 
-```bash
-python3 rss_reader.py ...
-```
+Before installation there are three ways to start RSS reader
+
+1. Using module loading. Run from any directory
+
+	on Windows
+
+	```shell
+	python -m rss_reader ...
+	```
+
+	on Linux
+
+	```bash
+	python3 -m rss_reader ...
+	```
+
+2. Specifying the script file. Run from directory with rss_reader.py file the following command
+
+	on Windows
+
+	```shell
+	python rss_reader.py ...
+	```
+
+	on Linux
+
+	```bash
+	python3 rss_reader.py ...
+	```
+
+3. Using entry point. Run from any directory
+
+	```shell
+	rss_reader ...
+	```
 
 Command line format
 -------
