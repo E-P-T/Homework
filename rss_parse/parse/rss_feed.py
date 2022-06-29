@@ -5,6 +5,10 @@ from typing import List
 
 @dataclass
 class RssItem:
+    """
+    Data class to store information about RSS Item/News
+    """
+
     title: str
     description: str
     publication_date: datetime
@@ -18,4 +22,7 @@ class RssItem:
 
 @dataclass
 class RssFeed:
+    """
+    Data class to store a list of RSS Items
+    """
     rss_items: List[RssItem]

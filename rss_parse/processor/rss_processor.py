@@ -1,23 +1,32 @@
 from abc import ABC, abstractmethod
 
 from rss_parse.parse.rss_feed import RssFeed, RssItem
-from rss_parse.parse.rss_feed_mapper import RSS_FEED_JSON_MAPPER
+from rss_parse.parse.rss_mapper import RSS_FEED_JSON_MAPPER
 from rss_parse.utils.formatting_utils import format_date_pretty, get_description_plain
-from rss_parse.utils.message_consumer import MESSAGE_CONSUMER_NOOP
+from rss_parse.utils.messaging_utils import MESSAGE_CONSUMER_NOOP
 
 
 class RssProcessor(ABC):
+    """
+    Abstraction to do processing on RSS Feed (print, store it, save in db, post it somewhere, etc.)
+    """
 
-    def __init__(self, rss_feed, mc=MESSAGE_CONSUMER_NOOP):
+    def __init__(self, rss_feed: RssFeed, mc=MESSAGE_CONSUMER_NOOP):
         self.rss_feed = rss_feed
         self._mc = mc
 
     @abstractmethod
     def process(self):
+        """
+        Do some processing of RSS Feed
+        """
         pass
 
 
 class RssPrinter(RssProcessor):
+    """
+    Implementation of RSSProcessor that prints RSS Feed in a human-readable form to console
+    """
     __SEPARATOR = "----------"
 
     def __init__(self, rss_feed: RssFeed, file_descriptor, mc=None):
@@ -57,6 +66,9 @@ class RssPrinter(RssProcessor):
 
 
 class RssJsonPrinter(RssProcessor):
+    """
+    Implementation of RSSProcessor that prints RSS Feed in a human-readable form to console as json
+    """
 
     def process(self):
         self._mc.add_message("Converting to json")

@@ -3,13 +3,16 @@ import tempfile
 
 from rss_parse.exceptions.exceptions import CacheException, ParsingException
 from rss_parse.parse.rss_feed import RssFeed
-from rss_parse.parse.rss_feed_mapper import RSS_FEED_JSON_MAPPER
+from rss_parse.parse.rss_mapper import RSS_FEED_JSON_MAPPER
 from rss_parse.parse.rss_parser import RssJsonParser
 from rss_parse.utils.collection_utils import group_by, merge_by_key
-from rss_parse.utils.message_consumer import MESSAGE_CONSUMER_NOOP
+from rss_parse.utils.messaging_utils import MESSAGE_CONSUMER_NOOP
 
 
 class TmpDirectoryCache:
+    """
+    Class to store RSS Feed in a temporary directory
+    """
     __DATE_TO_FILE_NAME_PATTERN = '%Y%m%d'
 
     def __init__(self, rss_feed, mc=MESSAGE_CONSUMER_NOOP):
@@ -19,10 +22,16 @@ class TmpDirectoryCache:
 
     @staticmethod
     def get_cache_base_path():
+        """
+        Returns the directory where all Cached files are stored
+        """
         return os.path.join(tempfile.gettempdir(), "rss_reader")
 
     @staticmethod
     def get_cache_path(pub_date):
+        """
+        Builds the path to the cache file based on a publication date
+        """
         return os.path.join(TmpDirectoryCache.get_cache_base_path(),
                             f"{pub_date.strftime(TmpDirectoryCache.__DATE_TO_FILE_NAME_PATTERN)}.json")
 
@@ -46,11 +55,14 @@ class TmpDirectoryCache:
             all_items = merge_by_key([*existing_items, *new_items], key=lambda x: x.key())
             all_feed = RssFeed(all_items)
             rss_json = RSS_FEED_JSON_MAPPER.to_json(all_feed)
-            with open(file_name, "w") as f:
+            with open(file_name, "w", encoding="UTF-8") as f:
                 f.write(rss_json)
 
 
 class CacheJsonParser(RssJsonParser):
+    """
+    Class to read RSS Feed from a cached directory
+    """
 
     def __init__(self, date, source, mc=None):
         super().__init__(TmpDirectoryCache.get_cache_path(date), mc)
@@ -58,6 +70,10 @@ class CacheJsonParser(RssJsonParser):
         self.__source = source
 
     def parse(self):
+        """
+        Class to read RSS Feed from a cached directory.
+        Raises an exception if no news for the date found.
+        """
         rss_feed = super().parse()
         items = rss_feed.rss_items
         if self.__source:

@@ -1,9 +1,12 @@
-from rss_parse.parse.rss_feed_cache import CacheJsonParser
+from rss_parse.parse.rss_cache import CacheJsonParser
 from rss_parse.parse.rss_parser import RssUrlParser
-from rss_parse.utils.message_consumer import MESSAGE_CONSUMER_NOOP
+from rss_parse.utils.messaging_utils import MESSAGE_CONSUMER_NOOP
 
 
-def get_parser(date, source, mc=MESSAGE_CONSUMER_NOOP):
-    if date:
-        return CacheJsonParser(date, source, mc=mc)
-    return RssUrlParser(source, mc=mc)
+def get_parser(params, mc=MESSAGE_CONSUMER_NOOP):
+    """
+    Fetch correct implementation of RssParser based on input parameters
+    """
+    if params.pub_date:
+        return CacheJsonParser(params.pub_date, params.source, mc=mc)
+    return RssUrlParser(params.source, mc=mc)

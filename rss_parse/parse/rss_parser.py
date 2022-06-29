@@ -8,26 +8,32 @@ from requests.exceptions import InvalidSchema, InvalidURL, MissingSchema
 
 from rss_parse.exceptions.exceptions import ParsingException
 from rss_parse.parse.rss_feed import RssFeed, RssItem
-from rss_parse.parse.rss_feed_mapper import RSS_FEED_JSON_MAPPER
 from rss_parse.parse.rss_keys import *
-from rss_parse.utils.message_consumer import MESSAGE_CONSUMER_NOOP
+from rss_parse.parse.rss_mapper import RSS_FEED_JSON_MAPPER
+from rss_parse.utils.messaging_utils import MESSAGE_CONSUMER_NOOP
 from rss_parse.utils.parsing_utils import sanitize_text, to_date
 
 
 class RssParser(ABC):
+    """
+    Abstraction to parse RSS Feed from different sources (URL, XML, JSON, etc.)
+    """
 
     def __init__(self, mc=MESSAGE_CONSUMER_NOOP):
         self._mc = mc
 
     @abstractmethod
-    def parse(self):
+    def parse(self) -> RssFeed:
         """
-        :rtype: rss_parse.rss_feed.RssFeed
+        Reads and Returns Rss Feed from some source.
         """
         pass
 
 
 class RssJsonParser(RssParser):
+    """
+    Implementation of RSSParser that reads RSS Feed from a file in a json format
+    """
 
     def __init__(self, file_name, mc=None):
         super().__init__(mc)
@@ -37,12 +43,15 @@ class RssJsonParser(RssParser):
     def parse(self):
         if not os.path.exists(self.__file_name):
             return RssFeed([])
-        with open(self.__file_name, "r") as f:
+        with open(self.__file_name, "r", encoding="UTF-8") as f:
             rss_json = f.read()
             return RSS_FEED_JSON_MAPPER.from_json(rss_json)
 
 
 class RssXmlParser(RssParser):
+    """
+    Implementation of RSSParser that reads RSS Feed from an XML string
+    """
 
     def __init__(self, xml_feed, mc=None):
         super().__init__(mc)
@@ -55,7 +64,6 @@ class RssXmlParser(RssParser):
         try:
             rss_feed_dict = xmltodict.parse(self.__xml_feed)[RSS_ROOT]
         except (xml.parsers.expat.ExpatError, KeyError):
-            # TODO: include original exception to the
             raise ParsingException("Source doesn't contain a valid RSS Feed.")
 
         self._mc.add_message("Parsing items info")
@@ -101,9 +109,11 @@ class RssXmlParser(RssParser):
 
 
 class RssUrlParser(RssParser):
+    """
+    Implementation of RSSParser that reads RSS Feed from URL in XML format
+    """
 
     def __init__(self, source, mc=None):
-        # FIXME: assert source is not None, "Source URL is required"
         super().__init__(mc)
         self.__source = source
         self._mc = mc
@@ -112,7 +122,8 @@ class RssUrlParser(RssParser):
         try:
             self._mc.add_message(f"Reaching out to {self.__source}")
             with requests.get(self.__source) as f:
-                # TODO: add error handling
+                if f.status_code != 200:
+                    raise Exception
                 rss_raw_xml = f.text
         except (InvalidSchema, InvalidURL, MissingSchema):
             self._mc.add_message(f"Encountered an error during reading RSS Feed from URL")

@@ -6,15 +6,18 @@ from rss_parse.parse.rss_keys import *
 from rss_parse.utils.formatting_utils import format_date_pretty, get_description_plain
 
 
-class RssFeedJsonMapper:
+class RssJsonMapper:
+    """
+    Class to do a conversion of RSS Feed TO and FROM json
+    """
     __DATE_TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-    def to_json(self, rss_feed: RssFeed, indent=0, pretty=False):
+    def to_json(self, rss_feed: RssFeed, indent=None, pretty=False):
         res = {
             RSS_ITEMS: [self.__item_to_json(item, pretty) for item in rss_feed.rss_items]
         }
 
-        return json.dumps(res, indent=indent)
+        return json.dumps(res, indent=indent, ensure_ascii=False)
 
     def __item_to_json(self, item: RssItem, pretty):
         res = {
@@ -23,7 +26,7 @@ class RssFeedJsonMapper:
         }
         # Store as UTC
         publication_date = item.publication_date.astimezone(timezone.utc) \
-            .strftime(RssFeedJsonMapper.__DATE_TIME_FORMAT)
+            .strftime(RssJsonMapper.__DATE_TIME_FORMAT)
         description = item.description
         if pretty:
             publication_date = format_date_pretty(item.publication_date)
@@ -50,12 +53,12 @@ class RssFeedJsonMapper:
     def __parse_item(self, item):
         title = item[RSS_ITEM_TITLE]
         description = item.get(RSS_ITEM_DESCRIPTION, None)
-        publication_date = datetime.strptime(item[RSS_ITEM_PUB_DATE], RssFeedJsonMapper.__DATE_TIME_FORMAT) \
-            .replace(tzinfo=timezone.utc).astimezone(timezone.utc)
+        publication_date = datetime.strptime(item[RSS_ITEM_PUB_DATE], RssJsonMapper.__DATE_TIME_FORMAT) \
+            .replace(tzinfo=timezone.utc).astimezone()
         link = item[RSS_ITEM_LINK]
         image_url = item.get(RSS_IMAGE_ROOT, None)
         source = item.get(RSS_SOURCE, None)
         return RssItem(title, description, publication_date, link, image_url, source)
 
 
-RSS_FEED_JSON_MAPPER = RssFeedJsonMapper()
+RSS_FEED_JSON_MAPPER = RssJsonMapper()

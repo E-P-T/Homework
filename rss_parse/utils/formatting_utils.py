@@ -12,12 +12,18 @@ HTML_TO_TEXT_TRANSLATOR = __configure_translator()
 
 
 def format_date_pretty(pub_date):
+    """
+    Format date in a human-readable form
+    """
     if not pub_date:
         return ""
     return pub_date.strftime("%a, %d %b %Y %H:%M:%S %z")
 
 
 def get_description_plain(description):
+    """
+    Format a text that might be an HTML by parsing its tags and conveting them to plain text alternatives
+    """
     if not description:
         return description
     desc = description.strip()
