@@ -35,7 +35,7 @@ class SuperCrawler(ICrawler):
         r = self._get_response()
         status = self._get_status(r)
         if status == 200:
-            return status
+            return self._get_content(r)
         log.error(
             f'An unsupported HTTP status code returned. (code = {status})')
         raise FailStatusCodeError(status)
