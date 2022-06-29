@@ -10,11 +10,10 @@ pip-delete-this-directory.txt
 cache.pk1
 
 # Unit test / coverage reports
-.tox/
 .coverage
 .cache
-nosetests.xml
 coverage.xml
+htmlcov/
 
 # Distribution / packaging
 dist/
