@@ -6,7 +6,7 @@ with open("README.md") as file:
 
 setup(
     name="rss_reader",
-    version="0.0.2",
+    version="0.0.3",
     author="Andrey Ozerets",
     description="Super rss-reader.",
     long_description=read_me_description,
