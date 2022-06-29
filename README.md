@@ -283,7 +283,6 @@ Modules tested:
 | `PDF_converter.py`    |     36     |     2       |     94%    |
 | `rss_reader.py `      |     319    |     175     |     45%    |
 | `test.py `            |     48     |     1       |     98%    |
-| --------------------- | ---------- | ----------- | ---------- |
 |         TOTAL         |     480    |     191     |     60%    |
 
   *Test coverage is 60%.*
