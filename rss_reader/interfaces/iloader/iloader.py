@@ -29,10 +29,24 @@ class IHandler(ABC):
 
 
 class ILoadHandler(ABC):
+    """Interface for loaders data."""
+
     @abstractmethod
     def set_next(self, handler: ILoadHandler) -> ILoadHandler:
+        """Set the next viewer in the handler chain.
+
+        :param handler: Next handler.
+        :type handler: ILoadHandler
+        :return: Handler.
+        :rtype: ILoadHandler
+        """
         pass
 
     @abstractmethod
     def get_data(self) -> list:
+        """Get the requested data.
+
+        :return: List with data.
+        :rtype: list
+        """
         pass
