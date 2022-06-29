@@ -4,7 +4,7 @@ import textwrap
 import datetime
 
 
-info = "News successfully converted and saved into 'pdf_convert' directory with 'local datetime' name"
+info = "Your data has been successfully converted into .html and saved in 'pdf_convert' directory with 'local datetime' name"
 def convert_to_pdf(infoFromJson, date=None):
     '''Method of data convertion into html'''
     folder = 'pdf_convert'
@@ -22,9 +22,8 @@ def convert_to_pdf(infoFromJson, date=None):
         x = 10
         y = 800
         for k, v in item.items():
-            img_source = "img_storage"
+            img_source = "News image_link:"
             if img_source in item:
-
                 img_name= item[img_source].split('/')[-1]
                 can.drawImage(f"{dir_path}/{img_name}"+'.jpeg', 30, 300, width=250, height=200)
             text = f"{k}: {v}"
@@ -35,11 +34,8 @@ def convert_to_pdf(infoFromJson, date=None):
                 can.drawString(x+50, y, wrap_text[1])
             except:
                 pass
-
             y -= 25
-
         can.showPage()
-
     can.save()
     print("\n", info, "\n")
-
+    return "test"

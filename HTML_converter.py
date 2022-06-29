@@ -9,10 +9,14 @@ with open('base.html', 'r', encoding='utf-8') as readfile:
 
 soup = BeautifulSoup(html_file, "html.parser")
 readfile.close()
-
-
-def convert_to_html(dataset,date=None):
+def convert_to_html(dataset, date=None):
      '''Method of data convertion into html'''
+     folder = 'html_convert'
+     if os.path.exists(folder):
+          pass
+     else:
+          os.mkdir(folder)
+     dir_path = "img_storage"
      for data in dataset:
           main_div = soup.new_tag('div', **{'class': 'card mb-3 em'})
           body_div = soup.new_tag('div', **{'class': 'card-body'})
@@ -26,7 +30,6 @@ def convert_to_html(dataset,date=None):
                          "img", **{'class': 'card-img-top'}, src=value, alt="No image link")
                          main_div.append(img_tag)
                else:
-                    dir_path = "img_storage"
                     # list to store files
                     res = []
                     # Iterate directory
@@ -80,16 +83,14 @@ def convert_to_html(dataset,date=None):
           body_div.append(tag_p)
           main_div.append(body_div)
           soup.body.div.append(main_div)
-          folder = 'html_convert'
+          
           if date:
-              file = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")+'(online)'+'.html'
-          else:
               file = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")+'(offline)'+'.html'
-          if os.path.exists(folder):
-               pass
           else:
-               os.mkdir(folder)
+              file = datetime.datetime.now().strftime("%Y-%m-%d_%H.%M.%S")+'(online)'+'.html'
+          
           with open(f'{folder}/{file}', 'w', encoding='utf-8') as writefile:
                writefile.write(str(soup))
                writefile.close()
-               print("\n", f"your html file has been successfully saved in the {folder} file with the name {file}", "\n")
+               print("\n", f"Your data has been successfully converted into .html and saved in {folder} folder as {file}", "\n")
+     return 'test'
