@@ -33,8 +33,7 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
 
     parser.add_argument('source',
                         nargs='?',
-                        default='', # на бв
-                        # default='https://news.yahoo.com/rss/',
+                        default='',
                         help='RSS URL')
 
     parser.add_argument('--version',
