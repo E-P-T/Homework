@@ -281,19 +281,18 @@ Modules tested:
 + to_html.py
 + to_pdf.py
 + rss_reader.py
-    (
-      Name                              Stmts   Miss  Cover   
-      database_file\check_database.py      20      9    55%   
-      html_tag_parse.py                    18      0   100%
-      json_convert_to_pdf.py               59     13    78%   
-      json_to_html.py                     100     26    74%   
-      rss_reader.py                       279    115    59%   
-      test.py                              57      1    98%   
-      utilty.py                             9      1    89%   
-      -------------------------------------------------------
-      TOTAL                               542    165    70%
-
-    )
++   |         Name                      |    Stmts   |    Miss     |    Cover   |
+    | ---------------------             | ---------- | ----------  | ---------- |
+    | `database_file\check_database.py` |     20     |      9      |     55%    |
+    | `html_tag_parse.py`               |     18     |      0      |     100%   |
+    | `json_convert_to_pdf.py`          |     59     |     13      |     78%    |
+    | `json_to_html.py`                 |     100    |     26      |     74%    |
+    | `rss_reader.py`                   |     279    |     115     |     59%    |
+    | `test.py `                        |     57     |     1       |     98%    |
+    | `utilty.py`                       |     9      |     1       |     89%    |
+    | ---------------------             | ---------- | ----------- | ---------- |
+    |         TOTAL                     |     542    |     165     |     70%    |
+    
   In order to see the testing results in table use these commands below:
     -coverage run -m unittest discover
     -coverage report -m
