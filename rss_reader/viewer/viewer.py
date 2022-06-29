@@ -51,11 +51,16 @@ class StandartViewHandler(AbstractViewHandler):
     """
 
     def show(self, data: List[dict]) -> None:
+        """Show data.
+
+        :param data: Information td display.
+        :type data: List[dict]
+        """
         for i in data:
             self._show_item(i)
 
     def _show_item(self, data: dict):
-        """Показать данные"""
+        """Show data."""
         self._get_info(data, "title_web_resource", "\nFeed: ", end="\n\n\n")
         items = data.get('items')
         if isinstance(items, list):
@@ -86,7 +91,7 @@ class StandartViewHandler(AbstractViewHandler):
         return result
 
     def _get_info(self, dict_: dict, attr: str, str_: str, end='\n'):
-        """получить строку с данными из словаря"""
+        """Printing a string from a dictionary"""
         x = dict_.get(attr)
         if x:
             print(f'{str_}: {x}', end=end)
