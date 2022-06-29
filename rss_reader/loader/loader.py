@@ -124,7 +124,23 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
                 'link': 'https://news.yahoo.com/medi04.html',
                 'pubDate': '2022-06-28',
                 'source': 'Ukrayina Pravda',
-                'content': 
+                'content':
+                    {
+                        'url': 'https://s.yimg.com/uu/api/re.com/en/ukc321c3475',
+                        'title': None
+                    }
+                }
+                ]
+            }
+
+            {'title_web_resource': 'Новости ООН - Здравоохранение',
+            'link':'https://news.un.org/feed/subscribe/ru/news/topic/health/feed/rss.xml',
+            'items': [
+                {'title': 'итуация с безопасностью дорожного движения ухудшается',
+                'link': 'https://news.yahoo.com/medi04.html',
+                'pubDate': '2022-06-28',
+                'source': 'UN',
+                'content':
                     {
                         'url': 'https://s.yimg.com/uu/api/re.com/en/ukc321c3475',
                         'title': None
@@ -169,6 +185,8 @@ class FromLocalSTorageHandler(AbstractLoaderHandler):
                         break
                 else:
                     new_item()
+
+        print(f'->   {l_item}')
 
         return l_item
 
