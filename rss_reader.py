@@ -13,6 +13,7 @@ the current environment.
 import sys
 import logging
 import json
+from functools import cached_property
 
 
 def install_and_import(module_name, package_name=None):
@@ -41,7 +42,7 @@ def install_modules():
     """
     for module_name in 'lxml', 'bs4', 'requests':
         install_and_import(module_name)
-    for module_name, package_name in ('dateutil', 'python-dateutil'), :
+    for module_name, package_name in ('dateutil', 'python-dateutil'), ('fpdf', 'fpdf2'):
         install_and_import(module_name, package_name)
 
 
@@ -56,15 +57,18 @@ def parse_args(args=None):
     parser = argparse.ArgumentParser(
         description='Pure Python command-line RSS reader.',
         exit_on_error=False)
-    parser.add_argument('--version', action='version', help='Print version info', version='3.0')
+    parser.add_argument('--version', action='version', help='Print version info', version='4.0')
     parser.add_argument('--json', action='store_true', default=False, help='Print result as JSON in stdout')
     parser.add_argument('--verbose', action='store_true', default=False, help='Outputs verbose status messages')
     parser.add_argument('--limit', type=int, help='Limit news topics if this parameter provided')
     parser.add_argument('--date', type=lambda s: datetime.strptime(s, '%Y%m%d').astimezone(),
                         help='Get from cache news that was published after specified date\n'
                         '(date should be specified in format YYYYmmdd, for example --date 20191020)')
+    parser.add_argument('--to-html', dest='html_dest', help='Store feed in HTML as specified file')
+    parser.add_argument('--to-pdf', dest='pdf_dest', help='Store feed in PDF as specified file')
     parser.add_argument('source', help='RSS URL')
-    return parser.parse_args(args)
+    parsed_args = parser.parse_args(args)
+    return parsed_args
 
 
 def request_feed(source):
@@ -103,6 +107,22 @@ def get_link(elem):
     return (url, type_)
 
 
+def recieve_image(src):
+    """
+    Get content of resource. Intended to store images in cache.
+    Returns bytes object with content downloaded from specified URL.
+    """
+    from requests import get
+    from shutil import copyfileobj
+    from io import BytesIO
+
+    r = get(src, stream=True)
+    with BytesIO() as f:
+        r.raw.decode_content = True
+        copyfileobj(r.raw, f)
+        return f.getvalue()
+
+
 def parse_item(item):
     """
     Parse item element
@@ -125,12 +145,15 @@ def parse_item(item):
     enclosures = [get_link(enclosure) for enclosure in item('enclosure')]
     prefix = "".join(f'[image {n}]' for n, _ in enumerate(enclosures, start=len(links) + 1))
     links.extend(enclosures)
+    item_info['images'] = {url: recieve_image(url) for url, t in enclosures if t == 'image'}
     logging.debug('Looking for medias')
     medias = [get_link(media) for media in item('media:content')]
     prefix += "".join(f'[image {n}]' for n, _ in enumerate(medias, start=len(links) + 1))
     links.extend(medias)
+    item_info['images'].update({url: recieve_image(url) for url, t in medias if t == 'image'})
     if item.description is not None:
         logging.debug('Parsing item description')
+        item_info['description_raw'] = item.description.text
         description = BeautifulSoup(item.description.text, 'lxml')
         logging.debug('Replacing image references and links in description')
         for tag in description(['img', 'a']):
@@ -138,6 +161,7 @@ def parse_item(item):
                 links.append((tag['src'], 'image'))
                 num = len(links)
                 tag.replace_with(f'[image {num}]')
+                item_info['images'][tag['src']] = recieve_image(tag['src'])
             else:
                 links.append((tag['href'], 'link'))
                 num = len(links)
@@ -169,8 +193,7 @@ def parse_feed(content):
         info['items'] = sorted([parse_item(item) for item in feed('item')],
                                key=itemgetter('pubDate', 'title', 'description'), reverse=True)
         return info
-    except Exception as e:
-        logging.debug(e)
+    except Exception:
         raise ValueError('Failed to parse feed')
 
 
@@ -237,7 +260,13 @@ def format_json(news):
     Represent feed in JSON format
     """
     from json import dumps
-    return dumps(news, ensure_ascii=False, indent=1, cls=DateTimeEncoder)
+    from copy import deepcopy
+    noimg = deepcopy(news)
+    for item in noimg['items']:
+        del item['images']
+        item['description'] = item['description_raw']
+        del item['description_raw']
+    return dumps(noimg, ensure_ascii=False, indent=1, cls=DateTimeEncoder)
 
 
 def load_cache():
@@ -325,14 +354,141 @@ def receive_feed(source, cache):
     return news
 
 
+def _download_font():
+    """
+    Download archive with fonts for FPDF and extract DejaVuSansCondensed.ttf
+
+    If the file DejaVuSansCondensed.ttf is found in current directory
+    then no operation is performed
+    """
+    from os.path import exists
+    from requests import get
+    from io import BytesIO
+    from zipfile import ZipFile
+    from shutil import copyfileobj
+    if exists('DejaVuSansCondensed.ttf'):
+        return
+    try:
+        r = get('https://github.com/reingart/pyfpdf/releases/download/binary/fpdf_unicode_font_pack.zip', stream=True)
+        with BytesIO(r.content) as b, ZipFile(b) as z, z.open('font/DejaVuSansCondensed.ttf') as f:
+            with open('DejaVuSansCondensed.ttf', 'wb') as d:
+                copyfileobj(f, d)
+    except Exception as e:
+        raise IOError(f'Can not get font: {e}')
+
+
+class Formatters:
+
+    """
+    Set of interdependant formatters. One formatter may require result of other formatter
+    """
+
+    def __init__(self, feed):
+        """
+        Initialize formatter. Feed is parsed representation of feed being formatted
+        """
+        self.feed = feed
+        self.images = {url: image for item in self.feed['items'] for url, image in item['images'].items()}
+
+    def _get_cached_image(self, url):
+        """
+        Get image from feed as BytesIO
+        """
+        from io import BytesIO
+        return BytesIO(self.images[url])
+
+    @cached_property
+    def to_html(self):
+        """
+        Represent feed as HTML document
+        """
+        from bs4 import BeautifulSoup as bsoup
+        html = bsoup('<!DOCTYPE html><html></html>', 'html.parser')
+        new_tag = html.new_tag
+        head = new_tag('head')
+        html('html')[0].append(head)
+        head.append(new_tag('meta', charset='utf-8'))
+        title = new_tag('title')
+        title.append(self.feed['title'])
+        head.append(title)
+        body = new_tag('body')
+        html('html')[0].append(body)
+        tag = new_tag('h1')
+        body.append(tag)
+        tag.append(self.feed['title'])
+        tag = new_tag('div')
+        body.append(tag)
+        tag.append(self.feed['description'])
+        for item in self.feed['items']:
+            art_title = new_tag('h2')
+            body.append(art_title)
+            art_title.append(item['title'])
+            art_time = new_tag('p')
+            body.append(art_time)
+            art_time.append(item['pubDate'].strftime('%a, %d %b %Y %H:%M:%S %z'))
+            if 'description_raw' in item:
+                description = new_tag('div')
+                body.append(description)
+                descr_content = bsoup(item['description_raw'], 'lxml')
+                for img_tag in descr_content('img'):
+                    if 'width' not in img_tag.attrs or 'height' not in img_tag.attrs:
+                        img_tag['width'] = 160
+                        img_tag['height'] = 100
+                try:
+                    inner = descr_content.html.body.p.text
+                except Exception:
+                    inner = None
+                if inner == item['description_raw']:
+                    description.append(inner)
+                else:
+                    description.append(descr_content)
+            link_list = new_tag('ol')
+            body.append(link_list)
+            for link, mt in item['links']:
+                links_item = new_tag('li')
+                link_list.append(links_item)
+                if mt == 'image':
+                    link_tag = new_tag('img', src=link, width=160, height=100)
+                    links_item.append(link_tag)
+                else:
+                    link_tag = new_tag('a', href=link)
+                    links_item.append(link_tag)
+                    link_tag.append(mt)
+        return str(html).encode('utf-8')
+
+    @cached_property
+    def to_pdf(self):
+        """
+        Represent feed as PDF document.
+
+        Use weasyprint to convert from HTML representation
+        """
+
+        from fpdf import FPDF, HTMLMixin
+
+        class PDF(FPDF, HTMLMixin):
+            pass
+
+        html_str = self.to_html.decode('utf-8')
+        pdf = PDF()
+        pdf.set_title(self.feed['title'])
+        pdf.add_page()
+        _download_font()
+        pdf.add_font('DejaVu', fname='DejaVuSansCondensed.ttf')
+        pdf.set_font('DejaVu', size=14)
+        pdf.write_html(html_str, image_map=self._get_cached_image)
+        return pdf.output()
+
+
 def main():
     """
     Preparation and execution organization
     """
     try:
-        install_modules()
         # parse arguments
         args = parse_args()
+        # install required modules
+        install_modules()
         # set logging level acording to --verbose flag
         logging.basicConfig(
             level=logging.DEBUG if args.verbose else logging.INFO
@@ -342,13 +498,33 @@ def main():
         if args.date is None:
             news = receive_feed(args.source, cache)
         else:
-            lookup_cache(cache, args.source, args.date)
+            news = lookup_cache(cache, args.source, args.date)
         assert news is not None, 'No news found'
         limit_feed(news, args.limit)
         logging.debug(f'{len(news["items"])} item(s) extracted')
-        content = format_json(news) if args.json else format_text(news)
-        logging.debug('Content formatted')
-        sys.stdout.write(content)
+        text_required = args.html_dest is None and args.pdf_dest is None and not args.json
+        formatter = Formatters(news)
+        if args.html_dest:
+            try:
+                with open(args.html_dest, 'wb') as f:
+                    html = formatter.to_html
+                    f.write(html)
+            except Exception as e:
+                print(f'Faild to write html file: {e}')
+        if args.pdf_dest:
+            try:
+                with open(args.pdf_dest, 'wb') as f:
+                    pdf = formatter.to_pdf
+                    f.write(pdf)
+            except Exception as e:
+                print(f'Failed to write pdf file: {e}')
+        if args.json:
+            content = format_json
+            sys.stdout.write(content)
+        if text_required:
+            content = format_text(news)
+            logging.debug('Content formatted')
+            sys.stdout.write(content)
     except AssertionError as failed:
         print(failed)
     except Exception as e:

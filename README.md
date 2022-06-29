@@ -140,21 +140,25 @@ Before installation there are three ways to start RSS reader
 Command line format
 -------
 
-    usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] source
+	usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] [--to-html HTML_DEST]
+						 [--to-pdf PDF_DEST]
+						 source
 
 	Pure Python command-line RSS reader.
 
 	positional arguments:
-	  source         RSS URL
+	  source               RSS URL
 
 	optional arguments:
-	  -h, --help     show this help message and exit
-	  --version      Print version info
-	  --json         Print result as JSON in stdout
-	  --verbose      Outputs verbose status messages
-	  --limit LIMIT  Limit news topics if this parameter provided
-	  --date DATE    Get from cache news that was published after specified date (date should be specified in format
-					 YYYYmmdd, for example --date 20191020)
+	  -h, --help           show this help message and exit
+	  --version            Print version info
+	  --json               Print result as JSON in stdout
+	  --verbose            Outputs verbose status messages
+	  --limit LIMIT        Limit news topics if this parameter provided
+	  --date DATE          Get from cache news that was published after specified date (date should be specified in format
+						   YYYYmmdd, for example --date 20191020)
+	  --to-html HTML_DEST  Store feed in HTML as specified file
+	  --to-pdf PDF_DEST    Store feed in PDF as specified file
 
 JSON representation
 -------
@@ -215,6 +219,8 @@ The result of parsing item of feed is dictionary with following keys:
 	- `link` - link to resource related to the item
 	
 	- `description` - description of the item
+	
+	- `images` - dictionary of collected images (keys are URLs of images and values are their content as bytes object)
 
 	- `links` - a list of links collected for the item.
 

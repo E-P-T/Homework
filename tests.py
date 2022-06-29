@@ -157,7 +157,7 @@ class TestParseFeed(unittest.TestCase):
                          ' "description": "Liftoff to Space Exploration.",\n "items": [\n'
                          '  {\n   "title": "Star City",\n   "pubDate": "Tue, 03 Jun 2003 09:39:21 +0000",\n'
                          '   "link": "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp",\n'
-                         '   "description": "[image 2]How do Americans get ready to work with Russians aboard the International Space Station? They take a crash course in culture, language and protocol at Russia\'s Star City[3].",\n'
+                         '   "description": "<img src=\\"https://example.com/images/logo.png\\">How do Americans get ready to work with Russians aboard the International Space Station? They take a crash course in culture, language and protocol at Russia\'s <a href=\\"http://howe.iki.rssi.ru/GCTC/gctc_e.htm\\">Star City</a>.",\n'
                          '   "links": [\n'
                          '    [\n     "http://liftoff.msfc.nasa.gov/news/2003/news-starcity.asp",\n     "link"\n    ],\n'
                          '    [\n     "https://example.com/images/logo.png",\n     "image"\n    ],\n'
@@ -288,3 +288,50 @@ class TextCache(unittest.TestCase):
                 'items': []
             }
         )
+
+
+class TestFormatters(unittest.TestCase):
+
+    def test_get_cached_image(self):
+        feed = {
+            'title': 'Feed A',
+            'description': 'Describe A',
+            'link': 'http://example.com/feedA',
+            'items': [
+                {
+                    'title': 'A01',
+                    'link': 'http://example.com/feedA',
+                    'description': 'Describe A01',
+                    'pubDate': datetime.datetime.fromisoformat('2022-01-02T10:11:23+03:00'),
+                    'links': [('http://example.com/feedA', 'link'), ('http://example.com/image01.png', 'image')],
+                    'images': {'http://example.com/image01.png': b'IMAGEDATA'}
+                }
+            ]
+        }
+        formatter = rss_reader.Formatters(feed)
+        self.assertEqual(formatter._get_cached_image('http://example.com/image01.png').getvalue(), b'IMAGEDATA')
+    
+    def test_to_html(self):
+        feed = {
+            'title': 'Feed A',
+            'description': 'Describe A',
+            'link': 'http://example.com/feedA',
+            'items': [
+                {
+                    'title': 'A01',
+                    'link': 'http://example.com/feedA',
+                    'description': 'Describe A01',
+                    'description_raw': 'Describe A01',
+                    'pubDate': datetime.datetime.fromisoformat('2022-01-02T10:11:23+03:00'),
+                    'links': [('http://example.com/feedA', 'link'), ('http://example.com/image01.png', 'image')],
+                    'images': {'http://example.com/image01.png': b'IMAGEDATA'}
+                }
+            ]
+        }
+        formatter = rss_reader.Formatters(feed)
+        self.assertEqual(formatter.to_html,
+                         b'<!DOCTYPE html>\n<html><head><meta charset="utf-8"/><title>Feed A</title></head>'
+                         b'<body><h1>Feed A</h1><div>Describe A</div><h2>A01</h2><p>Sun, 02 Jan 2022 10:11:23 +0300</p>'
+                         b'<div>Describe A01</div><ol><li><a href="http://example.com/feedA">link</a></li>'
+                         b'<li><img height="100" src="http://example.com/image01.png" width="160"/></li></ol>'
+                         b'</body></html>')
