@@ -84,8 +84,9 @@ class Starter:
                             self._argv.get('limit'),
                             SuperCrawler,
                             BeautifulParser(BeautifulSoup))
+        local_storage = PathFile().home()/LOCAL_STORAGE
 
-        ls = FromLocalSTorageHandler('local_storage.csv', self._argv)
+        ls = FromLocalSTorageHandler(local_storage, self._argv)
         ls.set_next(wh)
         return ls
 
