@@ -18,3 +18,7 @@ class PathFile(ICreateFile):
         file = Path(file)
         Path.mkdir(file.parent, parents=True, exist_ok=True)
         file.touch(exist_ok=True)
+
+    def home(self) -> None:
+        """Return a new path pointing to the user's home directory."""
+        return Path.home()
