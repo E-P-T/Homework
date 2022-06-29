@@ -32,7 +32,8 @@ def mock_parser(mocker):
 def test_get_items_empty(mock_crawler, mock_parser):
     """Check that a dictionary of the given structure is returned"""
 
-    h = FromWebHandler(SuperCrawler, BeautifulParser('s'))
-    r = h.get_data('a', 'b', 'c', 1)
-    assert r == {'title_web_resource': 'Title!',
-                 'items': [{'mock_item': 1}]}
+    h = FromWebHandler('a', 'b', 'c', 1, SuperCrawler, BeautifulParser('s'))
+    r = h.get_data()
+    assert r == [{'title_web_resource': 'Title!',
+                  'link': 'c',
+                  'items': [{'mock_item': 1}]}]
