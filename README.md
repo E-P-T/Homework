@@ -277,7 +277,7 @@ project is tested for the file convertions, url validation, argparse options and
 
 Modules tested:
 
-|         Name        |    Stmts   |    Miss     |    Cover   |
+|    Name             |    Stmts   |    Miss     |    Cover   |
 | ------------------- | ---------- | ----------  | ---------- |
 | HTML_converter.py   |     77     |     13      |     83%    |
 | PDF_converter.py    |     36     |     2       |     94%    |
