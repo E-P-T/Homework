@@ -2,7 +2,8 @@
 
 import json
 import logging
-import feed_parser
+
+from rssreader.parser import feed_parser
 
 
 class JsonConversion(feed_parser.RssParser):

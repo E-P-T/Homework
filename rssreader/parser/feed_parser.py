@@ -4,7 +4,8 @@ import feedparser
 import logging
 from bs4 import BeautifulSoup
 from colored import fore, style
-import all_exceptions
+
+from rssreader.exceptions import all_exceptions
 
 
 class RssParser:
@@ -56,6 +57,7 @@ class RssParser:
         parsing_news = []
         try:
             feed = self.html_news.feed.title
+
             for entry in self.html_news.entries[:self.limit]:
                 temp_dict = {
                     'Feed': feed,
@@ -133,3 +135,28 @@ class RssParser:
             )
         return "".join(pretty_string)
 
+    def make_pretty_rss_colorize(self, news) -> str:
+        """
+        Function that returns the final color presentation
+        of news that was obtained from the rss link
+        """
+        pretty_string = []
+
+        for article in news:
+            links = self.__make_pretty_links(
+                        article['Link'],
+                        article['Links']
+                        )
+
+            pretty_string.append(
+                fore.RED + style.BOLD +
+                f"\nFeed: {article['Feed']}\n\nTitle: {article['Title']}" +
+                style.RESET + fore.GREEN + style.BOLD +
+                f"\nDate: {article['Date']}\nLink: {article['Link']}" +
+                style.RESET + fore.BLUE + style.BOLD +
+                f"\n\n{article['Description']}" +
+                style.RESET + fore.MAGENTA + style.BOLD +
+                f"\n\nLinks:\n{links}\n\n" + style.RESET
+            )
+        logging.info("Text painted in RGBM")
+        return "".join(pretty_string)

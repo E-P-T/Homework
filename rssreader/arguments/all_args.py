@@ -1,14 +1,14 @@
 """A module that sets command line arguments"""
 
-import package_version
-from all_exceptions import ThrowingArgumentParser
+from rssreader import cnf
+from rssreader.exceptions.all_exceptions import ThrowingArgumentParser
 
 
 class Arguments:
     """A class that sets command line arguments"""
     def __init__(self) -> None:
         parser = ThrowingArgumentParser(
-            prog=package_version.__package__,
+            prog=cnf.__package__,
             description="Pure Python command-line RSS reader."
         )
         parser.add_argument(
@@ -30,7 +30,28 @@ class Arguments:
             "--version",
             help="Print version info",
             action="version",
-            version=package_version.__version__
+            version=cnf.__version__
+        )
+        parser.add_argument(
+            "--date",
+            help="Return cached news from the publication day.\
+            Format is YYYYMMDD",
+            type=int
+        )
+        parser.add_argument(
+            "--to-html",
+            help="Convert news to html",
+            action="store_true"
+        )
+        parser.add_argument(
+            "--to-pdf",
+            help="Convert news to pdf",
+            action="store_true"
+        )
+        parser.add_argument(
+            "--colorize",
+            help="Convert news to pdf",
+            action="store_true"
         )
         parser.add_argument(
             "source",
