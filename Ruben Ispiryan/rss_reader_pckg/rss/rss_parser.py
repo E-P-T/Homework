@@ -86,7 +86,6 @@ class RSSParser:
             raise RSSException('Date provided was not 8 characters', is_logged=True)
         try:
             vis_date = parser.parse(date).strftime('%d/%m/%Y')
-            print(vis_date)
         except ParserError:
             logging.error('Faulty date was provided!')
             raise RSSException('Date was not matching following format "yymmdd".', is_logged=True)

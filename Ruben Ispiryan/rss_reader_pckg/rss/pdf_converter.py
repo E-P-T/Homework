@@ -15,10 +15,8 @@ def pdf_feed(html: str, file: BinaryIO) -> bool:
     :param file: The file object to which to write.
     :return: Success or failure of conversion.
     """
-    a = time.time()
     pisa_status = pisa.CreatePDF(
         html,
         dest=file)
-    print(time.time()-a)
 
     return pisa_status.err
