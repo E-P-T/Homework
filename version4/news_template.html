@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RSS Reader</title>
+</head>
+<body>
+<div class="news-list">
+    <ul>
+        {% for obj in news %}
+            <li class="single-news">
+                <h3>{{ obj.title }}</h3>
+                <img src="{{ obj.image }}" alt="" style="width: 400px; ">
+                <div>Source: {{ obj.source }}</div>
+                <div>Channel: {{ obj.channel }}</div>
+                <a href="{{ obj.link }}">Link to the article</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
