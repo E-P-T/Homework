@@ -13,6 +13,7 @@ Welcome to rss-reader's documentation!
    start_program.rst
    display_information.rst
    local_storage.rst
+   to_html_mode.rst
    tests.rst
 
 
