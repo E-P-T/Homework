@@ -10,6 +10,7 @@ import sys
 from dataclasses import dataclass
 
 import requests
+from dateutil import parser
 
 from rss_reader_pckg.rss.helpers import validate_method_args
 
@@ -68,9 +69,12 @@ class CacheReader:
         :return: An instance of the RSSCache class.
         """
         logging.info('Reading cached results.')
-        with open(self._cache_path, 'rb') as c:
-            logging.info('Loading cached data.')
-            return pickle.load(c)
+        if os.path.exists(self._cache_path):
+            with open(self._cache_path, 'rb') as c:
+                logging.info('Loading cached data.')
+                return pickle.load(c)
+        else:
+            raise FileNotFoundError
 
     @cache.setter
     def cache(self, obj: RSSCache):
@@ -112,3 +116,20 @@ class CacheReader:
                 with open(f'cache/{image_path}', 'wb') as f:
                     shutil.copyfileobj(res.raw, f)
         logging.info('Downloaded all images to the cache.')
+
+    def fetch_by_filters(self, date: str, url: str) -> list[Item]:
+        """
+        This method fetches news from cache by date and url.
+        :param date: A date string.
+        :param url: An RSS url.
+        :return: A list of Item objects.
+        """
+        feed_list = []
+        for feed in self.cache.rss_feeds:
+            if url and url != feed.url:
+                continue
+            for item in feed.items:
+                item_date = parser.parse(item.date.value).strftime('%Y%m%d')
+                if item_date == date:
+                    feed_list.append(item)
+        return feed_list

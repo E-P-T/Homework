@@ -91,15 +91,12 @@ class RSSParser:
             logging.error('Faulty date was provided!')
             raise RSSException('Date was not matching following format "yymmdd".', is_logged=True)
 
-        current_cache = self.rss_cache.cache
-        feed_list = []
-        for feed in current_cache.rss_feeds:
-            if url and url != feed.url:
-                continue
-            for item in feed.items:
-                item_date = parser.parse(item.date.value).strftime('%Y%m%d')
-                if item_date == date:
-                    feed_list.append(item)
+        try:
+            feed_list = self.rss_cache.fetch_by_filters(date, url)
+        except FileNotFoundError:
+            logging.error('There is no cache available!')
+            raise RSSException('Cache was not yet created.', is_logged=True)
+
         feed_str = ''
         if url:
             validate_url(url)
@@ -109,6 +106,9 @@ class RSSParser:
             feed_str += f', and  limit of {limit}'
         else:
             limit = len(feed_list)
+        if not feed_list:
+            logging.error('No news were found for given filters!')
+            raise RSSException('Found no news with given filters.', is_logged=True)
         self.feed_title = f'News fetched from cache by - {vis_date} Date{feed_str}.'
         self.parsed_items = feed_list[:limit]
         logging.info(f'Parsed items from cache with following filters Date: {vis_date}{feed_str}')
