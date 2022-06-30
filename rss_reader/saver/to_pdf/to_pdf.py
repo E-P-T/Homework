@@ -16,7 +16,14 @@ class PDFSaveHandler(AbstractSaveHandler):
         self._request = request
         self._folder = folder
 
-    def convert_to_latin1(self, data: str):
+    def convert_to_latin1(self, data: str) -> str:
+        """Convert to latin1 encoding.
+
+        :param data: Data to be converted.
+        :type data: str
+        :return: String in the new encoding.
+        :rtype: str
+        """
         data = data.encode('ascii', errors='ignore')
         return data.decode('latin1', errors='ignore')
 
