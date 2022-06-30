@@ -30,10 +30,10 @@ def get_feed_by_date(date, url, limit):
     Args:
         date (datetime): starting date
         url (str): URL of RSS feed
-        limit (int): quantity of RSS items
+        limit (int): max quantity of RSS items
 
     Raises:
-        CachingError: _description_
+        CachingError: if an error is detected during getting feed from cache
 
     Returns:
         dict: RSS feed

@@ -8,7 +8,14 @@ logger = logging.getLogger(__name__)
 
 
 def get_item_desc(item):
-    '''Parse description of RSS item'''
+    '''Parse description of RSS item
+
+    Args:
+        item (str): RSS item
+
+    Returns:
+        dict: description text and links
+    '''   
     logger.debug('Parsing description of RSS feed')
     url_tags = {'a': {'attr': 'href', 'type': 'link', 'alt_text': ''},
                 'img': {'attr': 'src', 'type': 'image', 'alt_text': 'alt'}}
@@ -30,7 +37,15 @@ def get_item_desc(item):
 
 
 def get_item_image_url(item, url):
-    '''Parse image url of RSS item'''
+    '''Parse image url of RSS item
+
+    Args:
+        item (str): RSS item
+        url (str): URL of RSS feed
+
+    Returns:
+        str: URL of image
+    '''
     logger.debug('Parsing image url of RSS feed')
     image_url = ''
     if media_content := item.find('media:content', attrs={'url': True}):
@@ -49,7 +64,18 @@ def get_item_image_url(item, url):
 
 
 def parse_rss(url, limit=0):
-    '''Parse a RSS feed and return a RSS dict'''
+    '''Parse a RSS feed and return a RSS dict
+
+    Args:
+        url (str): URL of RSS feed
+        limit (int, optional): max quantity of RSS items. Defaults to 0.
+
+    Raises:
+        ParserError: if an error is detected during parcing
+
+    Returns:
+        dict: RSS feed    
+    '''
     logger.debug(f'Parsing RSS from {url} started')
     try:
         bs_xml = BeautifulSoup(requests.get(url).content, features='xml')
