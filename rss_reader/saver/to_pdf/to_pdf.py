@@ -30,5 +30,8 @@ class PDFSaveHandler(AbstractSaveHandler):
 
                 pdf.cell(150, 10, txt=i.get(
                     'title_web_resource'), ln=1, align='L')
+                
+                pdf.cell(150, 10, txt='Link to feed.', ln=1,
+                         align='L', link=i.get('link'))
         else:
             super().save(data)
