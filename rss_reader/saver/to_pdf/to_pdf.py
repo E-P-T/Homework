@@ -42,5 +42,6 @@ class PDFSaveHandler(AbstractSaveHandler):
                     pdf.cell(150, 10, txt=t, ln=1, align='L')
                     pdf.cell(150, 10, txt='Link to news.', ln=1,
                              align='L', link=item.get('link'))
+                    pdf.cell(150, 10, txt=item.get('pubDate'), ln=1, align='L')
         else:
             super().save(data)
