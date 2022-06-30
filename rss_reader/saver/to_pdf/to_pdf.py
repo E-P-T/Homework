@@ -4,4 +4,5 @@ from ..saver import AbstractSaveHandler
 
 
 class PDFSaveHandler(AbstractSaveHandler):
-    pass
+    def save(self, data: List[dict]) -> None:
+        pass
