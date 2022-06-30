@@ -27,5 +27,8 @@ class PDFSaveHandler(AbstractSaveHandler):
 
             for i in data:
                 pdf.add_page()
+
+                pdf.cell(150, 10, txt=i.get(
+                    'title_web_resource'), ln=1, align='L')
         else:
             super().save(data)
