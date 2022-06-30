@@ -21,6 +21,13 @@ class PDFSaveHandler(AbstractSaveHandler):
         return data.decode('latin1', errors='ignore')
 
     def save(self, data: List[dict]) -> None:
+        """Save data to PDF.
+
+        :param data: Dictionary with data to save.
+        :type data: List[dict]
+        :raises FileExistsError: An error occurs when the specified path
+        does not exist.
+        """
         file = self._request.get('to_pdf')
         if file:
             pdf = FPDF()
