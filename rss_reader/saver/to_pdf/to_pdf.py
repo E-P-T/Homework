@@ -61,5 +61,8 @@ class PDFSaveHandler(AbstractSaveHandler):
                         pdf.cell(150, pdf.get_y()+25-y, ln=1, align='L')
                         y = pdf.get_y()-25
             pdf.output("sample.pdf")
+            # del all images
+            for i in imgs:
+                PathFile.unlink(i)
         else:
             super().save(data)
