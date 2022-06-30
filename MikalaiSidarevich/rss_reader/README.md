@@ -4,7 +4,7 @@ Pure Python command-line RSS reader.
 
 ## Requirements
 
-The utility requires [**`python 3.9`**](https://www.python.org/downloads/) interpreter with [**`pip`**](https://pypi.org/project/pip/) installing tool.
+The utility requires [**`python 3.9`**](https://www.python.org/downloads/) interpreter with [**`pip`**](https://pypi.org/project/pip/) installing tool, [**`setuptools`**](https://pypi.org/project/setuptools/) installing tool.
 
 On the command line the interpreter can be typed as `python`, `python3`, `python3.9` (depending on OS, version, etc.).
 
@@ -23,6 +23,12 @@ To install extra packages automatically set the working directory to the project
 
 ```sh
 > python -m pip install -r requirements.txt
+```
+
+It's also possible to setup package via **`setuptools`**:
+
+```sh
+> python setup.py install
 ```
 
 **Super user privileges may be required to install extra packages. If so, then use* `sudo` *command on Linux or run terminal as administrator on Windows.*
@@ -56,7 +62,13 @@ Set the working directory to the project root `rss_reader/` and execute:
 - Show utility version:
   ```sh
   > python rss_reader.py --version
-  Version 1.1
+  Version 1.2
+  ```
+
+- Show utility version using CLI utility installed:
+  ```sh
+  > rss_reader --version
+  Version 1.2
   ```
 
 - Read 1 news entry from [Yahoo](https://news.yahoo.com/) source:

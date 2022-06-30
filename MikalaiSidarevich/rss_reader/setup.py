@@ -1,9 +1,7 @@
 """
-Install required packages for RSS reader.
+Entry point to install package.
 """
 
-import os
-import sys
+from setuptools import setup
 
-cmd = f"{sys.executable} -m pip install -r requirements.txt"
-os.system(cmd)
+setup()
