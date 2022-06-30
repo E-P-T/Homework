@@ -3,6 +3,7 @@ This module contains the RSSParser class which performs all main actions and par
 """
 
 import logging
+import os
 import re
 from typing import Optional
 
@@ -249,22 +250,32 @@ class RSSParser:
         """
         return self.feed.to_json()
 
-    def save_pdf(self):
+    def save_pdf(self, path: str):
         """
         This method saves the current operating feed into a PDF file.
         """
         html = html_feed(self.feed, for_pdf=True, is_cache=self.is_offline)
-        with open('rss_feed.pdf', 'wb') as f:
-            pdf_feed(html, f)
+        if os.path.exists(path):
+            with open(f'{path}rss_feed.pdf', 'wb') as f:
+                pdf_feed(html, f)
+        else:
+            logging.error('Given path was not found, saving to current location instead!')
+            with open('rss_feed.pdf', 'wb') as f:
+                pdf_feed(html, f)
         logging.info('Successfully saved the results into a PDF file.')
 
-    def save_html(self) -> str:
+    def save_html(self, path: str) -> str:
         """
         This method saves the current operating feed into an HTML file.
         """
         html = html_feed(self.feed, is_cache=self.is_offline)
-        with open('rss_feed.html', 'w', encoding='utf-8') as f:
-            f.write(html)
+        if os.path.exists(path):
+            with open(f'{path}rss_feed.html', 'w', encoding='utf-8') as f:
+                f.write(html)
+        else:
+            logging.error('Given path was not found, saving to current location instead!')
+            with open('rss_feed.html', 'w', encoding='utf-8') as f:
+                f.write(html)
         return html
 
     @property

@@ -48,8 +48,9 @@ source RSS feed URL
       -d DATE, --date DATE    Get cached news by this date.                                     
       -V, --version           Will output current version of the program and exit.              
       -l LIMIT, --limit LIMIT Specify the amount of articles shown.                             
-      --to-pdf                Convert the results to PDF and save.                              
-      --to-html               Convert the results to HTML and save.
+     --to-pdf TO_PDF       Convert the results to PDF and save.
+     --to-html TO_HTML     Convert the results to HTML and save.
+
 
 ## Logging
 

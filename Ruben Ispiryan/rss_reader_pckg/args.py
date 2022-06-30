@@ -22,7 +22,7 @@ def get_args():
     parser.add_argument('-V', '--version', action='store_true',
                         help='Will output current version of the program and exit.')
     parser.add_argument('-l', '--limit', help='Specify the amount of articles shown.')
-    parser.add_argument('--to-pdf', action='store_true', help='Convert the results to PDF and save.')
-    parser.add_argument('--to-html', action='store_true', help='Convert the results to HTML and save.')
+    parser.add_argument('--to-pdf', help='Convert the results to PDF and save to given path.')
+    parser.add_argument('--to-html', help='Convert the results to HTML and save to given path.')
 
     return parser.parse_args()

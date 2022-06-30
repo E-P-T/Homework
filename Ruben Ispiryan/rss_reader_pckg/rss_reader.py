@@ -34,9 +34,9 @@ def main():
             items = rss_parser.items(args.limit)
             rss_parser.parse_items(items)
         if args.to_html:
-            rss_parser.save_html()
+            rss_parser.save_html(args.to_html)
         if args.to_pdf:
-            rss_parser.save_pdf()
+            rss_parser.save_pdf(args.to_pdf)
         cli_results(args, rss_parser)
     except Exception as e:
         if not (hasattr(e, 'is_logged') and e.is_logged):
