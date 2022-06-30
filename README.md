@@ -15,14 +15,14 @@ python .\src\test_all.py
 ## Print format
 ### JSON
 #### News:
-```json
+```
 {
   "feed": string,
   "items": array of Items
 }
 ```
 #### Item:
-```json
+```
 {
   "title": string,
   "date": datetime,
