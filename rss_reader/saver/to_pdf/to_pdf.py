@@ -36,5 +36,7 @@ class PDFSaveHandler(AbstractSaveHandler):
 
                 for key, item in enumerate(i.get('items')):
                     t = item.get('title')
+                    t = t.encode('ascii', errors='ignore')
+                    t = t.decode('latin1', errors='ignore')
         else:
             super().save(data)
