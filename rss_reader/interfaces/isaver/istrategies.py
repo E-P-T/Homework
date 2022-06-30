@@ -1,0 +1,1 @@
+"""This module contains a set of interfaces for HTML strategies."""
