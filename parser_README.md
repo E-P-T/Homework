@@ -34,7 +34,7 @@ python3 rss_reader.py ...
 Command line format
 -------
 
-	usage: rss_reader.py [-h] [-v] [--json] [--verbose] [--limit LIMIT] [--date DATE] [--to-html ]
+	usage: python rss_reader.py [-h] [-v] [--json] [--verbose] [--limit LIMIT] [--date DATE] [--to-html ]
 						 source
 
 	Pure Python command-line RSS reader.
