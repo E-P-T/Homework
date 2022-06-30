@@ -13,6 +13,15 @@ from ..saver import AbstractSaveHandler
 
 class PDFSaveHandler(AbstractSaveHandler):
     def __init__(self, request: Dict[str, str], folder: str) -> None:
+        """Initializer.
+
+        :param request:  A dictionary in which there may be a key
+                        by which this handler will work.
+        :type request: Dict[str, str]
+        :param folder: The folder in which the images will be stored during
+        the formation of the PDF file.
+        :type folder: str
+        """
         self._request = request
         self._folder = folder
 
