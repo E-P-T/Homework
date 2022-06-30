@@ -9,6 +9,10 @@ from .strategies import StrategySaveHTML
 
 
 class HTMLSaveHandler(AbstractSaveHandler):
+    """Saves the data to an HTML file.
+
+    Processed in a chain.
+    """
     def __init__(self, request: Dict[str, str],
                  strategy: StrategySaveHTML) -> None:
         """Initializer.
