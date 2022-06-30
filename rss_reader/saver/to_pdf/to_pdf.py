@@ -16,6 +16,10 @@ class PDFSaveHandler(AbstractSaveHandler):
         self._request = request
         self._folder = folder
 
+    def convert_to_latin1(self, data: str):
+        data = data.encode('ascii', errors='ignore')
+        return data.decode('latin1', errors='ignore')
+
     def save(self, data: List[dict]) -> None:
         file = self._request.get('to_pdf')
         if file:
@@ -28,22 +32,36 @@ class PDFSaveHandler(AbstractSaveHandler):
             for i in data:
                 pdf.add_page()
 
-                pdf.cell(150, 10, txt=i.get(
-                    'title_web_resource'), ln=1, align='L')
+                title_ = i.get('title_web_resource')
+                if title_:
+                    title_ = self.convert_to_latin1(title_)
+                    pdf.cell(150, 10, txt=title_, ln=1, align='L')
 
-                pdf.cell(150, 10, txt='Link to feed.', ln=1,
-                         align='L', link=i.get('link'))
+                link_feed = i.get('link')
+                if link_feed:
+                    pdf.cell(150, 10, txt='Link to feed.', ln=1,
+                             align='L', link=link_feed)
 
                 for key, item in enumerate(i.get('items')):
                     t = item.get('title')
-                    t = t.encode('ascii', errors='ignore')
-                    t = t.decode('latin1', errors='ignore')
 
-                    pdf.cell(150, 10, txt=t, ln=1, align='L')
-                    pdf.cell(150, 10, txt='Link to news.', ln=1,
-                             align='L', link=item.get('link'))
-                    pdf.cell(150, 10, txt=item.get('pubDate'), ln=1, align='L')
-                    pdf.cell(150, 10, txt=item.get('source'), ln=1, align='L')
+                    if t:
+                        t = self.convert_to_latin1(t)
+                        pdf.cell(150, 10, txt=t, ln=1, align='L')
+
+                    item_link = item.get('link')
+                    if item_link:
+                        pdf.cell(150, 10, txt='Link to news.', ln=1,
+                                 align='L', link=item_link)
+
+                    pd = item.get('pubDate')
+                    if pd:
+                        pdf.cell(150, 10, txt=pd, ln=1, align='L')
+
+                    s = item.get('source')
+                    if s:
+                        s = self.convert_to_latin1(s)
+                        pdf.cell(150, 10, txt=s, ln=1, align='L')
 
                     url_image = item.get("content").get("url")
                     if url_image:
