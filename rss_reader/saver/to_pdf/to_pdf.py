@@ -60,5 +60,6 @@ class PDFSaveHandler(AbstractSaveHandler):
                         pdf.line(10, pdf.get_y()+60, 200, pdf.get_y()+60)
                         pdf.cell(150, pdf.get_y()+25-y, ln=1, align='L')
                         y = pdf.get_y()-25
+            pdf.output("sample.pdf")
         else:
             super().save(data)
