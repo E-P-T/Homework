@@ -14,6 +14,7 @@ Welcome to rss-reader's documentation!
    display_information.rst
    local_storage.rst
    to_html_mode.rst
+   to_pdf_mode.rst
    tests.rst
 
 
