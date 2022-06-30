@@ -35,6 +35,6 @@ class PDFSaveHandler(AbstractSaveHandler):
                          align='L', link=i.get('link'))
 
                 for key, item in enumerate(i.get('items')):
-                    pass
+                    t = item.get('title')
         else:
             super().save(data)
