@@ -1,0 +1,13 @@
+Metadata-Version: 2.1
+Name: RSS-reader
+Version: 2.0.0
+Summary: Pure Python command-line RSS reader.
+Home-page: https://github.com/sardords/Homework
+Author: Sardorbek Bobomurodov
+Author-email: sardorbekbobomurodov.sh@gmail.com
+License: MIT
+Keywords: Rss_reader
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: MIT License
+Requires-Python: >=3.7

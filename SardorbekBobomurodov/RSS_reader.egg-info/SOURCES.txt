@@ -1,0 +1,8 @@
+README.md
+setup.py
+RSS_reader.egg-info/PKG-INFO
+RSS_reader.egg-info/SOURCES.txt
+RSS_reader.egg-info/dependency_links.txt
+RSS_reader.egg-info/entry_points.txt
+RSS_reader.egg-info/requires.txt
+RSS_reader.egg-info/top_level.txt
