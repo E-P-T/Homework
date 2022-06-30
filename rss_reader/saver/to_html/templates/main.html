@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title></title>
     <style>
@@ -13,6 +13,50 @@
     <header>
     </header>
     <main>
+        <section class="feed">
+            {% for element in data %}
+            <article class="feed_element">
+                {% if element.get('title_web_resource') %}
+                <h3 class="item_title">{{ element.get('title_web_resource') }}</h3>
+                {% endif %}
+
+                {% if element.get('link') %}
+                <a href="{{ element.get('link') }}">Link to feed.</a>
+                {% endif %}
+
+                {% for item in element.get('items') %}
+                {% if item %}
+                <article class="feed_item">
+
+                    {% if item.get('title') %}
+                    <p class="title_news">{{ item.get('title') }}</p>
+                    {% endif %}
+
+                    {% if item.get('link') %}
+                    <a href="{{ item.get('link') }}">Link to news.</a>
+                    {% endif %}
+
+                    {% if item.get('pubDate') %}
+                    <p class="">Publication date: {{ item.get('pubDate') }}</p>
+                    {% endif %}
+
+                    {% if item.get('link') %}
+                    <p class="">Source: {{ item.get('source') }}</p>
+                    {% endif %}
+
+                    {% if item.get('content').get('url') %}
+                    <img class="description_image" src="{{ item.get('content').get('url') }}"
+                        alt="{{ item.get('content').get('title') }}" width="255" height="255">
+                    {% endif %}
+
+                </article>
+                <hr>
+                {% endif %}
+                {% endfor %}
+
+            </article>
+            {% endfor %}
+        </section>
     </main>
 </body>
 
