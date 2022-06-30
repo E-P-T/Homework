@@ -36,7 +36,7 @@ class AbstractSaveHandler(ISaveHandler):
         :type file: str
         """
         if self._next_handler:
-            return self._next_handler.show(data)
+            return self._next_handler.save(data, file)
 
 
 class LocalSaveHandler(AbstractSaveHandler):
