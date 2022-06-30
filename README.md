@@ -1,28 +1,109 @@
-# How to create a PR with a homework task
+RSS reader
+=========
 
-1. Create fork from the following repo: https://github.com/E-P-T/Homework. (Docs: https://docs.github.com/en/get-started/quickstart/fork-a-repo )
-2. Clone your forked repo in your local folder.
-3. Create separate branches for each session.Example(`session_2`, `session_3` and so on)
-4. Create folder with you First and Last name in you forked repo in the created session.
-5. Add your task into created folder
-6. Push finished session task in the appropriate branch in accordance with written above.
- You should get the structure that looks something like that
+This is RSS reader version 4.0.
 
-```
- Branch: Session_2
-         DzmitryKolb
-              |___Task1.py
-              |___Task2.py
- Branch: Session_3
-         DzmitryKolb
-              |___Task1.py
-              |___Task2.py
+rss_reader.py is a python script intended to get RSS feed from given source URL
+and write its content to standart output also it's can convert content to .json and .html files.
+
+
+To use this script you  should install all required packages from requirements.txt
+```shell
+pip install {name of package}
 ```
 
-7. When you finish your work on task you should create Pull request to the appropriate branch of the main repo https://github.com/E-P-T/Homework (Docs: https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
-Please use the following instructions to prepare good description of the pull request:
-    - Pull request header should be: `Session <Number of the session> - <FirstName> <LastName>`.
-      Example: `Session 2 - Dzmitry Kolb`
-    - Pull request body: You should write here what tasks were implemented.
-      Example: `Finished: Task 1.2, Task 1.3, Task 1.6`
 
+
+How to execute after installation
+------
+
+Specifying the script file. Run from directory with rss_reader.py file the following command
+
+
+Windows
+```shell
+python rss_reader.py ...
+```
+
+Linux
+```bash
+
+python3 rss_reader.py ...
+```
+
+Command line format
+-------
+
+	usage: python rss_reader.py [-h] [-v] [--json] [--verbose] [--limit LIMIT] [--date DATE] [--to-html ]
+						 source
+
+	Pure Python command-line RSS reader.
+
+	positional arguments:
+	  source               RSS URL
+
+	optional arguments:
+	  -h, --help           show this help message and exit
+	  --version            Print version info
+	  --json               Print result as JSON
+	  --verbose            Outputs verbose status messages. Prints logs.
+	  --limit LIMIT        Limit news topics. If it's not specified, then you get all available feed.
+
+	  --date DATE          It should take a date in %Y%m%d format.The new from the specified day will be printed out.
+	  --html         It convert data to HTML-format in file output.html.
+
+Сonsole representation
+-------
+
+```json
+Name of the feed
+Title from news
+PubDate
+
+Summary description
+
+Source link
+
+------------
+Title from news
+PubDate
+...
+.....
+
+
+```
+JSON representation
+-------
+
+```json
+{
+    "name": Name of the feed,
+    "size": Number of available news,
+    "title": [Names of available news],
+    "pubDate": [Dates of publication news],
+    "description": [Summary description],
+    "link": [Link of source]
+}
+```
+
+Cache storage format
+------
+
+News cache is stored in file data.json in current working directory.
+
+
+Command example
+------
+
+
+```shell
+python rss_reader.py "https://www.onliner.by/feed" --limit 1 --html
+
+python rss_reader.py "https://www.buzzfeed.com/quizzes.xml" --limit 2 --json --verbose
+
+python rss_reader.py "https://www.buzzfeed.com/quizzes.xml" --limit 3
+
+python rss_reader.py  "https://feeds.fireside.fm/bibleinayear/rss" --limit 3 --verbose
+
+python rss_reader.py --date 20220620
+```

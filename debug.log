@@ -1,0 +1,256 @@
+2022-06-30T03:02:18.187727+0300 DEBUG Convert to json call (debug)!
+2022-06-30T03:02:18.191716+0300 DEBUG Read data from json(debug)!
+2022-06-30T03:02:18.199064+0300 INFO Invalid date.12!
+2022-06-30T03:11:13.840117+0300 DEBUG Convert to json call (debug)!
+2022-06-30T03:11:13.842375+0300 DEBUG Read data from json(debug)!
+2022-06-30T03:11:13.844956+0300 DEBUG Start data searching (debug)!
+2022-06-30T03:11:13.845957+0300 DEBUG Convert data to json (debug)!
+2022-06-30T03:11:13.848139+0300 INFO Succesful data search (info)!
+2022-06-30T03:11:13.849176+0300 INFO Save to json file (info)!
+2022-06-30T03:22:37.532486+0300 DEBUG Reader call (debug)!
+2022-06-30T03:22:37.540589+0300 DEBUG Get access (debug)!
+2022-06-30T03:22:38.514206+0300 DEBUG Get access (debug)!
+2022-06-30T03:22:38.844512+0300 INFO Acces is available (info)!
+2022-06-30T03:22:38.850225+0300 DEBUG Get title from xml (debug)!
+2022-06-30T03:22:38.855341+0300 INFO Title is available (info)!
+2022-06-30T03:22:38.867370+0300 DEBUG Get pubDate from xml (debug)!
+2022-06-30T03:22:38.872953+0300 INFO PubDate is available (info)!
+2022-06-30T03:22:38.880131+0300 DEBUG Get link from xml (debug)!
+2022-06-30T03:22:38.886188+0300 INFO Link is available (info)!
+2022-06-30T03:22:38.894052+0300 DEBUG Get description from xml (debug)!
+2022-06-30T03:22:38.900805+0300 INFO Description is available (info)!
+2022-06-30T03:22:38.906346+0300 DEBUG Convert to json call (debug)!
+2022-06-30T03:22:38.919651+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T03:22:38.932401+0300 DEBUG Convert data to json (debug)!
+2022-06-30T03:22:38.940350+0300 INFO Save to json file (info)!
+2022-06-30T03:22:38.951201+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T03:22:38.958168+0300 DEBUG Convert data to json (debug)!
+2022-06-30T03:22:38.967175+0300 INFO Save to json file (info)!
+2022-06-30T03:22:38.972942+0300 DEBUG Printer call (debug)!
+2022-06-30T03:22:38.980110+0300 DEBUG Read data from json(debug)!
+2022-06-30T03:22:38.986679+0300 DEBUG Data is available (debug)!
+2022-06-30T03:22:38.993616+0300 INFO Print  information (info)!
+2022-06-30T03:22:39.002501+0300 DEBUG Json-style call (debug)!
+2022-06-30T03:22:39.016814+0300 DEBUG Read data from json(debug)!
+2022-06-30T03:22:39.024253+0300 INFO Print json-style information (info)!
+2022-06-30T03:23:17.045754+0300 DEBUG Version call (debug)!
+2022-06-30T03:23:17.051827+0300 INFO Print version (info)!
+2022-06-30T03:23:17.057973+0300 DEBUG Json-style call (debug)!
+2022-06-30T03:23:17.067590+0300 ERROR Unexpected error (error)!
+2022-06-30T03:23:52.100284+0300 DEBUG Version call (debug)!
+2022-06-30T03:23:52.103679+0300 INFO Print version (info)!
+2022-06-30T14:11:41.309447+0300 DEBUG Reader call (debug)!
+2022-06-30T14:11:41.314282+0300 DEBUG Get access (debug)!
+2022-06-30T14:11:42.239843+0300 DEBUG Get access (debug)!
+2022-06-30T14:11:42.503458+0300 INFO Acces is available (info)!
+2022-06-30T14:11:42.505613+0300 DEBUG Get title from xml (debug)!
+2022-06-30T14:11:42.507447+0300 INFO Title is available (info)!
+2022-06-30T14:11:42.508444+0300 DEBUG Get pubDate from xml (debug)!
+2022-06-30T14:11:42.510439+0300 INFO PubDate is available (info)!
+2022-06-30T14:11:42.511435+0300 DEBUG Get link from xml (debug)!
+2022-06-30T14:11:42.513430+0300 INFO Link is available (info)!
+2022-06-30T14:11:42.515555+0300 DEBUG Get description from xml (debug)!
+2022-06-30T14:11:42.517421+0300 INFO Description is available (info)!
+2022-06-30T14:11:42.519415+0300 DEBUG Convert to json call (debug)!
+2022-06-30T14:11:42.520412+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:11:42.522407+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:11:42.526397+0300 INFO Save to json file (info)!
+2022-06-30T14:11:42.529388+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:11:42.531383+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:11:42.582247+0300 INFO Save to json file (info)!
+2022-06-30T14:11:42.586747+0300 DEBUG Printer call (debug)!
+2022-06-30T14:11:42.588748+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:11:42.590743+0300 DEBUG Data is available (debug)!
+2022-06-30T14:11:42.592737+0300 INFO Print  information (info)!
+2022-06-30T14:11:42.602713+0300 DEBUG Json-style call (debug)!
+2022-06-30T14:11:42.610691+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:11:42.613745+0300 INFO Print json-style information (info)!
+2022-06-30T14:11:42.616674+0300 ERROR Unexpected error (error)!
+2022-06-30T14:14:16.206220+0300 DEBUG Reader call (debug)!
+2022-06-30T14:14:16.209181+0300 DEBUG Get access (debug)!
+2022-06-30T14:14:17.054766+0300 DEBUG Get access (debug)!
+2022-06-30T14:14:17.244215+0300 INFO Acces is available (info)!
+2022-06-30T14:14:17.247684+0300 DEBUG Get title from xml (debug)!
+2022-06-30T14:14:17.248681+0300 INFO Title is available (info)!
+2022-06-30T14:14:17.249951+0300 DEBUG Get pubDate from xml (debug)!
+2022-06-30T14:14:17.251672+0300 INFO PubDate is available (info)!
+2022-06-30T14:14:17.252741+0300 DEBUG Get link from xml (debug)!
+2022-06-30T14:14:17.254667+0300 INFO Link is available (info)!
+2022-06-30T14:14:17.255662+0300 DEBUG Get description from xml (debug)!
+2022-06-30T14:14:17.256660+0300 INFO Description is available (info)!
+2022-06-30T14:14:17.257658+0300 DEBUG Convert to json call (debug)!
+2022-06-30T14:14:17.259830+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:14:17.260650+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:14:17.262645+0300 INFO Save to json file (info)!
+2022-06-30T14:14:17.264639+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:14:17.265637+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:14:17.267632+0300 INFO Save to json file (info)!
+2022-06-30T14:14:17.271620+0300 DEBUG Printer call (debug)!
+2022-06-30T14:14:17.274614+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:14:17.279602+0300 DEBUG Data is available (debug)!
+2022-06-30T14:14:17.283590+0300 INFO Print  information (info)!
+2022-06-30T14:14:17.288577+0300 DEBUG Json-style call (debug)!
+2022-06-30T14:14:17.290571+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:14:17.292765+0300 INFO Print json-style information (info)!
+2022-06-30T14:14:17.294746+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:14:17.296209+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:14:17.298952+0300 ERROR Unexpected error (error)!
+2022-06-30T14:14:35.037139+0300 DEBUG Reader call (debug)!
+2022-06-30T14:14:35.043143+0300 DEBUG Get access (debug)!
+2022-06-30T14:14:35.233215+0300 DEBUG Get access (debug)!
+2022-06-30T14:14:35.437977+0300 INFO Acces is available (info)!
+2022-06-30T14:14:35.439971+0300 DEBUG Get title from xml (debug)!
+2022-06-30T14:14:35.441966+0300 INFO Title is available (info)!
+2022-06-30T14:14:35.444770+0300 DEBUG Get pubDate from xml (debug)!
+2022-06-30T14:14:35.446481+0300 INFO PubDate is available (info)!
+2022-06-30T14:14:35.448476+0300 DEBUG Get link from xml (debug)!
+2022-06-30T14:14:35.449474+0300 INFO Link is available (info)!
+2022-06-30T14:14:35.451717+0300 DEBUG Get description from xml (debug)!
+2022-06-30T14:14:35.453464+0300 INFO Description is available (info)!
+2022-06-30T14:14:35.455457+0300 DEBUG Convert to json call (debug)!
+2022-06-30T14:14:35.460445+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:14:35.461441+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:14:35.464555+0300 INFO Save to json file (info)!
+2022-06-30T14:14:35.466430+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:14:35.468425+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:14:35.471416+0300 INFO Save to json file (info)!
+2022-06-30T14:14:35.472415+0300 DEBUG Printer call (debug)!
+2022-06-30T14:14:35.478396+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:14:35.485633+0300 DEBUG Data is available (debug)!
+2022-06-30T14:14:35.487534+0300 INFO Print  information (info)!
+2022-06-30T14:14:35.494355+0300 DEBUG Json-style call (debug)!
+2022-06-30T14:14:35.496648+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:14:35.498344+0300 INFO Print json-style information (info)!
+2022-06-30T14:26:40.306919+0300 DEBUG Reader call (debug)!
+2022-06-30T14:26:40.312903+0300 DEBUG Get access (debug)!
+2022-06-30T14:26:40.598959+0300 DEBUG Get access (debug)!
+2022-06-30T14:26:40.771652+0300 INFO Acces is available (info)!
+2022-06-30T14:26:40.773647+0300 DEBUG Get title from xml (debug)!
+2022-06-30T14:26:40.774647+0300 INFO Title is available (info)!
+2022-06-30T14:26:40.775644+0300 DEBUG Get pubDate from xml (debug)!
+2022-06-30T14:26:40.777638+0300 INFO PubDate is available (info)!
+2022-06-30T14:26:40.778637+0300 DEBUG Get link from xml (debug)!
+2022-06-30T14:26:40.779632+0300 INFO Link is available (info)!
+2022-06-30T14:26:40.781979+0300 DEBUG Get description from xml (debug)!
+2022-06-30T14:26:40.783622+0300 INFO Description is available (info)!
+2022-06-30T14:26:40.785616+0300 DEBUG Convert to json call (debug)!
+2022-06-30T14:26:40.786614+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:26:40.787613+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:26:40.789607+0300 INFO Save to json file (info)!
+2022-06-30T14:26:40.791603+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:26:40.792596+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:26:40.794665+0300 INFO Save to json file (info)!
+2022-06-30T14:26:40.795691+0300 DEBUG Printer call (debug)!
+2022-06-30T14:26:40.796587+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:26:40.798583+0300 DEBUG Data is available (debug)!
+2022-06-30T14:26:40.800577+0300 INFO Print  information (info)!
+2022-06-30T14:26:40.802663+0300 DEBUG Json-style call (debug)!
+2022-06-30T14:26:40.803597+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:26:40.805591+0300 INFO Print json-style information (info)!
+2022-06-30T14:26:46.083582+0300 DEBUG Reader call (debug)!
+2022-06-30T14:26:46.090564+0300 DEBUG Get access (debug)!
+2022-06-30T14:26:46.289349+0300 DEBUG Get access (debug)!
+2022-06-30T14:26:46.509778+0300 INFO Acces is available (info)!
+2022-06-30T14:26:46.511772+0300 DEBUG Get title from xml (debug)!
+2022-06-30T14:26:46.512770+0300 INFO Title is available (info)!
+2022-06-30T14:26:46.513767+0300 DEBUG Get pubDate from xml (debug)!
+2022-06-30T14:26:46.515762+0300 INFO PubDate is available (info)!
+2022-06-30T14:26:46.516759+0300 DEBUG Get link from xml (debug)!
+2022-06-30T14:26:46.518754+0300 INFO Link is available (info)!
+2022-06-30T14:26:46.519752+0300 DEBUG Get description from xml (debug)!
+2022-06-30T14:26:46.522744+0300 INFO Description is available (info)!
+2022-06-30T14:26:46.524809+0300 DEBUG Convert to json call (debug)!
+2022-06-30T14:26:46.526733+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:26:46.527730+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:26:46.529725+0300 INFO Save to json file (info)!
+2022-06-30T14:26:46.531719+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:26:46.533714+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:26:46.535709+0300 INFO Save to json file (info)!
+2022-06-30T14:26:46.538000+0300 DEBUG Printer call (debug)!
+2022-06-30T14:26:46.540695+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:26:46.545682+0300 DEBUG Data is available (debug)!
+2022-06-30T14:26:46.548021+0300 INFO Print  information (info)!
+2022-06-30T14:26:46.550668+0300 DEBUG Json-style call (debug)!
+2022-06-30T14:26:46.555657+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:26:46.563271+0300 INFO Print json-style information (info)!
+2022-06-30T14:26:46.566626+0300 ERROR Error with PDF-file(error)!
+2022-06-30T14:29:22.976074+0300 DEBUG Reader call (debug)!
+2022-06-30T14:29:22.980788+0300 DEBUG Get access (debug)!
+2022-06-30T14:29:23.209324+0300 DEBUG Get access (debug)!
+2022-06-30T14:29:23.393193+0300 INFO Acces is available (info)!
+2022-06-30T14:29:23.395184+0300 DEBUG Get title from xml (debug)!
+2022-06-30T14:29:23.397326+0300 INFO Title is available (info)!
+2022-06-30T14:29:23.398176+0300 DEBUG Get pubDate from xml (debug)!
+2022-06-30T14:29:23.400171+0300 INFO PubDate is available (info)!
+2022-06-30T14:29:23.401168+0300 DEBUG Get link from xml (debug)!
+2022-06-30T14:29:23.409820+0300 INFO Link is available (info)!
+2022-06-30T14:29:23.410824+0300 DEBUG Get description from xml (debug)!
+2022-06-30T14:29:23.412819+0300 INFO Description is available (info)!
+2022-06-30T14:29:23.413815+0300 DEBUG Convert to json call (debug)!
+2022-06-30T14:29:23.414906+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:29:23.415809+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:29:23.417805+0300 INFO Save to json file (info)!
+2022-06-30T14:29:23.419798+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T14:29:23.420798+0300 DEBUG Convert data to json (debug)!
+2022-06-30T14:29:23.423132+0300 INFO Save to json file (info)!
+2022-06-30T14:29:23.423790+0300 DEBUG Printer call (debug)!
+2022-06-30T14:29:23.424785+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:29:23.426781+0300 DEBUG Data is available (debug)!
+2022-06-30T14:29:23.428776+0300 INFO Print  information (info)!
+2022-06-30T14:29:23.430771+0300 DEBUG Json-style call (debug)!
+2022-06-30T14:29:23.431768+0300 DEBUG Read data from json(debug)!
+2022-06-30T14:29:23.433764+0300 INFO Print json-style information (info)!
+2022-06-30T14:29:23.435756+0300 ERROR Error with HTML-file(error)!
+2022-06-30T15:50:56.864827+0300 DEBUG Reader call (debug)!
+2022-06-30T15:50:56.870964+0300 DEBUG Get access (debug)!
+2022-06-30T15:50:57.224111+0300 DEBUG Get access (debug)!
+2022-06-30T15:50:57.411757+0300 INFO Acces is available (info)!
+2022-06-30T15:50:57.413751+0300 DEBUG Get title from xml (debug)!
+2022-06-30T15:50:57.415746+0300 INFO Title is available (info)!
+2022-06-30T15:50:57.417741+0300 DEBUG Get pubDate from xml (debug)!
+2022-06-30T15:50:57.418736+0300 INFO PubDate is available (info)!
+2022-06-30T15:50:57.419733+0300 DEBUG Get link from xml (debug)!
+2022-06-30T15:50:57.420732+0300 INFO Link is available (info)!
+2022-06-30T15:50:57.422725+0300 DEBUG Get description from xml (debug)!
+2022-06-30T15:50:57.423727+0300 INFO Description is available (info)!
+2022-06-30T15:50:57.425722+0300 DEBUG Convert to json call (debug)!
+2022-06-30T15:50:57.426717+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T15:50:57.428710+0300 DEBUG Convert data to json (debug)!
+2022-06-30T15:50:57.438834+0300 INFO Save to json file (info)!
+2022-06-30T15:50:57.441825+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T15:50:57.444024+0300 DEBUG Convert data to json (debug)!
+2022-06-30T15:50:57.448809+0300 INFO Save to json file (info)!
+2022-06-30T15:50:57.450802+0300 DEBUG Printer call (debug)!
+2022-06-30T15:50:57.452796+0300 DEBUG Read data from json(debug)!
+2022-06-30T15:50:57.454908+0300 DEBUG Data is available (debug)!
+2022-06-30T15:50:57.458780+0300 INFO Print  information (info)!
+2022-06-30T15:50:57.461771+0300 DEBUG Json-style call (debug)!
+2022-06-30T15:50:57.467756+0300 DEBUG Read data from json(debug)!
+2022-06-30T15:50:57.471744+0300 INFO Print json-style information (info)!
+2022-06-30T16:14:35.944886+0300 DEBUG Reader call (debug)!
+2022-06-30T16:14:35.950869+0300 DEBUG Get access (debug)!
+2022-06-30T16:14:36.249776+0300 DEBUG Get access (debug)!
+2022-06-30T16:14:36.421162+0300 INFO Acces is available (info)!
+2022-06-30T16:14:36.423224+0300 DEBUG Get title from xml (debug)!
+2022-06-30T16:14:36.424285+0300 INFO Title is available (info)!
+2022-06-30T16:14:36.426150+0300 DEBUG Get pubDate from xml (debug)!
+2022-06-30T16:14:36.427145+0300 INFO PubDate is available (info)!
+2022-06-30T16:14:36.428143+0300 DEBUG Get link from xml (debug)!
+2022-06-30T16:14:36.430137+0300 INFO Link is available (info)!
+2022-06-30T16:14:36.431136+0300 DEBUG Get description from xml (debug)!
+2022-06-30T16:14:36.433130+0300 INFO Description is available (info)!
+2022-06-30T16:14:36.434128+0300 DEBUG Convert to json call (debug)!
+2022-06-30T16:14:36.436121+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T16:14:36.437119+0300 DEBUG Convert data to json (debug)!
+2022-06-30T16:14:36.439115+0300 INFO Save to json file (info)!
+2022-06-30T16:14:36.441418+0300 DEBUG Convert data to dictionary (debug)!
+2022-06-30T16:14:36.443104+0300 DEBUG Convert data to json (debug)!
+2022-06-30T16:14:36.445332+0300 INFO Save to json file (info)!
+2022-06-30T16:14:36.446097+0300 DEBUG Printer call (debug)!
+2022-06-30T16:14:36.448090+0300 DEBUG Read data from json(debug)!
+2022-06-30T16:14:36.449086+0300 DEBUG Data is available (debug)!
+2022-06-30T16:14:36.452079+0300 INFO Print  information (info)!
+2022-06-30T16:14:36.457182+0300 DEBUG Json-style call (debug)!
+2022-06-30T16:14:36.463050+0300 DEBUG Read data from json(debug)!
+2022-06-30T16:14:36.470032+0300 INFO Print json-style information (info)!
+2022-06-30T16:14:36.474020+0300 ERROR Error with HTML-file(error)!
