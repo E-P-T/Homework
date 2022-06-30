@@ -56,6 +56,10 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
                         help='Search for news on a specified date.\
                              Date in the format Y-m-d (for example: 20191206).'
                         )
+    parser.add_argument('--to-html',
+                        help='Specify the path where to save the resulting\
+                            data in the html file.'
+                        )
 
     namespace_ = parser.parse_args(args)
 
