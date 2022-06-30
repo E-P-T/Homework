@@ -13,6 +13,7 @@ from xhtml2pdf import pisa
 from .models import Cache
 from .forms import AddUrlForm, NewsParametersForm, FreshNewsParametersForm
 from .reader import DjangoRssReader, DjangoRssReaderCached
+from django.views.decorators.cache import cache_page
 
 __all__ = ['add_news',
            'start_page_view',
@@ -91,6 +92,7 @@ def update_all_cache_view(request):
                    })
 
 
+@cache_page(60 * 15)
 def read_news_view(request):
     """View function with a controller to process cached news into output data to render news for reading"""
     _context = {'url': request.GET['url'], 'limit': request.GET['limit'], 'date': request.GET['date']}
@@ -129,6 +131,7 @@ def fresh_news_view(request):
                    })
 
 
+@cache_page(60 * 15)
 def read_fresh_news_view(request):
     """View function with a controller to process fresh news into output data to render news for reading"""
     _context = {'url': request.GET['url'], 'limit': request.GET['limit']}
@@ -157,6 +160,7 @@ def read_fresh_news_view(request):
         return redirect('fresh_news')
 
 
+@cache_page(60 * 15)
 def news_pdf(request):
     """view function to process news to PDF document and return it to user"""
     news = ast.literal_eval(request.POST.get('news', {}))
@@ -174,6 +178,7 @@ def news_pdf(request):
     return response
 
 
+@cache_page(60 * 15)
 def news_html(request):
     """view function to process news to HTML document and return it to user"""
     news = ast.literal_eval(request.POST.get('news', {}))
