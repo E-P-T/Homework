@@ -48,5 +48,13 @@ class PDFSaveHandler(AbstractSaveHandler):
                     url_image = item.get("content").get("url")
                     if url_image:
                         resp = requests.get(url_image, stream=True)
+                        img = Image.open(BytesIO(resp.content))
+                        name_img = f'{self._folder}\\{key}.jpg'
+                        imgs.append(name_img)
+
+                        # create empty files.
+                        PathFile().create_file(name_img)
+
+                        img.save(name_img)
         else:
             super().save(data)
