@@ -16,6 +16,8 @@ from rss_reader.interfaces.isaver.isaver import ISaveHandler
 from rss_reader.saver.saver import LocalSaveHandler
 from rss_reader.saver.to_html.to_html import HTMLSaveHandler
 from rss_reader.saver.to_html.strategies import SuperStrategySaveHTML
+from rss_reader.saver.to_pdf.to_pdf import PDFSaveHandler
+
 from .ecxeptions import NonNumericError
 
 log = Logger.get_logger(__name__)
@@ -100,6 +102,7 @@ class Starter:
 
         standart_saver = LocalSaveHandler(local_storage)
         html_saver = HTMLSaveHandler(request, SuperStrategySaveHTML())
+        pdf_saver = PDFSaveHandler()
 
         html_saver.set_next(standart_saver)
 
