@@ -51,6 +51,7 @@ class Reader:
 
     def get_pubDate(self) -> list:
         logger.debug("Get pubDate from xml (debug)!")
+        print([self.items[i].pubDate.text for i in range(self.limit)])
         return [self.items[i].pubDate.text for i in range(self.limit)]
 
     def get_link(self) -> list:
