@@ -5,6 +5,7 @@ from typing import List
 
 
 class StrategySaveHTML(ABC):
+    """Strategy interface."""
     @abstractmethod
     def prepare_html(self, data: List[dict]) -> str:
         pass
