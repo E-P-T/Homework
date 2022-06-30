@@ -60,6 +60,10 @@ def init_arguments_functionality(args=None) -> Dict[str, str]:
                         help='Specify the path where to save the resulting\
                             data in the html file.'
                         )
+    parser.add_argument('--to-pdf',
+                        help='Specify the path where to save the resulting\
+                            data in the PDF file.'
+                        )
 
     namespace_ = parser.parse_args(args)
 
