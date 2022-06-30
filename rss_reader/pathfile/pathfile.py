@@ -27,3 +27,7 @@ class PathFile(ICreateFile):
     def exists_file(file: str) -> bool:
         path = Path(file)
         return path.exists()
+
+    @staticmethod
+    def unlink(file: str) -> None:
+        Path(file).unlink()
