@@ -4,4 +4,5 @@ from ..saver import AbstractSaveHandler
 
 
 class HTMLSaveHandler(AbstractSaveHandler):
-    pass
+    def save(self, data: List[dict], file: str) -> None:
+        pass
