@@ -104,6 +104,6 @@ class Starter:
         html_saver = HTMLSaveHandler(request, SuperStrategySaveHTML())
         pdf_saver = PDFSaveHandler()
 
-        html_saver.set_next(standart_saver)
+        pdf_saver.set_next(html_saver).set_next(standart_saver)
 
         return html_saver
