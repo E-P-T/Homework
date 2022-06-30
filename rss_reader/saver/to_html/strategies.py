@@ -1,6 +1,9 @@
 
 from typing import List
 
+import pathlib
+from jinja2 import FileSystemLoader, Environment
+
 from rss_reader.interfaces.isaver.istrategies import StrategySaveHTML
 
 
