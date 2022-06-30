@@ -12,6 +12,8 @@ from ..saver import AbstractSaveHandler
 
 
 class PDFSaveHandler(AbstractSaveHandler):
+    """Saves data in pdf format."""
+
     def __init__(self, request: Dict[str, str], folder: str) -> None:
         """Initializer.
 
