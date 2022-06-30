@@ -12,10 +12,10 @@ from rss_reader.crawler.exceptions import BadURLError
 from rss_reader.interfaces.iviewer.iviewer import IViewHandler
 from rss_reader.viewer.viewer import StandartViewHandler, JSONViewHandler
 from rss_reader.pathfile.pathfile import PathFile
-
 from rss_reader.interfaces.isaver.isaver import ISaveHandler
 from rss_reader.saver.saver import LocalSaveHandler
-
+from rss_reader.saver.to_html.to_html import HTMLSaveHandler
+from rss_reader.saver.to_html.strategies import SuperStrategySaveHTML
 from .ecxeptions import NonNumericError
 
 log = Logger.get_logger(__name__)
@@ -52,11 +52,8 @@ class Starter:
         viewer.show(data)
         log.info("Stop displaying data.")
 
-        # the place where the database of saved queries is stored
-        local_storage = PathFile().home()/LOCAL_STORAGE
-
         # save data
-        self._get_saver().save(data, local_storage)
+        self._get_saver(self._argv).save(data)
 
     def _get_limit(self) -> None:
         log.info("Get the number of requested news.")
@@ -74,7 +71,7 @@ class Starter:
         self._argv['limit'] = limit
 
     def _get_data_from_resource(self) -> ILoadHandler:
-        """настроить обработчик иданных"""
+        """Configure the data handler."""
 
         self._get_limit()
 
@@ -97,7 +94,13 @@ class Starter:
         json_.set_next(stdout_)
         return json_
 
-    def _get_saver(self) -> ISaveHandler:
-        standart_saver = LocalSaveHandler()
+    def _get_saver(self, request: Dict[str, str]) -> ISaveHandler:
 
-        return standart_saver
+        local_storage = PathFile().home()/LOCAL_STORAGE
+
+        standart_saver = LocalSaveHandler(local_storage)
+        html_saver = HTMLSaveHandler(request, SuperStrategySaveHTML())
+
+        html_saver.set_next(standart_saver)
+
+        return html_saver
