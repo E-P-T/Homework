@@ -8,6 +8,7 @@ from rss_reader.interfaces.isaver.istrategies import StrategySaveHTML
 
 
 class SuperStrategySaveHTML(StrategySaveHTML):
+    """Implements the simplest strategy for generating an HTML file."""
     def prepare_html(self, data: List[dict]) -> str:
         path_ = pathlib.Path(__file__).parent
         file_loader = FileSystemLoader(path_/'templates')
