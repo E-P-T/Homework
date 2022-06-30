@@ -118,12 +118,13 @@ class DataBaseHandler:
                         "Description": i[3],
                         }
             self.json_data[date].append(fact_dict)
+        log.info("Collecting data to json complieted!")
         return json.dumps(self.json_data, ensure_ascii=False, indent=4)
-
 
     def data_to_print(self, date):
 
         """Prints retrieved data from database to console."""
+
         log.info("Printing data from database.")
         print(f"News on {date}!\n")
         for i in self.data:
@@ -132,6 +133,42 @@ class DataBaseHandler:
             print(f"Link: {i[1]}")
             print(f"Description: {i[3]}", end="\n")
             print('\n')
+
+    def data_to_html(self, date):
+
+        """Metod that costract HTML text from data retrieved from database.
+        Takes input date as a title and header."""
+
+        header = f"""<!DOCTYPE html>
+                      <html lang="en">
+                      <head>
+                        <meta charset="UTF-8">
+                        <title>{date}</title>
+                      </head>
+                      <body>"""
+
+        end = """</body>
+                    </html>"""
+
+        log.info("Stating construction HTML file!")
+        self.html_text = header
+
+        h1 = f"""<h1>News on: {date}</h1>"""
+        self.html_text += h1
+        for inf in self.data:
+            p = f"""<p>
+                        <a><b>Title:</b> {inf[0]}</a><br>
+                        <a><b>Date:</b> {inf[2]}</a><br>
+                        <a><b>Link:</b> <a href  = "{inf[1]}">clickable link</a></a><br>
+                        <a><b>Description:</b> {inf[3]}</a><br>
+                        <hr>
+                    </p>"""
+            self.html_text += p
+        self.html_text += end
+        log.info("Construction HTML file complieted!")
+        return self.html_text
+
+
 
 
 

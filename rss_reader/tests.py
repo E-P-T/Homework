@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import patch, Mock, MagicMock
 import rss_reader
 from rss_reader import *
 import lxml
@@ -85,25 +85,34 @@ class MyTest(unittest.TestCase):
         self.assertEqual(description_handler(inf_2), "Test information")
 
     @patch("os.path.exists")
-    def test_create_path(self, mock_exist):
-        mock_exist.return_value = True
+    @patch("os.mkdir")
+    def test_create_path(self, mock_exist, mock_mkdir):
+        mock_exist.return_value = False
         path = os.path.join("C:/", "rss_reader")
         create_path(path)
-        mock_exist.assert_called_once_with(path)
+        # mock_exist.assert_called_once_with(path)
+        mock_mkdir.assert_called()
 
     @patch("rss_reader.printer")
     @patch("rss_reader.news_to_json")
-    def test_uotput_form(self, mock_printer, mock_news_to_json):
+    def test_output_form(self, mock_printer, mock_news_to_json):
         title = Mock()
         news = Mock()
-        self.assertEqual(uotput_form(title, news, "main"), "Choose between console or json!")
-        uotput_form(title, news, "json")
+        with self.assertRaises(AttributeError) as context:
+            output_form(title, news, "main")
+        self.assertTrue("Choose between console or json!" in str(context.exception))
+        output_form(title, news, "json")
         mock_printer.assert_called_with(title, news)
-        uotput_form(title, news, "console")
+        output_form(title, news, "console")
         mock_news_to_json.assert_called_with(title, news)
 
-
-
+    @patch("rss_reader.inf_generator")
+    def test_html_adder(self, mock_generator):
+        title = Mock()
+        data = Mock()
+        mock_generator.return_value = [["a", "b", "s", "d"],
+                                      ["t", "h", "s", "d"]]
+        self.assertIsInstance(html_adder(title, data), str)
 
 
 

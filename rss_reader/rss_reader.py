@@ -8,8 +8,9 @@ import json
 import logging as log
 import argparse
 import os
-import database_handler as handler
-
+import rss_reader.database_handler as handler
+from datetime import datetime
+from ebooklib import epub
 
 
 
@@ -193,10 +194,98 @@ def output_form(main_title, news_data, form):
 
 
 def create_path(path):
+
     """Creates path if it not exist"""
+
     if not os.path.exists(path):
-        log.info(f"Path {path} created")
         os.mkdir(path)
+        log.info(f"Path {path} created")
+
+
+def html_adder(nw_title, db, head=None):
+
+    """Creates HTML text from database and title."""
+
+    log.info("Start creating HTML text!")
+    if head is None:
+        head = datetime.now().strftime("%d%m%y %H:%M")
+        log.info("Created head for HTML text!")
+
+    header = f"""<!DOCTYPE html>
+              <html lang="en">
+              <head>
+                <meta charset="UTF-8">
+                <title>{head}</title>
+              </head>
+              <body>"""
+
+    end = """</body>
+            </html>"""
+
+    html_text = header
+
+    h1 = f"""<h1>Feed: {nw_title}</h1>"""
+    html_text += h1
+    gen = inf_generator(db)
+    for inf in gen:
+        p = f"""<p>
+        <a><b>Title:</b> {inf[0]}</a><br>
+        <a><b>Link:</b> <a href  = "{inf[1]}">clickable link</a></a><br>
+        <a><b>Date:</b> {inf[2]}</a><br>
+        <a><b>Description:</b> {inf[3]}</a><br>
+        <hr>
+        </p>"""
+        html_text += p
+    html_text += end
+    log.info("HTML text creation complieted!")
+    return html_text
+
+def write_html_file(path, html_text, html_name=None):
+
+    """Write HTML text to file, than saves file to the path,
+    also this programm automatically gives name to files."""
+
+    log.info("Starting writing HTML to the file!")
+    if html_name is None:
+        html_name = datetime.now().strftime("%d%m%y%H%M") + ".html"
+        log.info("Created name for HTML file!")
+    if not html_name.endswith(".html"):
+        html_name = html_name + ".html"
+        log.info("Added .html extention to file name!")
+    full_path = os.path.join(path, html_name)
+    with open(full_path, "w", encoding="utf-8") as file:
+        file.write(html_text)
+        log.info("HTML file created!")
+    print(f"HTML file saved to to path: {full_path}")
+
+
+def write_epub_file(path, html_text, epub_name=None):
+
+    """Write ePub file, than saves file to the path,
+        also this programm automatically gives name to files."""
+
+    log.info("Starting writing HTML to the ePub file!")
+    if epub_name is None:
+        epub_name = datetime.now().strftime("%d%m%y%H%M") + ".epub"
+        log.info("Created name for ePub file!")
+    if not epub_name.endswith(".epub"):
+        epub_name = epub_name + ".epub"
+        log.info("Added .epub extention to file name!")
+    file_path = os.path.join(path, epub_name)
+    book = epub.EpubBook()
+    book.add_author('Nurmatov Farrukh')    # you found easter egg
+    c1 = epub.EpubHtml(title='News', file_name='chap_01.xhtml')
+    c1.content = html_text
+    book.add_item(c1)
+    book.add_item(epub.EpubNcx())
+    book.add_item(epub.EpubNav())
+    style = 'BODY {color: white;}'
+    nav_css = epub.EpubItem(uid="style_nav", file_name="style/nav.css", media_type="text/css", content=style)
+    book.add_item(nav_css)
+    book.spine = ['nav', c1]
+    epub.write_epub(file_path, book, {})
+    log.info("ePub file created!")
+    print(f"Epub file saved to: {file_path}")
 
 
 def main():
@@ -204,9 +293,13 @@ def main():
                                                  "and returns in user friendly format.")
     parser.add_argument("source", type=str, nargs="?", help="RSS link for your information", default=None)
     parser.add_argument("--date", type=str, help="Get news form the database by date.")
-    parser.add_argument("-v", "--version", action="version", version="Version 1.3.0",
+    parser.add_argument("-v", "--version", action="version", version="Version 1.4.0",
                         help="Print program version and exit.")
     parser.add_argument("--verbose", action="store_true", help="Outputs verbose status messages.")
+    parser.add_argument("--to-html", action="store_true", help="Return HTML file to C:\\rss_reader\\html_files",
+                        dest="to_html")
+    parser.add_argument("--to-epub", action="store_true", help="Return HTML file to C:\\rss_reader\\epub_files",
+                        dest="to_epub")
     parser.add_argument("--json", action="store_true", help="Print result as JSON in stdout.")
     parser.add_argument("--limit", type=int, help="Limit news topics if this parameter provided.")
 
@@ -214,12 +307,16 @@ def main():
     rss_url = args.source
     date = args.date
     verbose = args.verbose
+    html = args.to_html
+    epub = args.to_epub
     print_json = args.json
     limit = args.limit
 
     parent_dir = "C:/"
     root_dir = "rss_reader"
     db_dir = "data_base"
+    html_dir = "html_files"
+    epub_dir = "epub_files"
 
     if verbose:
         log.basicConfig(format="%(levelname)s: %(message)s", level=log.DEBUG)
@@ -231,6 +328,10 @@ def main():
     create_path(sys_path)
     db_path = os.path.join(sys_path, db_dir)
     create_path(db_path)
+    html_path = os.path.join(sys_path, html_dir)
+    create_path(html_path)
+    epub_path = os.path.join(sys_path, epub_dir)
+    create_path(epub_path)
     db = os.path.join(db_path, handler.data_base)
     base = handler.DataBaseHandler(db)
     base.create_table()
@@ -240,8 +341,21 @@ def main():
             if base.emptiness_checker():
                 raise AttributeError
             base_inf = base.retrieve_data(date, rss_url, limit)
-            if print_json:
+            html_data = base.data_to_html(date)
+            if print_json and html:
                 print(base.data_to_json(date))
+                write_html_file(html_path, html_data, date)
+            elif print_json and epub:
+                print(base.data_to_json(date))
+                write_epub_file(epub_path, html_data, date)
+            elif print_json:
+                print(base.data_to_json(date))
+            elif html:
+                write_html_file(html_path, html_data, date)
+                base.data_to_print(date)
+            elif epub:
+                write_epub_file(epub_path, html_data, date)
+                base.data_to_print(date)
             else:
                 base.data_to_print(date)
         else:
@@ -249,12 +363,25 @@ def main():
             feed = get_feed(xml_content)
             news_db = get_news_db(xml_content, limit)
             sql_gen = inf_generator(news_db)
+            html_inf = html_adder(feed, news_db)
 
             for inf in sql_gen:
                 base.add_data(rss_url, *inf)
 
-            if print_json:
+            if print_json and html:
                 output_form(feed, news_db, "json")
+                write_html_file(html_path, html_inf)
+            elif print_json and epub:
+                output_form(feed, news_db, "json")
+                write_epub_file(epub_path, html_inf)
+            elif print_json:
+                output_form(feed, news_db, "json")
+            elif html:
+                write_html_file(html_path, html_inf)
+                output_form(feed, news_db, "console")
+            elif epub:
+                write_epub_file(epub_path, html_inf)
+                output_form(feed, news_db, "console")
             else:
                 output_form(feed, news_db, "console")
     except ValueError:
