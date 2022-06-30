@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
+from django.core.mail import send_mail
 
+from rss_reader_service.settings import EMAIL_HOST_USER
 from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm
 
 __all__ = ['login_view',
@@ -41,6 +43,14 @@ def register_view(request):
         new_user.set_password(form.cleaned_data['password'])
         new_user.save()
         messages.success(request, 'User added to the system')
+        send_mail(
+            'WELCOME to RSS Reader',
+            'Thanks for using our service.',
+            EMAIL_HOST_USER,
+            [form.cleaned_data['email']],
+            fail_silently=False,
+        )
+        messages.success(request, 'Greeting email sent to registered email address')
         return render(request, 'accounts/register_done.html',
                       {'new_user': new_user})
     return render(request, 'accounts/register.html',

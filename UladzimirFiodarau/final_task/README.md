@@ -459,7 +459,10 @@ To register a user use navigation panel button "Register" or following URL:
 http://127.0.0.1:8000/accounts/register/
 ```
 
-After successful registration, user may log in using logging form.
+After successful registration, user may log in using logging form. Additionally a greeting email is sent to user's email address from "DelacruaRssReader@gmail.com".
+Messages "User added to the system" and "Greeting email sent to registered email address" will float. 
+Note! Email may get to spam section of user's mailbox.
+
 To log in user can use navigation panel button "Log In" or following URL:
 ```
 http://127.0.0.1:8000/accounts/login/
