@@ -3,6 +3,7 @@
 from typing import Dict, List
 
 from fpdf import FPDF
+from PIL import Image
 
 from ..saver import AbstractSaveHandler
 
