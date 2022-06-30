@@ -19,5 +19,6 @@ class PDFSaveHandler(AbstractSaveHandler):
     def save(self, data: List[dict]) -> None:
         file = self._request.get('to_pdf')
         if file:
+            pdf = FPDF()
         else:
             super().save(data)
