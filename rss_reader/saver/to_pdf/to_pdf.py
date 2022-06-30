@@ -7,7 +7,7 @@ from fpdf import FPDF
 from PIL import Image
 import requests
 
-
+from rss_reader.pathfile.pathfile import PathFile
 from ..saver import AbstractSaveHandler
 
 
