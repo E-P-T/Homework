@@ -40,5 +40,7 @@ class PDFSaveHandler(AbstractSaveHandler):
                     t = t.decode('latin1', errors='ignore')
 
                     pdf.cell(150, 10, txt=t, ln=1, align='L')
+                    pdf.cell(150, 10, txt='Link to news.', ln=1,
+                             align='L', link=item.get('link'))
         else:
             super().save(data)
