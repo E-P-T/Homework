@@ -7,6 +7,8 @@
 
 Welcome to rss_reader.py readme file!
 
+Tested on Windows 10!
+
 usage: rss_reader.py [-h] [--date DATE] [-v] [--verbose] [--to-html] [--to-epub] [--json] [--limit LIMIT] [source]
 
 This program gets information from RSS-channel and returns in user friendly format.
