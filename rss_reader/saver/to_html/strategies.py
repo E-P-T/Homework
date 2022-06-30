@@ -1,4 +1,6 @@
 
+from typing import List
+
 from rss_reader.interfaces.isaver.istrategies import StrategySaveHTML
 
 
