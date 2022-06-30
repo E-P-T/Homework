@@ -26,6 +26,6 @@ class PDFSaveHandler(AbstractSaveHandler):
             imgs = []
 
             for i in data:
-                pass
+                pdf.add_page()
         else:
             super().save(data)
