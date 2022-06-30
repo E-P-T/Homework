@@ -1,0 +1,29 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Cache
+cache.pk1
+
+# Unit test / coverage reports
+.coverage
+.cache
+coverage.xml
+htmlcov/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Venv
+share/
+pyvenv.cfg
+bin/
+include/
+lib/
+
