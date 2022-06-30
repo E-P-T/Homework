@@ -1,3 +1,5 @@
+"""This module implements specific strategies that form html files."""
+
 
 from typing import List
 
