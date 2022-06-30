@@ -22,3 +22,8 @@ class PathFile(ICreateFile):
     def home(self) -> None:
         """Return a new path pointing to the user's home directory."""
         return Path.home()
+
+    @staticmethod
+    def exists_file(file: str) -> bool:
+        path = Path(file)
+        return path.exists()
