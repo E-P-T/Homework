@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %} Register {% endblock %}
+{% block content %}
+
+<br>
+<div class="row">
+    <div class="col-md-auto mx-auto">
+       <h1>
+           Welcome to RSS Reader web service
+       </h1>
+     </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-auto mx-auto">
+
+       <h4>
+          <p> Please register to use service</p>
+       </h4>
+        <br>
+        <form action="" method='POST'>
+            {% csrf_token %}
+
+                <div class="add_form">
+                    {{form.as_p}}
+                </div>
+
+            <div class="row g-0">
+                <div class="col-md-auto mx-auto">
+                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+
+
+{% endblock %}

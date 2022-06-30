@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %} Start {% endblock %}
+{% block content %}
+
+<br>
+<div class="row">
+    <div class="col-md-auto mx-auto">
+       <h1>
+           Welcome to RSS Reader web service
+       </h1>
+     </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-auto mx-auto">
+       <h4>
+          The RSS Reader has been created as a final task for graduating EPAM March 2022 Python Foundation course.
+           Following functions are currently implemented:
+       </h4>
+           <h5>- One-shot conversion from RSS to Human readable format</h5>
+           <h5>- Server-side news caching in database and filesystem caching for faster response</h5>
+           <h5>- Adding new RSS sources to tracking (cache) using API</h5>
+           <h5>- Updating tracked (cached) RSS sources using API</h5>
+           <h5>- Conversion of news to HTML and PDF formats</h5>
+           <h5>- User registration and authentication using email</h5>
+           <h5>- Sending a greeting email to user after registration</h5>
+           <h5>- User settings changes and user deletion with success messages</h5>
+           <h5>- Customized error handlers and messages.error usage</h5>
+           <h5>- Navigation bar and favicon</h5>
+     </div>
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-auto mx-auto">
+        <h4>
+            To read news from a URL press here
+       </h4>
+        <br>
+        <div class="row">
+            <div class="col-md-auto mx-auto">
+                <form action="{% url 'fresh_news' %}">
+                    <button type="submit" class="btn btn-primary btn-lg">Get fresh news</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-auto mx-auto">
+        <h4>
+           To read cached news from tracked URLs press here
+       </h4>
+        <br>
+        <div class="row">
+            <div class="col-md-auto mx-auto">
+                <form action="{% url 'cached_news' %}">
+                    <button type="submit" class="btn btn-primary btn-lg">Get cached news</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

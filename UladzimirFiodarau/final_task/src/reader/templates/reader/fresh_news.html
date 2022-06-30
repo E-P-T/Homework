@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} Fresh News {% endblock %}
+
+{% block content %}
+<br>
+
+<div class="row">
+    <div class="row g-0">
+    <div class="col-md-5 mx-auto">
+
+        <div class="row g-0">
+            <div class="col-md-auto mx-auto">
+                <h3>Fill the form to read news from RSS feed</h3>
+            </div>
+        </div>
+
+        <div class="row g-0">
+            <div class="col-md-auto mx-auto">
+                <h5>All news found will be cached for later use</h5>
+            </div>
+        </div>
+
+        <br>
+
+        <form class="container" method="GET" action=" {% url 'read_fresh_news' %} ">
+            <div class="add_form">
+                {{choice_form.as_p}}
+            </div>
+            <br>
+            <div class="row g-0">
+                <div class="col-md-auto mx-auto">
+                    <button type="submit" class="btn btn-primary btn-lg">Read News</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    </div>
+</div>
+<br>
+<br>
+
+
+{% endblock %}

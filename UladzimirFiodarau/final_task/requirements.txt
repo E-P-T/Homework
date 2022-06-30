@@ -1,0 +1,4 @@
+Django~=4.0.5
+reportlab~=3.6.10
+xhtml2pdf~=0.2.8
+psycopg2-binary~=2.9.3

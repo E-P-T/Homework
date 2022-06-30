@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+    <title>OpenNews.opennet.ru: Общая лента новостей</title>
+    <description>OpenNews - Новости мира открытых систем (Общая лента новостей)</description>
+    <link>https://www.opennet.ru/opennews/</link>
+<item>
+    <title>В Firefox включена по умолчанию поддержка аппаратного ускорения видео для Linux-систем с Mesa</title>
+    <link>https://www.opennet.ru/opennews/art.shtml?num=57297</link>
+    <pubDate>Fri, 03 Jun 2022 11:36:55 +0300</pubDate>
+    <description>В ночных сборках Firefox, на основе которых 26 июля будет сформирован релиз Firefox 103, включено по умолчанию аппаратное ускорение декодирования видео при помощи VA-API (Video Acceleration API) и FFmpegDataDecoder. Поддержка включена для Linux-систем c GPU Intel и AMD, в которых имеются драйверы Mesa как минимум версии 21.0. Поддержка доступна как для Wayland, так и для X11.</description>
+    <guid>https://www.opennet.ru/opennews/art.shtml?num=57297</guid>
+</item>
+<item>
+    <title>Для Chrome развивают режим автоматического блокирования спама в уведомлениях</title>
+    <link>https://www.opennet.ru/opennews/art.shtml?num=57296</link>
+    <pubDate>Fri, 03 Jun 2022 10:34:55 +0300</pubDate>
+    <description>Для включения в кодовую базу Chromium предложен режим автоматического блокирования спама в   push-уведомлениях. Отмечается, что спам через push-уведомления входит в число жалоб, наиболее часто отправляемых  в службу поддержки Google. Предложенный механизм защиты позволит решить проблему со спамом в уведомлениях и будет применяться на усмотрение пользователя. Для управления активацией нового режима реализован параметр &quot;chrome://flags#disruptive-notification-permission-revocation&quot;, который по умолчанию отключён.</description>
+    <guid>https://www.opennet.ru/opennews/art.shtml?num=57296</guid>
+</item>
+</channel>
+</rss>
+
