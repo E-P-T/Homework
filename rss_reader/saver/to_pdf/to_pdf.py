@@ -1,6 +1,9 @@
 
 
 from typing import Dict, List
+
+from fpdf import FPDF
+
 from ..saver import AbstractSaveHandler
 
 
