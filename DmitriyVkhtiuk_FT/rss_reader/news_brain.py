@@ -3,6 +3,7 @@ Main rss-reader module which does all needed operations with data passed on pyth
 Parses rss-feed, get needed data from here, print it out, convert output to JSON format, create cache,
 convert information to html or pdf etc.
 """
+import colorama
 import requests
 import pandas
 import bs4
@@ -12,7 +13,8 @@ import logging as log
 from datetime import datetime
 import io
 from template import temp
-
+from colorama import Fore
+from pygments import highlight, lexers, formatters
 import os
 from pathlib import *
 from xhtml2pdf import pisa
@@ -22,6 +24,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 
 
 work_dir = Path(__file__).absolute().parent
+colorama.init()
 
 
 class NewsBrain:
@@ -32,7 +35,7 @@ class NewsBrain:
     News dictionary and JSON structure are described in README.md
     provides converters functionality
     """
-    def __init__(self, url, limit, js, date, html_path, pdf_path):
+    def __init__(self, url, limit, js, date, html_path, pdf_path, colorized):
         """
         Method serves for processing news from rss feeds.
         On object creation it gathers required news data, updates news cache and processes data for future output.
@@ -52,6 +55,7 @@ class NewsBrain:
         self.date = date
         self.html_path = html_path
         self.pdf_path = pdf_path
+        self.colorized = colorized
 
         try:
             self.cache = pandas.read_csv(work_dir/"cache.csv")
@@ -184,6 +188,7 @@ class NewsBrain:
                     cached_d = {key: value for key, value in data.items()}
                     list_of_news.append(cached_d)
                     log.info(f"Printing {i + 1} new")
+                    print(Fore.RESET)
                     if not self.json:
                         self.print_data(data)
                     else:
@@ -201,13 +206,24 @@ class NewsBrain:
         :param data: The dictionary which will be printed in stdout
         :return: None
         """
-        if not self.json:
-            for key, value in data.items():
-                print(f"{key}: {value}")
-            print("\n\n")
+        if self.colorized:
+            if not self.json:
+                for key, value in data.items():
+                    print(f"{Fore.BLUE}{key}: {Fore.YELLOW}{value}")
+                print("\n\n")
+            else:
+                json_format = json.dumps(data, ensure_ascii=False, indent=4)
+                colored_json = highlight(json_format, lexers.JsonLexer(), formatters.TerminalFormatter())
+                print(f"{colored_json}\n\n")
+            print(Fore.LIGHTCYAN_EX)
         else:
-            json_format = json.dumps(data, ensure_ascii=False, indent=4)
-            print(f"{json_format}\n\n")
+            if not self.json:
+                for key, value in data.items():
+                    print(f"{key}: {value}")
+                print("\n\n")
+            else:
+                json_format = json.dumps(data, ensure_ascii=False, indent=4)
+                print(f"{json_format}\n\n")
 
     @staticmethod
     def reformat_the_dates():
@@ -273,7 +289,12 @@ class NewsBrain:
             cache_to_output["Description"] = row.Description
             cache_to_output["Image"] = row.Image
             log.info(f"Printing {index+1} new from cache")
-            self.print_data(cache_to_output)
+            print(Fore.RESET)
+            if not self.json:
+                self.print_data(cache_to_output)
+            else:
+                js_data = {index + 1: cache_to_output}
+                self.print_data(js_data)
         return df
 
     def convert(self, cached_data):
@@ -325,7 +346,6 @@ class NewsBrain:
             row.Source = create_url(row.Source)
             row.Link = create_url(row.Link)
 
-        log.info("df is prepared to convert..")
         t = df.to_html(render_links=True, escape=False, index=False, justify="center")
         html_out = temp.format(outp=t)
         if self.html_path is not None:
@@ -374,7 +394,6 @@ class NewsBrain:
                     pisa.CreatePDF(io.StringIO(html_string), dest=result_file, encoding="utf-8")
                     result_file.close()
                     return
-            log.disable(log.WARNING)
             log.disable(log.ERROR)
             convert_html_to_pdf(source_html, output_filename)
 
@@ -399,7 +418,7 @@ class NewsBrain:
         try:
             news_on_date = cache_data[(cache_data.Date == self.date)].reset_index(drop=True)
             if len(news_on_date) == 0:
-                print("Error: No news found")
+                print("Error: No news found on this date")
                 return
             else:
                 news_not_on_date = cache_data[(cache_data.Date != self.date)].reset_index(drop=True)
