@@ -60,7 +60,14 @@ class PDFSaveHandler(AbstractSaveHandler):
                         pdf.line(10, pdf.get_y()+60, 200, pdf.get_y()+60)
                         pdf.cell(150, pdf.get_y()+25-y, ln=1, align='L')
                         y = pdf.get_y()-25
-            pdf.output("sample.pdf")
+
+            exists_file = PathFile.exists_file(file)
+            if exists_file:
+                pdf_file = file + 'news.pdf'
+                pdf.output(pdf_file)
+            else:
+                raise FileExistsError('The requested path does not exist.')
+
             # del all images
             for i in imgs:
                 PathFile.unlink(i)
