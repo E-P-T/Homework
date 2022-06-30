@@ -21,5 +21,11 @@ class PDFSaveHandler(AbstractSaveHandler):
         if file:
             pdf = FPDF()
             pdf.set_font("Arial", size=14)
+
+            y = 10
+            imgs = []
+
+            for i in data:
+                pass
         else:
             super().save(data)
