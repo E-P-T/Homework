@@ -228,11 +228,12 @@ class RssReader:
         :param limit: limit of news to output
         :return: dictionary with a limited number of news
         """
+        news_dict = {key: value for key, value in news_cache.items() if key != 'feed_items'}
+        news_dict['feed_items'] = {}
         if limit is None:
-            news_dict = news_cache
+            for item in sorted(news_cache['feed_items'], reverse=True):
+                news_dict['feed_items'][item] = news_cache['feed_items'].get(item, None)
         else:
-            news_dict = {key: value for key, value in news_cache.items() if key != 'feed_items'}
-            news_dict['feed_items'] = {}
             for item in sorted(news_cache['feed_items'], reverse=True)[:limit]:
                 news_dict['feed_items'][item] = news_cache['feed_items'].get(item, None)
         return news_dict
