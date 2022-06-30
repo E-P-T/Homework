@@ -1,0 +1,9 @@
+setuptools~=62.1.0
+requests~=2.27.1
+bs4~=0.0.1
+beautifulsoup4~=4.11.1
+dateparser~=1.1.1
+reportlab~=3.6.10
+xhtml2pdf~=0.2.8
+colorama~=0.4.4
+Pygments~=2.12.0
