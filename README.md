@@ -1,28 +1,43 @@
-# How to create a PR with a homework task
+## Documentation
 
-1. Create fork from the following repo: https://github.com/E-P-T/Homework. (Docs: https://docs.github.com/en/get-started/quickstart/fork-a-repo )
-2. Clone your forked repo in your local folder.
-3. Create separate branches for each session.Example(`session_2`, `session_3` and so on)
-4. Create folder with you First and Last name in you forked repo in the created session.
-5. Add your task into created folder
-6. Push finished session task in the appropriate branch in accordance with written above.
- You should get the structure that looks something like that
+### Minimal requirements:
+__Python 3.9__\
+On linux please add alias _python_ to _python3_. Look [here](https://askubuntu.com/questions/320996/how-to-make-python-program-command-execute-python-3).
 
-```
- Branch: Session_2
-         DzmitryKolb
-              |___Task1.py
-              |___Task2.py
- Branch: Session_3
-         DzmitryKolb
-              |___Task1.py
-              |___Task2.py
-```
+### Setup:
+#### Virtual Environment (Optional)
+Creating Virtual Environment (from the root of the project)\
+Windows: `python -m venv ./venv`\
+Linux: `virtualenv venv`
 
-7. When you finish your work on task you should create Pull request to the appropriate branch of the main repo https://github.com/E-P-T/Homework (Docs: https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
-Please use the following instructions to prepare good description of the pull request:
-    - Pull request header should be: `Session <Number of the session> - <FirstName> <LastName>`.
-      Example: `Session 2 - Dzmitry Kolb`
-    - Pull request body: You should write here what tasks were implemented.
-      Example: `Finished: Task 1.2, Task 1.3, Task 1.6`
+Activate Virtual Environment:\
+Windows: `./venv/Scripts/activate`\
+Linux: `source venv/bin/activate`
 
+*_On Windows you might need to give rights to execute commands from PowerShell via the following command (running as Administrator)_\
+`Set-ExecutionPolicy Unrestricted`
+
+*_If you want to exit Virtual Environment please run `deactivate`_
+
+#### Required Steps
+Update pip:\
+`python -m pip install --upgrade pip`
+
+Install requirements:\
+`pip install -r ./requirements.txt`
+
+### Run Application:
+Run `python ./rss_parse/rss_reader.py --help` to find available options
+
+### Cache
+Application stores RSS Feed in a local storage in a temp folder (and rss_reader sub-folder).\
+For more info on what is considered a temp directory please look [here](https://docs.python.org/3/library/tempfile.html#tempfile.gettempdir)
+
+### Run Tests:
+Run `pytest ./tests` to run tests
+
+### Package distributive:
+To create a distribution package please run\
+`pip install -e .`\
+You will be able to run `rss_reader` directly\
+Also you should run this command as it makes the required font available for fpdf library
