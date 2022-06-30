@@ -25,5 +25,6 @@ class TestArgParser(TestCase):
                     'limit': None,
                     'date': None,
                     'to_html': None,
-                    'to_epub': None}
+                    'to_epub': None,
+                    'colorize': False}
         self.assertDictEqual(self.parser.args, expected)

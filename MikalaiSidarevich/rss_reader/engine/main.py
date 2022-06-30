@@ -2,12 +2,13 @@
 main() - entry point: parse CLI arguments & run RSS reading.
 """
 
+import subprocess
 import sys
 
 from engine.argparser import ArgParser
 from engine.rssreader import RssReader
 
-version = '1.4'
+version = '1.5'
 db = "storage.db"
 
 
@@ -54,6 +55,16 @@ def main():
         if args['to_epub'] is not None:
             epub_path = args['to_epub']
 
+        colorizer = None
+        if args['colorize']:
+            if sys.platform == "linux":
+                colorizer = subprocess.Popen("colorize",
+                                             stdin=subprocess.PIPE,
+                                             encoding='utf-8')
+                sys.stdout = colorizer.stdin
+            else:
+                print("Unable to set colorized mode, set to normal mode.", flush=True)
+
     except Exception:
         print("Invalid argument value", flush=True)
         exit(1)
@@ -67,6 +78,9 @@ def main():
         except Exception as e:
             print(f"{type(e).__name__}: {e}", flush=True)
             exit(1)
+        finally:
+            if colorizer:
+                colorizer.communicate()
     else:
         arg_parser.print_help()
 

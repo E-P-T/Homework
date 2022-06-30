@@ -1,5 +1,6 @@
 beautifulsoup4==4.11.1
 EbookLib==0.17.1
+colorize==1.1.0
 coverage==6.2
 lxml==4.8.0
 requests==2.26.0

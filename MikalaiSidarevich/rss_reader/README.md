@@ -16,6 +16,7 @@ All extra packages listed in the `requirements.txt`:
 
 - [**`beautifulsoup4`**](https://pypi.org/project/beautifulsoup4/) `4.11.1` — Screen-scraping library
 - [**`EbookLib`**](https://pypi.org/project/EbookLib/) `0.17.1` — Ebook library which can handle EPUB2/EPUB3 and Kindle format
+- [**`colorize`**](https://pypi.org/project/colorize/) `1.1.0` — Command line utility to colorize other commands output
 - [**`coverage`**](https://pypi.org/project/coverage/) `6.2` — Code coverage measurement for Python
 - [**`lxml`**](https://pypi.org/project/lxml/) `4.8.0` — Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API
 - [**`requests`**](https://pypi.org/project/requests/) `2.26.0` — Python HTTP for Humans
@@ -41,7 +42,7 @@ The utility can handle multiple arguments.
 To show help message below use `-h/--help` argument.
 
 ```sh
-usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] [--to-epub PATH] [--to-html PATH] [source]
+usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] [--to-epub PATH] [--to-html PATH] [--colorize] [source]
 
 Pure Python command-line RSS reader.
 
@@ -57,6 +58,7 @@ optional arguments:
   --date DATE     Read cached news by date specified like '%Y%m%d'
   --to-epub PATH  Convert news to epub format
   --to-html PATH  Convert news to HTML format
+  --colorize      Colorize console output
 ```
 
 ## Examples:
@@ -66,13 +68,13 @@ Set the working directory to the project root `rss_reader/` and execute:
 - Show utility version:
   ```sh
   > python rss_reader.py --version
-  Version 1.4
+  Version 1.5
   ```
 
 - Show utility version using CLI utility installed:
   ```sh
   > rss_reader --version
-  Version 1.4
+  Version 1.5
   ```
 
 - Read 1 news entry from [Yahoo](https://news.yahoo.com/) source:
@@ -194,6 +196,20 @@ Cache storage is the SQLite3 database, it contains 2 data tables: `channels` and
   | image_link  | TEXT   |
   | image_data  | BLOB   |
   | channel_id  | INT FK |
+
+## Colorized output*
+
+The utility provides colorized console output with `--colorize` option set.
+
+| entity      | color   |                                                             |
+| ----------- | ------- | ----------------------------------------------------------- |
+| feed title  | magenta | ![FF0090](https://via.placeholder.com/15/FF0090/FF0090.png) |
+| entry title | cyan    | ![00FFFF](https://via.placeholder.com/15/00FFFF/00FFFF.png) |
+| entry date  | yellow  | ![FFFF00](https://via.placeholder.com/15/FFFF00/FFFF00.png) |
+| links       | blue    | ![0000FF](https://via.placeholder.com/15/0000FF/0000FF.png) |
+| errors      | red     | ![FF0000](https://via.placeholder.com/15/FF0000/FF0000.png) |
+
+**Colorized mode is enabled on Linux only.*
 
 ## Running tests
 

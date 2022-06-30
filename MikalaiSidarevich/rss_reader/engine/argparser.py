@@ -29,6 +29,7 @@ class ArgParser:
         self._parser.add_argument("--date", help="Read cached news by date specified like '%%Y%%m%%d'")
         self._parser.add_argument("--to-epub", metavar="PATH", help="Convert news to epub format")
         self._parser.add_argument("--to-html", metavar="PATH", help="Convert news to HTML format")
+        self._parser.add_argument("--colorize", action='store_true', help="Colorize console output")
 
     @property
     def args(self):
