@@ -49,9 +49,29 @@ Command line format
 	  --verbose            Outputs verbose status messages. Prints logs.
 	  --limit LIMIT        Limit news topics. If it's not specified, then you get all available feed.
 
-	  --date DATE          It should take a date in Ymd format.The new from the specified day will be printed out.
+	  --date DATE          It should take a date in %Y%m%d format.The new from the specified day will be printed out.
 	  --html         It convert data to HTML-format in file output.html.
 
+Сonsole representation
+-------
+
+```json
+Name of the feed
+Title from news
+PubDate
+
+Summary description
+
+Source link
+
+------------
+Title from news
+PubDate
+...
+.....
+
+
+```
 JSON representation
 -------
 
