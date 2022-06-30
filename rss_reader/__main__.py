@@ -38,6 +38,8 @@ def main():
         print_exc(e)
     except DataFileNotFoundError as e:
         print_exc(e)
+    except FileExistsError as e:
+        print_exc(e)
     except Exception as e:
         s = ('Sorry, we have to stop working. Something went wrong.'
              'We are terribly sorry.')
