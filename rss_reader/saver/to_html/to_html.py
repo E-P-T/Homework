@@ -1,4 +1,4 @@
-
+"""Contains a specific HTML file handler."""
 
 from typing import Dict, List
 
