@@ -1,3 +1,5 @@
+"""This module contains a specific handler for saving data to local storage."""
+
 
 import pandas as pd
 from typing import Optional, List
