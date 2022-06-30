@@ -2,6 +2,7 @@ from loguru import logger
 import json
 from json2html import *
 
+
 class Converter:
     """
     Convert from:   object to dict
@@ -10,10 +11,11 @@ class Converter:
                     json to HTML
 
     """
-    def __init__(self, my_reader=None)->None:
+
+    def __init__(self, my_reader=None) -> None:
         self.my_reader = my_reader
 
-    def to_dict(self)->dict:
+    def to_dict(self) -> dict:
         logger.debug("Convert data to dictionary (debug)!")
         dict = {"name": self.my_reader.name,
                 "size": self.my_reader.limit,
@@ -23,13 +25,13 @@ class Converter:
                 "link": self.my_reader.link}
         return dict
 
-    def from_json(self)->dict:
+    def from_json(self) -> dict:
         logger.debug("Read data from json(debug)!")
         with open('data.json') as json_file:
             data = json.load(json_file)
             return data
 
-    def to_JSON(self, dict=False)->None:
+    def to_JSON(self, dict=False) -> None:
         if not dict:
             dict = self.to_dict()
         logger.debug("Convert data to json (debug)!")
