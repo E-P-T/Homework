@@ -46,3 +46,4 @@ class Converter:
             with open(htmlReportFile, 'w') as htmlfile:
                 htmlfile.write(str(scanOutput))
                 print("Data save in output.html")
+        return True
