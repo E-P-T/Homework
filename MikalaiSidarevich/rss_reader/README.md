@@ -40,7 +40,7 @@ The utility can handle multiple arguments.
 To show help message below use `-h/--help` argument.
 
 ```sh
-usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] [source]
+usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] [source]
 
 Pure Python command-line RSS reader.
 
@@ -53,6 +53,7 @@ optional arguments:
   --json         Print result as JSON in stdout
   --verbose      Outputs verbose status messages
   --limit LIMIT  Limit news topics if this parameter provided
+  --date DATE    Read cached news by date specified like '%Y%m%d'
 ```
 
 ## Examples:
@@ -62,13 +63,13 @@ Set the working directory to the project root `rss_reader/` and execute:
 - Show utility version:
   ```sh
   > python rss_reader.py --version
-  Version 1.2
+  Version 1.3
   ```
 
 - Show utility version using CLI utility installed:
   ```sh
   > rss_reader --version
-  Version 1.2
+  Version 1.3
   ```
 
 - Read 1 news entry from [Yahoo](https://news.yahoo.com/) source:
@@ -91,26 +92,76 @@ Set the working directory to the project root `rss_reader/` and execute:
 
   ```
 
+- Read from cache 1 news entry for the date `'20220628'` (requires previously stored data):
+  ```sh
+  > python rss_reader.py --date 20220628 --limit 1
+
+  Feed: Yahoo News - Latest News & Headlines
+
+  Title: Spit, 'disrespect' arrive at Wimbledon as tennis turns ugly
+  Date: 2022-06-28T22:01:51Z
+  Link: https://news.yahoo.com/spit-disrespect-arrive-wimbledon-tennis-220151441.html
+
+  This is not what one thinks of when pondering the supposedly genteel roots of tennis, and the purportedly proper atmosphere at dates-to-the-1800s Wimbledon, a country club sport being contested at a place officially called the All England Lawn Tennis Club: a player, Nick Kyrgios, capping a first-round victory Tuesday by spitting in the direction of a spectator he said was hassling him.  Like, he literally came to the match to literally just not even support anyone, really.  During the match, which filled the stands at 1,980-seat Court No. 3 — and attracted lengthy lines of folks hoping to eventually be let in, likely owing to the popularity of the anything-can-happen Kyrgios, a 27-year-old from Australia, and the involvement of a local player — Kyrgios asked, without success, to have the fan removed for cursing and sending other verbal abuse his way.
+
+
+  Links:
+  [1]: https://news.yahoo.com/spit-disrespect-arrive-wimbledon-tennis-220151441.html (link)
+  [2]: https://s.yimg.com/ny/api/res/1.2/7Oybi_h9sBCC7gjex3GADQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD04MDA-/https://s.yimg.com/uu/api/res/1.2/Kn3F_gIJwe0a3uIOU.Tb2w--~B/aD0yMzgxO3c9MzU3MTthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/ap.org/4a35cff443aaabc2b49d94a5e7672369 (image)
+
+
+  ```
+
 ## JSON format
 
 The utility can export the feed into JSON format for console output.
 The structure is shown below:
 
 ```python
-{
-    "channel": "Channel title",
-    "url": "Channel URL",
-    "entries": [
-        {
-          "title": "Entry title",
-          "date": "Entry publish date",
-          "link": "Entry link",
-          "description": "Entry description",
-          "image_link": "Entry image link"
-        }
-    ]
-}
+[
+    {
+        "channel": "Channel title",
+        "url": "Channel URL",
+        "entries": [
+            {
+                "title": "Entry title",
+                "date": "Entry publish date",
+                "link": "Entry link",
+                "description": "Entry description",
+                "image_link": "Entry image link"
+            }
+        ]
+    }
+]
 ```
+
+## Feed cache
+
+RSS feed is cached while reading.
+
+Cache storage is the SQLite3 database, it contains 2 data tables: `channels` and `entries`.
+
+- Table `channels` schema:
+
+  | column  | type   |
+  | ------- | ------ |
+  | id      | INT PK |
+  | channel | TEXT   |
+  | url     | TEXT   |
+
+- Table `entries` schema:
+
+  | column      | type   |
+  | ----------- | ------ |
+  | id          | INT PK |
+  | title       | TEXT   |
+  | link        | TEXT   |
+  | date        | TEXT   |
+  | date_fmt    | TEXT   |
+  | description | TEXT   |
+  | image_link  | TEXT   |
+  | image_data  | BLOB   |
+  | channel_id  | INT FK |
 
 ## Running tests
 

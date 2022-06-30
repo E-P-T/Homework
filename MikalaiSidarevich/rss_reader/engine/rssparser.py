@@ -5,7 +5,7 @@ RssParser - parser for RSS data.
 import threading
 import xml.dom.minidom
 from html import unescape
-from time import sleep
+from time import sleep, strftime, strptime
 
 import requests
 from bs4 import BeautifulSoup
@@ -32,21 +32,36 @@ class HtmlParseError(Exception):
     pass
 
 
+class DateError(Exception):
+    """
+    Date format conversion exception.
+    """
+    pass
+
+
+class ImageError(Exception):
+    """
+    Download image exception.
+    """
+    pass
+
+
 class RssParser:
     """Parser for RSS data."""
 
-    def __init__(self, verbose=False):
+    def __init__(self, db, verbose=False):
         """
-        Initialize parser with `verbose` ability and setup feed storage.
+        Initialize parser with `verbose` ability and setup feed storages.
         """
         self._verbose = verbose
         self._feed = {}
+        self._db = db
 
     def feed(self, url, limit):
         """
         Get parsed RSS feed.
         """
-        self._url = url
+        self._url = url.lower()
         self._limit = limit
 
         # Get XML document
@@ -55,7 +70,7 @@ class RssParser:
         # Parse XML document into the internal storage
         self._parse_feed()
 
-        return self._feed
+        return [self._feed]
 
     def _request_url(self, url):
         """
@@ -96,6 +111,12 @@ class RssParser:
         # Add channel url
         self._feed['url'] = self._url
 
+        # Store channel into db
+        self._db.store_channel(self._feed)
+
+        # Get channel id to store entries
+        channel_id = self._db.get_channel_id(self._feed['url'])
+
         # Get list of RSS entries
         for tag in ['item', 'entry']:
             item_list = dom.getElementsByTagName(tag)
@@ -114,7 +135,7 @@ class RssParser:
         for i in range(limit):
             item = item_list[i]
             thread = threading.Thread(target=self._get_entry,
-                                      args=(i, item))
+                                      args=(i, item, channel_id))
             thread.start()
 
             # Prevent too fast requests
@@ -130,7 +151,7 @@ class RssParser:
         if self._verbose:
             print(f"Total {len(self._feed['entries'])} items processed", flush=True)
 
-    def _get_entry(self, n, item):
+    def _get_entry(self, n, item, channel_id):
         """
         Request `n`-th entry attributes:
         get title, date, link from XML, description, image by entry's url.
@@ -140,9 +161,11 @@ class RssParser:
 
         entry = {'title': None,
                  'date': None,
+                 'date_fmt': None,
                  'link': None,
                  'description': None,
-                 'image_link': None}
+                 'image_link': None,
+                 'image_data': None}
 
         # Get entry title
         try:
@@ -164,8 +187,8 @@ class RssParser:
             for tag in ['link', 'id']:
                 entry_link_dom = item.getElementsByTagName(tag).item(0)
                 if entry_link_dom.firstChild:
-                    entry['link'] = entry_link_dom.firstChild.nodeValue
-                    entry['link'] = entry['link'].lower()
+                    link = entry_link_dom.firstChild.nodeValue
+                    entry['link'] = link.lower().rstrip('/')
                     break
         except Exception:
             if self._verbose:
@@ -179,6 +202,7 @@ class RssParser:
                 entry_date_dom = item.getElementsByTagName(tag).item(0)
                 if entry_date_dom:
                     entry['date'] = entry_date_dom.firstChild.nodeValue
+                    entry['date_fmt'] = self._convert_date(entry['date'])
                     break
         except Exception:
             if self._verbose:
@@ -189,7 +213,7 @@ class RssParser:
             attrs = {'name': 'description',
                      'property': 'og:description',
                      'itemprop': 'description'}
-            entry['description'] = self._get_meta_tag(entry['link'], **attrs)
+            entry['description'] = self._get_meta_tag(link, **attrs)
             entry['description'] = unescape(entry['description']).strip()
         except Exception as e:
             if self._verbose:
@@ -198,7 +222,8 @@ class RssParser:
         # Get entry image link
         try:
             attrs = {'property': 'og:image'}
-            entry['image_link'] = self._get_meta_tag(entry['link'], **attrs)
+            entry['image_link'] = self._get_meta_tag(link, **attrs)
+            entry['image_data'] = self._download_image(entry['image_link'])
         except Exception as e:
             if self._verbose:
                 print(f"Entry #{n} image: {e}", flush=True)
@@ -208,6 +233,12 @@ class RssParser:
 
         if self._verbose:
             print(f"Entry #{n} received", flush=True)
+
+        # Store entry into db
+        self._db.store_entry(entry, channel_id)
+
+        if self._verbose:
+            print(f"Entry #{n} stored", flush=True)
 
     def _get_meta_tag(self, url, **kwargs):
         """
@@ -226,3 +257,29 @@ class RssParser:
                 raise Exception
         except Exception:
             raise HtmlParseError(f"Couldn't parse data by URL '{url}'")
+
+    def _convert_date(self, date):
+        """
+        Convert raw input `date` into '%Y%m%d' format.
+        Recognize 2 formats: "Fri, 17 Jun 2022 02:50:00 GMT"-like and "2022-05-26T00:00:00Z"-like.
+        """
+        try:
+            # "Fri, 17 Jun 2022 02:50:00 GMT"
+            date = strptime(date.rsplit(" ", maxsplit=1)[0], "%a, %d %b %Y %X")
+        except Exception:
+            try:
+                # "2022-05-26T00:00:00Z"
+                date = strptime(date.split('T')[0], "%Y-%m-%d")
+            except Exception:
+                raise DateError(f"Unable to extract date from '{date}'")
+
+        return strftime('%Y%m%d', date)
+
+    def _download_image(self, url):
+        """
+        Download image content by `url`.
+        """
+        try:
+            return self._request_url(url)
+        except RequestError:
+            raise ImageError(f"Unable to get image by URL '{url}'")

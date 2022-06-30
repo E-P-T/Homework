@@ -20,14 +20,17 @@ class TestRssReader(TestCase):
         """
         read_rss() test.
         """
-        mock_parser_feed.return_value = {'channel': "",
-                                         'entries': [{'title': "",
-                                                      'date': "",
-                                                      'link': "",
-                                                      'description': "",
-                                                      'image_link': ""}]}
+        mock_parser_feed.return_value = [{'channel': "",
+                                          'entries': [{'title': "",
+                                                       'date': "",
+                                                       'date_fmt': "",
+                                                       'link': "",
+                                                       'description': "",
+                                                       'image_link': "",
+                                                       'image_data': ""}]}]
 
         url = "https://news.yahoo.com/rss/"
         limit = 1
-        self.assertIsNotNone(self.reader.read_rss(url, limit, False))
-        self.assertIsNotNone(self.reader.read_rss(url, limit, True))
+        date = None
+        self.assertIsNotNone(self.reader.read_rss(url, limit, False, date))
+        self.assertIsNotNone(self.reader.read_rss(url, limit, True, date))

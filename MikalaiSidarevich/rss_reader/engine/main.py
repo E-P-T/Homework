@@ -7,7 +7,8 @@ import sys
 from engine.argparser import ArgParser
 from engine.rssreader import RssReader
 
-version = '1.2'
+version = '1.3'
+db = "storage.db"
 
 
 def main():
@@ -41,15 +42,19 @@ def main():
         if args['source'] is not None:
             url = args['source']
 
+        date = None
+        if args['date'] is not None:
+            date = args['date']
+
     except Exception:
         print("Invalid argument value", flush=True)
         exit(1)
 
-    if url:
+    if url or date:
         if verbose:
-            print(f"URL is set: '{url}'", flush=True)
+            print(f"URL is set: '{url}', read from {'cache' if date else 'URL'}", flush=True)
         try:
-            rss = RssReader(verbose).read_rss(url, limit, json)
+            rss = RssReader(verbose, db).read_rss(url, limit, json, date)
             print(rss, flush=True)
         except Exception as e:
             print(f"{type(e).__name__}: {e}", flush=True)

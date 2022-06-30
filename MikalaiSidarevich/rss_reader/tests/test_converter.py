@@ -12,22 +12,21 @@ class TestConverter(TestCase):
         """
         to_text() test.
         """
-        feed = {'channel': "",
-                'entries': [{'title': "",
-                             'date': "",
-                             'link': "",
-                             'description': "",
-                             'image_link': ""}]}
-        self.assertIsNotNone(Converter.to_text(feed))
+        feed_list = [{'channel': "",
+                      'entries': [{'title': "",
+                                   'date': "",
+                                   'link': "",
+                                   'description': "",
+                                   'image_link': ""}]}]
+        self.assertIsNotNone(Converter.to_text(feed_list))
 
     def test_to_json(self):
         """
         to_json() test.
         """
-        feed = {'channel': "",
-                'entries': [{'title': "",
-                             'date': "",
-                             'link': "",
-                             'description': "",
-                             'image_link': ""}]}
-        self.assertIsNotNone(Converter.to_json(feed))
+        feed_list = [{'channel': "",
+                      'entries': [{'title': "",
+                                   'link': "",
+                                   'date_fmt': "",
+                                   'image_data': ""}]}]
+        self.assertIsNotNone(Converter.to_json(feed_list))

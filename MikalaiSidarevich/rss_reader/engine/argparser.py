@@ -26,6 +26,7 @@ class ArgParser:
         self._parser.add_argument("--json", action='store_true', help="Print result as JSON in stdout")
         self._parser.add_argument("--verbose", action='store_true', help="Outputs verbose status messages")
         self._parser.add_argument("--limit", help="Limit news topics if this parameter provided")
+        self._parser.add_argument("--date", help="Read cached news by date specified like '%%Y%%m%%d'")
 
     @property
     def args(self):
