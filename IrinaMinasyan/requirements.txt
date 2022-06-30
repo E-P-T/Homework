@@ -1,0 +1,7 @@
+requests
+bs4
+html2text
+pytest
+dateutil
+dominate
+fpdf2

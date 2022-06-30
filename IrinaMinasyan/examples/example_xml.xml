@@ -1,0 +1,24 @@
+<rss xmlns:ns0="http://search.yahoo.com/mrss/" version="2.0"><channel>
+    <title>Yahoo News - Latest News &amp; Headlines</title>
+    <link>https://www.yahoo.com/news</link>
+    <description>The latest news and headlines from Yahoo! News. Get breaking news stories and in-depth coverage with videos and photos.</description>
+    <language>en-US</language>
+    <copyright>Copyright (c) 2022 Yahoo! Inc. All rights reserved</copyright>
+    <pubDate>Tue, 28 Jun 2022 13:10:03 -0400</pubDate>
+    <ttl>5</ttl>
+    <image>
+        <title>Yahoo News - Latest News &amp; Headlines</title>
+        <link>https://www.yahoo.com/news</link>
+        <url>http://l.yimg.com/rz/d/yahoo_news_en-US_s_f_p_168x21_news.png</url>
+    </image>
+    <item>
+        <title>Officials: Georgia man sentenced to die kills self in prison</title>
+        <link>https://news.yahoo.com/officials-georgia-man-sentenced-die-125043110.html</link>
+        <pubDate>2022-06-27T12:50:43Z</pubDate>
+        <source url="http://www.ap.org/">Associated Press</source>
+        <guid isPermaLink="false">officials-georgia-man-sentenced-die-125043110.html</guid>
+        <ns0:content height="86" url="https://s.yimg.com/uu/api/res/1.2/zEeBoPLQVzw1u2VjZt.THA--~B/aD03NDk7dz0xMDAwO2FwcGlkPXl0YWNoeW9u/https://media.zenfs.com/en/ap.org/5cf8e923a8d9dec8758480785184f376" width="130" />
+        <ns0:credit role="publishing company" />
+    </item>
+</channel>
+</rss>
