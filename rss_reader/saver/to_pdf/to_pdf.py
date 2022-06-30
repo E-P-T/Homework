@@ -1,3 +1,4 @@
+"""Contains a specific PDF file handler."""
 
 
 from typing import Dict, List
