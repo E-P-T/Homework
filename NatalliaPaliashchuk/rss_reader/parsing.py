@@ -89,8 +89,8 @@ def parse_rss(url, limit=0):
             item_dict = {'item_title': getattr(item.title, 'text', '').strip(),
                          'item_pub_date': parse(getattr(item.pubDate, 'text', '0001-01-01')),
                          'item_url': getattr(item.link, 'text', '').strip(),
-                         'item_desc_text': get_item_desc(item)['desc_text'].strip(),
-                         'item_desc_links': get_item_desc(item)['desc_links']}
+                         'item_desc_text': (desc_result := get_item_desc(item))['desc_text'].strip(),
+                         'item_desc_links': desc_result['desc_links']}
             item_dict['item_image_url'] = get_item_image_url(item, item_dict['item_url'])
             feed[url]['feed_items'].append(item_dict)
     except Exception as e:

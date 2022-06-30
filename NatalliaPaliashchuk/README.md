@@ -49,28 +49,23 @@ Return example
   "feed_title": "Технологии Onlíner",
   "feed_items": [
     {
-      "item_title": "Sony представила игровые мониторы для PS5 и геймерские наушники. Известны цены",
-      "item_pub_date": "2022-06-29 09:44:11+03:00",
-      "item_url": "https://tech.onliner.by/2022/06/29/sony-predstavila-igrovye-monitory-dlya-ps5-i-gejmerskie-naushniki-izvestny-ceny",
-      "item_desc_text": "[1]Sony официально представила игровой бренд InZone — под ним будут выходить гаджеты для геймеров. Начали с мониторов и наушников, [2 сообщает] engadget.[3 Читать далее…]",
+      "item_title": "Чип М2 в новом MacBook может нагреваться до 108 градусов",
+      "item_pub_date": "2022-06-30 17:20:10+03:00",
+      "item_url": "https://tech.onliner.by/2022/06/30/chip-m2-v-novom-macbook-mozhet-nagrevatsya-do-108-gradusov",
+      "item_desc_text": "[1]Новый чип М2 оказался не столь революционным, как его предшественник. Более того, новинка склонна к перегреву и, как следствие, троттлингу, то есть жесткому снижению частот. К таким выводам пришел блогер из Max Tech. Он заполучил новый MacBook Pro на М2 и запустил на нем экспорт видео в формате RAW и с разрешением 8K.[2 Читать далее…]",
       "item_desc_links": [
         {
           "link_pos": 1,
-          "link_url": "https://content.onliner.by/news/thumbnail/625fdac3c028b390f2d80f9c26fe90de.jpeg",
+          "link_url": "https://content.onliner.by/news/thumbnail/7b957a17487635c74ef5a743f07ebe75.jpeg",
           "link_type": "image"
         },
         {
           "link_pos": 2,
-          "link_url": "https://www.engadget.com/sony-inzone-gaming-monitors-headsets-specs-pricing-availability-210056794.html",
-          "link_type": "link"
-        },
-        {
-          "link_pos": 3,
-          "link_url": "https://tech.onliner.by/2022/06/29/sony-predstavila-igrovye-monitory-dlya-ps5-i-gejmerskie-naushniki-izvestny-ceny",
+          "link_url": "https://tech.onliner.by/2022/06/30/chip-m2-v-novom-macbook-mozhet-nagrevatsya-do-108-gradusov",
           "link_type": "link"
         }
       ],
-      "item_image_url": "https://content.onliner.by/news/default/625fdac3c028b390f2d80f9c26fe90de.jpeg"
+      "item_image_url": "https://content.onliner.by/news/default/7b957a17487635c74ef5a743f07ebe75.jpeg"
     }
   ]
 }
