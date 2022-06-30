@@ -27,6 +27,8 @@ class ArgParser:
         self._parser.add_argument("--verbose", action='store_true', help="Outputs verbose status messages")
         self._parser.add_argument("--limit", help="Limit news topics if this parameter provided")
         self._parser.add_argument("--date", help="Read cached news by date specified like '%%Y%%m%%d'")
+        self._parser.add_argument("--to-epub", metavar="PATH", help="Convert news to epub format")
+        self._parser.add_argument("--to-html", metavar="PATH", help="Convert news to HTML format")
 
     @property
     def args(self):

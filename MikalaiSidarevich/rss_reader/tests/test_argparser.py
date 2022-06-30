@@ -23,5 +23,7 @@ class TestArgParser(TestCase):
                     'json': False,
                     'verbose': False,
                     'limit': None,
-                    'date': None}
+                    'date': None,
+                    'to_html': None,
+                    'to_epub': None}
         self.assertDictEqual(self.parser.args, expected)

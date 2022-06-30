@@ -17,7 +17,7 @@ class RssReader:
         self._verbose = verbose
         self._dbname = dbname
 
-    def read_rss(self, url, limit, json, date):
+    def read_rss(self, url, limit, json, date, html_path, epub_path):
         """
         Get RSS entries from `url` and output them to the stdout.
         Limit number of entries with `limit`.
@@ -34,6 +34,15 @@ class RssReader:
                     feed_list = cacher.feed(url, limit, date)
         except Exception:
             raise
+
+        if html_path:
+            Converter.save_html(feed_list, html_path)
+
+        if epub_path:
+            Converter.save_epub(feed_list, epub_path)
+
+        # Conversions that require the full feed structure should be done before here
+        # Json conversion makes removes from feeds
 
         if json:
             rss_content = Converter.to_json(feed_list)

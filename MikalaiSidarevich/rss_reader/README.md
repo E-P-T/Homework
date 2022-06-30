@@ -15,6 +15,7 @@ To be specific this readme has decided to use the name `python`.
 All extra packages listed in the `requirements.txt`:
 
 - [**`beautifulsoup4`**](https://pypi.org/project/beautifulsoup4/) `4.11.1` — Screen-scraping library
+- [**`EbookLib`**](https://pypi.org/project/EbookLib/) `0.17.1` — Ebook library which can handle EPUB2/EPUB3 and Kindle format
 - [**`coverage`**](https://pypi.org/project/coverage/) `6.2` — Code coverage measurement for Python
 - [**`lxml`**](https://pypi.org/project/lxml/) `4.8.0` — Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API
 - [**`requests`**](https://pypi.org/project/requests/) `2.26.0` — Python HTTP for Humans
@@ -40,20 +41,22 @@ The utility can handle multiple arguments.
 To show help message below use `-h/--help` argument.
 
 ```sh
-usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] [source]
+usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit LIMIT] [--date DATE] [--to-epub PATH] [--to-html PATH] [source]
 
 Pure Python command-line RSS reader.
 
 positional arguments:
-  source         RSS URL
+  source          RSS URL
 
 optional arguments:
-  -h, --help     show this help message and exit
-  --version      Print version info
-  --json         Print result as JSON in stdout
-  --verbose      Outputs verbose status messages
-  --limit LIMIT  Limit news topics if this parameter provided
-  --date DATE    Read cached news by date specified like '%Y%m%d'
+  -h, --help      show this help message and exit
+  --version       Print version info
+  --json          Print result as JSON in stdout
+  --verbose       Outputs verbose status messages
+  --limit LIMIT   Limit news topics if this parameter provided
+  --date DATE     Read cached news by date specified like '%Y%m%d'
+  --to-epub PATH  Convert news to epub format
+  --to-html PATH  Convert news to HTML format
 ```
 
 ## Examples:
@@ -63,13 +66,13 @@ Set the working directory to the project root `rss_reader/` and execute:
 - Show utility version:
   ```sh
   > python rss_reader.py --version
-  Version 1.3
+  Version 1.4
   ```
 
 - Show utility version using CLI utility installed:
   ```sh
   > rss_reader --version
-  Version 1.3
+  Version 1.4
   ```
 
 - Read 1 news entry from [Yahoo](https://news.yahoo.com/) source:
@@ -111,6 +114,11 @@ Set the working directory to the project root `rss_reader/` and execute:
 
 
   ```
+  
+- Export all the news entries from [Yahoo](https://news.yahoo.com/) source to the `yahoo.epub` file in the working directory:
+  ```sh
+  > python rss_reader.py https://news.yahoo.com/rss/ --to-epub yahoo.epub
+  ```
 
 ## JSON format
 
@@ -134,6 +142,30 @@ The structure is shown below:
     }
 ]
 ```
+
+## Export formats
+
+The utility can export the feed into HTML and Epub formats, use the `--to-html` or `--to-epub` options, respectively.
+
+### HTML format
+
+When export to HTML format the utility saves HTML page into the filepath specified and pictures data into a separate folder named like HTML filepath with suffix ` - images`.
+
+- Produce `yahoo.html` file and `yahoo.html - images/` directory with images  in the `~/rss/` directory:
+
+  ```sh
+  > python rss_reader.py https://news.yahoo.com/rss/ --to-html ~/rss/yahoo.html
+  ```
+
+### Epub format
+
+When export to Epub format the utility saves Epub file into the filepath specified with pictures data incapsulated.
+
+- Produce `yahoo.epub` in the `~/rss/` directory:
+
+  ```sh
+  > python rss_reader.py https://news.yahoo.com/rss/ --to-html ~/rss/yahoo.html
+  ```
 
 ## Feed cache
 
