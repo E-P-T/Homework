@@ -1,16 +1,24 @@
 {
     "name": "BuzzFeed - Quizzes",
-    "size": 1,
+    "size": 3,
     "title": [
-        "Pick Lots Of Dogs And I Bet You That I Won't Get Your Eye Color Right"
+        "Okay, But For Real \u2014 Do These Celebs Deserve More Or Less Time In The Limelight?",
+        "Roll Up A Suuuper Fat Burrito To Reveal The Musical Instrument You Were Born To Play",
+        "Order Off The Kids Menu And We'll Tell You How Many Children You're Gonna Have"
     ],
     "pubDate": [
-        "Sun, 26 Jun 2022 00:40:18 -0400"
+        "Wed, 29 Jun 2022 23:46:02 -0400",
+        "Mon, 27 Jun 2022 21:32:03 -0400",
+        "Wed, 29 Jun 2022 15:16:58 -0400"
     ],
     "description": [
-        "I WANT to get it wrong...View Entire Post ;"
+        "When I see certain celebrity names trending on Twitter, my fight or flight kicks in. \ud83d\udc40View Entire Post ;",
+        "I personally wouldn't mind tickling some ivories...View Entire Post ;",
+        "Happy Meals still slap.View Entire Post ;"
     ],
     "link": [
-        "https://www.buzzfeed.com/turtleo/dog-eye-color-guessing-quiz"
+        "https://www.buzzfeed.com/hannahdobro/celebrities-in-the-news-poll",
+        "https://www.buzzfeed.com/benjaminyp/your-burrito-reveals-the-instrument-you-should-play",
+        "https://www.buzzfeed.com/blackwidow888/kids-menu-number-of-kids-quiz"
     ]
 }
