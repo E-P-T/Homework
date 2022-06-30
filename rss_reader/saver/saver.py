@@ -27,30 +27,30 @@ class AbstractSaveHandler(ISaveHandler):
         return handler
 
     @send_log_of_start_function
-    def save(self, data: List[dict], file: str) -> None:
+    def save(self, data: List[dict]) -> None:
         """Save data.
 
         :param data: Dictionary with data to save.
         :type data: List[dict]
-        :param file: File save path.
-        :type file: str
         """
         if self._next_handler:
-            return self._next_handler.save(data, file)
+            return self._next_handler.save(data)
 
 
 class LocalSaveHandler(AbstractSaveHandler):
     """Stores data locally."""
 
-    def save(self, data: List[dict], file: str) -> None:
+    def __init__(self, file: str) -> None:
+        self._file = file
+
+    def save(self, data: List[dict]) -> None:
         """Save data.
 
         :param data: Dictionary with data to save.
         :type data: List[dict]
-        :param file: File save path.
-        :type file: str
         """
-        local_data = ReaderFiles().read_csv_file(file, 'index', PathFile())
+        local_data = ReaderFiles().read_csv_file(
+            self._file, 'index', PathFile())
 
         try:
             dc = DataConverter()
@@ -66,4 +66,4 @@ class LocalSaveHandler(AbstractSaveHandler):
             local_data = None
             data_to_file = pd.DataFrame()
 
-        data_to_file.to_csv(file, encoding='utf-8', index_label='index')
+        data_to_file.to_csv(self._file, encoding='utf-8', index_label='index')
