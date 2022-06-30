@@ -1,21 +1,21 @@
 ## RSS Reader
 
-### Requirements: 
-Install requirements using: `pip install -r .\requirements.txt`
-
 ### Setup:
-#### Virtual Environment (Optional)
+#### Virtual Environment
 Create Virtual Environment\
-Linux: `virtualenv venv`
+Linux: `virtualenv venv`\
 Windows: `python -m venv ./venv`\
 
 Activate Virtual Environment:\
-Linux: `source venv/bin/activate`
+Linux: `source venv/bin/activate`\
 Windows: `./venv/Scripts/activate`\
 
 #### Pip Usage:
 Update pip:\
 `python -m pip install --upgrade pip`
+
+### Requirements: 
+Install requirements using: `pip install -r .\requirements.txt`
 
 ### Run Application:
 Run `python ./rss_reader.py -h` to find available options
@@ -33,3 +33,16 @@ To install package distributive you can install sudo, to be able able to accept 
 
 ### Output format
 The project supports HTML, which means you are able to export news to the HTML5 format.
+
+### Json structure
+Json structure looks as follows:
+```
+{
+  "title": string,
+  "date": datetime,
+  "link": string,
+  "image": string,
+  "channel": string,
+  "source": string
+}
+```
