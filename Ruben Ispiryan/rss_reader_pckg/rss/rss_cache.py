@@ -58,7 +58,7 @@ class CacheReader:
         self.image_paths = None
         self._cache_path = f'cache/{cache_path}'
 
-        if not os.path.exists(self._cache_path):
+        if not os.path.exists('cache'):
             os.mkdir('cache')
 
     @property
