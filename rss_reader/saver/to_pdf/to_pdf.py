@@ -20,5 +20,6 @@ class PDFSaveHandler(AbstractSaveHandler):
         file = self._request.get('to_pdf')
         if file:
             pdf = FPDF()
+            pdf.set_font("Arial", size=14)
         else:
             super().save(data)
