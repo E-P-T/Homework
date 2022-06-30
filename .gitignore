@@ -1,0 +1,6 @@
+.idea
+
+dist
+RSS_Reader.egg-info
+
+__pycache__
