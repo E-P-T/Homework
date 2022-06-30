@@ -13,7 +13,7 @@ from rss_reader.interfaces.ilogger.ilogger import ISetLoggerConfig
 
 
 NAME_LOGGER = 'rss-reader'
-version = '0.0.3'
+version = '0.0.4'
 
 
 def init_arguments_functionality(args=None) -> Dict[str, str]:
