@@ -90,3 +90,20 @@ Cache storage format
 ------
 
 News cache is stored in file data.json in current working directory.
+
+
+Command example
+------
+
+
+```shell
+python rss_reader.py "https://www.onliner.by/feed" --limit 1 --html
+
+python rss_reader.py "https://www.buzzfeed.com/quizzes.xml" --limit 2 --json --verbose
+
+python rss_reader.py "https://www.buzzfeed.com/quizzes.xml" --limit 3
+
+python rss_reader.py  "https://feeds.fireside.fm/bibleinayear/rss" --limit 3 --verbose
+
+python rss_reader.py --date 20220620
+```
