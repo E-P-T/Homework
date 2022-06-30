@@ -1,23 +1,11 @@
+"""
+This module contains functions which help the RSS classes to operate
+"""
+
 import logging
 import re
 
-import requests
-
-from rss_reader_pckg.rss.rss_classes import RSSException
-
-
-# Deprecated: too time-consuming
-def is_url_image(image_url):
-    image_formats = ("image/png", "image/jpeg", "image/jpg")
-    r = requests.head(image_url)
-    return r.headers["content-type"] in image_formats
-
-
-# Deprecated: too time-consuming
-def is_url_html(html_url):
-    html_format = 'text/html'
-    r = requests.head(html_url)
-    return html_format in r.headers['content-type']
+from rss_reader_pckg.rss.rss_exception import RSSException
 
 
 def is_number(s: str) -> bool:

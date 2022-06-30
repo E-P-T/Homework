@@ -1,8 +1,9 @@
+"""
+This module contains the RSSParser class which performs all main actions and parsing of the RSS.
+"""
+
 import logging
-import os.path
-import pickle
 import re
-import sys
 from typing import Optional
 
 from bs4 import BeautifulSoup
@@ -12,7 +13,11 @@ from dateutil import parser
 from dateutil.parser import ParserError
 
 from .helpers import validate_method_args, validate_limit, validate_url
-from .rss_classes import Item, Element, ElementType, ElementCollection, RSSCache, Feed, RSSException
+from .html_converter import html_feed
+from .pdf_converter import pdf_feed
+from .rss_cache import CacheReader
+from .rss_classes import Item, Element, ElementType, ElementCollection, Feed
+from .rss_exception import RSSException
 
 
 class RSSParser:
@@ -21,6 +26,7 @@ class RSSParser:
     """
 
     def __init__(self):
+        self.is_offline = None
         self.url = None
         self.parsed_items: Optional[list[Item]] = None
         self.soup = None
@@ -30,7 +36,7 @@ class RSSParser:
 
     def request_soup(self, url: str) -> None:
         """
-        This function requests `url` and creates a BeautifulSoup object with its content.
+        This method requests `url` and creates a BeautifulSoup object with its content.
         :return: A bs4 soup object to parse xml.
         """
         if not url:
@@ -55,7 +61,7 @@ class RSSParser:
 
     def items(self, limit: Optional[str] = None) -> ResultSet:
         """
-        This function retrieves all items from an RSS.
+        This method retrieves all items from an RSS.
         :return: An object containing all raw items.
         """
         if limit is None:
@@ -67,7 +73,7 @@ class RSSParser:
 
     def parse_items_by_date(self, date: str, url: Optional[str], limit: Optional[str]) -> None:
         """
-        This function checks the cache for all feeds that match the given date and URL,
+        This method checks the cache for all feeds that match the given date and URL,
         if no URL is provided it will check all feeds. It will add matching items until the limit is reaching,
         if no limit is provided it will retrieve all items.
         :param date:str: Date in the format of yymmdd.
@@ -105,20 +111,23 @@ class RSSParser:
         self.feed_title = f'News fetched from cache by - {vis_date} Date{feed_str}.'
         self.parsed_items = feed_list[:limit]
         logging.info(f'Parsed items from cache with following filters Date: {vis_date}{feed_str}')
+        self.is_offline = True
 
     @validate_method_args
     def _parse_item(self, item: PageElement) -> Item:
         """
-        This function parses a PageElement with its title, date, link, media and description into an Item object.
+        This method parses a PageElement with its title, date, link, media and description into an Item object.
         :param item: A PageElement to be parsed into an Item.
         :return: A parsed Item.
         """
         title = self._parse_title(item)
         date = self._parse_date(item)
         link = self._parse_link(item)
-        media = self._parse_media(item)
+        images = self._parse_images(item)
+        media = self._parse_media(item, images)
         description = self._parse_description(item)
-        parsed_item = Item(title=title, date=date, link=link, description=description, media_links=media)
+        parsed_item = Item(title=title, date=date, link=link, description=description, media_links=media,
+                           image_links=images)
         logging.info(f'Finished parsing item with title: {parsed_item.title}')
 
         return parsed_item
@@ -126,7 +135,7 @@ class RSSParser:
     @validate_method_args
     def parse_items(self, items: ResultSet) -> None:
         """
-        This function parses all given items and assigns them to a class attribute.
+        This method parses all given items and assigns them to a class attribute.
         :param items: A ResultSet object with raw items from a rss.
         """
         self.parsed_items = [self._parse_item(item) for item in items]
@@ -136,7 +145,7 @@ class RSSParser:
     @validate_method_args
     def _parse_title(item: PageElement) -> Element:
         """
-        This function parses the title of a page element and returns it as an Element object.
+        This method parses the title of a page element and returns it as an Element object.
         :param item: An item from which to get the title.
         :return: An Element object with the value of the title.
         """
@@ -151,7 +160,7 @@ class RSSParser:
     @validate_method_args
     def _parse_date(item: PageElement) -> Element:
         """
-        This function parses the date of a page element and returns it as an Element object.
+        This method parses the date of a page element and returns it as an Element object.
         :param item: An item from which to get the date.
         :return: An Element object with the value of the date.
         """
@@ -167,7 +176,7 @@ class RSSParser:
     @validate_method_args
     def _parse_link(item: PageElement) -> Element:
         """
-        This function parses the link of a page element and returns it as an Element object.
+        This method parses the link of a page element and returns it as an Element object.
         :param item: An item from which to get the link.
         :return: An Element object with the value of the link.
         """
@@ -179,10 +188,9 @@ class RSSParser:
         return link_elem
 
     @staticmethod
-    @validate_method_args
-    def _parse_media(item: PageElement) -> ElementCollection:
+    def _parse_media(item: PageElement, images: ElementCollection) -> ElementCollection:
         """
-        This function takes a PageElement object and returns an ElementCollection of media URLs.
+        This method takes a PageElement object and returns an ElementCollection of media URLs.
         :param item: An item from which to get the media links.
         :return: An ElementCollection object with the value of media links.
         """
@@ -190,6 +198,8 @@ class RSSParser:
         media_collection = None
         if media_urls:
             media_urls = set(map(lambda x: Element(ElementType.MEDIA, x), media_urls))
+            image_urls = [image_url.value for image_url in images.elements]
+            media_urls = [media_url for media_url in media_urls if media_url.value not in image_urls]
             media_collection = ElementCollection(ElementType.MEDIA, list(media_urls))
             logging.info(f'Got item\'s media urls, {len(media_collection)} found.')
         if not media_collection:
@@ -198,9 +208,28 @@ class RSSParser:
 
     @staticmethod
     @validate_method_args
+    def _parse_images(item: PageElement) -> ElementCollection:
+        """
+        This method takes a PageElement object and returns an ElementCollection of media URLs.
+        :param item: An item from which to get the media links.
+        :return: An ElementCollection object with the value of media links.
+        """
+        images = [item.enclosure, item.content, item.thumbnail]
+        images = [tag['url'] for tag in images if tag]
+        if item.image:
+            images.append(item.image.text)
+        image_urls = set(map(lambda x: Element(ElementType.IMAGE, x), images))
+        image_collection = ElementCollection(ElementType.IMAGE, list(image_urls))
+        logging.info(f'Got item\'s media urls, {len(image_collection)} found.')
+        if not image_collection:
+            logging.info('Images were not found')
+        return image_collection
+
+    @staticmethod
+    @validate_method_args
     def _parse_description(item: PageElement) -> Element:
         """
-        This function parses the description of a page element and returns it as an Element object.
+        This method parses the description of a page element and returns it as an Element object.
         :param item: An item from which to get the description.
         :return: An Element object with the value of the description.
         """
@@ -214,56 +243,30 @@ class RSSParser:
 
     def json_results(self) -> str:
         """
-        The json_results function returns a JSON string containing the results of
+        This method returns a JSON string containing the results of
         the rss parser.
         :return: A string containing the json representation of the results
         """
         return self.feed.to_json()
 
+    def save_pdf(self):
+        """
+        This method saves the current operating feed into a PDF file.
+        """
+        html = html_feed(self.feed, for_pdf=True, is_cache=self.is_offline)
+        with open('rss_feed.pdf', 'wb') as f:
+            pdf_feed(html, f)
+        logging.info('Successfully saved the results into a PDF file.')
+
+    def save_html(self) -> str:
+        """
+        This method saves the current operating feed into an HTML file.
+        """
+        html = html_feed(self.feed, is_cache=self.is_offline)
+        with open('rss_feed.html', 'w', encoding='utf-8') as f:
+            f.write(html)
+        return html
+
     @property
     def feed(self):
         return Feed(self.feed_title, self.url, self.parsed_items)
-
-
-class CacheReader:
-    """
-    This class represents the methods for caching rss data and retrieving already cached data.
-    """
-
-    def __init__(self, cache_path: str = 'rss_cache.bin'):
-        self._cache_path = cache_path
-
-    @property
-    def cache(self) -> RSSCache:
-        """
-        This cache property retrieves the RSS feed data from a pickle file.
-        :return: An instance of the RSSCache class.
-        """
-        with open(self._cache_path, 'rb') as cache:
-            logging.info('Loading cached data.')
-            return pickle.load(cache)
-
-    @cache.setter
-    def cache(self, obj: RSSCache):
-        """
-        This cache setter is used to store the RSS feed data in a pickle file.
-        :param obj:RSSCache: RSSCache object to be stored in the cache file.
-        """
-        with open(self._cache_path, 'wb') as cache:
-            sys.setrecursionlimit(10000)
-            pickle.dump(obj, cache)
-            logging.info('Finished caching data.')
-
-    @validate_method_args
-    def cache_results(self, current_items: Feed):
-        """
-        This function will serialize passed results into a BIN file along with the existing cache.
-        """
-        existing_cache = None
-        if os.path.exists(self._cache_path) and os.path.getsize(self._cache_path):
-            existing_cache = self.cache
-            existing_cache.append(current_items)
-        else:
-            current_items = RSSCache([current_items])
-        self.cache = existing_cache if existing_cache else current_items
-        logging.info(f'Parsing results were successfully cached to: {self._cache_path}')

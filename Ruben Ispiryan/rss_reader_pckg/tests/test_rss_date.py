@@ -1,7 +1,8 @@
 import logging
 import unittest
 
-from rss_reader_pckg.rss import RSSParser, RSSException
+from rss_reader_pckg.rss.rss_exception import RSSException
+from rss_reader_pckg.rss.rss_parser import RSSParser
 
 
 class TestRSSDateParser(unittest.TestCase):

@@ -1,14 +1,12 @@
+"""
+This module contains classes to represent and manipulate RSS data.
+"""
+
 import json
 import logging
 from dataclasses import dataclass
 from enum import Enum
 from typing import Optional
-
-
-class RSSException(Exception):
-    def __init__(self, message, is_logged):
-        super().__init__(message)
-        self.is_logged = is_logged
 
 
 class ElementType(Enum):
@@ -20,6 +18,7 @@ class ElementType(Enum):
     LINK = 'Link'
     DESCRIPTION = 'Description'
     MEDIA = 'Media Link'
+    IMAGE = 'Image Link'
 
 
 @dataclass
@@ -30,16 +29,11 @@ class Element:
     type: ElementType
     value: Optional[str] = None
 
-    @staticmethod
-    def _get_media_link_type(url: str) -> str:
-        logging.info(f'Classifying media link type for {url}')
-        if url.split('.')[-1] in ('jpg', 'jpeg', 'png', 'gif'):
-            return '(Image)'
-        return '(Link)'
-
     def __repr__(self) -> str:
+        if self.type == ElementType.IMAGE:
+            return f'{self.value} (Image)'
         if self.type == ElementType.MEDIA:
-            return f'{self.value} {get_media_link_type(self.value)}'
+            return f'{self.value} (Link)'
         if self.value:
             return self.value
         return f'{self.type.value} was not found.'
@@ -85,6 +79,7 @@ class Item:
     link: Element
     description: Element
     media_links: ElementCollection
+    image_links: ElementCollection
 
     @property
     def value(self) -> dict:
@@ -97,7 +92,8 @@ class Item:
                     'date': self.date.value,
                     'link': self.link.value,
                     'description': self.description.value,
-                    'media': [media_link.value for media_link in self.media_links.elements if media_link.value]}
+                    'media': [media_link.value for media_link in self.media_links.elements if media_link.value],
+                    'images': [image_link.value for image_link in self.image_links.elements if image_link.value]}
                 }
 
     def __repr__(self) -> str:
@@ -105,7 +101,8 @@ class Item:
                     f'Date: {self.date}\n'
                     f'Link: {self.link}\n\n'
                     f'Description:\n{self.description}\n\n'
-                    f'Media Links:\n{self.media_links}\n\n')
+                    f'Media Links:\n{self.media_links}\n'
+                    f'Image Links:\n{self.image_links}')
 
         return repr_str
 
@@ -148,27 +145,3 @@ class Feed:
             repr_str += repr(item)
         logging.info('Printing results to the user in regular format')
         return repr_str
-
-
-@dataclass
-class RSSCache:
-    """
-    A class to represent the RSS feed for caching and its methods.
-    """
-    rss_feeds: list[Feed]
-
-    def append(self, new_feed: Feed):
-        is_existing_title = False
-        for feed in self.rss_feeds:
-            if new_feed.title == feed.title:
-                unique_items = self._get_titles_set(feed.items)
-                diff_titles = self._get_titles_set(new_feed.items).difference(unique_items)
-                feed.items += [current_item for current_item in new_feed.items
-                               if current_item.title in diff_titles]
-                is_existing_title = True
-        if not is_existing_title:
-            self.rss_feeds.append(new_feed)
-
-    @staticmethod
-    def _get_titles_set(items: list[Item]) -> set[str]:
-        return set(map(lambda item: item.title.value, items))

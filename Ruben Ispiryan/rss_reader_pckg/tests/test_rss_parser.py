@@ -4,7 +4,8 @@ import logging
 
 from bs4 import BeautifulSoup
 
-from rss_reader_pckg.rss import RSSParser, RSSException
+from rss_reader_pckg.rss.rss_exception import RSSException
+from rss_reader_pckg.rss.rss_parser import RSSParser
 
 logging.disable(logging.ERROR)
 
