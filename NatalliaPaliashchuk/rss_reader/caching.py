@@ -6,7 +6,14 @@ logger = logging.getLogger(__name__)
 
 
 def cache_feed(feed):
-    '''Serialization feed into a pickle file'''
+    '''Serialization feed into a pickle file
+
+    Args:
+        feed (dict): RSS feed
+
+    Raises:
+        CachingError: if an error is detected during caching
+    '''    
     logger.debug('Feed serialization started')
     try:
         with open('cache.pk1', 'wb') as f:
@@ -18,8 +25,20 @@ def cache_feed(feed):
 
 
 def get_feed_by_date(date, url, limit):
-    '''Get feed by date from cache'''
-    logger.debug(f'Getting feed by {date} started')
+    '''Get feed by date from cache
+
+    Args:
+        date (datetime): starting date
+        url (str): URL of RSS feed
+        limit (int): quantity of RSS items
+
+    Raises:
+        CachingError: _description_
+
+    Returns:
+        dict: RSS feed
+    '''    
+    logger.debug(f'Getting {url} feed from {date} with {limit} limit')
     try:
         with open('cache.pk1', 'rb') as f:
             feed = pickle.load(f)

@@ -12,7 +12,12 @@ logger = logging.getLogger(__name__)
 
 
 def run():
-    '''The main function of the application'''
+    '''The main function of the application
+
+    Raises:
+        LimitError: if the limit option was defined under zero
+        NotFoundError: if the URL feed is not in the cache
+    '''
     sys.tracebacklimit = -1
     parser = argparse.ArgumentParser(description='Pure Python command-line RSS reader', prog='rss_reader')
     parser.add_argument('source', help='RSS URL')
@@ -41,12 +46,11 @@ def run():
     if args.date:
         feed = get_feed_by_date(datetime.strptime(args.date, '%Y%m%d').replace(
             tzinfo=timezone.utc), args.source, args.limit)
+        if not feed:
+            raise NotFoundError('News not found')
     else:
         feed = parse_rss(args.source, args.limit)
         cache_feed(feed)
-
-    if not feed:
-        raise NotFoundError('News not found')
 
     if args.json:
         print(feed_to_json(feed[args.source], indent=2))

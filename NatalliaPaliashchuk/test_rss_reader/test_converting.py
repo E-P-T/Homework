@@ -1,6 +1,7 @@
 import unittest
 from rss_reader.converting import feed_to_html, feed_to_json
 from .test_feed import test_feed
+from rss_reader.exceptions import ConvertError
 
 
 class TestConverting(unittest.TestCase):
@@ -26,6 +27,7 @@ class TestConverting(unittest.TestCase):
         </p>
 </body>
 </html>''')
+        self.assertRaises(ConvertError, feed_to_html, 1)
 
     def test_feed_to_json(self, *args):
         json_ = feed_to_json(test_feed)
