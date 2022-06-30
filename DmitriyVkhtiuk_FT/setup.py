@@ -10,7 +10,7 @@ entry_points = \
 
 setup_kwargs = {
     'name': 'rss-reader',
-    'version': 1.2,
+    'version': 1.3,
     'description': 'A simple CLI rss reader',
     'author': 'DVikhtiuk',
     'author_email': 'dimastol1ca@gmail.com',
