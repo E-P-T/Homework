@@ -54,7 +54,11 @@ class PDFSaveHandler(AbstractSaveHandler):
 
                         # create empty files.
                         PathFile().create_file(name_img)
-
                         img.save(name_img)
+
+                        pdf.image(name_img, x=10, y=pdf.get_y(), w=40)
+                        pdf.line(10, pdf.get_y()+60, 200, pdf.get_y()+60)
+                        pdf.cell(150, pdf.get_y()+25-y, ln=1, align='L')
+                        y = pdf.get_y()-25
         else:
             super().save(data)
