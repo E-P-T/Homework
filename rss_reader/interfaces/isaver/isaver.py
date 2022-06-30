@@ -20,12 +20,10 @@ class ISaveHandler(ABC):
 
         pass
 
-    def save(self, data: List[dict], file: str) -> None:
+    def save(self, data: List[dict]) -> None:
         """Save data.
 
         :param data: Dictionary with data to save.
         :type data: dict
-        :param file: File for save.
-        :type file: str
         """
         pass
