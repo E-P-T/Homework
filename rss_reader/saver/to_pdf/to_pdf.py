@@ -38,5 +38,7 @@ class PDFSaveHandler(AbstractSaveHandler):
                     t = item.get('title')
                     t = t.encode('ascii', errors='ignore')
                     t = t.decode('latin1', errors='ignore')
+
+                    pdf.cell(150, 10, txt=t, ln=1, align='L')
         else:
             super().save(data)
