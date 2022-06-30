@@ -11,6 +11,7 @@ from rss_reader.pathfile.pathfile import PathFile
 
 
 class AbstractSaveHandler(ISaveHandler):
+    """An interface that declares a method for constructing a chain of handlers."""
 
     _next_handler: Optional[ISaveHandler] = None
 
