@@ -6,7 +6,7 @@ with open("README.md") as file:
 
 setup(
     name="rss_reader",
-    version="0.0.3",
+    version="0.0.4",
     author="Andrey Ozerets",
     description="Super rss-reader.",
     long_description=read_me_description,
@@ -20,7 +20,10 @@ setup(
         "requests==2.28.0",
         "beautifulsoup4 == 4.11.1",
         "lxml==4.9.0",
-        "pandas==1.4.3"
+        "pandas==1.4.3",
+        "fpdf==1.7.2",
+        "Jinja2==3.1.2",
+        "Pillow==9.1.1"
     ],
     # packages=['FT'],
     packages=find_packages(exclude=['test*']),
