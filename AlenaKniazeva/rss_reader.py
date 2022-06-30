@@ -18,7 +18,7 @@ from dateutil import parser
 from fpdf import FPDF 
 
 
-version = '4.2'
+version = '4.3'
 
 
 def parse_input():
@@ -171,14 +171,9 @@ class MyFeedParser:
             a_counter -= 1
             if not a_counter:
                 break
-        if verbose:
-            self.logger.info('Parsing finished')
     
     def cash_read(self, my_date, my_source, verbose, limit):
         """Reading of cashed news"""
-
-        if verbose:
-            self.logger.info('Reading available dates from cash')
         with open('dates.json', 'r') as f:
             mydates = json.load(f)
         cur_date = str(my_date.date())
@@ -198,8 +193,6 @@ class MyFeedParser:
                         if limit is not None:
                             if len(self.news) > limit:
                                 self.news = self.news[len(self.news)-limit:]
-                    if verbose:
-                        self.logger.info('Reading of news from cash is finished')
                     if flag == 0: 
                         print("Error: There are no cashed news for the entered date and feed.")
                         sys.exit()
@@ -355,9 +348,9 @@ class MyFeedParser:
             elif pdf:
                 self.print_pdf(pdf, verbose)
             else:
-                print(self)    
+                print(self)  
                 if verbose:
-                    self.logger.info('News are printed')
+                    self.logger.info('News are printed')  
 
 
 def main():
@@ -370,7 +363,7 @@ def main():
         my_feed.cash_read(args.date, args.source, args.verbose, args.limit)
         my_feed.choose_printout(args.json, args.html, args.pdf, args.verbose)
     else: 
-        if args.source is not '':
+        if args.source != '':
             content = connect(args.source).text     # obtain a content of source page
             if content is not None:
                 my_feed.parse(content, args.limit, args.verbose, args.source) 

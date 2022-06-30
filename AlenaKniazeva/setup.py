@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="rss_reader",
-    version="4.2",
+    version="4.3",
     author="Alena Kniazeva",
     author_email="elena.n.kniazeva@gmail.com",
     description="RSS-reader",

@@ -6,6 +6,7 @@ from unittest.mock import patch
 import rss_reader
 from tempfile import gettempdir
 from datetime import datetime
+from unittest.mock import MagicMock
 
 
 class TestReader(unittest.TestCase):
@@ -79,6 +80,10 @@ class TestReader(unittest.TestCase):
             {
             'title': 'title1', 'pubdate': 'date1', 'link': 'link1', 'description': 'descr1', 
             'media_url': '', 'media_path': '', 'feed': 'feed1', 'source': 'source'
+            },
+            {
+            'title': 'title2', 'pubdate': 'date2', 'link': 'link2', 'description': 'descr2', 
+            'media_url': '', 'media_path': '', 'feed': 'feed2', 'source': 'source'
             }
         ]
         expected_result = True
@@ -92,6 +97,10 @@ class TestReader(unittest.TestCase):
             {
             'title': 'title1', 'pubdate': 'date1', 'link': 'link1', 'description': 'descr1', 
             'media_url': '', 'media_path': '', 'feed': 'feed1', 'source': 'source'
+            },
+            {
+            'title': 'title2', 'pubdate': 'date2', 'link': 'link2', 'description': 'descr2', 
+            'media_url': '', 'media_path': '', 'feed': 'feed2', 'source': 'source'
             }
         ]
         expected_result = True
@@ -116,8 +125,23 @@ class TestReader(unittest.TestCase):
             print(new_obj)
             self.assertEqual(fake_out.getvalue(), expected_output)
     
+    @ staticmethod
+    def mock_print_pdf(path, verbose):
+        print('pdf')
+
+    @ staticmethod
+    def mock_print_html(path, verbose):
+        print('html')
+
+    @ staticmethod
+    def mock_print_json(verbose):
+        print('json')
+
     def test_choose_printout(self):
         new_obj = rss_reader.MyFeedParser(False)
+        new_obj.print_html = MagicMock(side_effect = self.mock_print_html)
+        new_obj.print_pdf = MagicMock(side_effect = self.mock_print_pdf)
+        new_obj.print_json = MagicMock(side_effect = self.mock_print_json)
         new_obj.feed = 'feed1'
         new_obj.news = [
             {
@@ -130,9 +154,48 @@ class TestReader(unittest.TestCase):
         expected_output += 'Date: date1' + '\n'
         expected_output += 'Link: link1' + '\n'
         expected_output += 'Description: descr1' + '\n' + '\n' + '\n'
-        with patch('sys.stdout', new = StringIO()) as fake_out:
-            new_obj.choose_printout(False, False, False, False)
-            self.assertEqual(fake_out.getvalue(), expected_output)
+        test_cases = [
+            {
+                'json': True,
+                'html': False,
+                'pdf': False,
+                'expect_res': 'json\n'
+            },
+            {
+                'json': False,
+                'html': True,
+                'pdf': False,
+                'expect_res': 'html\n'
+            },
+            {
+                'json': False,
+                'html': False,
+                'pdf': True,
+                'expect_res': 'pdf\n'
+            },
+            {
+                'json': False,
+                'html': False,
+                'pdf': False,
+                'expect_res': expected_output
+            },
+            {
+                'json': True,
+                'html': True,
+                'pdf': False,
+                'expect_res': 'json\n'+'html\n'
+            },
+            {
+                'json': True,
+                'html': False,
+                'pdf': True,
+                'expect_res': 'json\n'+'pdf\n'
+            }
+        ]
+        for test_case in test_cases:
+             with patch('sys.stdout', new = StringIO()) as fake_out:
+                new_obj.choose_printout(test_case['json'], test_case['html'], test_case['pdf'], False)
+                self.assertEqual(fake_out.getvalue(), test_case['expect_res'])
         
 
 if __name__ == '__main__':
