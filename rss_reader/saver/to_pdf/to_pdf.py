@@ -44,5 +44,9 @@ class PDFSaveHandler(AbstractSaveHandler):
                              align='L', link=item.get('link'))
                     pdf.cell(150, 10, txt=item.get('pubDate'), ln=1, align='L')
                     pdf.cell(150, 10, txt=item.get('source'), ln=1, align='L')
+
+                    url_image = item.get("content").get("url")
+                    if url_image:
+                        resp = requests.get(url_image, stream=True)
         else:
             super().save(data)
