@@ -1,0 +1,8 @@
+argparse
+requests
+bs4
+dateparser
+datetime
+lxml
+xhtml2pdf
+html5lib
