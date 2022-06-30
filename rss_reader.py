@@ -116,15 +116,3 @@ if __name__ == '__main__':
         logger.error(f"Unexpected error (error)!")
         print(f"Unexpected error")
         raise sys.exit()
-
-# python f.py "https://www.onliner.by/feed" --limit 1        +
-# python rss_reader.py "https://www.buzzfeed.com/quizzes.xml" --limit 2 --json --verbose
-
-# python rss_reader.py "https://www.buzzfeed.com/quizzes.xml" --limit 3
-# python rss_reader.py  "https://feeds.fireside.fm/bibleinayear/rss" --limit 3    +
-# python rss_reader.py  "https://feeds.simplecast.com/qm_9xx0g" --limit 1   +
-
-
-# python rss_reader.py  "https://realpython.com/atom.xml" --limit 3
-# python rss_reader.py --date 20220620
-# python rss_reader.py --json
