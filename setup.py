@@ -25,8 +25,11 @@ setup(
         "Jinja2==3.1.2",
         "Pillow==9.1.1"
     ],
-    # packages=['FT'],
+
     packages=find_packages(exclude=['test*']),
+    package_data={
+        'rss_reader': ['saver/to_html/templates/main.html'],
+    },
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
