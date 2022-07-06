@@ -2,6 +2,7 @@
 
 
 from typing import Generator
+from time import sleep
 
 
 def endless_fib_generator() -> Generator[int, None, None]:
