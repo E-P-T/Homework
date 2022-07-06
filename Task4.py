@@ -5,6 +5,8 @@ from time import sleep, time
 
 
 class SupressDecorator(ContextDecorator):
+    """Decorator for supressing exceptions"""
+
     def __init__(self, file) -> None:
         super().__init__()
         self._file = file
