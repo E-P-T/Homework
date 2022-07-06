@@ -15,6 +15,11 @@ class MyOpen:
         self._file_obj.close()
 
 
+def _print_ex():
+    *_, exc_traceback = sys.exc_info()
+    traceback.print_tb(exc_traceback, limit=1, file=sys.stdout)
+
+
 if __name__ == '__main__':
     try:
         with MyOpen('d.txt', 'r') as mo:
