@@ -1,5 +1,6 @@
 # Task 7.3
 from contextlib import ContextDecorator
+from time import time
 
 
 class ExecutionTimeToLogFile(ContextDecorator):
