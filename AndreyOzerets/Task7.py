@@ -45,3 +45,15 @@ class MyNumberCollection:
             self._collection = [i for i in range(self.start, self.stop,
                                                  self.step)
                                 ] + [self.stop]
+
+    def _add_el(self, value) -> None:
+        """Add items to the list."""
+
+        if isinstance(value, Iterable):
+            for i in value:
+                if isinstance(i, Iterable):
+                    self._add_el(i)
+                else:
+                    self._collection.append(i)
+        else:
+            self._collection.append(value)
