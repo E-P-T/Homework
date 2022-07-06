@@ -81,3 +81,7 @@ class MyNumberCollection:
 
     def __add__(self, other):
         return self._collection + other._collection
+
+    def __iter__(self):
+        for i in self._collection:
+            yield i
