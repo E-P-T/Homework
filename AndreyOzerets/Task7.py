@@ -1,5 +1,9 @@
 # Task 7.7
 
+from collections.abc import Iterable
+from typing import List
+
+
 def typed_prop(name, expectrd_type):
     """Type checking"""
 
