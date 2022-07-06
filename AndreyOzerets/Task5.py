@@ -39,3 +39,16 @@ def check_parity(number: int) -> bool:
         raise NegativeError(number)
 
     return number % 2 == 0
+
+
+if __name__ == '__main__':
+    try:
+        print(check_parity(-9))
+    except WrongTypeError as e:
+        print(e)
+    except MyBaseError as e:
+        print(e)
+    except NegativeError as e:
+        print(e)
+    else:
+        print('OK')
