@@ -36,3 +36,7 @@ class EvenRange:
         self._text = "Out of numbers!"
         self._end_of_iteration = False
         self._for_loop = False
+
+    def __iter__(self):
+        self._for_loop = True
+        return self
