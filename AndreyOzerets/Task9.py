@@ -40,3 +40,22 @@ class EvenRange:
     def __iter__(self):
         self._for_loop = True
         return self
+
+    def __next__(self):
+
+        while self.start < self.stop:
+            if self.start % 2 == 0:
+                self.number = self.start
+                self.start += 1
+                return self.number
+            else:
+                self.start += 1
+        else:
+            if not self._end_of_iteration:
+                self._end_of_iteration = True
+                return self._text
+
+        if not self._for_loop:
+            return self._text
+
+        raise StopIteration
