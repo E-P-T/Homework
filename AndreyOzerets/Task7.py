@@ -57,3 +57,13 @@ class MyNumberCollection:
                     self._collection.append(i)
         else:
             self._collection.append(value)
+
+    def _validate(self, value, message) -> bool:
+        """Check if the passed value is not a string."""
+        if isinstance(value, Iterable):
+            for i in value:
+                if isinstance(i, Iterable) and not isinstance(i, str):
+                    self._validate(i, message)
+                if isinstance(i, (str)):
+                    raise TypeError(message)
+        return True
