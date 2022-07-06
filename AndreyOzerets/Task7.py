@@ -72,3 +72,6 @@ class MyNumberCollection:
                 if isinstance(i, (str)):
                     raise TypeError(message)
         return True
+
+    def __str__(self) -> str:
+        return f'{self._collection}'
