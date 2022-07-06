@@ -2,6 +2,7 @@
 
 
 class MyBaseError(Exception):
+    """Base class for native error"""
 
     def __init__(self, number, message):
         super().__init__(number, message)
