@@ -15,3 +15,10 @@ def endless_fib_generator() -> Generator[int, None, None]:
     while True:
         yield second
         first, second = second, first + second
+
+
+def main():
+    gen = endless_fib_generator(5)
+    while True:
+        print(next(gen))
+        sleep(.3)
