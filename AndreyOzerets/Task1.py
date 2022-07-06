@@ -10,3 +10,6 @@ class MyOpen:
     def __enter__(self):
         self._file_obj = open(self._file, self._mode)
         return self._file_obj
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._file_obj.close()
