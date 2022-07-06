@@ -22,6 +22,8 @@ class ExecutionTimeToLogFile(ContextDecorator):
 
 @ExecutionTimeToLogFile('log-file.txt')
 def fun():
+    """Something very important"""
+
     for _ in range(50):
         sleep(0.01)
 
