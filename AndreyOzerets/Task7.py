@@ -75,3 +75,6 @@ class MyNumberCollection:
 
     def __str__(self) -> str:
         return f'{self._collection}'
+
+    def __getitem__(self, item):
+        return self._collection[item] ** 2
