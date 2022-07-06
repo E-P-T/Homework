@@ -1,5 +1,8 @@
 # Task 7.8
 
+from copy import deepcopy
+
+
 class MySquareIterator:
     def __init__(self, el):
         self._el = deepcopy(el)
