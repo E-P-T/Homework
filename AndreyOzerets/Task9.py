@@ -19,4 +19,20 @@ def typed_prop(name, expectrd_type):
 
 
 class EvenRange:
-    pass
+    start = typed_prop('start', int)
+    stop = typed_prop('stop', int)
+
+    def __init__(self, start: int, stop: int) -> None:
+        """Initializer.
+
+        :param start: Countdown start.
+        :type start: int
+        :param stop: End of countdown.
+        :type stop: int
+        """
+        self.start = start
+        self.stop = stop
+        self.number = start
+        self._text = "Out of numbers!"
+        self._end_of_iteration = False
+        self._for_loop = False
