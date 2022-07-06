@@ -20,6 +20,7 @@ class ExecutionTimeToLogFile(ContextDecorator):
         print('Finishing')
 
 
+@ExecutionTimeToLogFile('log-file.txt')
 def fun():
     for _ in range(50):
         sleep(0.01)
