@@ -7,3 +7,11 @@ def endless_generator():
     while True:
         yield number
         number += 2
+
+
+def main():
+    """Main function."""
+    gen = endless_generator()
+    while True:
+        print(next(gen))
+        sleep(.3)
