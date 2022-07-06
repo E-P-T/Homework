@@ -25,3 +25,17 @@ class NegativeError(MyBaseError):
 
     def __init__(self, number, message='must be positive'):
         super().__init__(number, message)
+
+
+def check_parity(number: int) -> bool:
+
+    if not isinstance(number, int):
+        raise WrongTypeError(number)
+
+    if number is False:
+        raise MyBaseError(number, 'cannot be False')
+
+    if number < 0:
+        raise NegativeError(number)
+
+    return number % 2 == 0
