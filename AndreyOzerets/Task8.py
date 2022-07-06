@@ -25,3 +25,7 @@ def main():
     itr = MySquareIterator(lst)
     for item in itr:
         print(item)
+
+
+if __name__ == '__main__':
+    main()
