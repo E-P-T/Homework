@@ -2,4 +2,8 @@
 
 
 class MyBaseError(Exception):
-    pass
+
+    def __init__(self, number, message):
+        super().__init__(number, message)
+        self._number = number
+        self._message = message
