@@ -12,3 +12,9 @@ class ExecutionTimeToLogFile(ContextDecorator):
         print('Starting')
         self._start = time()
         return self
+
+    def __exit__(self, *exc):
+        _stop = str(time() - self._start)
+        with open(self._file, 'w') as f:
+            f.write(f'Execution time is {_stop}')
+        print('Finishing')
