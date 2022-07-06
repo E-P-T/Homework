@@ -16,3 +16,7 @@ def typed_prop(name, expectrd_type):
         setattr(self, storage_name, value)
 
     return prop
+
+
+class EvenRange:
+    pass
