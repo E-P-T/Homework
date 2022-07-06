@@ -59,3 +59,20 @@ class EvenRange:
             return self._text
 
         raise StopIteration
+
+
+def main():
+    """Main function."""
+    er2 = EvenRange(3, 14)
+    for number in er2:
+        print(number)
+
+    er1 = EvenRange(7, 14)
+    print(next(er1))
+    print(next(er1))
+    print(next(er1))
+    print(next(er1))
+    print(next(er1))
+    print(next(er1))
+    print(next(er1))
+    print(next(er1))
