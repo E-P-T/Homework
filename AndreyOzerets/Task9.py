@@ -76,3 +76,7 @@ def main():
     print(next(er1))
     print(next(er1))
     print(next(er1))
+
+
+if __name__ == '__main__':
+    main()
