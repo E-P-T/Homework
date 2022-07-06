@@ -3,4 +3,6 @@ from contextlib import ContextDecorator
 
 
 class ExecutionTimeToLogFile(ContextDecorator):
-    pass
+    def __init__(self, file) -> None:
+        super().__init__()
+        self._file = file
