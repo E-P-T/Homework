@@ -6,6 +6,8 @@ import traceback
 
 @contextmanager
 def my_open(file, mode='r'):
+    """Context manager for opening and working with file"""
+
     f = open(file, mode)
     try:
         yield f
