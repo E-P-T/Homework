@@ -13,3 +13,15 @@ class MyOpen:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._file_obj.close()
+
+
+if __name__ == '__main__':
+    try:
+        with MyOpen('d.txt', 'r') as mo:
+            mo.write('OK')
+    except FileNotFoundError as e:
+        print(f'\n*** Is the filename correct?: {e}', end='\n\n')
+        raise SystemExit
+    except ValueError as e:
+        print(f'\n*** Is the mode correct?: {e}', end='\n\n')
+        raise SystemExit
