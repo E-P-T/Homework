@@ -7,3 +7,6 @@ class MyBaseError(Exception):
         super().__init__(number, message)
         self._number = number
         self._message = message
+
+    def __str__(self):
+        return f'{self._number} - {self._message}'
