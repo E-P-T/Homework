@@ -11,3 +11,9 @@ class MySquareIterator:
 
     def __iter__(self):
         return self
+
+    def __next__(self):
+        self._i += 1
+        if self._i >= self._len:
+            raise StopIteration
+        return self._el[self._i]**2
