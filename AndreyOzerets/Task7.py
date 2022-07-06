@@ -78,3 +78,6 @@ class MyNumberCollection:
 
     def __getitem__(self, item):
         return self._collection[item] ** 2
+
+    def __add__(self, other):
+        return self._collection + other._collection
