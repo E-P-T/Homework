@@ -37,6 +37,11 @@ class MyNumberCollection:
         self._collection: List[int] = []
         self._init_collection()
 
+    def append(self, value):
+        """Add item to the collection."""
+        if self._validate(value, f"'string' - object is not a number!"):
+            self._add_el(value)
+
     def _init_collection(self) -> None:
         """Complete the original list."""
         if isinstance(self.start, Iterable):
