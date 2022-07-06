@@ -24,3 +24,7 @@ class ExecutionTimeToLogFile(ContextDecorator):
 def fun():
     for _ in range(50):
         sleep(0.01)
+
+
+if __name__ == '__main__':
+    fun()
