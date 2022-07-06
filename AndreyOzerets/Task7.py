@@ -36,3 +36,12 @@ class MyNumberCollection:
         self.step = step
         self._collection: List[int] = []
         self._init_collection()
+
+    def _init_collection(self) -> None:
+        """Complete the original list."""
+        if isinstance(self.start, Iterable):
+            self._add_el(self.start)
+        else:
+            self._collection = [i for i in range(self.start, self.stop,
+                                                 self.step)
+                                ] + [self.stop]
