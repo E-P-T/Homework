@@ -18,3 +18,8 @@ class ExecutionTimeToLogFile(ContextDecorator):
         with open(self._file, 'w') as f:
             f.write(f'Execution time is {_stop}')
         print('Finishing')
+
+
+def fun():
+    for _ in range(50):
+        sleep(0.01)
