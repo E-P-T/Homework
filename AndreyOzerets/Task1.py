@@ -4,6 +4,8 @@ import traceback
 
 
 class MyOpen:
+    """Context manager for opening and working with file"""
+
     def __init__(self, file, mode='r') -> None:
         self._file = file
         self._mode = mode
