@@ -1,7 +1,7 @@
 # Task 7.4
 
 from contextlib import ContextDecorator
-from time import time
+from time import sleep, time
 
 
 class SupressDecorator(ContextDecorator):
