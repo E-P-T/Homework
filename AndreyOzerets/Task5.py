@@ -18,3 +18,10 @@ class WrongTypeError(MyBaseError):
 
     def __init__(self, number, message='is not a number') -> None:
         super().__init__(number, message)
+
+
+class NegativeError(MyBaseError):
+    """Class of positive errors"""
+
+    def __init__(self, number, message='must be positive'):
+        super().__init__(number, message)
