@@ -8,3 +8,6 @@ class MySquareIterator:
         self._el = deepcopy(el)
         self._len = len(el)
         self._i = -1
+
+    def __iter__(self):
+        return self
