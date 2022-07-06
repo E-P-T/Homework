@@ -4,6 +4,11 @@ from time import sleep, time
 
 
 class ExecutionTimeToLogFile(ContextDecorator):
+    """Decorator with context manager
+
+    Support for writing execution time to log-file.
+    """
+
     def __init__(self, file) -> None:
         super().__init__()
         self._file = file
