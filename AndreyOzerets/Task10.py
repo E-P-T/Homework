@@ -1,5 +1,7 @@
 # Task 7.10
 
+from time import sleep
+
 
 def endless_generator():
     """Endless generator."""
