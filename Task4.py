@@ -1,5 +1,7 @@
 # Task 7.4
 
+from contextlib import ContextDecorator
+
 
 class SupressDecorator(ContextDecorator):
     def __init__(self, file) -> None:
