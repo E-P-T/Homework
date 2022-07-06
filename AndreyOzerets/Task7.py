@@ -28,7 +28,7 @@ def typed_prop(name, expectrd_type):
 class MyNumberCollection:
     start = typed_prop('start', (int, Iterable))
     stop = typed_prop('stop', (int, Iterable, type(None)))
-    step = typed_prop('step', (int, Iterable, type(None)))
+    step = typed_prop('step', (int, type(None)))
 
     def __init__(self, start, stop=None, step=None) -> None:
         self.start = start
