@@ -25,3 +25,11 @@ class SupressDecorator(ContextDecorator):
 
         print('Finishing')
         return True
+
+
+@SupressDecorator('log-file.txt')
+def fun():
+    """Something very important"""
+
+    for _ in range(50):
+        sleep(0.01)
