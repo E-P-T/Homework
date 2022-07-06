@@ -1,5 +1,6 @@
 # Task 7.1
 import sys
+import traceback
 
 
 class MyOpen:
