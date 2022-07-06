@@ -1,4 +1,5 @@
 # Task 7.1
+import sys
 
 
 class MyOpen:
