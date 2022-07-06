@@ -13,3 +13,15 @@ class SupressDecorator(ContextDecorator):
         print('Starting')
         self._start = time()
         return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        _stop = str(time() - self._start)
+        message = f'Execution time is {_stop}'
+        if exc_type:
+            with open(self._file, 'w') as f:
+                f.write(message)
+        else:
+            print(message)
+
+        print('Finishing')
+        return True
