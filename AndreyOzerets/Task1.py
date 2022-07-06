@@ -27,8 +27,10 @@ if __name__ == '__main__':
         with MyOpen('d.txt', 'r') as mo:
             mo.write('OK')
     except FileNotFoundError as e:
+        _print_ex()
         print(f'\n*** Is the filename correct?: {e}', end='\n\n')
         raise SystemExit
     except ValueError as e:
+        _print_ex()
         print(f'\n*** Is the mode correct?: {e}', end='\n\n')
         raise SystemExit
