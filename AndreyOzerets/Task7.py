@@ -85,3 +85,24 @@ class MyNumberCollection:
     def __iter__(self):
         for i in self._collection:
             yield i
+
+
+if __name__ == '__main__':
+    # col3 = MyNumberCollection((1, (7, 9, (0, 's')), 3, 4))
+    col1 = MyNumberCollection(0, 5, (2,3))
+    col2 = MyNumberCollection((1, 2, 3, 4, 5))
+    # col3 = MyNumberCollection((1,2,3,"4",5))
+
+    print(f'collection 1 = {col1}')
+    print(f'collection 2 = {col2}')
+    # print(f'collection 3 = {col3}')
+    col1.append(7)
+    print(f'collection 1 = {col1}')
+    # col2.append("string")
+    print(col1 + col2)
+    print(f'collection 1 = {col1}')
+    print(f'collection 2 = {col2}')
+    print(col2[4])
+
+    for item in col1:
+        print(item)
