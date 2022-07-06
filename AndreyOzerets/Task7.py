@@ -89,7 +89,7 @@ class MyNumberCollection:
 
 if __name__ == '__main__':
     # col3 = MyNumberCollection((1, (7, 9, (0, 's')), 3, 4))
-    col1 = MyNumberCollection(0, 5, (2,3))
+    col1 = MyNumberCollection(0, 5, 2)
     col2 = MyNumberCollection((1, 2, 3, 4, 5))
     # col3 = MyNumberCollection((1,2,3,"4",5))
 
