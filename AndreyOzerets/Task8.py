@@ -17,3 +17,11 @@ class MySquareIterator:
         if self._i >= self._len:
             raise StopIteration
         return self._el[self._i]**2
+
+
+def main():
+    """Main function."""
+    lst = [1, 2, 3, 4, 5]
+    itr = MySquareIterator(lst)
+    for item in itr:
+        print(item)
