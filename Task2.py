@@ -11,6 +11,12 @@ def my_open(file, mode='r'):
         f.close()
 
 
+def _print_ex():
+    """Print traceback"""
+    *_, exc_traceback = sys.exc_info()
+    traceback.print_tb(exc_traceback, limit=1, file=sys.stdout)
+
+
 if __name__ == '__main__':
 
     try:
