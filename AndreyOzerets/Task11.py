@@ -1,6 +1,9 @@
 # Task 7.11
 
 
+from typing import Generator
+
+
 def endless_fib_generator() -> Generator[int, None, None]:
     """Infinite fibonacci numbers.
 
