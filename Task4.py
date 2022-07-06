@@ -2,4 +2,6 @@
 
 
 class SupressDecorator(ContextDecorator):
-    pass
+    def __init__(self, file) -> None:
+        super().__init__()
+        self._file = file
