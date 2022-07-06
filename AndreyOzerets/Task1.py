@@ -18,6 +18,7 @@ class MyOpen:
 
 
 def _print_ex():
+    """Print traceback"""
     *_, exc_traceback = sys.exc_info()
     traceback.print_tb(exc_traceback, limit=1, file=sys.stdout)
 
